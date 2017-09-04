@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div>
+  <div>
+    <md-button-toggle (click)="GetAllMemberFromTheServer()">Get All Members </md-button-toggle>
+  </div>
+
+  <p style="white-space: pre-line"> type is:  {{ results}}</p>
+  <div>
+    <label> type: </label>
+    <input #box1
+           (keyup.enter)="updateType(box1.value)"
+           (blur)="updateType(box1.value)"/>
+    <label> name: </label>
+    <input #box2
+           (keyup.enter)="updateName(box2.value)"
+           (blur)="updateName(box2.value)"/>
+    <p style="white-space: pre-line"> name is:  {{ body.name }}</p>
+    <p style="white-space: pre-line"> type is:  {{ body.type }}</p>
+  </div>
+  <button (click)="PostServer()">send to server</button>
+</div>
+
+
+</body>
+</html>

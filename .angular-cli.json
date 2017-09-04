@@ -48,6 +48,9 @@
       "exclude": "**/node_modules/**"
     }
   ],
+  "scripts": [
+    "../node_modules/hammerjs/hammer.min.js"
+  ],
   "test": {
     "karma": {
       "config": "./karma.conf.js"
