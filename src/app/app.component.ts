@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { Observable } from 'rxjs/Observable';
+import * as firebase from 'firebase/app';
+import {User} from './userDetail' ;
+
 
 @Component({
   selector: 'app-root',
@@ -9,17 +14,30 @@ import {HttpClient} from '@angular/common/http';
 })
 export class AppComponent {
   title = 'Supply';
-  openNav() {
-    document.getElementById('mySidenav').style.width = '250px';
+  user: Observable<firebase.User>;
+  googleUser: User;
+  items: FirebaseListObservable<any[]>;
+  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase) {
+    this.user = afAuth.authState;
+    this.items.subscribe(items => {
+      // items is an array
+      items.forEach(item => {
+        console.log('Item:', item);
+      });
+    });
   }
-
-  closeNav() {
-    document.getElementById('mySidenav').style.width = '0';
+  loginWithGoogle() {
+    this.user = this.login()
+    console.log(this.user);
   }
-
-  constructor(private http: HttpClient) {}
-  GetPost(): any {
-    this.http.get('http://localhost:8082/ping').subscribe();
+  login(): any {
+    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).
+    then(   (isSuccess) =>  {
+      console.log(this.afAuth.auth.currentUser.email);
+      this.googleUser.name = this.afAuth.auth.currentUser.displayName;
+    });
   }
-
+  logout() {
+    this.afAuth.auth.signOut();
+  }
 }

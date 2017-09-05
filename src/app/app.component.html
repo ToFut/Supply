@@ -7,10 +7,15 @@
     <md-icon>more_vert</md-icon>
   </button>
   <md-menu #menu="mdMenu">
-    <button md-menu-item>
+    <button md-menu-item *ngIf="!(user | async)?.uid" (click)="loginWithGoogle()">
       <md-icon>fingerprint</md-icon>
-      <span>Login</span>
+      <span >login</span>
     </button>
+    <button md-menu-item *ngIf="(user | async)?.uid" (click)="logout()">
+      <md-icon>fingerprint</md-icon>
+      <span >logout</span>
+    </button>
+
     <button md-menu-item disabled>
       <md-icon>announcement</md-icon>
       <span>Issues</span>
