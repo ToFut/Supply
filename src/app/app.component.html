@@ -9,16 +9,16 @@
   <md-menu #menu="mdMenu">
     <button md-menu-item *ngIf="!(user | async)?.uid" (click)="loginWithGoogle()">
       <md-icon>fingerprint</md-icon>
-      <span >login</span>
+      <span >התחברות</span>
     </button>
     <button md-menu-item *ngIf="(user | async)?.uid" (click)="logout()">
       <md-icon>fingerprint</md-icon>
-      <span >logout</span>
+      <span >יציאה</span>
     </button>
 
     <button md-menu-item disabled>
       <md-icon>announcement</md-icon>
-      <span>Issues</span>
+      <span>עזרה</span>
     </button>
     <button md-menu-item>
       <md-icon>notifications_off</md-icon>
@@ -30,11 +30,11 @@
 
 <div>
 <md-tab-group>
-  <md-tab label="Supplier">
-    <a routerLink="/supplier" routerLinkActive="active">Supplier</a>
+  <md-tab label="רשימת ספקים">
+    <a routerLink="/supplier" routerLinkActive="active">רשימת ספקים</a>
   </md-tab>
-  <md-tab label="Server" >
-    <a routerLink="/server" routerLinkActive="active">server</a>
+  <md-tab label="הזמנות" >
+    <a routerLink="/server" routerLinkActive="active">הזמנות</a>
   </md-tab>
 </md-tab-group>
 </div>

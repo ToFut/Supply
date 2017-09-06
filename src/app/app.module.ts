@@ -8,7 +8,7 @@ import { ServerConnectionComponent } from './server-connection/server-connection
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app-routing.module';
-import {MdButtonModule, MdCheckboxModule} from '@angular/material';
+import {MdButtonModule, MdCheckboxModule, MdDialogModule} from '@angular/material';
 import { GestureConfig, MaterialModule } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
@@ -19,6 +19,13 @@ import { environment } from '../environments/environment';
 
 import 'hammerjs';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { ModalModule } from 'ng2-modal-dialog/modal.module';
+import { LoginModalComponent } from './login-modal/login-modal.component';
+import {DialogsService} from './dialog.service';
+
+declare var require: any;
+declare var module: any;
 
 
 
@@ -29,6 +36,8 @@ import { LoginPageComponent } from './login-page/login-page.component';
     MockSupplierComponent,
     ServerConnectionComponent,
     LoginPageComponent,
+    ConfirmDialogComponent,
+    LoginModalComponent
   ],
   imports: [
     BrowserModule,
@@ -43,11 +52,16 @@ import { LoginPageComponent } from './login-page/login-page.component';
     AppRoutingModule,
     MdButtonModule,
     MdCheckboxModule,
+    MdDialogModule,
+    MdButtonModule,
+    ModalModule
+
+
 
 
   ],
-  exports: [MdButtonModule, MdCheckboxModule],
-  providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig } ],
+  exports: [MdButtonModule, MdCheckboxModule, ConfirmDialogComponent],
+  providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig } , DialogsService],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

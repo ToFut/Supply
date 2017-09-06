@@ -1,0 +1,26 @@
+
+<ul>
+  <li *ngFor="let item of items | async">
+    <input type="text" #updatetext [value]="item.text" />
+    <button (click)="updateItem(item.$key, updatetext.value)">Update</button>
+    <button (click)="deleteItem(item.$key)">Delete</button>
+    <div>
+      <button md-raised-button (click)="openDialog(item.$key)">Open Dialog</button>
+      <p>Result from dialog: {{ result }}</p>
+    </div>
+  </li>
+</ul>
+<input type="text" #newitem />
+<button md-fab>
+  <i class="material-icons" (click)="addItem(newitem.value)">add</i>
+</button>
+
+<button md-fab>
+  <i class="material-icons"  (click)="deleteEverything()">delete</i>
+</button>
+<a (click)="openLoginModal(passedParameter = {
+    username: 'user',
+    password: 'pass'
+  })">Login</a>
+<!-- the place holder for all modals that will be opened -->
+<modal-placeholder></modal-placeholder>
