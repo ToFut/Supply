@@ -3,9 +3,11 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase/app';
-import {Component} from '@angular/core';
-import {DialogsService} from '../dialog.service';
-import {Modal} from 'ngx-modialog';
+import {Component, Input, Output} from '@angular/core';
+import {DialogComponent} from '../dialog/dialog.component';
+import {MdDialog, MdDialogRef} from '@angular/material';
+import {ShowAllSupplierComponent} from '../show-all-supplier/show-all-supplier.component';
+
 
 @Component({
   selector: 'app-supplier',
@@ -15,39 +17,44 @@ import {Modal} from 'ngx-modialog';
 export class SupplierComponent {
   public result: any;
   user: Observable<firebase.User>;
-  items: FirebaseListObservable<any[]>;
+  userId: string;
+   public items: FirebaseListObservable<any[]>;
 
-  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase,
-              private dialogsService: DialogsService , public modal: Modal) {
-    this.user = afAuth.authState;
-    this.items = af.list('/items');
+
+
+  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase , public dialog: MdDialog) {
+    this.afAuth.authState.subscribe(user => {
+      if (user) {this.userId = user.uid; }
+    });
+  }
+  showListOfAllDB (): FirebaseListObservable<any[]> {
+    this.items = this.af.list(`users/${this.userId}`);
+    return this.items;
+
+  }
+  searchItem(UserInputType: string) {
+    this.items = this.af.list(`users/${this.userId}`, {
+      query: {
+        orderByChild: 'type',
+        equalTo: UserInputType
+      }
+    });
   }
 
-  addItem(newName: string) {
-    this.items.push({text: newName});
-  }
 
-  updateItem(key: string, newText: string) {
-    this.items.update(key, {text: newText});
+  addItem() {
+    this.items = this.af.list(`users/${this.userId}`);
+    this.items.push({name: 'הכנס ספק'});
   }
-
-  deleteItem(key: string) {
-    this.items.remove(key);
-  }
-
   deleteEverything() {
+    this.items = this.af.list(`users/${this.userId}`);
     this.items.remove();
-  }
-  public openDialog(name: string) {
-    this.dialogsService
-      .confirm(name, 'Are you sure you want to do this?')
-      .subscribe(res => this.result = res);
-  }
-  onClick() {
-    const dialogRef = this.modal.alert()
-      .open();
 
-    dialogRef.result
-      .then( result => alert(`The result is: ${result}`) );
+  }
+  openDialog(key) {
+    const dialogRef = this.dialog.open(ShowAllSupplierComponent , {
+      width: '600px',
+    } );
+    dialogRef.componentInstance.key = key;
   }
 }

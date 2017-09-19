@@ -4,7 +4,7 @@ import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { AppComponent } from './app.component';
 import { SupplierComponent } from './supplier/supplier.component';
 import { MockSupplierComponent } from './mock-supplier/mock-supplier.component';
-import { ServerConnectionComponent } from './server-connection/server-connection.component';
+import { ServerConnectionComponent} from './server-connection/server-connection.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app-routing.module';
@@ -16,18 +16,19 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
-
+import { Ng2Bs3ModalModule } from '../../node_modules/ng2-bs3-modal/ng2-bs3-modal';
 import 'hammerjs';
 import { LoginPageComponent } from './login-page/login-page.component';
-import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
-import { ModalModule } from 'ng2-modal-dialog/modal.module';
-import { LoginModalComponent } from './login-modal/login-modal.component';
-import {DialogsService} from './dialog.service';
-
-declare var require: any;
-declare var module: any;
-
-
+import { DialogComponent } from './dialog/dialog.component';
+import { InviteProductsComponent } from './invite-products/invite-products.component';
+import { AddProductsToSupplierComponent } from './add-products-to-supplier/add-products-to-supplier.component';
+import { SupplierSearchComponent } from './supplier-search/supplier-search.component';
+import {ImageUploadModule} from 'angular2-image-upload';
+import {ProductsService} from './products.service';
+import { DialogEditProductsComponent } from './dialog-edit-products/dialog-edit-products.component';
+import { ShowAllProductsComponent } from './show-all-products/show-all-products.component';
+import {AddProductsAllDBComponent} from './add-products-all-db/add-products-all-db.component';
+import { ShowAllSupplierComponent } from './show-all-supplier/show-all-supplier.component';
 
 @NgModule({
   declarations: [
@@ -36,8 +37,14 @@ declare var module: any;
     MockSupplierComponent,
     ServerConnectionComponent,
     LoginPageComponent,
-    ConfirmDialogComponent,
-    LoginModalComponent
+    DialogComponent,
+    InviteProductsComponent,
+    AddProductsToSupplierComponent,
+    SupplierSearchComponent,
+    DialogEditProductsComponent,
+    ShowAllProductsComponent,
+    AddProductsAllDBComponent,
+    ShowAllSupplierComponent
   ],
   imports: [
     BrowserModule,
@@ -53,15 +60,14 @@ declare var module: any;
     MdButtonModule,
     MdCheckboxModule,
     MdDialogModule,
-    MdButtonModule,
-    ModalModule
-
-
+    Ng2Bs3ModalModule,
+    ImageUploadModule.forRoot(),
 
 
   ],
-  exports: [MdButtonModule, MdCheckboxModule, ConfirmDialogComponent],
-  providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig } , DialogsService],
+  exports: [MdButtonModule, MdCheckboxModule],
+  providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig }, ProductsService ],
+  entryComponents: [ DialogComponent , DialogEditProductsComponent , ShowAllProductsComponent , ShowAllSupplierComponent],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

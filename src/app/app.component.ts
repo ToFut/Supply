@@ -1,3 +1,4 @@
+///<reference path="../../node_modules/angularfire2/database/firebase_list_observable.d.ts"/>
 import { Component } from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -14,33 +15,33 @@ import {User} from './userDetail' ;
   providers: [AngularFireDatabase]
 })
 export class AppComponent {
+  navLinks: [
+    {label: 'Supplier', route: '/supplier'}
+    ];
+
   title = 'Supply';
   user: Observable<firebase.User>;
-  googleUser: User;
   items: FirebaseListObservable<any[]>;
+  userId: string;
   constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase) {
+    this.afAuth.authState.subscribe(user => {
+      if (user) {this.userId = user.uid; }
+    });
     this.user = afAuth.authState;
-    this.items = af.list('/items');
+    if (!this.userId) {return; }
+    this.items = this.af.list(`/users/${this.userId}`);
   }
-  loginWithGoogle() {
-    this.user = this.login()
-    console.log(this.user);
+  getItemList(): FirebaseListObservable<any[]> {
+    return this.items;
   }
   login(): any {
     this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).
     then(   (isSuccess) =>  {
       console.log(this.afAuth.auth.currentUser.email);
-      this.googleUser.name = this.afAuth.auth.currentUser.displayName;
     });
   }
   logout() {
     this.afAuth.auth.signOut();
-  }
-  addItem(newName: string) {
-    this.items.push({ text: newName });
-  }
-  updateItem(key: string, newText: string) {
-    this.items.update(key, { text: newText });
   }
   deleteItem(key: string) {
     this.items.remove(key);

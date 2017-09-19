@@ -1,6 +1,8 @@
 export class SupplierPersonal {
-  id: string;
   name: string;
+  SupplierNum: number;
+  ClientNum: number;
+  OfficeNumber: number;
+  PhoneNumber: number;
   type: string;
-  ImgSrc: string;
 }

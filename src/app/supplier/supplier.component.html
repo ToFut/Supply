@@ -1,26 +1,29 @@
-
+<div>
+  <input #box
+         (keyup.enter)="searchItem(box.value)"
+         (blur)="searchItem(box.value)" name="search" placeholder="Search..">
+</div>
 <ul>
   <li *ngFor="let item of items | async">
-    <input type="text" #updatetext [value]="item.text" />
-    <button (click)="updateItem(item.$key, updatetext.value)">Update</button>
-    <button (click)="deleteItem(item.$key)">Delete</button>
-    <div>
-      <button md-raised-button (click)="openDialog(item.$key)">Open Dialog</button>
-      <p>Result from dialog: {{ result }}</p>
-    </div>
+    <section class="thumbnail-grid flex">
+        <figure class="i1">
+          <figcaption>
+            <button class="button button1" md-raised-button (click)="openDialog(item.$key)">{{item.name}}-{{item.type}}</button>
+          </figcaption>
+        </figure>
+    </section>
   </li>
 </ul>
-<input type="text" #newitem />
+
 <button md-fab>
-  <i class="material-icons" (click)="addItem(newitem.value)">add</i>
+  <i class="material-icons" (click)="addItem()">add</i>
 </button>
 
 <button md-fab>
   <i class="material-icons"  (click)="deleteEverything()">delete</i>
 </button>
-<a (click)="openLoginModal(passedParameter = {
-    username: 'user',
-    password: 'pass'
-  })">Login</a>
 <!-- the place holder for all modals that will be opened -->
-<modal-placeholder></modal-placeholder>
+<button md-fab>
+  <i class="material-icons"  (click)="showListOfAllDB()">list</i>
+</button>
+

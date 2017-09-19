@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/map';
-
+import {MdDialog} from '@angular/material';
+import {DialogComponent} from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-server-connection',
@@ -10,14 +11,16 @@ import 'rxjs/add/operator/map';
 })
 export class ServerConnectionComponent implements OnInit {
   results: any;
-  body = { 'type' : '' , 'name' : ''};
+  body = {'type': '', 'name': ''};
 
   ngOnInit(): void {
   }
 
   // Inject HttpClient into your component or service.
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient , public dialog: MdDialog) {
+  }
+
   // get all JSON from server (mongo)
 
 
@@ -29,12 +32,24 @@ export class ServerConnectionComponent implements OnInit {
       })
       .subscribe(data => this.results = JSON.stringify(data));
   }
+
   // post the body{type,name} to server in JSon.stringify
   PostServer() {
     this.http
       .post('http://localhost:8082/pip', JSON.stringify(this.body)).subscribe();
     // See below - subscribe() is still necessary when using post().
   }
-  updateType(value: string) { this.body.type = value; }
-  updateName(value: string) { this.body.name = value; }
+
+  updateType(value: string) {
+    this.body.type = value;
+  }
+
+  updateName(value: string) {
+    this.body.name = value;
+  }
+  openDialog(key) {
+    const dialogRef = this.dialog.open(DialogComponent);
+  }
+
 }
+
