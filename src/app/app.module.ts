@@ -29,6 +29,9 @@ import { DialogEditProductsComponent } from './dialog-edit-products/dialog-edit-
 import { ShowAllProductsComponent } from './show-all-products/show-all-products.component';
 import {AddProductsAllDBComponent} from './add-products-all-db/add-products-all-db.component';
 import { ShowAllSupplierComponent } from './show-all-supplier/show-all-supplier.component';
+import {SupplierService} from './supplier.service';
+import {AssociateProductToSupplierService} from './associate-product-to-supplier.service';
+import {SupplierPrivateProductsService} from './supplier-private-products.service';
 
 @NgModule({
   declarations: [
@@ -66,7 +69,8 @@ import { ShowAllSupplierComponent } from './show-all-supplier/show-all-supplier.
 
   ],
   exports: [MdButtonModule, MdCheckboxModule],
-  providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig }, ProductsService ],
+  providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig }, ProductsService ,
+    SupplierService , AssociateProductToSupplierService , SupplierPrivateProductsService],
   entryComponents: [ DialogComponent , DialogEditProductsComponent , ShowAllProductsComponent , ShowAllSupplierComponent],
   bootstrap: [AppComponent],
   schemas: [

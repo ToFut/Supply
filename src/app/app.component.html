@@ -1,53 +1,18 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:left">
-<md-toolbar color="primary">
-  <span>{{title}}</span>
-  <span class="spacer"></span>
-  <button md-icon-button [mdMenuTriggerFor]="menu">
-    <md-icon>more_vert</md-icon>
-  </button>
-  <md-menu #menu="mdMenu">
-    <button md-menu-item *ngIf="!(user | async)?.uid" (click)="login()">
-      <md-icon>fingerprint</md-icon>
-      <span >התחברות</span>
-    </button>
-    <button md-menu-item *ngIf="(user | async)?.uid" (click)="logout()">
-      <md-icon>fingerprint</md-icon>
-      <span >יציאה</span>
-    </button>
+<div style="text-align:right">
 
-    <button md-menu-item disabled>
-      <md-icon>announcement</md-icon>
-      <span>עזרה</span>
-    </button>
-    <button md-menu-item>
-      <md-icon>notifications_off</md-icon>
-      <span>Disable alerts</span>
-    </button>
-  </md-menu>
-</md-toolbar>
-</div>
-<div>
-<md-tab-group>
-
-  <md-tab label="רשימת ספקים">
-    <a routerLink="/supplier" routerLinkActive="active">רשימת ספקים</a>
-  </md-tab>
-  <md-tab label="הזמנות" >
-    <a routerLink="/server" routerLinkActive="active">הזמנות</a>
-  </md-tab>
-  <md-tab  label="מוצרים">
-    <a routerLink="/products" routerLinkActive="active">מוצרים</a>
-  </md-tab>
-
-  <nav md-tab-nav-bar>
-    <a md-tab-link *ngFor="let link of navLinks" [routerLink]="link.route">
-       {{link.label}}
-    </a>
-  </nav>
+  <div class="icon-bar">
+        <a routerLink="/supplier" routerLinkActive="active">רשימת ספקים</a>
+        <a routerLink="/server" routerLinkActive="active">הזמנות</a>
+        <a routerLink="/products" routerLinkActive="active">מוצרים</a>
+    <a routerLink="/correctSupplierProducts" routerLinkActive="active">המוצרים שלי</a>
 
 
-</md-tab-group>
-</div>
+    <a *ngIf="!(user | async)?.uid" (click)="login()" >התחברות</a>
+        <a *ngIf="(user | async)?.uid" (click)="logout()">
+          <span >יציאה</span>
+        </a>
+  </div>
 <router-outlet></router-outlet>
 
+</div>

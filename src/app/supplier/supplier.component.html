@@ -1,23 +1,19 @@
+<h3>הספקים שלי</h3>
 <div>
   <input #box
          (keyup.enter)="searchItem(box.value)"
          (blur)="searchItem(box.value)" name="search" placeholder="Search..">
 </div>
-<ul>
-  <li *ngFor="let item of items | async">
-    <section class="thumbnail-grid flex">
-        <figure class="i1">
-          <figcaption>
-            <button class="button button1" md-raised-button (click)="openDialog(item.$key)">{{item.name}}-{{item.type}}</button>
-          </figcaption>
-        </figure>
-    </section>
-  </li>
-</ul>
 
-<button md-fab>
-  <i class="material-icons" (click)="addItem()">add</i>
-</button>
+
+<div class="row">
+  <li *ngFor="let item of items | async">
+    <div class="chip" (click)="openDialogShowSupplier(item.$key)">
+      <img src="../../assets/img_avatar_female.png"  alt="Person" width="96" height="96">
+      <h4><b>{{item.name}}</b></h4>
+    </div>
+  </li>
+</div>
 
 <button md-fab>
   <i class="material-icons"  (click)="deleteEverything()">delete</i>
@@ -26,4 +22,6 @@
 <button md-fab>
   <i class="material-icons"  (click)="showListOfAllDB()">list</i>
 </button>
-
+  <button md-fab>
+    <i class="material-icons" (click)="addItem()">add</i>
+  </button>

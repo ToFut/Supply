@@ -1,10 +1,15 @@
-<h3>מוצרים</h3>
-<input type="text" (keyup)="search($event)" placeholder="Search.." class="input">
+<div style="text-align:right">
+<h1>מוצרים</h1>
+<input type="text" id="myInput" (keyup)="search($event)" placeholder="חפש אחר מוצר.." title="Type in a name" style="text-align:right">
 
-<ul>
+<ul id="myUL">
   <li *ngFor="let Product of products">
-    <button class="button button1" md-raised-button (click)="openDialog(Product.$key)">{{Product.ProductName}}</button>
-</li>
+  <div class="column" (click)="openDialogShowSupplier(Product.$key)" style="background-color:rgba(118,122,112,0.05)" >
+    <h2>{{Product.ProductName}}</h2>
+    <h5>{{Product.price}} שקל</h5>
+  </div>
+  </li>
+
 </ul>
 
 <button md-fab>
