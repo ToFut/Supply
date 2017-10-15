@@ -1,0 +1,48 @@
+ <button md-fab>
+    <i class="material-icons" (click)="closeDialog()">close</i>
+  </button>
+  <div class="table-title">
+    <h1>{{ (infoSupply | async)?.ProductName }}</h1>
+  </div>
+    <div class="row">
+        <div class="column">
+            <img src="../../assets/img_avatar_female.png"  alt="Avatar" style="width:90%;height: 30%;">
+            <div class="container">
+              <table class="table-fill">
+                <tbody class="table-hover">
+                <tr>
+                  <td class="text-left">{{ (infoSupply | async)?.name }}</td>
+                  <td class="text-left">שם</td>
+                </tr>
+                <tr>
+                  <td class="text-left">{{(infoSupply | async)?.ClientNum}}</td>
+                  <td class="text-left">מספר לקוח</td>
+                </tr>
+                <tr>
+                  <td class="text-left">{{(infoSupply | async)?.OfficeNumber}}</td>
+                  <td class="text-left">טלפון נייח</td>
+                </tr>
+                <tr>
+                  <td class="text-left">{{ (infoSupply | async)?.PhoneNumber }}</td>
+                  <td class="text-left">מספר פלאפון</td>
+                </tr>
+                <tr>
+                  <td class="text-left">{{ (infoSupply | async)?.SupplierNum }}</td>
+                  <td class="text-left">מספר ספק</td>
+                </tr>
+                <tr>
+                  <td class="text-left">{{ (infoSupply | async)?.type }}</td>
+                  <td class="text-left">סוג מוצרים</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </div>
+ <button md-fab>
+   <i class="material-icons" (click)="editSupplier()">update</i>
+ </button>
+ <button md-fab>
+   <i class="material-icons" (click)="deleteItem()">delete</i>
+ </button>
+ <button class="button button5" (click)="associateProduct()">כל המוצרים</button>

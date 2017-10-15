@@ -1,4 +1,6 @@
 ///<reference path="../../node_modules/@angular/material/typings/module.d.ts"/>
+///<reference path="../../node_modules/daypilot-pro-angular/daypilot-angular.min.d.ts"/>
+import { DropdownMultiselectModule } from 'ng2-dropdown-multiselect';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { AppComponent } from './app.component';
@@ -8,7 +10,7 @@ import { ServerConnectionComponent} from './server-connection/server-connection.
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app-routing.module';
-import {MdButtonModule, MdCheckboxModule, MdDialogModule} from '@angular/material';
+import {MdButtonModule, MdCheckboxModule, MdDialogModule , MdGridListModule} from '@angular/material';
 import { GestureConfig, MaterialModule } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
@@ -32,6 +34,17 @@ import { ShowAllSupplierComponent } from './show-all-supplier/show-all-supplier.
 import {SupplierService} from './supplier.service';
 import {AssociateProductToSupplierService} from './associate-product-to-supplier.service';
 import {SupplierPrivateProductsService} from './supplier-private-products.service';
+import { HomeComponent } from './home/home.component';
+import {TooltipModule} from 'primeng/primeng';
+import {SplitButtonModule} from 'primeng/primeng';
+import { OrderComponent } from './order/order.component';
+import { CalendarModule } from 'angular2-calendar';
+import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { HomeAfterLoginComponent } from './home-after-login/home-after-login.component';
+
+
+
 
 @NgModule({
   declarations: [
@@ -47,7 +60,12 @@ import {SupplierPrivateProductsService} from './supplier-private-products.servic
     DialogEditProductsComponent,
     ShowAllProductsComponent,
     AddProductsAllDBComponent,
-    ShowAllSupplierComponent
+    ShowAllSupplierComponent,
+    HomeComponent,
+    OrderComponent,
+    HomeAfterLoginComponent,
+
+
   ],
   imports: [
     BrowserModule,
@@ -65,13 +83,18 @@ import {SupplierPrivateProductsService} from './supplier-private-products.servic
     MdDialogModule,
     Ng2Bs3ModalModule,
     ImageUploadModule.forRoot(),
-
-
+    TooltipModule,
+    SplitButtonModule,
+    CalendarModule.forRoot(),
+    MultiselectDropdownModule,
+    AngularMultiSelectModule,
+    MdGridListModule,
   ],
-  exports: [MdButtonModule, MdCheckboxModule],
+  exports: [MdButtonModule, MdCheckboxModule , OrderComponent],
   providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig }, ProductsService ,
     SupplierService , AssociateProductToSupplierService , SupplierPrivateProductsService],
-  entryComponents: [ DialogComponent , DialogEditProductsComponent , ShowAllProductsComponent , ShowAllSupplierComponent],
+  entryComponents: [ DialogComponent , DialogEditProductsComponent , ShowAllProductsComponent ,
+    ShowAllSupplierComponent , AddProductsAllDBComponent],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

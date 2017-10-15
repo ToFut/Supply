@@ -7,7 +7,7 @@ import {ProductsService} from '../products.service';
 import {ShowAllSupplierComponent} from '../show-all-supplier/show-all-supplier.component';
 import {DialogEditProductsComponent} from '../dialog-edit-products/dialog-edit-products.component';
 import {ShowAllProductsComponent} from '../show-all-products/show-all-products.component';
-import {Router, ActivatedRoute} from '@angular/router';
+import {Router, ActivatedRoute, NavigationExtras} from '@angular/router';
 
 @Component({
   selector: 'app-add-products-all-db',
@@ -16,22 +16,22 @@ import {Router, ActivatedRoute} from '@angular/router';
 })
 export class AddProductsAllDBComponent implements OnInit {
 
-  @Input() key;
+  ProductKey: string;
+  SupplierKey: string;
+  path: string;
   lastKeypress = 0;
   public result: any;
   userId: string;
   public items: FirebaseListObservable<any[]>;
+  productsInCurrectSupplier: FirebaseListObservable<any[]>;
   startWith = new Subject();
   endWith = new Subject();
   products: any[];
   recive: string;
   constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase , public dialog: MdDialog ,
-              private ProductsService: ProductsService , route: ActivatedRoute) {
+              private ProductsService: ProductsService , route: ActivatedRoute ,
+              private router: Router) {
     this.items = this.af.list(`/products`);
-    route.queryParams.subscribe(params => {
-      this.recive = params['userId'];
-    });
-    console.log(this.recive);
   }
   ngOnInit() {
     this.ProductsService.getProducts(this.startWith, this.endWith)
@@ -51,27 +51,41 @@ export class AddProductsAllDBComponent implements OnInit {
 
 
   addItem() {
-    const newRefToNewProduct = this.items.push({name : ''});
-    const newProductKey = newRefToNewProduct.key;
-    this.openDialogEditProducts(newProductKey);
+    this.openDialogShowProduct();
   }
   deleteEverything() {
     this.items.remove();
 
   }
-  openDialogEditProducts(key) {
+  openDialogEditProducts(selectProductKey) {
     const dialogRef = this.dialog.open(DialogEditProductsComponent , {
-      width: '300px',
+      width: '600px',
       height: '600px'
     } );
-    dialogRef.componentInstance.ProductKey = key;
+    console.log('this user ' + this.userId + ' this supplier key ' + this.SupplierKey + ' select product' + selectProductKey)
+    dialogRef.componentInstance.userId = this.userId;
+    dialogRef.componentInstance.SupplierKey = this.SupplierKey;
+    dialogRef.componentInstance.selectProductKey = selectProductKey;
   }
-  openDialogShowSupplier(key) {
+  openDialogShowProduct() {
     const dialogRef = this.dialog.open(ShowAllProductsComponent , {
-      width: '300px',
+      width: '600px',
+      height: '600px'
+
     } );
-    dialogRef.componentInstance.key = key;
   }
+  ProductAssociationToProvide  (selectProductKey ) {
+    this.productsInCurrectSupplier = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`);
+    const dialogRef = this.dialog.open(ShowAllProductsComponent , {
+      width: '600px',
+      height: '600px'
+    });
+    console.log('this user ' + this.userId + ' this supplier key ' + this.SupplierKey + ' select product' + selectProductKey)
+    dialogRef.componentInstance.userId = this.userId;
+    dialogRef.componentInstance.SupplierKey = this.SupplierKey;
+    dialogRef.componentInstance.selectProductKey = selectProductKey;
+  }
+
   search($event) {
     if ($event.timeStamp - this.lastKeypress > 200) {
       const q = $event.target.value;

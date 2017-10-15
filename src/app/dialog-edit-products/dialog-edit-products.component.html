@@ -1,0 +1,63 @@
+<md-radio-group class="privateProduct" [(ngModel)]="userChoiseAboutsecuringy">
+  <md-radio-button class="example-radio-button" *ngFor="let option of securing" [value]="option">
+    {{option}}
+  </md-radio-button>
+</md-radio-group>
+<div class="example-selected-value">Your favorite season is: {{userChoiseAboutsecuringy}}</div>
+
+<button md-fab>
+  <i class="material-icons" (click)="closeDialog()">close</i>
+</button>
+
+<h1>{{ (productFirebaseRef | async )?.name }}</h1>
+<label class="center-block">שם:
+  <input type="text" #ProductName >
+  <p>{{(productFirebaseRef | async)?.ProductName}}</p>
+</label>
+<label class="center-block">מספר מוצר:
+  <input type="number" #ProductNumber placeholder="{{(productFirebaseRef | async)?.ProductNumber}}"/>
+</label>
+
+<label class="center-block">יחידת מידה:
+  <input type="number" #UnitOfMeasure placeholder="{{(productFirebaseRef | async)?.UnitOfMeasure}} "/>
+</label>
+<label class="center-block">מחיר:
+  <input type="tel" #price placeholder="{{(productFirebaseRef | async)?.price}} "/>
+</label>
+
+<label class="center-block">הנחה:
+  <input type="tel" #discount placeholder="{{(productFirebaseRef | async)?.discount}} "/>
+</label>
+
+<label class="center-block">מספר יחידות בחבילה:
+  <input type="text" #UnitInPackaging placeholder="{{(productFirebaseRef | async)?.UnitInPackaging}} "/>
+</label>
+<label class="center-block">מינימום במלאי:
+  <input type="text" #MinInInventory placeholder="{{(productFirebaseRef | async)?.MinInInventory}} "/>
+</label>
+<label class="center-block">מודל:
+  <input type="text" #model placeholder="{{(productFirebaseRef | async)?.model}} "/>
+</label>
+<label class="center-block">הערות:
+  <input type="text" #comments placeholder="{{(productFirebaseRef | async)?.comments}} "/>
+</label>
+
+
+<image-upload
+  [max]="100"
+  [url]="'example.com/images/upload'"
+  [headers]="[
+    {header: 'Authorization', value: 'MyToken'}
+  ]"
+  [buttonCaption]="'Select Images!'"
+  [dropBoxMessage]="'Drop your images here!'"
+  [extensions]="['jpg','png','gif']"
+  (onFileUploadFinish)="imageFinishedUploading($event)"
+  (onRemove)="imageRemoved($event)"
+  (isPending)="uploadStateChange($event)">
+</image-upload>
+
+
+<button md-fab>
+  <i class="material-icons" (click)="BuildProductForAllDB(ProductName.value,ProductNumber.value,UnitOfMeasure.value,price.value,discount.value,UnitInPackaging.value,MinInInventory.value,model.value,comments.value)">update</i>
+</button>

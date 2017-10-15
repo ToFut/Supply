@@ -4,9 +4,9 @@
 
 <ul id="myUL">
   <li *ngFor="let Product of products">
-  <div class="column" (click)="openDialogShowSupplier(Product.$key)" style="background-color:rgba(118,122,112,0.05)" >
+  <div class="column" (click)="ProductAssociationToProvide(Product.$key)" style="background-color:rgba(118,122,112,0.05)" >
     <h2>{{Product.ProductName}}</h2>
-    <h5>{{Product.price}} שקל</h5>
+    <h5>{{Product.model}}</h5>
   </div>
   </li>
 

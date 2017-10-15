@@ -1,16 +1,11 @@
 <h3>הספקים שלי</h3>
-<div>
-  <input #box
-         (keyup.enter)="searchItem(box.value)"
-         (blur)="searchItem(box.value)" name="search" placeholder="Search..">
-</div>
 
 
 <div class="row">
   <li *ngFor="let item of items | async">
     <div class="chip" (click)="openDialogShowSupplier(item.$key)">
       <img src="../../assets/img_avatar_female.png"  alt="Person" width="96" height="96">
-      <h4><b>{{item.name}}</b></h4>
+      <b>{{item.name}}</b>
     </div>
   </li>
 </div>

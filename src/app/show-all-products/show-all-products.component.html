@@ -1,0 +1,93 @@
+
+<button md-fab>
+  <i class="material-icons" (click)="closeDialog()">close</i>
+</button>
+<md-radio-group class="privateProduct" [(ngModel)]="userChoiseAboutsecuringy">
+  <md-radio-button class="example-radio-button" *ngFor="let option of securing" [value]="option">
+    {{option}}
+  </md-radio-button>
+</md-radio-group>
+
+<div class="table-title">
+  <h1 >{{ (item | async)?.ProductName }}</h1>
+</div>
+<table class="table-fill">
+  <thead>
+  <tr>
+    <th class="text-left"></th>
+    <th class="text-left"></th>
+  </tr>
+  </thead>
+  <tr class="table-hover">
+  <tr>
+
+    <td class="text-left">
+      <input type="text" #ProductName name="ProductName" value="{{(item | async)?.ProductName}}">
+    </td>
+  <td class="text-left">שם</td>
+
+</tr>
+  <tr>
+    <td class="text-left">
+      <input type="number" #ProductNumber name="ProductNumber" value="{{(item | async)?.ProductNumber}}">
+    </td>
+    <td class="text-left">מספר פריט</td>
+
+  </tr>
+  <tr>
+    <td class="text-left">
+      <input type="number" #price name="price" value="{{(item | async)?.price}}">
+    </td>
+    <td class="text-left">מחיר</td>
+
+  </tr>
+  <tr>
+    <td class="text-left">
+      <input type="number" #discount name="discount" value="{{(item | async)?.discount}}">
+    </td>
+    <td class="text-left">הנחה</td>
+
+  </tr>
+  <tr>
+    <td class="text-left">
+      <input type="text" #UnitOfMeasure name="UnitOfMeasure" value="{{(item | async)?.UnitOfMeasure}}">
+    </td>
+    <td class="text-left">יחידת מידה</td>
+
+  </tr>
+  <tr>
+    <td class="text-left">
+      <input type="number" #UnitInPackaging name="UnitInPackaging" value="{{(item | async)?.UnitInPackaging}}">
+    </td>
+    <td class="text-left">יחידות במארז</td>
+
+  </tr>
+  <tr>
+    <td class="text-left">
+      <input type="number" #MinInInventory name="MinInInventory" value="{{(item | async)?.MinInInventory}}">
+    </td>
+    <td class="text-left">מינימום במארז</td>
+
+  </tr>
+  <tr>
+    <td class="text-left">
+      <input type="text" #model name="model" value="{{(item | async)?.model}}">
+    </td>
+    <td class="text-left">מודל</td>
+
+  </tr>
+  <tr>
+    <td class="text-left">
+      <input type="text" #comments name="comments" value="{{(item | async)?.comments}}">
+    </td>
+    <td class="text-left">הערות</td>
+
+  </tr>
+  </tbody>
+</table>
+
+
+<button md-fab>
+  <i class="material-icons" (click)="BuildProductForAllDB(ProductName.value,ProductNumber.value,UnitOfMeasure.value,price.value,discount.value,UnitInPackaging.value,MinInInventory.value,model.value,comments.value)">save</i>
+</button>
+
