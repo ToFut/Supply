@@ -13,10 +13,9 @@
     <th>סטטוס</th>
     <th>שם הספק</th>
   </tr>
-  <li *ngFor="let item of items | async">
+  <li *ngFor="let query of (supplierFounded | async)">
     <tr>
-      <td>{{item}}</td>
-      <td>Maria Anders</td>
+      <td>{{query}}</td>
     </tr>
   </li>
 </table>

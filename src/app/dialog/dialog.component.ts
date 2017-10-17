@@ -119,9 +119,9 @@ export class DialogComponent implements OnInit {
   }
   updateItem(Supplier ) {
     for (let i = 0 ; i < this.dateSelected.length; i++) {
-      this.datePathFirebase = this.af.list(`/users/${this.userId}/datesSuppliers/`);
+      this.datePathFirebase = this.af.list(`/users/${this.userId}/datesSuppliers/${[i]}`);
       console.log(this.dateSelected[i].id);
-      this.datePathFirebase.update(this.supplierKey ,{[i]: this.dateSelected[i].id});
+      this.datePathFirebase.push(this.supplierKey);
     }
     this.item.set(Supplier);
     this.closeDialog();
