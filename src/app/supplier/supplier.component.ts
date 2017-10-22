@@ -36,6 +36,7 @@ export class SupplierComponent implements OnInit {
     this.afAuth.authState.subscribe(user => {
       if (user) {this.userId = user.uid;
         this.items = this.af.list(`users/${this.userId}/suppliers`);
+        console.log('this is items : ' + this.items);
       }
     });
   }

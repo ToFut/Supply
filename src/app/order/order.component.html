@@ -1,21 +1,34 @@
+<!DOCTYPE html>
+
 <div [ngSwitch]=day style="text-align: center">
+  <h1 *ngSwitchCase=0>   {{today | date}} הזמנה ליום ראשון בתאריך </h1>
   <h1 *ngSwitchCase=1>   {{today | date}} הזמנה ליום שני בתאריך </h1>
   <h1 *ngSwitchCase=2>   {{today | date}} הזמנה ליום שלישי בתאריך </h1>
   <h1 *ngSwitchCase=3>   {{today | date}} הזמנה ליום רביעי בתאריך </h1>
   <h1 *ngSwitchCase=4>   {{today | date}} הזמנה ליום חמישי בתאריך </h1>
   <h1 *ngSwitchCase=5>   {{today | date}} הזמנה ליום שישי בתאריך </h1>
   <h1 *ngSwitchCase=6>   {{today | date}} הזמנה ליום שבת בתאריך </h1>
-  <h1 *ngSwitchCase=0>   {{today | date}} הזמנה ליום ראשון בתאריך </h1>
 </div>
+<input #box (keyup)="0">
+<p>{{box.value}}</p>
 
-<table id="supplier " style="text-align: right">
-  <tr>
-    <th>סטטוס</th>
-    <th>שם הספק</th>
-  </tr>
-  <li *ngFor="let query of (supplierFounded | async)">
+<div *ngIf = "objLoaderStatus === false">
+  {{objLoaderStatus}}
+  <md-spinner></md-spinner>
+</div>
+{{objLoaderStatus}}
+
+<div *ngIf="objLoaderStatus === true">
+  {{objLoaderStatus}}
+  <table id="supplier " style="text-align: right">
     <tr>
-      <td>{{query}}</td>
+      <th>סטטוס</th>
+      <th>שם הספק</th>
     </tr>
-  </li>
-</table>
+    <li >
+      <tr>
+        <td>{{ (supplierFounded | async)}}</td>
+      </tr>
+    </li>
+  </table>
+</div>

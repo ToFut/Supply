@@ -62,6 +62,7 @@ export class ShowAllProductsComponent implements OnInit {
   ngOnInit(): void {
     this.item = this.af.object(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}`);
     this.items = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`);
+    console.log('this is items : ' + this.items);
     console.log('key is constratcor ' + this.userId + 'this supplier is ' +
       this.SupplierKey + 'this ProductKey is ' + this.selectProductKey);
 

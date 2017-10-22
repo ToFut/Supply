@@ -35,13 +35,21 @@ export class AppComponent implements OnInit {
   }
   ngOnInit() {
     this.user = this.afAuth.authState;
-    let currentUrl = this.router.url; /// this will give you current url
+    const currentUrl = this.router.url; /// this will give you current url
     console.log(currentUrl);
     let registeredUser = true;
-    if(currentUrl == '/home'){
+    if (currentUrl === '/home') {
       registeredUser = false;
     }
   }
+  redirectSupplier() {
+    this.router.navigate(['./supplier']);
+  }
+  redirectOrder() {
+    this.router.navigate(['./order']);
+  }
+
+
   anonymousLogin() {
     return this.afAuth.auth.signInAnonymously().then((isSuccess) =>  {
       console.log(this.afAuth.auth.currentUser.email);

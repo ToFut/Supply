@@ -1,6 +1,8 @@
 import {Component, OnInit, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
+import {MatchSupplierService} from '../match-supplier.service';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-order',
@@ -13,43 +15,30 @@ export class OrderComponent implements OnInit {
   viewDate: Date = new Date();
   today: number = Date.now();
   public day = this.viewDate.getDay();
-  userId: string;
-  search: FirebaseListObservable<any[]>;
-  list = [];
-  listOfMatchSupplier: object;
-  public supplierFounded: Array<any>;
+  supplierFounded: FirebaseObjectObservable<any[]>;
+  count: number;
+  objLoaderStatus: boolean;
 
-  constructor(public af: AngularFireDatabase , public afAuth: AngularFireAuth ) {
-    this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.userId = user.uid;
-      }
+   constructor(public matchSupplier: MatchSupplierService) {
+    this.objLoaderStatus = false;
+     console.log(this.objLoaderStatus);
+     this.count = 0;
+
+   }
+
+  async ngOnInit() {
+    await this.matchSupplier.getFirebaseObject().then(retData => {
+        console.log('retdata is : ' + retData);
+        console.log('ngOnInit');
+        retData.forEach(data => {
+          this.supplierFounded  = data;
+          console.log('data is : ' + data);
+          this.count ++;
+          this.objLoaderStatus = true;
+        });
+        console.log(this.supplierFounded);
+
     });
-  }
-
-  ngOnInit() {
-    this.getFirebaseObject();
-  }
-  searchItem(today): any {
-    let retur = [];
-    const ref = this.af.list(`/users/${this.userId}/datesSuppliers/` , {
-      preserveSnapshot: true
-    } ).$ref.orderByKey().equalTo('0').on('child_added', function(snapshot) {
-      console.log(snapshot.val());
-      retur = snapshot.val();
-    });
-    return retur;
-  }
-  getFirebaseObject() {
-    let obj: string;
-    let i = 0;
-    this.listOfMatchSupplier = this.searchItem(this.day.toString());
-    for ( obj in this.listOfMatchSupplier) {
-      console.log(obj);
-      this.supplierFounded[i] = this.af.object(`/users/${this.userId}/${obj}`);
-      i++;
-      console.log(this.supplierFounded);
-    }
-
+    console.log('this is ' + this.objLoaderStatus);
   }
 }

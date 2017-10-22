@@ -2,8 +2,8 @@
 <div style="text-align:right">
 
   <div ng-If="registeredUser == true" class="icon-bar" >
-        <a routerLink="/supplier" routerLinkActive="active">רשימת ספקים</a>
-        <a routerLink="/correctSupplierProducts" routerLinkActive="active">המוצרים שלי</a>
+    <a routerLink="/supplier" routerLinkActive="active">רשימת ספקים</a>
+    <a routerLink="/correctSupplierProducts" routerLinkActive="active">המוצרים שלי</a>
     <a routerLink="/order" routerLinkActive="active">הזמנות</a>
 
     <a *ngIf="!(user | async)?.uid" (click)="linkGoogle()">התחברות</a>

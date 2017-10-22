@@ -42,6 +42,7 @@ import { CalendarModule } from 'angular2-calendar';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { HomeAfterLoginComponent } from './home-after-login/home-after-login.component';
+import {MatchSupplierService} from './match-supplier.service';
 
 
 
@@ -92,7 +93,8 @@ import { HomeAfterLoginComponent } from './home-after-login/home-after-login.com
   ],
   exports: [MdButtonModule, MdCheckboxModule , OrderComponent],
   providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig }, ProductsService ,
-    SupplierService , AssociateProductToSupplierService , SupplierPrivateProductsService],
+    SupplierService , AssociateProductToSupplierService , SupplierPrivateProductsService ,
+    MatchSupplierService],
   entryComponents: [ DialogComponent , DialogEditProductsComponent , ShowAllProductsComponent ,
     ShowAllSupplierComponent , AddProductsAllDBComponent],
   bootstrap: [AppComponent],
