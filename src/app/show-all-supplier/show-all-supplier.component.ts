@@ -43,7 +43,7 @@ export class ShowAllSupplierComponent implements OnInit {
 
   ngOnInit(): void {
     this.infoSupply = this.af.object(`users/${this.userId}/suppliers/${this.key}`);
-    console.log('key is constratcor ' + this.key);
+    console.log(this.infoSupply);
   }
   deleteItem() {
     this.infoSupply.remove();

@@ -9,15 +9,17 @@ import {AddProductsToSupplierComponent} from './add-products-to-supplier/add-pro
 import {HomeComponent} from './home/home.component';
 import {OrderComponent} from './order/order.component';
 import {HomeAfterLoginComponent} from './home-after-login/home-after-login.component';
+import {OrderForCurrectSupplierComponent} from "./order-for-currect-supplier/order-for-currect-supplier.component";
 
 const routes: Routes = [
-  { path: '',   redirectTo: '/home', pathMatch: 'full'  ,},
+  { path: '',   redirectTo: '/home', pathMatch: 'full'  },
   { path: 'server', component: ServerConnectionComponent},
   { path: 'supplier', component: SupplierComponent},
   { path: 'login', component: LoginPageComponent},
   { path: 'correctSupplierProducts', component: AddProductsToSupplierComponent},
   { path: 'home', component: HomeComponent},
   { path: 'order', component: OrderComponent},
+  { path: 'orderCurrect', component: OrderForCurrectSupplierComponent},
   { path: 'homeAfterLogin', component: HomeAfterLoginComponent
   },
 

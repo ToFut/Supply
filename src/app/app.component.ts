@@ -62,7 +62,6 @@ export class AppComponent implements OnInit {
     then(   (isSuccess) =>  {
       console.log(this.afAuth.auth.currentUser.email);
     });
-
   }
 
   linkFacebook() {

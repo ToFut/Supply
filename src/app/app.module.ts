@@ -43,8 +43,7 @@ import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { HomeAfterLoginComponent } from './home-after-login/home-after-login.component';
 import {MatchSupplierService} from './match-supplier.service';
-
-
+import { OrderForCurrectSupplierComponent } from './order-for-currect-supplier/order-for-currect-supplier.component';
 
 
 @NgModule({
@@ -65,6 +64,7 @@ import {MatchSupplierService} from './match-supplier.service';
     HomeComponent,
     OrderComponent,
     HomeAfterLoginComponent,
+    OrderForCurrectSupplierComponent,
 
 
   ],

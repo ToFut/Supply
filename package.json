@@ -29,6 +29,7 @@
     "@types/socket.io-client": "^1.4.30",
     "angular-2-dropdown-multiselect": "^1.6.0",
     "angular-bootstrap-calendar": "^0.30.0",
+    "angular-mailto": "^0.1.0",
     "angular-material-source": "github:angular/material",
     "angular2-calendar": "^0.3.7",
     "angular2-image-upload": "^0.6.6",
