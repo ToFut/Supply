@@ -1,19 +1,22 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:right">
+<div class="icon-bar">
+  <a (click)="openNav()"><i class="fa fa-bars"></i></a>
+  <a class="active" href="homeAfterLogin"><i class="fa fa-home"></i></a>
+  <a href="home"><i class="fa fa-search"></i></a>
+</div>
 
-  <div ng-If="registeredUser == true" class="icon-bar" >
+  <div id="mySidenav" class="sidenav">
+    <a class="closebtn" (click)="closeNav()">&times;</a>
     <a routerLink="/supplier" routerLinkActive="active">רשימת ספקים</a>
     <a routerLink="/correctSupplierProducts" routerLinkActive="active">המוצרים שלי</a>
     <a routerLink="/order" routerLinkActive="active">הזמנות</a>
+    <a routerLink="/reciveOrder" routerLinkActive="active">קבלת סחורה</a>
 
     <a *ngIf="!(user | async)?.uid" (click)="linkGoogle()">התחברות</a>
     <a *ngIf="(user | async)?.uid" (click)="logout()" >
       <span >יציאה</span>
     </a>
   </div>
-
-
+<div id="main">
   <router-outlet></router-outlet>
-
 </div>
-
