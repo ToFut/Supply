@@ -12,7 +12,10 @@
   <input #box (keyup)="0">
   <p>{{box.value}}</p>
 
-  <div >
+  <div *ngIf = "objLoaderStatus === true">
+    <md-spinner></md-spinner>
+  </div>
+  <div *ngIf = "objLoaderStatus === false">
     <div class="list-group">
       <li *ngFor="let sup of items ">
           <a (click)="orderFromMe(sup)" class="list-group-item list-group-item-success">{{ (sup| async)?.name}}</a>
