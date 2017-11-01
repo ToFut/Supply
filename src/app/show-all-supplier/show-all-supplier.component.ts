@@ -34,9 +34,8 @@ export class ShowAllSupplierComponent implements OnInit {
 
   editSupplier() {
     const dialogRef = this.dialog.open(DialogComponent , {
-        width: '600px',
-        height: '600px'
-      }
+        width: '600px'
+    }
     );
     dialogRef.componentInstance.supplierKey = this.key;
   }

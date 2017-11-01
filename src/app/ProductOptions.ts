@@ -5,7 +5,7 @@ export class ProductOptions {
   price: number;
   discount: number;
   UnitInPackaging: number;
-  MinInInventory: number;
+  MinInInventory: any;
   model: string;
   comments: string;
   imgSrc: string;

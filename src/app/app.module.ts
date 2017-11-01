@@ -35,7 +35,7 @@ import {SupplierService} from './supplier.service';
 import {AssociateProductToSupplierService} from './associate-product-to-supplier.service';
 import {SupplierPrivateProductsService} from './supplier-private-products.service';
 import { HomeComponent } from './home/home.component';
-import {TooltipModule} from 'primeng/primeng';
+import {InputTextModule, TooltipModule} from 'primeng/primeng';
 import {SplitButtonModule} from 'primeng/primeng';
 import { OrderComponent } from './order/order.component';
 import { CalendarModule } from 'angular2-calendar';
@@ -45,6 +45,9 @@ import { HomeAfterLoginComponent } from './home-after-login/home-after-login.com
 import {MatchSupplierService} from './match-supplier.service';
 import { OrderForCurrectSupplierComponent } from './order-for-currect-supplier/order-for-currect-supplier.component';
 import { ReciveOrderComponent } from './recive-order/recive-order.component';
+import { TodoListComponent } from './todo-list/todo-list.component';
+import { LoaderComponent } from './loader/loader.component';
+import { ShowProductComponent } from './show-product/show-product.component';
 
 
 @NgModule({
@@ -67,6 +70,9 @@ import { ReciveOrderComponent } from './recive-order/recive-order.component';
     HomeAfterLoginComponent,
     OrderForCurrectSupplierComponent,
     ReciveOrderComponent,
+    TodoListComponent,
+    LoaderComponent,
+    ShowProductComponent,
 
 
   ],
@@ -92,15 +98,16 @@ import { ReciveOrderComponent } from './recive-order/recive-order.component';
     MultiselectDropdownModule,
     AngularMultiSelectModule,
     MdGridListModule,
+    InputTextModule,
   ],
   exports: [MdButtonModule, MdCheckboxModule , OrderComponent],
   providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig }, ProductsService ,
     SupplierService , AssociateProductToSupplierService , SupplierPrivateProductsService ,
     MatchSupplierService],
   entryComponents: [ DialogComponent , DialogEditProductsComponent , ShowAllProductsComponent ,
-    ShowAllSupplierComponent , AddProductsAllDBComponent],
+    ShowAllSupplierComponent , AddProductsAllDBComponent , TodoListComponent , ShowProductComponent],
   bootstrap: [AppComponent],
-  schemas: [
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ,
     CUSTOM_ELEMENTS_SCHEMA
   ],
 })

@@ -1,22 +1,43 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div class="icon-bar">
-  <a (click)="openNav()"><i class="fa fa-bars"></i></a>
-  <a class="active" href="homeAfterLogin"><i class="fa fa-home"></i></a>
-  <a href="home"><i class="fa fa-search"></i></a>
+<div > <!--The content below is only a placeholder and can be replaced.-->
+<div class="icon-bar" >
+  <a href="homeAfterLogin" style="float: right;"><i class="fa fa-home"></i></a>
+
 </div>
 
-  <div id="mySidenav" class="sidenav">
-    <a class="closebtn" (click)="closeNav()">&times;</a>
-    <a routerLink="/supplier" routerLinkActive="active">רשימת ספקים</a>
-    <a routerLink="/correctSupplierProducts" routerLinkActive="active">המוצרים שלי</a>
-    <a routerLink="/order" routerLinkActive="active">הזמנות</a>
-    <a routerLink="/reciveOrder" routerLinkActive="active">קבלת סחורה</a>
 
-    <a *ngIf="!(user | async)?.uid" (click)="linkGoogle()">התחברות</a>
-    <a *ngIf="(user | async)?.uid" (click)="logout()" >
-      <span >יציאה</span>
-    </a>
+  <div dir="rtl"> <!--The content below is only a placeholder and can be replaced.-->
+    <div class="area"></div><nav class="main-menu">
+      <ul>
+        <div class="top-head">
+        </div>
+
+        <li>
+          <a routerLink="/supplier" routerLinkActive="active"><i class="fa fa-users"></i><b class="nav-text">רשימת ספקים</b></a>
+
+        </li>
+        <li class="has-subnav">
+          <a routerLink="/order" routerLinkActive="active"><i class="fa fa-shopping-cart"></i><b class="nav-text">הזמנות</b></a>
+
+        </li>
+        <li>
+          <a routerLink="/reciveOrder" routerLinkActive="active"><i class="fa fa-shopping-bag"></i><b class="nav-text">קבלת סחורה</b></a>
+        </li>
+        <ul class="logout">
+          <li class="has-subnav">
+            <a routerLink="/correctSupplierProducts" routerLinkActive="active"><i class="fa fa-cog"></i><b class="nav-text">הגדרות</b></a>
+
+          </li>
+
+          <li>
+            <a *ngIf="!(user | async)?.uid" (click)="linkGoogle()"><i class="fa fa-power-on"></i><b>התחבר</b></a>
+            <a *ngIf="(user | async)?.uid" (click)="logout()" >
+              <span ><i class="fa fa-power-off"></i><b>התנתק</b></span>
+            </a>
+          </li>
+        </ul>
+      </ul>
+    </nav>
+    <div id="main">
+      <router-outlet></router-outlet>
+    </div>
   </div>
-<div id="main">
-  <router-outlet></router-outlet>
-</div>

@@ -40,15 +40,15 @@ export class DialogEditProductsComponent implements OnInit {
   }
 
   BuildProductForAllDB (ProductName: string, ProductNumber: number, UnitOfMeasure: string, price: number,
-                        discount: number, UnitInPackaging: number, MinInInventory: number, model: string,
+                        discount: number, UnitInPackaging: number,  model: string,
                         comments: string) {
+    // TODO droped minIn inventory
     this.Product.ProductName = ProductName;
     this.Product.ProductNumber = ProductNumber;
     this.Product.UnitOfMeasure = UnitOfMeasure;
     this.Product.price = price;
     this.Product.discount = discount;
     this.Product.UnitInPackaging = UnitInPackaging;
-    this.Product.MinInInventory = MinInInventory;
     this.Product.model = model;
     this.Product.comments = comments;
     console.log('BuildProductForAllDB');

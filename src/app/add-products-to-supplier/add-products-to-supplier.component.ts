@@ -11,6 +11,7 @@ import {AssociateProductToSupplierService} from '../associate-product-to-supplie
 import {ProductOptions} from '../ProductOptions';
 import {SupplierPrivateProductsService} from '../supplier-private-products.service';
 import {AddProductsAllDBComponent} from '../../..//src/app/add-products-all-db/add-products-all-db.component';
+import {ShowProductComponent} from '../show-product/show-product.component';
 
 @Component({
   selector: 'app-add-products-to-supplier',
@@ -83,7 +84,7 @@ export class AddProductsToSupplierComponent implements OnInit {
     dialogRef.componentInstance.path = `users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`;
   }
   openDialogShowProducts(selectProductKey) {
-    const dialogRef = this.dialog.open(ShowAllProductsComponent , {
+    const dialogRef = this.dialog.open(ShowProductComponent , {
       width: '300px',
       height: '600px'
       }

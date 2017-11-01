@@ -3,36 +3,60 @@
 <button md-fab>
   <i class="material-icons" (click)="closeDialog()">close</i>
 </button>
-<label class="center-block">שם:
-  <input type="text"  #updatename placeholder="" />
-</label>
-<label class="center-block">מייל:
-  <input type="email"  #updatemail placeholder="" />
-</label>
 
-<label class="center-block">מספר ספק:
-  <input type="number" #updateSupplierNum />
-</label>
-<label class="center-block">מספר לקוח:
-  <input type="number" #updateClientNum />
-</label>
+  <md-expansion-panel>
+    <md-expansion-panel-header>
+      <md-panel-title>
+        החברה
+      </md-panel-title>
+      <md-panel-description>
+        הכנס פרטים אודות החברה
+      </md-panel-description>
+    </md-expansion-panel-header>
 
-<label class="center-block">טלפון במשרד:
-  <input type="tel" #updateOfficeNumber />
-</label>
+    <md-form-field>
+      <input mdInput type="text" #updatename placeholder="שם החברה" />
+    </md-form-field>
+    <md-form-field>
+      <input mdInput type="number" #updatePhoneNumber placeholder="נייד" />
+    </md-form-field>
 
-<label class="center-block">טלפון נייד:
-  <input type="tel" #updatePhoneNumber />
-</label>
-<label class="center-block">מועדי הזמנה:
-  <angular2-multiselect style="text-align: center" [data]="dateDropDwon" [(ngModel)]="dateSelected"
-                        [settings]="dropdownSettings"
-                        (onSelect)="onDateSelect($event)"
-                        (onDeSelect)="OnDateDeSelect($event)"
-                        (onSelectAll)="onDateSelectAll($event)"
-                        (onDeSelectAll)="onDateDeSelectAll($event)"></angular2-multiselect>
-</label>
-  <label class="center-block">תדירות:
+    <md-form-field>
+      <input mdInput type="email"  #updatemail placeholder="מייל" />
+    </md-form-field>
+  </md-expansion-panel>
+
+  <md-expansion-panel>
+    <md-expansion-panel-header>
+      <md-panel-title>
+      איש קשר
+      </md-panel-title>
+      <md-panel-description>
+        הכנס פרטים על איש הקשר של החברה
+      </md-panel-description>
+    </md-expansion-panel-header>
+    <md-form-field>
+      <input mdInput type="text" #updateContactName placeholder="שם " />
+    </md-form-field>
+
+    <md-form-field>
+      <input mdInput type="number" #updateContactNum placeholder="נייד" />
+    </md-form-field>
+
+    <md-form-field>
+      <input mdInput type="email"  #updateContactEmail placeholder="מייל" />
+    </md-form-field>
+  </md-expansion-panel>
+
+  <label class="center-block">ימי אספקה:
+    <angular2-multiselect style="text-align: center" [data]="dateDropDwon" [(ngModel)]="dateSelected"
+                          [settings]="dropdownSettings"
+                          (onSelect)="onDateSelect($event)"
+                          (onDeSelect)="OnDateDeSelect($event)"
+                          (onSelectAll)="onDateSelectAll($event)"
+                          (onDeSelectAll)="onDateDeSelectAll($event)"></angular2-multiselect>
+  </label>
+  <label class="center-block">תדירות הזמנה:
     <angular2-multiselect style="text-align: center" [data]="frequencyDropDwon" [(ngModel)]="frequencySelected"
                           [settings]="frequencydropdownSettings"
                           (onSelect)="onfrequencySelect($event)"
@@ -41,22 +65,23 @@
                           (onDeSelectAll)="onfrequencyDeSelectAll($event)"></angular2-multiselect>
   </label>
 
-<label class="center-block">סוג מוצרים:
+  <form>
+      <md-select placeholder="מועדי הזמנה" [(ngModel)]="selectedWay" name="optionOrder">
+      <md-option *ngFor="let option of Options" [value]="option">
+        {{option}} ימים לפני
+      </md-option>
+    </md-select>
+  </form>
+
+
+<label class="center-block">קטגוריית מוצרים:
   <input type="text" #updatetype/>
 </label>
 
   <button md-fab>
-  <i class="material-icons" (click)="BuildSupplier(updatename.value,updatemail.value,updateSupplierNum.value,updateClientNum.value,updateOfficeNumber.value,updatePhoneNumber.value,updatetype.value)">update</i>
+  <i class="material-icons" (click)="BuildSupplier(updatename.value,updatePhoneNumber.value,updatemail.value,updateContactName.value,updateContactNum.value,updateContactEmail.value,updatetype.value)">update</i>
 </button>
 <button md-fab>
   <i class="material-icons" (click)="deleteItem()">delete</i>
 </button>
 </div>
-
-<mwl-calendar
-  view="calendarView"
-  view-date="viewDate"
-  events="events"
-  view-title="calendarTitle"
-  cell-is-open="true">
-</mwl-calendar>

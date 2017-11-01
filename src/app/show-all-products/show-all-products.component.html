@@ -1,4 +1,4 @@
-
+<div style="text-align: right">
 <button md-fab>
   <i class="material-icons" (click)="closeDialog()">close</i>
 </button>
@@ -11,83 +11,55 @@
 <div class="table-title">
   <h1 >{{ (item | async)?.ProductName }}</h1>
 </div>
-<table class="table-fill">
-  <thead>
-  <tr>
-    <th class="text-left"></th>
-    <th class="text-left"></th>
-  </tr>
-  </thead>
-  <tr class="table-hover">
-  <tr>
 
-    <td class="text-left">
-      <input type="text" #ProductName name="ProductName" value="{{(item | async)?.ProductName}}">
-    </td>
-  <td class="text-left">שם</td>
+</div>
+<md-horizontal-stepper [linear]="isLinear" #stepper>
+  <md-step label="הגדרת המוצר " md-complete="step1.completed"  ng-disabled="step1.disabled">
 
-</tr>
-  <tr>
-    <td class="text-left">
-      <input type="number" #ProductNumber name="ProductNumber" value="{{(item | async)?.ProductNumber}}">
-    </td>
-    <td class="text-left">מספר פריט</td>
+    <div>
+      <!-- Other actions here -->
+      <input type="text" placeholder="שם המוצר" #ProductName (keyup)="onKeyName(ProductName.value)" name="ProductName" value="{{(item | async)?.ProductName}}">
+      <input type="text" pInputText placeholder="מחיר" #price (keyup)="onKeyPrice(price.value)" name="ProductName" value="{{(item | async)?.ProductName}}">
+      <button md-button mdStepperNext>Next</button>
 
-  </tr>
-  <tr>
-    <td class="text-left">
-      <input type="number" #price name="price" value="{{(item | async)?.price}}">
-    </td>
-    <td class="text-left">מחיר</td>
+    </div>
 
-  </tr>
-  <tr>
-    <td class="text-left">
-      <input type="number" #discount name="discount" value="{{(item | async)?.discount}}">
-    </td>
-    <td class="text-left">הנחה</td>
+  </md-step>
 
-  </tr>
-  <tr>
-    <td class="text-left">
-      <input type="text" #UnitOfMeasure name="UnitOfMeasure" value="{{(item | async)?.UnitOfMeasure}}">
-    </td>
-    <td class="text-left">יחידת מידה</td>
+  <md-step label="הגדרת מידות המוצר" md-complete="step2.completed"  ng-disabled="step2.disabled">
+    <!-- Content in the step -->
+    <div>
+      <!-- Other actions here -->
+      <input mdInput  type="text" placeholder="יחידות מידה" #UnitOfMeasure (keyup)="onKeyUnitOfMeasure(UnitOfMeasure.value)" name="UnitOfMeasure" value="{{(item | async)?.UnitOfMeasure}}">
+      <input  mdInput type="number"  placeholder="כמות במארז" #UnitInPackaging (keyup)="onKeyUnitInPackaging(UnitInPackaging.value)" name="UnitInPackaging" value="{{(item | async)?.UnitInPackaging}}">
 
-  </tr>
-  <tr>
-    <td class="text-left">
-      <input type="number" #UnitInPackaging name="UnitInPackaging" value="{{(item | async)?.UnitInPackaging}}">
-    </td>
-    <td class="text-left">יחידות במארז</td>
-
-  </tr>
-  <tr>
-    <td class="text-left">
-      <input type="number" #MinInInventory name="MinInInventory" value="{{(item | async)?.MinInInventory}}">
-    </td>
-    <td class="text-left">מינימום במארז</td>
-
-  </tr>
-  <tr>
-    <td class="text-left">
-      <input type="text" #model name="model" value="{{(item | async)?.model}}">
-    </td>
-    <td class="text-left">מודל</td>
-
-  </tr>
-  <tr>
-    <td class="text-left">
-      <input type="text" #comments name="comments" value="{{(item | async)?.comments}}">
-    </td>
-    <td class="text-left">הערות</td>
-
-  </tr>
-  </tbody>
-</table>
+      <button md-button mdStepperPrevious>Back</button>
+      <button md-button mdStepperNext>Next</button>
 
 
-<button md-fab>
-  <i class="material-icons" (click)="BuildProductForAllDB(ProductName.value,ProductNumber.value,UnitOfMeasure.value,price.value,discount.value,UnitInPackaging.value,MinInInventory.value,model.value,comments.value)">save</i>
-</button>
+    </div>
+  </md-step>
+  <md-step label="הגדרות נוספות" md-complete="step3.completed"  ng-disabled="step3.disabled">
+    <!-- Content in the step -->
+    <div style="text-align: right">
+      <!-- Other actions here -->
+      <label>
+        <input type="checkbox" [(ngModel)]="showhidepregnant"/> סמן לאספקה
+      </label>
+      <div   class="col-md-4 divhidetxtdpatient" *ngIf="showhidepregnant">
+        <div *ngFor="let day of dateCurrectSupplirer">{{day.itemName}}:
+            <input mdInput placeholder="מצבה במלאי" type="number" [(ngModel)]="days[day.id]" (ngModelChange)="days[day.id] = $event" name="MinInInventory" >
+        </div>
+      </div>
+
+    </div>
+    <button md-button mdStepperPrevious>Back</button>
+
+    <button md-fab>
+      <i class="fa fa-check"  aria-hidden="true" (click)="BuildProductForAllDB()"></i>
+    </button>
+
+  </md-step>
+  <!-- More steps here -->
+</md-horizontal-stepper>
 

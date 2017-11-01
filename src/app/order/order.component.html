@@ -8,18 +8,13 @@
     <h1 *ngSwitchCase=5>   {{today | date}} הזמנה ליום שישי בתאריך </h1>
     <h1 *ngSwitchCase=6>   {{today | date}} הזמנה ליום שבת בתאריך </h1>
   </div>
+  <h1> ממשק הזמנות</h1>
   <input #box (keyup)="0">
   <p>{{box.value}}</p>
 
-  <div *ngIf = "!objLoaderStatus">
-    {{objLoaderStatus}}
-    <md-spinner></md-spinner>
-  </div>
-  {{objLoaderStatus}}
-  <div *ngIf="objLoaderStatus === true">
-    {{objLoaderStatus}}
+  <div >
     <div class="list-group">
-      <li *ngFor="let sup of supplierFounded ">
+      <li *ngFor="let sup of items ">
           <a (click)="orderFromMe(sup)" class="list-group-item list-group-item-success">{{ (sup| async)?.name}}</a>
       </li>
     </div>

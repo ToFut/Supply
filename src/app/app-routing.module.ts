@@ -11,6 +11,8 @@ import {OrderComponent} from './order/order.component';
 import {HomeAfterLoginComponent} from './home-after-login/home-after-login.component';
 import {OrderForCurrectSupplierComponent} from './order-for-currect-supplier/order-for-currect-supplier.component';
 import {ReciveOrderComponent} from './recive-order/recive-order.component';
+import {TodoListComponent} from './todo-list/todo-list.component';
+import {ShowProductComponent} from './show-product/show-product.component';
 
 const routes: Routes = [
   { path: '',   redirectTo: '/home', pathMatch: 'full'  },
@@ -23,6 +25,8 @@ const routes: Routes = [
   { path: 'orderCurrect', component: OrderForCurrectSupplierComponent},
   { path: 'homeAfterLogin', component: HomeAfterLoginComponent},
   { path: 'reciveOrder', component: ReciveOrderComponent},
+  { path: 'todoList', component: TodoListComponent},
+  { path: 'showProduct', component: ShowProductComponent},
 
 
 

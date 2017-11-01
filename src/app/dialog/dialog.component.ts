@@ -19,18 +19,22 @@ import {forEach} from '@angular/router/src/utils/collection';
 export class DialogComponent implements OnInit {
   supplierKey:  string;
   items: FirebaseListObservable<any[]>;
-  datePathFirebase: FirebaseListObservable<any[]>;
+  dateReciveSupplier: FirebaseListObservable<any[]>;
+  dateOrderSupplier: FirebaseListObservable<any[]>;
   item: FirebaseObjectObservable<any[]>;
   userId: string;
   public Supplier = new SupplierPersonal();
   @Input() supplierKeyPass: string;
   dateDropDwon = [];
   public dateSelectedafterChoose: DateSelected[];
+  Options = [1 , 2 , 3];
+  selectedWay: number;
   dateSelected = [];
   frequencyDropDwon = [];
   frequencySelected = [];
   dropdownSettings = {};
   frequencydropdownSettings = {};
+  orderDay: number;
   constructor(public dialogRef: MdDialogRef<any> , public af: AngularFireDatabase , public afAuth: AngularFireAuth) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
@@ -102,28 +106,60 @@ export class DialogComponent implements OnInit {
     console.log(dates);
   }
 
-  BuildSupplier (name: string , email: string , SupplierNum: number , ClientNum: number ,
-                 OfficeNumber: number , PhoneNumber: number , type: string) {
+  BuildSupplier (name: string , PhoneNumber: number , email: string , ContactName: string , ContactNum: number ,
+                 ContactEmail: string  , type: string ) {
     this.Supplier.name = name;
-    this.Supplier.ClientNum = ClientNum;
-    this.Supplier.email = email;
-    this.Supplier.OfficeNumber = OfficeNumber;
     this.Supplier.PhoneNumber = PhoneNumber;
-    this.Supplier.SupplierNum = SupplierNum;
+    this.Supplier.email = email;
+
+    this.Supplier.ContactName = ContactName;
+    this.Supplier.ContactNum = ContactNum;
+    this.Supplier.ContactEmail = ContactEmail;
+    this.Supplier.OrderDays = this.selectedWay;
+    this.Supplier.type = type;
+
     this.Supplier.frequency = this.frequencySelected;
     this.Supplier.date = this.dateSelected;
-    this.Supplier.type = type;
     this.updateItem(this.Supplier );
 
 
   }
+  calcDateOrder(day) {
+    this.orderDay = day - this.selectedWay;
+    switch (this.orderDay) {
+      case -1 :
+        this.orderDay = 6;
+        break;
+      case -2 :
+        this.orderDay = 5;
+        break;
+      case -3 :
+        this.orderDay = 4;
+        break;
+      case -4 :
+        this.orderDay = 3;
+        break;
+      case -5 :
+        this.orderDay = 2;
+        break;
+      case -6 :
+        this.orderDay = 1;
+        break;
+
+
+    }
+  }
   updateItem(Supplier ) {
     this.dateSelected.forEach(value => {
       if (value.id.toString() !== 'undefined') {
-        this.datePathFirebase = this.af.list(`/users/${this.userId}/datesSuppliers/${[value.id]}`);
+        this.calcDateOrder(value.id);
+        this.dateReciveSupplier = this.af.list(`/users/${this.userId}/reciveDateSuppliers/${[value.id]}`);
+        this.dateOrderSupplier = this.af.list(`/users/${this.userId}/orderDateSuppliers/${[this.orderDay]}`);
         console.log('this is ' + value.id);
-        this.datePathFirebase.push(this.supplierKey);
-      }
+        this.dateOrderSupplier.set(this.supplierKey , {'orderIn' : this.orderDay });
+        this.dateReciveSupplier.set(this.supplierKey , {'reciveIn' : value.id });
+
+  }
     });
     this.item.set(Supplier);
     this.closeDialog();

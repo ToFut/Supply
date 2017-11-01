@@ -2,12 +2,13 @@ import {DateSelected} from './dialog/dateAndFrec';
 
 export class SupplierPersonal {
   name: string;
-  SupplierNum: number;
-  ClientNum: number;
-  OfficeNumber: number;
   PhoneNumber: number;
-  type: string;
   email: string;
+  ContactName: string;
+  ContactEmail: string;
+  ContactNum: number;
+  OrderDays: number;
+  type: string;
   frequency = [];
   date = [];
 }

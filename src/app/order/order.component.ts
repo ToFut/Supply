@@ -16,12 +16,13 @@ export class OrderComponent implements OnInit {
   viewDate: Date = new Date();
   today: number = Date.now();
   public day = this.viewDate.getDay();
-  supplierFounded = [];
   count: number;
+  public items = [];
+  keys = [];
   objLoaderStatus: boolean;
   userId: string;
 
-   constructor(public matchSupplier: MatchSupplierService , public af: AngularFireDatabase , public afAuth: AngularFireAuth,
+   constructor(public matchSupplier: MatchSupplierService , public afAuth: AngularFireAuth, public af: AngularFireDatabase,
                private router: Router) {
      this.afAuth.authState.subscribe(user => {
        if (user) {
@@ -30,23 +31,35 @@ export class OrderComponent implements OnInit {
      });
      this.objLoaderStatus = false;
      console.log(this.objLoaderStatus);
+     console.log(this.day);
+     console.log(this.today);
+     console.log(this.day);
      this.count = 0;
+
 
    }
 
   async ngOnInit() {
-    await this.matchSupplier.searchItem().then(retData => {
-      console.log(retData);
-      console.log('ngOnInit');
-          retData.forEach(obj => {
-            console.log(obj);
-            this.supplierFounded.push(this.af.object(`/users/${this.userId}/suppliers/${obj}`));
-            this.count ++;
-            this.objLoaderStatus = true;
-          });
+      if (!this.objLoaderStatus) {
+      await  this.matchSupplier.pushSupplier('supplier').then( keyIn => {
+          this.items = keyIn;
+          this.objLoaderStatus = true;
         });
-      console.log(this.supplierFounded);
-      console.log('this is ' + this.objLoaderStatus);
+      }
+
+      /*
+            this.matchSupplier.searchItem().then(retData => {
+             console.log(retData);
+             console.log('ngOnInit');
+                 retData.forEach(obj => {
+                   console.log(obj);
+                   this.supplierFounded.push(this.af.object(`/users/${this.userId}/suppliers/${obj}`));
+                   this.count ++;
+                   this.objLoaderStatus = true;
+                 });
+               });
+             console.log(this.supplierFounded);
+             console.log('this is ' + this.objLoaderStatus);*/
   }
   orderFromMe(supplierKey) {
      console.log(supplierKey.$ref.key);
