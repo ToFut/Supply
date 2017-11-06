@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase/app';
 import {User} from './userDetail' ;
 import { RouterModule, Router } from '@angular/router';
+import {MatchSupplierService} from "./match-supplier.service";
 
 
 
@@ -24,16 +25,34 @@ export class AppComponent implements OnInit {
   title = 'Supply';
   user: Observable<firebase.User>;
   items: FirebaseListObservable<any[]>;
+  test= [];
+
   userId: string;
-  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase , private router: Router) {
+  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase , private router: Router ,
+              public matchSupplier: MatchSupplierService) {
     this.afAuth.authState.subscribe(user => {
       if (user) {this.userId = user.uid; }
     });
     this.user = afAuth.authState;
     if (!this.userId) {return; }
     this.items = this.af.list(`users/${this.userId}/suppliers`);
+    this.checkForSupplier();
+    this.checkForSupplier();
+
+
   }
-  ngOnInit() {
+
+  checkForSupplier() {
+    this.matchSupplier.pushSupplier('order').then(keyIn => {
+
+      console.log(keyIn);
+      this.test = keyIn;
+      console.log(this.items);
+
+    });
+  }
+
+    ngOnInit() {
     this.user = this.afAuth.authState;
     const currentUrl = this.router.url; /// this will give you current url
     console.log(currentUrl);

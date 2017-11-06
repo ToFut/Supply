@@ -49,6 +49,7 @@ import { TodoListComponent } from './todo-list/todo-list.component';
 import { LoaderComponent } from './loader/loader.component';
 import { ShowProductComponent } from './show-product/show-product.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import {TestBed} from '@angular/core/testing';
 
 
 @NgModule({
@@ -100,6 +101,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     AngularMultiSelectModule,
     MdGridListModule,
     InputTextModule,
+    FormsModule
   ],
   exports: [MdButtonModule, MdCheckboxModule , OrderComponent],
   providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },

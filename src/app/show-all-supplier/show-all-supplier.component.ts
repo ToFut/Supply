@@ -13,7 +13,7 @@ import {NavigationExtras, Router} from '@angular/router';
 @Component({
   selector: 'app-show-all-supplier',
   templateUrl: './show-all-supplier.component.html',
-  styleUrls: ['./show-all-supplier.component.css']
+  styleUrls: ['./show-all-supplier.component.scss']
 })
 export class ShowAllSupplierComponent implements OnInit {
 

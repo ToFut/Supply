@@ -13,27 +13,29 @@ import {NavigationExtras, Router} from '@angular/router';
 
 })
 export class OrderComponent implements OnInit {
+  route: any;
   viewDate: Date = new Date();
   today: number = Date.now();
   public day = this.viewDate.getDay();
   count: number;
   public items = [];
   keys = [];
-  objLoaderStatus: boolean;
+  objLoaderStatus = true;
   userId: string;
 
     constructor(public matchSupplier: MatchSupplierService , public afAuth: AngularFireAuth, public af: AngularFireDatabase,
                private router: Router) {
-     this.objLoaderStatus = true;
+      console.log('constructor');
+      this.checkForSupplier();
 
-     this.afAuth.authState.subscribe(user => {
+
+      this.afAuth.authState.subscribe(user => {
        if (user) {
          this.userId = user.uid;
        }
 
      });
-     this.checkForSupplier();
-     console.log(this.objLoaderStatus);
+      console.log(this.objLoaderStatus);
      console.log(this.day);
      console.log(this.today);
      console.log(this.day);
@@ -41,29 +43,51 @@ export class OrderComponent implements OnInit {
 
 
    }
-  checkForSupplier() {
+
+  testForSupplier() {
     this.matchSupplier.pushSupplier('order').then( keyIn => {
-      console.log(this.objLoaderStatus);
-      this.objLoaderStatus = false;
-      this.items = keyIn;
+
+      console.log(keyIn);
+
     });
 
   }
+
+  checkForSupplier() {
+    this.matchSupplier.pushSupplier('order').then( keyIn => {
+
+      console.log(keyIn);
+      console.log(this.objLoaderStatus);
+      this.objLoaderStatus = false;
+      this.items = keyIn;
+      console.log(this.items);
+
+    });
+
+  }
+  OnChanges() {
+    console.log('OnChanges');
+
+    this.checkForSupplier();
+  }
   ngOnInit() {
 
-      /*
-            this.matchSupplier.searchItem().then(retData => {
-             console.log(retData);
-             console.log('ngOnInit');
-                 retData.forEach(obj => {
-                   console.log(obj);
-                   this.supplierFounded.push(this.af.object(`/users/${this.userId}/suppliers/${obj}`));
-                   this.count ++;
-                   this.objLoaderStatus = true;
-                 });
+
+
+
+    /*
+          this.matchSupplier.searchItem().then(retData => {
+           console.log(retData);
+           console.log('ngOnInit');
+               retData.forEach(obj => {
+                 console.log(obj);
+                 this.supplierFounded.push(this.af.object(`/users/${this.userId}/suppliers/${obj}`));
+                 this.count ++;
+                 this.objLoaderStatus = true;
                });
-             console.log(this.supplierFounded);
-             console.log('this is ' + this.objLoaderStatus);*/
+             });
+           console.log(this.supplierFounded);
+           console.log('this is ' + this.objLoaderStatus);*/
   }
   orderFromMe(supplierKey) {
      console.log(supplierKey.$ref.key);

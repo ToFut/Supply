@@ -1,3 +1,4 @@
+<div class="container">
 <div style="text-align: right">
   <div [ngSwitch]=day style="text-align: center">
     <h1 *ngSwitchCase=0>   {{today | date}} הזמנה ליום ראשון בתאריך </h1>
@@ -9,17 +10,17 @@
     <h1 *ngSwitchCase=6>   {{today | date}} הזמנה ליום שבת בתאריך </h1>
   </div>
   <h1> ממשק הזמנות</h1>
-  <input #box (keyup)="0">
-  <p>{{box.value}}</p>
 
   <div *ngIf = "objLoaderStatus === true">
     <md-spinner></md-spinner>
   </div>
   <div *ngIf = "objLoaderStatus === false">
     <div class="list-group">
-      <li *ngFor="let sup of items ">
+      <li *ngFor="let sup of items  ">
           <a (click)="orderFromMe(sup)" class="list-group-item list-group-item-success">{{ (sup| async)?.name}}</a>
       </li>
     </div>
   </div>
+</div>
+
 </div>

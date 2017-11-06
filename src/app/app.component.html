@@ -1,6 +1,6 @@
 <div > <!--The content below is only a placeholder and can be replaced.-->
 <div class="icon-bar" >
-  <a href="homeAfterLogin" style="float: right;"><i class="fa fa-home"></i></a>
+  <a href="/homeAfterLogin" style="float: right;"><i class="fa fa-home"></i></a>
   <h3 style="text-align: center; font-family: 'Titillium Web', sans-serif"> SupplyME</h3>
 
 </div>
@@ -9,6 +9,11 @@
     <div class="area"></div><nav class="main-menu">
       <ul>
         <div class="top-head">
+          <li>
+            <a routerLink="/homeAfterLogin" routerLinkActive="active"><b class="nav-text">SupplyME</b></a>
+
+          </li>
+
         </div>
 
         <li>
@@ -22,16 +27,15 @@
         <li>
           <a routerLink="/reciveOrder" routerLinkActive="active"><i class="fa fa-shopping-bag"></i><b class="nav-text">קבלת סחורה</b></a>
         </li>
-        <ul class="logout">
           <li class="has-subnav">
             <a routerLink="/correctSupplierProducts" routerLinkActive="active"><i class="fa fa-cog"></i><b class="nav-text">הגדרות</b></a>
 
           </li>
+        <ul class="has-subnav">
 
           <li>
             <a *ngIf="!(user | async)?.uid" (click)="linkGoogle()"><i class="fa fa-power-on"></i><b>התחבר</b></a>
-            <a *ngIf="(user | async)?.uid" (click)="logout()" >
-              <span ><i class="fa fa-power-off"></i><b>התנתק</b></span>
+            <a routerLink="/home" *ngIf="(user | async)?.uid" (click)="logout()" ><i class="fa fa-power-off"></i><b>התנתק</b>
             </a>
           </li>
         </ul>

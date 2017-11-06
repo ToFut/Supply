@@ -69,16 +69,16 @@ export class SupplierComponent implements OnInit {
   }
   openDialogEditSupplier(key) {
     const dialogRef = this.dialog.open(DialogComponent , {
-      width: '600px',
-      height: '600px'
+      width: '450px',
+      height: '450px'
     } );
     dialogRef.componentInstance.supplierKey = key;
     console.log('this ket is: ' + key);
   }
   openDialogShowSupplier(key) {
     const dialogRef = this.dialog.open(ShowAllSupplierComponent , {
-      width: '600px',
-      height: '600px'
+      width: '400px',
+      height: '500px'
     } );
     dialogRef.componentInstance.key = key;
     console.log('this ket is: ' + key);
