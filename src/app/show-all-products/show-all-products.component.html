@@ -1,12 +1,5 @@
-<div style="text-align: right">
-<button md-fab>
+<div dir="rtl" >
   <i class="material-icons" (click)="closeDialog()">close</i>
-</button>
-<md-radio-group class="privateProduct" [(ngModel)]="userChoiseAboutsecuringy">
-  <md-radio-button class="example-radio-button" *ngFor="let option of securing" [value]="option">
-    {{option}}
-  </md-radio-button>
-</md-radio-group>
 
 <div class="table-title">
   <h1 >{{ (item | async)?.ProductName }}</h1>
@@ -43,8 +36,13 @@
     <!-- Content in the step -->
     <div style="text-align: right">
       <!-- Other actions here -->
+      <section class="example-section" dir="rtl">
+        <md-checkbox class="example-margin" [(ngModel)]="publicProduct">ציבורי</md-checkbox>
+        <md-checkbox class="example-margin" [(ngModel)]="privateProduct">פרטי</md-checkbox>
+      </section>
+
       <label>
-        <input type="checkbox" [(ngModel)]="showhidepregnant"/> סמן לאספקה
+        <md-slide-toggle class="example-margin" [(ngModel)]="showhidepregnant"> סמן לאספקה</md-slide-toggle>
       </label>
       <div   class="col-md-4 divhidetxtdpatient" *ngIf="showhidepregnant">
         <div *ngFor="let day of dateCurrectSupplirer">{{day.itemName}}:
@@ -52,12 +50,24 @@
         </div>
       </div>
 
+
+
     </div>
     <button md-button mdStepperPrevious>Back</button>
 
     <button md-fab>
       <i class="fa fa-check"  aria-hidden="true" (click)="BuildProductForAllDB()"></i>
     </button>
+
+
+    <section class="example-section">
+      <md-checkbox
+        class="example-margin"
+        [(ngModel)]="publicProduct"
+        [(indeterminate)]="privateProduct">
+        I'm a checkbox
+      </md-checkbox>
+    </section>
 
   </md-step>
   <!-- More steps here -->

@@ -1,11 +1,38 @@
-ul { padding:0; width:780px; margin:20px auto}
-li { display:inline;}
-.tn{
-  margin:2px 0px;
-  box-shadow:#999 1px 1px 3px 1px;
-  cursor: pointer
+* {
+  margin: 0;
+  padding: 0;
 }
-.modal-content {
+
+body {
+  background: #333;
+}
+
+div {
+  width: 900px;
+  margin: 0 auto;
+  overflow: auto;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li img {
+  float: left;
+  margin: 10px;
+  border: 5px solid #fff;
+
+  -webkit-transition: box-shadow 0.5s ease;
+  -moz-transition: box-shadow 0.5s ease;
+  -o-transition: box-shadow 0.5s ease;
+  -ms-transition: box-shadow 0.5s ease;
+  transition: box-shadow 0.5s ease;
+}
+
+li img:hover {
+  -webkit-box-shadow: 0px 0px 7px rgba(255,255,255,0.9);
+  box-shadow: 0px 0px 7px rgba(255,255,255,0.9);
+}.modal-content {
   width: 670px !important;
 }
 .button {
@@ -72,4 +99,8 @@ body {
   height: 50px;
   width: 50px;
   border-radius: 50%;
+}
+h3 {
+  font-family: "Titillium Web",Sans-serif;
+  text-align: right;
 }

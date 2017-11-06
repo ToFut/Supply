@@ -1,13 +1,20 @@
-<h3 style="text-align: center;">הספקים שלי</h3>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<h3 >הספקים שלי</h3>
 
-<div class="row">
-  <li *ngFor="let item of items | async">
-    <div class="chip" (click)="openDialogShowSupplier(item.$key)">
-      <img src="../../assets/img_avatar_female.png"  alt="Person" width="96" height="96">
-      <b>{{item.name}}</b>
-    </div>
-  </li>
+<div>
+  <ul>
+    <li *ngFor="let item of items | async">
+      <div class="chip" (click)="openDialogShowSupplier(item.$key)">
+        <img src="../../assets/img_avatar_female.png"  alt="Person" width="96" height="96">
+        <b>{{item.name}}</b>
+      </div>
+    </li>
+  </ul>
 </div>
 
 <button md-fab>
@@ -20,3 +27,18 @@
   <button md-fab>
     <i class="material-icons" (click)="addItem()">add</i>
   </button>
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <app-show-all-products></app-show-all-products>
+      </div>
+    </div>
+  </div>
+</div>

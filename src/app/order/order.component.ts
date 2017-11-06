@@ -22,7 +22,7 @@ export class OrderComponent implements OnInit {
   objLoaderStatus: boolean;
   userId: string;
 
-   constructor(public matchSupplier: MatchSupplierService , public afAuth: AngularFireAuth, public af: AngularFireDatabase,
+    constructor(public matchSupplier: MatchSupplierService , public afAuth: AngularFireAuth, public af: AngularFireDatabase,
                private router: Router) {
      this.objLoaderStatus = true;
 
@@ -32,12 +32,7 @@ export class OrderComponent implements OnInit {
        }
 
      });
-       this.matchSupplier.pushSupplier('supplier').then( keyIn => {
-         console.log(this.objLoaderStatus);
-         this.objLoaderStatus = false;
-         this.items = keyIn;
-       });
-
+     this.checkForSupplier();
      console.log(this.objLoaderStatus);
      console.log(this.day);
      console.log(this.today);
@@ -46,8 +41,15 @@ export class OrderComponent implements OnInit {
 
 
    }
+  checkForSupplier() {
+    this.matchSupplier.pushSupplier('order').then( keyIn => {
+      console.log(this.objLoaderStatus);
+      this.objLoaderStatus = false;
+      this.items = keyIn;
+    });
 
-   ngOnInit() {
+  }
+  ngOnInit() {
 
       /*
             this.matchSupplier.searchItem().then(retData => {

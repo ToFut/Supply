@@ -10,8 +10,6 @@ import {DialogEditProductsComponent} from '../dialog-edit-products/dialog-edit-p
 import {ActivatedRoute} from '@angular/router';
 import { OnChanges } from '@angular/core';
 import {FormBuilder, FormGroup, Validators , FormControl} from '@angular/forms';
-import { MdStepper } from '@angular/material';
-import {element} from "protractor";
 
 @Component({
   selector: 'app-show-all-products',
@@ -24,7 +22,7 @@ export class ShowAllProductsComponent implements OnInit {
   SupplierKey: string;
   key: string;
   items: FirebaseListObservable<any[]>;
-  item: FirebaseObjectObservable<any[]>;
+  item: FirebaseListObservable<any[]>;
   dateCurrectSupplirer: any[];
   dateProduct: FirebaseListObservable<any[]>;
   userChoiseAboutsecuringy: string;
@@ -39,14 +37,11 @@ export class ShowAllProductsComponent implements OnInit {
   publicProductRef: FirebaseListObservable<any[]>;
   public Product = new ProductOptions();
   color = 'green';
-  checked = false;
-  disabled = false;
+  publicProduct = false;
+  privateProduct = false;
   showhidepregnant: boolean;
 
   isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  ThirdFormGroup: FormGroup;
 
 
   constructor(public dialogRef: MdDialogRef<any>, public af: AngularFireDatabase, public afAuth: AngularFireAuth,
@@ -71,9 +66,8 @@ export class ShowAllProductsComponent implements OnInit {
     );
     dialogRef.componentInstance.ProductKey = this.key;
   }
-
   ngOnInit(): void {
-    this.item = this.af.object(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}`);
+    this.item = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}`);
      this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/date`).subscribe(data => {
        this.dateCurrectSupplirer = data;
      });
@@ -85,16 +79,6 @@ export class ShowAllProductsComponent implements OnInit {
     console.log('key is constratcor ' + this.userId + 'this supplier is ' +
       this.SupplierKey + 'this ProductKey is ' + this.selectProductKey);
 
-  }
-  OnChanges(): void {
-    if (this.userChoiseAboutsecuringy === 'public' ) {
-      this.item = this.af.object(`/products/${this.selectProductKey}`);
-
-    } else {
-      this.updatePrivateUserDB(this.Product);
-      this.item = this.af.object(`users/${this.userId}/suppliers/${this.SupplierKey}/privateProducts/${this.selectProductKey}`);
-
-    }
   }
   BuildProductForAllDB (/*ProductName: string, UnitOfMeasure: string, price: number,
                          UnitInPackaging: number, MinInInventory: number*/) {
@@ -110,15 +94,24 @@ export class ShowAllProductsComponent implements OnInit {
     console.log('BuildProductForAllCurectSupplier');
     this.updateItem(this.Product);
   }
-  updatePublicDB(ProductName , model) {
-    this.publicProductRef = this.af.list(`/products`);
-    this.publicProductRef.push({ProductName: ProductName , model: model});
+  updatePublicDB() {
+    this.item = this.af.list(`/products`);
+    this.item.push({ProductName: this.Product.ProductName });
   }
-  updatePrivateUserDB(Product) {
-    this.publicProductRef = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/privateProducts`);
-    this.publicProductRef.push( Product);
+  updatePrivateUserDB() {
+    this.item = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/privateProducts`);
+    this.item.push( this.Product);
   }
   updateItem(Product) {
+    console.log(this.privateProduct);
+    console.log(this.privateProduct);
+    if (this.publicProduct ) {
+      this.updatePublicDB();
+
+    } else if (this.privateProduct) {
+      this.updatePrivateUserDB();
+
+    }
     this.items.push( Product);
     this.closeDialog();
   }

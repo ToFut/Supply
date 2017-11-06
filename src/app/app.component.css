@@ -3,7 +3,7 @@ body {margin:auto;}
   dir: rtl;
   width: 100%;
   height: inherit;
-  background-color: #3e94ec;
+  background-color: #4CAF50;
   overflow: auto;
 }
 h3 {
@@ -93,7 +93,7 @@ h3 {
   display:table;
   border-collapse:collapse;
   border-spacing:0;
-  color:#3e94ec;
+  color:#4CAF50;
   font-family: arial;
   font-size: 14px;
   text-decoration:none;
@@ -131,7 +131,7 @@ h3 {
   bottom:0;
 }
 
-.no-touch .scrollable.hover {
+.no-touch .scrollable.hover> {
   overflow-y:hidden;
 }
 
@@ -140,7 +140,7 @@ h3 {
   overflow:visible;
 }
 
-a:hover,a:focus {
+a:hover,a:focus> a {
   text-decoration:none;
 }
 
@@ -163,7 +163,7 @@ nav ul,nav li {
 }
 .main-menu li:hover>a,nav.main-menu li.active>a,.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus,.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus,.no-touch .dashboard-page nav.dashboard-menu ul li:hover a,.dashboard-page nav.dashboard-menu ul li.active a {
   color:#fff;
-  background-color:#5fa2db;
+  background-color:#4CAF50;
 }
 .area {
   float: left;
@@ -176,4 +176,31 @@ nav ul,nav li {
   font-style: normal;
   font-weight: 300;
   src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
+}
+header, main, footer {
+  padding-left: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+  header, main, footer {
+    padding-left: 0;
+  }
+}
+.ico{
+  width:100px;
+  display:block;
+  height:20px;
+  color:white;
+  position: static;
+  text-decoration:none;
+  padding-left:20px;
+}
+.ico:before{
+  content: '';
+  background:url('../assets/supplyME.png');
+  background-size:cover;
+  position:absolute;
+  width:60px;
+  height:60px;
+  margin-left:-10px;
 }

@@ -48,6 +48,7 @@ import { ReciveOrderComponent } from './recive-order/recive-order.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { LoaderComponent } from './loader/loader.component';
 import { ShowProductComponent } from './show-product/show-product.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 @NgModule({
@@ -101,7 +102,9 @@ import { ShowProductComponent } from './show-product/show-product.component';
     InputTextModule,
   ],
   exports: [MdButtonModule, MdCheckboxModule , OrderComponent],
-  providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig }, ProductsService ,
+  providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    ProductsService ,
     SupplierService , AssociateProductToSupplierService , SupplierPrivateProductsService ,
     MatchSupplierService],
   entryComponents: [ DialogComponent , DialogEditProductsComponent , ShowAllProductsComponent ,
