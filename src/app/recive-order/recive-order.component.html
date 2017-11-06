@@ -1,0 +1,8 @@
+
+<div class="container" style="text-align: right">
+  <h2  style="text-align: center">ממשק קבלת סחורה</h2>
+  <div *ngFor="let supplier of supplierFounded ">
+    <a class="list-group-item " (click)="openDialogShowSupplier(supplier )" > {{ (supplier | async)?.name }}</a>
+    <todo-list></todo-list>
+  </div>
+</div>

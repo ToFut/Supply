@@ -1,0 +1,27 @@
+
+
+
+
+
+    <div class="modal" id="modal" style="text-align: right">
+      <button class="close-button" id="close-button" (click)="close()"><i class="fa fa-times" aria-hidden="true"></i>
+      </button>
+      <div class="modal-guts">
+        <h3 style="text-align: center; color: #343a45; font-style: italic ">קבלת סחורה</h3>
+        <div *ngFor="let product of currentSupplierProducts | async ">
+        <div class="wrap">
+          <div class="task">
+            <div class="abstract">
+                <div >
+                  <input [ngModel] = "product.ProductName" type="checkbox" #productName = "ngModel"  id="{{productName.model}}"/>
+                  <label for="{{productName.model}}" style="color: #22262e"> <h1>{{productName.model}}</h1></label>
+                </div>
+            </div>
+            <div class="details">
+              <h3>Details</h3>
+        </div>
+      </div>
+      </div>
+    </div>
+    </div>
+    </div>

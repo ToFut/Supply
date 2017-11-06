@@ -1,0 +1,28 @@
+<div class="details__inner" >
+  <h3>Details</h3>
+  <div id="make-3D-space">
+    <div id="product-card">
+      <div id="product-front">
+        <div class="shadow"></div>
+        <img src="../../assets/מוצרים/big_cola.jpg" alt="" />
+        <div class="image_overlay"></div>
+        <div id="view_details">View details</div>
+        <div class="stats">
+          <div class="stats-container">
+            <p class="product_price">{{(product | async)?.price}}₪</p>
+            <span class="product_name">{{(product | async)?.ProductName}}</span>
+            <p>{{(product | async)?.UnitInPackaging}} יחידות בחבילה</p>
+            <div class="product-options">
+              <strong>{{(product | async)?.UnitOfMeasure}}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="product-back">
+        <div class="shadow"></div>
+        <div id="carousel">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<html lang="he">
+<div  class="table-responsive" style="text-align: right" >
+  <h2>  הזמנה מספק - {{(supplierProperty |async)?.name }} </h2>
+  <div class="container">
+    <table class="w3-table-all">
+      <thead>
+      <tr  class="w3-light-grey w3-hover-blue">
+        <th>שם המוצר</th>
+        <th>..להשלים ל</th>
+        <th>מחיר המוצר</th>
+      </tr>
+      </thead>
+      <tbody  *ngFor="let Product of (Products | async)">
+        <tr id=table[{{Product.$key}}] >
+         <td>{{Product.ProductName }} {{Product.model }}  </td>
+            <td>{{Product.MinInInventory[day - (supplierProperty |async)?.OrderDays] }} / <input #box
+                                                     (keyup.enter)="update(box.value , Product.$key , Product.MinInInventory ,
+                                                     Product.ProductName , Product.model)"
+                                                     (blur)="update(box.value , Product.$key , Product.MinInInventory ,
+                                                     Product.ProductName)"/> {{ value[Product.$key]}} </td>
+            <td >   {{Product.price }} / {{Product.UnitOfMeasure }} </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <a  (click)="mail()" class="button" style="vertical-align:middle" ><span >שלח לספק </span></a>
+
+</div>
+
+</html>
