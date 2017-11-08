@@ -13,15 +13,13 @@ import {MatchSupplierService} from "./match-supplier.service";
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
   exportAs: 'mdMenu',
   providers: [AngularFireDatabase]
 })
 export class AppComponent implements OnInit {
   navLinks: [
-    {label: 'Supplier', route: '/supplier'}
-    ];
-
+    {label: 'Supplier', route: '/supplier'}];
   title = 'Supply';
   user: Observable<firebase.User>;
   items: FirebaseListObservable<any[]>;
@@ -36,21 +34,8 @@ export class AppComponent implements OnInit {
     this.user = afAuth.authState;
     if (!this.userId) {return; }
     this.items = this.af.list(`users/${this.userId}/suppliers`);
-    this.checkForSupplier();
-    this.checkForSupplier();
-
-
   }
 
-  checkForSupplier() {
-    this.matchSupplier.pushSupplier('order').then(keyIn => {
-
-      console.log(keyIn);
-      this.test = keyIn;
-      console.log(this.items);
-
-    });
-  }
 
     ngOnInit() {
     this.user = this.afAuth.authState;

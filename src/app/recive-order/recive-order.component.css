@@ -56,6 +56,9 @@ input[type="checkbox"] + label:before {
   -webkit-transition: all .12s, border-color .08s;
   transition: all .12s, border-color .08s;
 }
+h2 {
+  font-size: small;
+}
 
 input[type="checkbox"]:checked + label:before {
   width: 10px;

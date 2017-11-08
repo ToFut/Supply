@@ -1,26 +1,21 @@
-<div class="container">
-<div style="text-align: right">
-  <div [ngSwitch]=day style="text-align: center">
-    <h1 *ngSwitchCase=0>   {{today | date}} הזמנה ליום ראשון בתאריך </h1>
-    <h1 *ngSwitchCase=1>   {{today | date}} הזמנה ליום שני בתאריך </h1>
-    <h1 *ngSwitchCase=2>   {{today | date}} הזמנה ליום שלישי בתאריך </h1>
-    <h1 *ngSwitchCase=3>   {{today | date}} הזמנה ליום רביעי בתאריך </h1>
-    <h1 *ngSwitchCase=4>   {{today | date}} הזמנה ליום חמישי בתאריך </h1>
-    <h1 *ngSwitchCase=5>   {{today | date}} הזמנה ליום שישי בתאריך </h1>
-    <h1 *ngSwitchCase=6>   {{today | date}} הזמנה ליום שבת בתאריך </h1>
-  </div>
-  <h1> ממשק הזמנות</h1>
+<div class="container" >
+  <h1 style="text-align: center"> ממשק הזמנות</h1>
 
-  <div *ngIf = "objLoaderStatus === true">
-    <md-spinner></md-spinner>
+  <div style="text-align: right">
+  <div [ngSwitch]=day style="text-align: center">
+    <h2 *ngSwitchCase=0>    הזמנות ליום ראשון  </h2>
+    <h2 *ngSwitchCase=1>    הזמנות ליום שני  </h2>
+    <h2 *ngSwitchCase=2>    הזמנות ליום שלישי  </h2>
+    <h2 *ngSwitchCase=3>    הזמנות ליום רביעי  </h2>
+    <h2 *ngSwitchCase=4>    הזמנות ליום חמישי  </h2>
+    <h2 *ngSwitchCase=5>    הזמנות ליום שישי  </h2>
+    <h2 *ngSwitchCase=6>    הזמנות ליום שבת  </h2>
   </div>
-  <div *ngIf = "objLoaderStatus === false">
-    <div class="list-group">
-      <li *ngFor="let sup of items  ">
-          <a (click)="orderFromMe(sup)" class="list-group-item list-group-item-success">{{ (sup| async)?.name}}</a>
-      </li>
-    </div>
+<div class="container" style="text-align: right">
+  <div *ngFor="let supplier of items ">
+    <a class="list-group-item " (click)="orderFromMe(supplier)" > {{ (supplier | async)?.name }}</a>
+    <todo-list></todo-list>
   </div>
 </div>
-
+</div>
 </div>

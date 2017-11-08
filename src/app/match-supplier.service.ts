@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {toPromise} from 'rxjs/operator/toPromise';
-import {isSuccess} from "@angular/http/src/http_utils";
-import {promise} from "selenium-webdriver";
-import {Observable} from "rxjs/Observable";
 
 
 @Injectable()
@@ -14,9 +10,8 @@ export class MatchSupplierService  {
   orderBeforDay: number;
   day = this.viewDate.getDay();
   userId: string;
-  search: FirebaseListObservable<any[]>;
-  list = [];
-  listOfMatchSupplier: object;
+  flag: boolean;
+  list: any;
   supplierFounded: any;
   public recive = [];
   public check: FirebaseObjectObservable<any[]>;
@@ -29,63 +24,63 @@ export class MatchSupplierService  {
         this.userId = user.uid;
       }
     });
+    this.list = [];
+    this.flag = false;
+    this.supplierFounded = [];
+
   }
-  async sortSupplier(SupplierOrRecive: string): Promise<any> {
+  async sortSupplier(SupplierOrRecive: string) {
     let  count ;
     let  orderBeforDay: any;
     orderBeforDay = [];
     let  reciveBeforDay: any;
     reciveBeforDay = [];
+    this.list = [];
 
     if (SupplierOrRecive === 'recive') {
       await this.af.list(`/users/${this.userId}/reciveDateSuppliers/`)
-        .$ref.orderByKey().equalTo(this.day.toString()).on('child_added', await function (snapshot) {
-        console.log(snapshot.val());
-        for (count in snapshot.val()) {
-          console.log(count);
-          reciveBeforDay.push(count);
-        }
-        console.log('im here in recive');
-      });
-      console.log('im here in recive');
-      return reciveBeforDay;
-
-
-    }
-    if (SupplierOrRecive === 'order') {
-      this.af.list(`/users/${this.userId}/orderDateSuppliers/`)
-        .$ref.orderByKey().equalTo(this.day.toString()).on('child_added', function (snapshot) {
-          console.log(snapshot.val());
+        .$ref.orderByKey().equalTo(this.day.toString()).on('child_added', snapshot => {
           for (count in snapshot.val()) {
             console.log(count);
             reciveBeforDay.push(count);
+            this.list.push(count);
+            this.supplierFounded.push(this.af.object(`/users/${this.userId}/suppliers/${count}`));
+            this.flag = true;
+            console.log(this.list);
+          }
+          console.log('im here in order');
+        });
+      return this.supplierFounded;
+
+    }
+
+    if (SupplierOrRecive === 'order') {
+      await this.af.list(`/users/${this.userId}/orderDateSuppliers/`)
+        .$ref.orderByKey().equalTo(this.day.toString()).on('child_added', snapshot => {
+          for (count in snapshot.val()) {
+            console.log(count);
+            reciveBeforDay.push(count);
+            this.list.push(count);
+            this.supplierFounded.push(this.af.object(`/users/${this.userId}/suppliers/${count}`));
+            this.flag = true;
+            console.log(this.list);
           }
            console.log('im here in order');
          });
-      return reciveBeforDay;
+      return this.supplierFounded;
 
     }
 
   }
-   async pushSupplier(way: string): Promise<any[]>  {
+   async pushSupplier(way: string)  {
     this.recive = [];
     this.order = [];
-     console.log('return From sortSupplier order ');
+     this.supplierFounded = [];
+    console.log('return From sortSupplier order ');
+     console.log('im here in pushSupplier');
+     console.log(this.list);
+     console.log(this.supplierFounded);
 
-           return await this.sortSupplier(way).then( keys => {
-             console.log('im here in pushSupplier');
-           console.log(keys);
-           let key;
-             key = {};
-             keys.map( oneKey => {
-                this.order.push(this.af.object(`/users/${this.userId}/suppliers/${oneKey}`));
-               console.log(oneKey);
-
-             });
-             console.log(this.order);
-             return this.order;
-
-          } );
-
-   }
+     return await this.sortSupplier(way);
+  }
 }

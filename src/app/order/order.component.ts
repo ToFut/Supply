@@ -1,15 +1,15 @@
-import {Component, OnInit, ChangeDetectionStrategy, OnChanges } from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, OnChanges, Directive} from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {MatchSupplierService} from '../match-supplier.service';
 import {AsyncPipe} from '@angular/common';
 import {NavigationExtras, Router} from '@angular/router';
 
+
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
 export class OrderComponent implements OnInit {
@@ -18,16 +18,17 @@ export class OrderComponent implements OnInit {
   today: number = Date.now();
   public day = this.viewDate.getDay();
   count: number;
-  public items = [];
+  items: FirebaseListObservable<any[]>;
   keys = [];
   objLoaderStatus = true;
   userId: string;
+  SupplierFounded: FirebaseListObservable<any[]>;
 
-    constructor(public matchSupplier: MatchSupplierService , public afAuth: AngularFireAuth, public af: AngularFireDatabase,
+
+  constructor(public matchSupplier: MatchSupplierService , public afAuth: AngularFireAuth, public af: AngularFireDatabase,
                private router: Router) {
-      console.log('constructor');
-      this.checkForSupplier();
 
+    console.log('constructor');
 
       this.afAuth.authState.subscribe(user => {
        if (user) {
@@ -35,45 +36,32 @@ export class OrderComponent implements OnInit {
        }
 
      });
-      console.log(this.objLoaderStatus);
-     console.log(this.day);
-     console.log(this.today);
-     console.log(this.day);
-     this.count = 0;
+    setTimeout(() => {
+      this.checkForSupplier();
+
+      setTimeout(() => {
+        this.checkForSupplier();
+        setTimeout(() => {
+          this.checkForSupplier();
+
+        }, 1000);
 
 
-   }
-
-  testForSupplier() {
-    this.matchSupplier.pushSupplier('order').then( keyIn => {
-
-      console.log(keyIn);
-
-    });
+      }, 1000);
+    }, 1000);
 
   }
-
-  checkForSupplier() {
-    this.matchSupplier.pushSupplier('order').then( keyIn => {
-
-      console.log(keyIn);
-      console.log(this.objLoaderStatus);
+   checkForSupplier() {
+    this.matchSupplier.pushSupplier('order').then((data) => {
+      this.items = data;
       this.objLoaderStatus = false;
-      this.items = keyIn;
       console.log(this.items);
+      console.log(this.objLoaderStatus);
 
     });
 
   }
-  OnChanges() {
-    console.log('OnChanges');
-
-    this.checkForSupplier();
-  }
-  ngOnInit() {
-
-
-
+   ngOnInit() {
 
     /*
           this.matchSupplier.searchItem().then(retData => {
@@ -100,6 +88,9 @@ export class OrderComponent implements OnInit {
     console.log(supplierKey);
     this.router.navigate(['orderCurrect'], navigationExtras);
 
+  }
+  checkIt() {
+    console.log(this.items);
   }
 
 }

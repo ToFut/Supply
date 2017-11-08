@@ -17,6 +17,9 @@ export class ReciveOrderComponent implements OnInit {
   supplierFounded = [];
   currentSupplierProducts: FirebaseListObservable<any[]>;
   objLoaderStatus: boolean;
+  viewDate: Date = new Date();
+  today: number = Date.now();
+  public day = this.viewDate.getDay();
 
   constructor(public matchSupplier: MatchSupplierService , public af: AngularFireDatabase , public afAuth: AngularFireAuth ,
               public dialog: MdDialog) {
@@ -25,19 +28,17 @@ export class ReciveOrderComponent implements OnInit {
         this.userId = user.uid;
       }
     });
+    setTimeout(() => {
+      this.checkForSupplier();
+
+      setTimeout(() => {
+        this.checkForSupplier();
+      }, 1000);
+    }, 1000);
 
   }
 
      ngOnInit() {
-    this.check();
-  }
-   check() {
-    if (!this.objLoaderStatus) {
-       this.matchSupplier.pushSupplier('recive').then( data => {
-         console.log(data);
-          this.supplierFounded = data;
-      });
-    }
   }
 
    showProducts(supplierKey , name) {
@@ -56,6 +57,19 @@ export class ReciveOrderComponent implements OnInit {
     console.log(supplierKey.$ref.key);
     dialogRef.componentInstance.supplierKey = supplierKey.$ref.key;
 
+  }
+  checkForSupplier() {
+    this.matchSupplier.pushSupplier('recive').then((data) => {
+      this.supplierFounded = data;
+      this.objLoaderStatus = false;
+      console.log(this.objLoaderStatus);
+
+    });
+
+  }
+
+  checkIt() {
+    console.log(this.supplierFounded);
   }
 
 

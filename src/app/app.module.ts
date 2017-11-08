@@ -50,6 +50,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { ShowProductComponent } from './show-product/show-product.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import {TestBed} from '@angular/core/testing';
+import { HomeRegisterComponent } from './home-register/home-register.component';
 
 
 @NgModule({
@@ -75,6 +76,7 @@ import {TestBed} from '@angular/core/testing';
     TodoListComponent,
     LoaderComponent,
     ShowProductComponent,
+    HomeRegisterComponent,
 
 
   ],
