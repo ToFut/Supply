@@ -1,54 +1,34 @@
-<div style="text-align:right;">
+<div style="direction: rtl" class="ui-g" >
 
-<button md-fab>
-  <i class="material-icons" (click)="closeDialog()">close</i>
-</button>
-
-  <md-expansion-panel>
-    <md-expansion-panel-header>
-      <md-panel-title>
-        החברה
-      </md-panel-title>
-      <md-panel-description>
-        הכנס פרטים אודות החברה
-      </md-panel-description>
-    </md-expansion-panel-header>
 
     <md-form-field>
       <input mdInput type="text" #updatename placeholder="שם החברה" />
     </md-form-field>
     <md-form-field>
-      <input mdInput type="number" #updatePhoneNumber placeholder="נייד" />
+      <input mdInput type="number" #updatePhoneNumber placeholder="טלפון במשרד" />
+      <p-checkbox class="ui-g-12" name="groupname" value="{{updatePhoneNumber.value}}" [(ngModel)]="selectedValues"></p-checkbox>
     </md-form-field>
 
     <md-form-field>
-      <input mdInput type="email"  #updatemail placeholder="מייל" />
+      <input mdInput type="email"  #updatemail placeholder=" מייל החברה" />
+      <p-checkbox class="ui-g-12" name="groupname" value="{{updatemail.value}}" [(ngModel)]="selectedValues"></p-checkbox>
     </md-form-field>
-  </md-expansion-panel>
-
-  <md-expansion-panel>
-    <md-expansion-panel-header>
-      <md-panel-title>
-      איש קשר
-      </md-panel-title>
-      <md-panel-description>
-        הכנס פרטים על איש הקשר של החברה
-      </md-panel-description>
-    </md-expansion-panel-header>
-    <md-form-field>
-      <input mdInput type="text" #updateContactName placeholder="שם " />
+    <br><h3 style="font-size: x-small"> סמן ליד מספרי הפלאפון/מייל האם תרצה לשדר הזמנה דרכם</h3>
+  <md-form-field>
+      <input mdInput type="text" #updateContactName placeholder="שם איש הקשר " />
     </md-form-field>
 
     <md-form-field>
-      <input mdInput type="number" #updateContactNum placeholder="נייד" />
+      <input mdInput type="number" #updateContactNum placeholder="נייד איש הקשר" />
+      <p-checkbox  class="ui-g-12" value="{{updateContactNum.value}}" [(ngModel)]="selectedValues"></p-checkbox >
     </md-form-field>
 
     <md-form-field>
-      <input mdInput type="email"  #updateContactEmail placeholder="מייל" />
+      <input mdInput type="email"  #updateContactEmail placeholder=" מייל איש הקשר" />
+      <p-checkbox class="ui-g-12" value="{{updateContactEmail.value}}" [(ngModel)]="selectedValues"></p-checkbox>
     </md-form-field>
-  </md-expansion-panel>
+  <label class="center-block" style="width:250px;margin-bottom:10px" >תדירות הזמנה:
 
-  <label class="center-block">ימי אספקה:
     <angular2-multiselect style="text-align: center" [data]="dateDropDwon" [(ngModel)]="dateSelected"
                           [settings]="dropdownSettings"
                           (onSelect)="onDateSelect($event)"
@@ -56,7 +36,8 @@
                           (onSelectAll)="onDateSelectAll($event)"
                           (onDeSelectAll)="onDateDeSelectAll($event)"></angular2-multiselect>
   </label>
-  <label class="center-block">תדירות הזמנה:
+
+  <label class="center-block" style="width:250px;margin-bottom:10px" >תדירות הזמנה:
     <angular2-multiselect style="text-align: center" [data]="frequencyDropDwon" [(ngModel)]="frequencySelected"
                           [settings]="frequencydropdownSettings"
                           (onSelect)="onfrequencySelect($event)"
@@ -72,10 +53,10 @@
       </md-option>
     </md-select>
   </form>
-
-
 <label class="center-block">קטגוריית מוצרים:
   <input type="text" #updatetype/>
+  {{selectedValues}}
+
 </label>
 
   <button md-fab>

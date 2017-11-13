@@ -12,9 +12,12 @@
   </div>
 
   <div class="container" style="text-align: right">
-  <div *ngFor="let supplier of supplierFounded ">
-    <a class="list-group-item " (click)="openDialogShowSupplier(supplier )" > {{ (supplier | async)?.name }}</a>
-    <todo-list></todo-list>
+  <div *ngFor="let supplier of supplierFounded " >
+    <a style="color: #2ecc71"
+       class="list-group-item " (click)="todoListNavigation(supplier )" > {{ (supplier | async)?.name }}</a>
+
   </div>
 </div>
 </div>
+
+

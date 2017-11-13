@@ -3,7 +3,7 @@
   <input type="text" id="myInput" (keyup)="search($event)" placeholder="חפש אחר מוצר.." title="Type in a name" style="text-align:right">
 
   <ul id="myUL">
-    <li *ngFor="let Product of products">
+    <li *ngFor="let Product of productsInCurrectSupplier | async">
       <div class="column" (click)="openDialogShowProducts(Product.$key)" style="background-color:rgba(118,122,112,0.05)" >
         <h2>{{Product.ProductName}}</h2>
         <h5>{{Product.model}}</h5>

@@ -35,7 +35,7 @@ import {SupplierService} from './supplier.service';
 import {AssociateProductToSupplierService} from './associate-product-to-supplier.service';
 import {SupplierPrivateProductsService} from './supplier-private-products.service';
 import { HomeComponent } from './home/home.component';
-import {InputTextModule, TooltipModule} from 'primeng/primeng';
+import {CheckboxModule, InputTextModule, SelectButtonModule, TooltipModule} from 'primeng/primeng';
 import {SplitButtonModule} from 'primeng/primeng';
 import { OrderComponent } from './order/order.component';
 import { CalendarModule } from 'angular2-calendar';
@@ -51,7 +51,6 @@ import { ShowProductComponent } from './show-product/show-product.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import {TestBed} from '@angular/core/testing';
 import { HomeRegisterComponent } from './home-register/home-register.component';
-
 
 @NgModule({
   declarations: [
@@ -103,7 +102,10 @@ import { HomeRegisterComponent } from './home-register/home-register.component';
     AngularMultiSelectModule,
     MdGridListModule,
     InputTextModule,
-    FormsModule
+    FormsModule,
+    CheckboxModule,
+    SelectButtonModule,
+
   ],
   exports: [MdButtonModule, MdCheckboxModule , OrderComponent],
   providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },

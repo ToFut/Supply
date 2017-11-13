@@ -48,3 +48,32 @@ input {
   opacity: 1;
   right: 0;
 }
+#scrolly{
+  overflow-x: hidden;
+}
+
+.fa {
+  padding: 40px;
+  font-size: 25px;
+  width: 50px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+}
+
+.fa:hover {
+  opacity: 0.7;
+}
+.fa-whatsapp {
+  background: #16b720;
+  color: white;
+}
+.fa-envelope-o {
+  background: #3e94ec;
+  color: white;
+}
+.fa-comment {
+  background: #050348;
+  color: white;
+}
+

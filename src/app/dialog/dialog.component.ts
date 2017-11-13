@@ -10,6 +10,8 @@ import {SupplierPersonal} from '../SupplierPersonal';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {DateSelected} from './dateAndFrec';
 import {forEach} from '@angular/router/src/utils/collection';
+import {ActivatedRoute, Router} from "@angular/router";
+import {element} from "protractor";
 
 @Component({
   selector: 'app-dialog',
@@ -19,9 +21,10 @@ import {forEach} from '@angular/router/src/utils/collection';
 export class DialogComponent implements OnInit {
   supplierKey:  string;
   items: FirebaseListObservable<any[]>;
+  item: FirebaseObjectObservable<any[]>;
   dateReciveSupplier: FirebaseListObservable<any[]>;
   dateOrderSupplier: FirebaseListObservable<any[]>;
-  item: FirebaseObjectObservable<any[]>;
+  wayToOrder: FirebaseListObservable<any[]>;
   userId: string;
   public Supplier = new SupplierPersonal();
   @Input() supplierKeyPass: string;
@@ -35,12 +38,18 @@ export class DialogComponent implements OnInit {
   dropdownSettings = {};
   frequencydropdownSettings = {};
   orderDay: number;
-  constructor(public dialogRef: MdDialogRef<any> , public af: AngularFireDatabase , public afAuth: AngularFireAuth) {
+  selectedValues: any;
+  constructor( public af: AngularFireDatabase , public afAuth: AngularFireAuth ,
+              route: ActivatedRoute , private router: Router) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userId = user.uid;
       }
     });
+    route.queryParams.subscribe(params => {
+      this.supplierKey = params['supplierKey'];
+    });
+
   }
   ngOnInit(): void {
     this.item = this.af.object(`users/${this.userId}/suppliers/${this.supplierKey}`);
@@ -150,6 +159,11 @@ export class DialogComponent implements OnInit {
     }
   }
   updateItem(Supplier ) {
+    this.selectedValues.map( element => {
+      console.log(element);
+      this.wayToOrder = this.af.list(`/users/${this.userId}suppliers/${this.supplierKey}/wayToOrder/`);
+      this.wayToOrder.push({'phone': element});
+    });
     this.dateSelected.forEach(value => {
       if (value.id.toString() !== 'undefined') {
         this.calcDateOrder(value.id);
@@ -162,15 +176,9 @@ export class DialogComponent implements OnInit {
   }
     });
     this.item.set(Supplier);
-    this.closeDialog();
   }
   deleteItem() {
     this.item.remove();
-    this.closeDialog();
   }
-  closeDialog() {
-    this.dialogRef.close();
-  }
-
 }
 

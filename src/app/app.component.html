@@ -1,25 +1,27 @@
 
 <div class="header">
-  <h1 class="header_logo">supplyME</h1>
+  <h1 class="header_logo" style=" font-family: Brush Script MT" >SupplyME</h1>
 </div>
 
 <input type="checkbox" id="navcheck" role="button" title="menu" style="color: #22262e;">
   <label for="navcheck" aria-hidden="true" title="menu">
     <span class="burger">
 		<span class="bar">
-			<span class="visuallyhidden" ></span>
+			<span class="visuallyhidden" >supplyME</span>
 		</span>
 	</span>
   </label>
   <nav id="menu">
-    <a routerLink="/homeAfterLogin" routerLinkActive="active"><b class="nav-text" style="font-size: large"> SupplyME </b></a>
-    <a routerLink="/home" routerLinkActive="active"><i class="fa fa-home"></i><b class="nav-text"> בית </b></a>
-    <a routerLink="/supplier" routerLinkActive="active"><i class="fa fa-users"></i><b class="nav-text"> רשימת ספקים  </b></a>
-    <a routerLink="/order" routerLinkActive="active"><i class="fa fa-shopping-cart"></i><b class="nav-text"> הזמנות </b></a>
-    <a routerLink="/reciveOrder" routerLinkActive="active"><i class="fa fa-truck"></i><b class="nav-text"> קבלת סחורה </b></a>
-    <a routerLink="/correctSupplierProducts" routerLinkActive="active"><i class="fa fa-cog"></i><b class="nav-text"> הגדרות </b></a>
-    <a *ngIf="!(user | async)?.uid" (click)="linkGoogle()"><i class="fa fa-power-on"></i><b> התחבר </b></a>
-    <a routerLink="/home" *ngIf="(user | async)?.uid" (click)="logout()" ><i class="fa fa-power-off"></i><b> התנתק </b>
+    <h3 *ngIf="(user | async)?.uid" style="text-align: right;color: #f2f2f2; font-family: 'Copperplate Gothic Light'">שלום {{userName}}  </h3>
+    <a  routerLink="/home" routerLinkActive="active"><b class="nav-text" style="font-size: x-large"> SupplyME </b></a>
+    <a  *ngIf="(user | async)?.uid" routerLink="/homeAfterLogin" routerLinkActive="active"><i class="fa fa-home"></i><b class="nav-text"> בית </b></a>
+    <a  *ngIf="(user | async)?.uid" routerLink="/supplier" routerLinkActive="active"><i class="fa fa-users"></i><b class="nav-text"> רשימת ספקים  </b></a>
+    <a  *ngIf="(user | async)?.uid" routerLink="/order" routerLinkActive="active"><i class="fa fa-shopping-cart"></i><b class="nav-text"> הזמנות </b></a>
+    <a  *ngIf="(user | async)?.uid" routerLink="/reciveOrder" routerLinkActive="active"><i class="fa fa-truck"></i><b class="nav-text"> קבלת סחורה </b></a>
+    <a  *ngIf="(user | async)?.uid" routerLink="/correctSupplierProducts" routerLinkActive="active"><i class="fa fa-cog"></i><b class="nav-text"> הגדרות </b></a>
+    <a  *ngIf="!(user | async)?.uid" routerLink="/home" routerLinkActive="active"><i class="fa fa-info"></i><b class="nav-text"> עוד עלינו </b></a>
+    <a  routerLink="/homeAfterLogin" *ngIf="!(user | async)?.uid" (click)="linkGoogle()"><i class="fa fa-sign-in"></i><b> התחבר </b></a>
+    <a  routerLink="/home" *ngIf="(user | async)?.uid" (click)="logout()" ><i class="fa fa-power-off"></i><b> התנתק </b>
     </a>
   </nav>
   <main>

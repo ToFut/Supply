@@ -1,29 +1,39 @@
-<html lang="he">
+<html lang="he" style="direction: rtl">
 <div  class="table-responsive" style="text-align: right" >
-  <h2>  הזמנה מספק - {{(supplierProperty |async)?.name }} </h2>
+  <h2 style="text-align: center">  הזמנה מספק - {{(supplierProperty |async)?.name }} </h2>
   <div class="container">
+    <h3> {{fullDate}}</h3>
     <table class="w3-table-all">
       <thead>
-      <tr  class="w3-light-grey w3-hover-blue">
+      <tr  class="w3-light-blue w3-hover-blue" style="direction: rtl">
         <th>שם המוצר</th>
-        <th>להשלים ל...</th>
+        <th>כמות אופטימלית</th>
+        <th></th>
         <th>מחיר המוצר</th>
       </tr>
       </thead>
       <tbody  *ngFor="let Product of (Products | async)">
         <tr id=table[{{Product.$key}}] >
          <td>{{Product.ProductName }}  </td>
-            <td>{{Product.MinInInventory[(day - (supplierProperty |async)?.OrderDays)] }} / <input #box type="number"
-                                                     (keyup.enter)="update(box.value , Product.$key , Product.MinInInventory ,
+            <td> {{Product.MinInInventory[(supplierProperty |async)?.OrderDays] }} {{Product.UnitOfMeasure}}  / </td>
+          <td>
+            <input placeholder="כמות להזמנה" style="width: 100px;" #box type="number"
+                  (keyup.enter)="update(box.value , Product.$key , Product.MinInInventory ,
                                                      Product.ProductName , Product.model)"
-                                                     (blur)="update(box.value , Product.$key , Product.MinInInventory ,
-                                                     Product.ProductName)"/> {{ value[Product.$key]}} </td>
+                  (blur)="update(box.value , Product.$key , Product.MinInInventory ,
+                                                     Product.ProductName)" maxlength="2" size="2" >
+          </td>
             <td >   {{Product.price }} / {{Product.UnitOfMeasure }} </td>
         </tr>
       </tbody>
     </table>
   </div>
-  <a  (click)="mail()" class="button" style="vertical-align:middle" ><span >שלח לספק </span></a>
+  <div >
+
+  <a (click)="whatsapp()"  class="fa fa-whatsapp"></a>
+  <a (click)="mail()"  class="fa fa-envelope-o"></a>
+  <a (click)="mail()"  class="fa fa-comment"></a>
+  </div>
 
 </div>
 

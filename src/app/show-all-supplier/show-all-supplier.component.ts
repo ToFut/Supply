@@ -56,11 +56,21 @@ export class ShowAllSupplierComponent implements OnInit {
       }
     };
     this.router.navigate(['correctSupplierProducts'], navigationExtras);
-    console.log('userId' + this.userId + ' supplier key ' + this.key)
     this.closeDialog();
 
   }
   closeDialog() {
     this.dialogRef.close();
   }
+  editSupplierPage() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'supplierKey': this.key,
+      }
+    };
+    this.router.navigate(['editSupplier'], navigationExtras);
+    this.closeDialog();
+
+  }
+
 }

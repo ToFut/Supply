@@ -12,6 +12,7 @@ import {ProductOptions} from '../ProductOptions';
 import {SupplierPrivateProductsService} from '../supplier-private-products.service';
 import {AddProductsAllDBComponent} from '../../..//src/app/add-products-all-db/add-products-all-db.component';
 import {ShowProductComponent} from '../show-product/show-product.component';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-add-products-to-supplier',
@@ -31,6 +32,11 @@ export class AddProductsToSupplierComponent implements OnInit {
   products: any[];
   public Product = new ProductOptions();
   path: string;
+  stateCtrl: FormControl;
+  text: string;
+
+  results: string[];
+
 
   constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase , public dialog: MdDialog ,
               private ProductsService: ProductsService , route: ActivatedRoute ,
@@ -80,7 +86,6 @@ export class AddProductsToSupplierComponent implements OnInit {
     } );
     dialogRef.componentInstance.userId = this.userId;
     dialogRef.componentInstance.SupplierKey = this.SupplierKey;
-    console.log('supplier key ' + this.SupplierKey + ' user id : ' + this.userId + ' this selectProdduct key is ' );
     dialogRef.componentInstance.path = `users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`;
   }
   openDialogShowProducts(selectProductKey) {

@@ -77,15 +77,16 @@ export class OrderComponent implements OnInit {
            console.log(this.supplierFounded);
            console.log('this is ' + this.objLoaderStatus);*/
   }
-  orderFromMe(supplierKey) {
-     console.log(supplierKey.$ref.key);
+  orderFromMe(supplier ) {
+     console.log(supplier.$ref.key);
+
     const navigationExtras: NavigationExtras = {
       queryParams: {
-        'supplierKey': supplierKey.$ref.key,
-        'userId': this.userId
+        'supplierKey': supplier.$ref.key,
+        'userId': this.userId,
       }
     };
-    console.log(supplierKey);
+    console.log(supplier);
     this.router.navigate(['orderCurrect'], navigationExtras);
 
   }

@@ -23,8 +23,7 @@ export class AppComponent implements OnInit {
   title = 'Supply';
   user: Observable<firebase.User>;
   items: FirebaseListObservable<any[]>;
-  test= [];
-
+  userName: string;
   userId: string;
   constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase , private router: Router ,
               public matchSupplier: MatchSupplierService) {
@@ -34,13 +33,14 @@ export class AppComponent implements OnInit {
     this.user = afAuth.authState;
     if (!this.userId) {return; }
     this.items = this.af.list(`users/${this.userId}/suppliers`);
+    this.userName = afAuth.auth.currentUser.displayName;
+
   }
 
 
     ngOnInit() {
     this.user = this.afAuth.authState;
     const currentUrl = this.router.url; /// this will give you current url
-    console.log(currentUrl);
     let registeredUser = true;
     if (currentUrl === '/home') {
       registeredUser = false;
@@ -65,6 +65,9 @@ export class AppComponent implements OnInit {
     this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).
     then(   (isSuccess) =>  {
       console.log(this.afAuth.auth.currentUser.email);
+      this.userName = this.afAuth.auth.currentUser.displayName;
+      console.log(this.userName);
+
     });
   }
 

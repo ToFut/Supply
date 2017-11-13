@@ -230,3 +230,46 @@ body {
     }
   }
 }
+
+.x {
+  display: block;
+  position: fixed;
+  right: auto;
+  top: auto;
+  width: 32px;
+  height: 32px;
+  transition: transform .25s ease-in-out;
+}
+.x:hover {
+  transform: rotate(180deg);
+}
+.x:before {
+  content: "";
+  position: absolute;
+  display: block;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 32px;
+  height: 0;
+  border-top: 1px solid rgba(8, 238, 38, 0.5);
+  transform: rotate(45deg);
+  transform-origin: center;
+}
+.x:after {
+  content: "";
+  position: absolute;
+  display: block;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 32px;
+  height: 0;
+  border-top: 1px solid #0E1013;
+  transform: rotate(-45deg);
+  transform-origin: center;
+}

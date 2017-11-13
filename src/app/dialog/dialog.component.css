@@ -6,6 +6,8 @@ html, body {
   max-width: 600px;
   height: 100%;
   text-align: center;
+  overflow: scroll;
+
 }
 
 body {
@@ -91,4 +93,11 @@ a:hover {
 .dropdown-holder {
   padding-left:40px;
   margin-top:30px;
+}
+input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: none;
 }

@@ -1,10 +1,4 @@
-<button md-fab>
-    <i class="material-icons" (click)="closeDialog()">close</i>
-  </button>
-
-
- <div class="container">
-
+ <div class="container" style="direction: rtl">
    <div class="card-profile">
      <div class="card-profile_visual"></div>
 
@@ -13,7 +7,7 @@
        <span class="infos_name">חברה {{ (infoSupply | async)?.name }}  </span>
        <span class="infos_nick"> איש קשר {{ (infoSupply | async)?.ContactName }} </span>
 
-       <a class="button button5" (click)="associateProduct()"><i style="margin: auto; display: block;" class="fa fa-sign-in fa-3x fa-fw"></i></a>
+       <a class="button button5" (click)="associateProduct()"><i style="margin: auto; display: block;" class="fa fa-list fa-3x fa-fw"></i></a>
      </div>
 
      <div class="card-profile_user-stats">
@@ -32,15 +26,16 @@
          </div>
        </div>
      </div>
+     <div style="direction: rtl">
+       <a class="btn btn-danger"  aria-label="Delete">
+         <i class="fa fa-trash-o fa-2x" aria-hidden="true" (click)="deleteItem()"></i>
+       </a>
+       <a class="btn btn-default" aria-label="Settings">
+         <i class="fa fa-upload fa-2x" aria-hidden="true" (click)="editSupplierPage()"></i>
+       </a>
+     </div>
+
    </div>
  </div>
 
-<div >
-  <button md-fab>
-    <i class="material-icons" (click)="editSupplier()">update</i>
-  </button>
-  <button md-fab>
-    <i class="material-icons" (click)="deleteItem()">delete</i>
-  </button>
-</div>
 

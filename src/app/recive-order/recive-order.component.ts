@@ -4,6 +4,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {MatchSupplierService} from '../match-supplier.service';
 import {MdDialog} from '@angular/material';
 import {TodoListComponent} from '../todo-list/todo-list.component';
+import {NavigationExtras, Router} from "@angular/router";
 
 @Component({
   selector: 'app-recive-order',
@@ -19,10 +20,15 @@ export class ReciveOrderComponent implements OnInit {
   objLoaderStatus: boolean;
   viewDate: Date = new Date();
   today: number = Date.now();
+  currentReciveInformation: FirebaseListObservable<any[]>;
   public day = this.viewDate.getDay();
+  dayInMonth = this.viewDate.getDate();
+  month = this.viewDate.getMonth();
+  year = this.viewDate.getFullYear();
+  fullDate: string;
 
   constructor(public matchSupplier: MatchSupplierService , public af: AngularFireDatabase , public afAuth: AngularFireAuth ,
-              public dialog: MdDialog) {
+              public dialog: MdDialog , private router: Router) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userId = user.uid;
@@ -39,7 +45,8 @@ export class ReciveOrderComponent implements OnInit {
   }
 
      ngOnInit() {
-  }
+       this.currentReciveInformation = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}`);
+     }
 
    showProducts(supplierKey , name) {
      const x = document.getElementById(name);
@@ -49,28 +56,22 @@ export class ReciveOrderComponent implements OnInit {
       x.style.display = 'none';
     }
   }
-  openDialogShowSupplier(supplierKey) {
-    const dialogRef = this.dialog.open(TodoListComponent , {
-      width: '600px',
-      height: '600px'
-    } );
-    console.log(supplierKey.$ref.key);
-    dialogRef.componentInstance.supplierKey = supplierKey.$ref.key;
+
+  todoListNavigation(supplierKey) {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'supplierKey': supplierKey.$ref.key,
+      }
+    };
+    this.router.navigate(['todoList'], navigationExtras);
 
   }
+
   checkForSupplier() {
     this.matchSupplier.pushSupplier('recive').then((data) => {
       this.supplierFounded = data;
-      this.objLoaderStatus = false;
-      console.log(this.objLoaderStatus);
 
     });
 
   }
-
-  checkIt() {
-    console.log(this.supplierFounded);
-  }
-
-
 }

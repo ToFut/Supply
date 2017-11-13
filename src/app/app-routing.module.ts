@@ -13,6 +13,8 @@ import {OrderForCurrectSupplierComponent} from './order-for-currect-supplier/ord
 import {ReciveOrderComponent} from './recive-order/recive-order.component';
 import {TodoListComponent} from './todo-list/todo-list.component';
 import {ShowProductComponent} from './show-product/show-product.component';
+import {ShowAllSupplierComponent} from './show-all-supplier/show-all-supplier.component';
+import {DialogComponent} from './dialog/dialog.component';
 
 const routes: Routes = [
   { path: '',   redirectTo: '/home', pathMatch: 'full'  },
@@ -27,6 +29,9 @@ const routes: Routes = [
   { path: 'reciveOrder', component: ReciveOrderComponent},
   { path: 'todoList', component: TodoListComponent},
   { path: 'showProduct', component: ShowProductComponent},
+  { path: 'editSupplier', component: DialogComponent},
+
+
 
 
 

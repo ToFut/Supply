@@ -1,5 +1,5 @@
 <div class="w3-tea">
-  <h1>הספקים שלי</h1>
+  <h1 style="text-align: center">הספקים שלי</h1>
 </div>
 
 
@@ -19,14 +19,12 @@
     </li>
   </ul>
 </div>
+<div style="direction: rtl">
+  <a class="btn btn-danger"  aria-label="Delete">
+    <i class="fa fa-trash-o fa-2x" aria-hidden="true" (click)="deleteEverything()"></i>
+  </a>
+  <a class="btn btn-primary" href="#navigation-main" aria-label="Skip to main navigation">
+    <i class="fa fa-plus fa-2x" aria-hidden="true" (click)="addItem()"></i>
+  </a>
 
-<button md-fab>
-  <i class="material-icons"  (click)="deleteEverything()">delete</i>
-</button>
-<!-- the place holder for all modals that will be opened -->
-<button md-fab>
-  <i class="material-icons"  (click)="showListOfAllDB()">list</i>
-</button>
-  <button md-fab>
-    <i class="material-icons" (click)="addItem()">add</i>
-  </button>
+</div>

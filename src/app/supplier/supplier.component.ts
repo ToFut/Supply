@@ -10,6 +10,7 @@ import {ShowAllSupplierComponent} from '../show-all-supplier/show-all-supplier.c
 import {Subject} from 'rxjs/Subject';
 import {SupplierService} from '../supplier.service';
 import 'rxjs/add/operator/take';
+import {NavigationExtras, Router} from '@angular/router';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class SupplierComponent implements OnInit {
 
 
   constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase , public dialog: MdDialog,
-              private SupplierService: SupplierService) {
+              private SupplierService: SupplierService ,  private router: Router) {
     this.afAuth.authState.subscribe(user => {
       if (user) {this.userId = user.uid;
         this.items = this.af.list(`users/${this.userId}/suppliers`);
@@ -61,7 +62,7 @@ export class SupplierComponent implements OnInit {
     this.items = this.af.list(`users/${this.userId}/suppliers`);
     const newRefToNewProduct = this.items.push({name : ''});
     const newProductKey = newRefToNewProduct.key;
-    this.openDialogEditSupplier(newProductKey);
+    this.editSupplierPage(newProductKey);
   }
   deleteEverything() {
     this.items.remove();
@@ -75,6 +76,16 @@ export class SupplierComponent implements OnInit {
     dialogRef.componentInstance.supplierKey = key;
     console.log('this ket is: ' + key);
   }
+  editSupplierPage(key) {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'supplierKey': key,
+      }
+    };
+    this.router.navigate(['editSupplier'], navigationExtras);
+
+  }
+
   openDialogShowSupplier(key) {
     const dialogRef = this.dialog.open(ShowAllSupplierComponent , {
       width: '400px',
