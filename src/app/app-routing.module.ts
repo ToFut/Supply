@@ -18,24 +18,18 @@ import {DialogComponent} from './dialog/dialog.component';
 
 const routes: Routes = [
   { path: '',   redirectTo: '/home', pathMatch: 'full'  },
-  { path: 'server', component: ServerConnectionComponent},
-  { path: 'supplier', component: SupplierComponent},
-  { path: 'login', component: LoginPageComponent},
-  { path: 'correctSupplierProducts', component: AddProductsToSupplierComponent},
-  { path: 'home', component: HomeComponent},
-  { path: 'order', component: OrderComponent},
-  { path: 'orderCurrect', component: OrderForCurrectSupplierComponent},
-  { path: 'homeAfterLogin', component: HomeAfterLoginComponent},
-  { path: 'reciveOrder', component: ReciveOrderComponent},
-  { path: 'todoList', component: TodoListComponent},
-  { path: 'showProduct', component: ShowProductComponent},
-  { path: 'editSupplier', component: DialogComponent},
-
-
-
-
-
-];
+      { path: 'supplier', component: SupplierComponent , pathMatch: 'full'},
+      { path: 'login', component: LoginPageComponent , pathMatch: 'full' },
+      { path: 'correctSupplierProducts', component: AddProductsToSupplierComponent , pathMatch: 'full'},
+      { path: 'home', component: HomeComponent , pathMatch: 'full'},
+      { path: 'order', component: OrderComponent , pathMatch: 'full'},
+      { path: 'orderCurrect', component: OrderForCurrectSupplierComponent , pathMatch: 'full'},
+      { path: 'homeAfterLogin', component: HomeAfterLoginComponent , pathMatch: 'full'},
+      { path: 'reciveOrder', component: ReciveOrderComponent , pathMatch: 'full'},
+      { path: 'todoList', component: TodoListComponent , pathMatch: 'full'},
+      { path: 'dialogSupplier', component: DialogComponent , pathMatch: 'full'},
+      { path: 'showProduct', component: ShowProductComponent , pathMatch: 'full'}
+      ];
 
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],

@@ -1,9 +1,15 @@
 <html lang="he" style="direction: rtl">
+<div class="container"  style="direction: rtl;" >
+  <br><br>
+
 <div  class="table-responsive" style="text-align: right" >
   <h2 style="text-align: center">  הזמנה מספק - {{(supplierProperty |async)?.name }} </h2>
   <div class="container">
     <h3> {{fullDate}}</h3>
-    <table class="w3-table-all">
+  </div>
+</div>
+
+  <table class="w3-table-all">
       <thead>
       <tr  class="w3-light-blue w3-hover-blue" style="direction: rtl">
         <th>שם המוצר</th>
@@ -34,7 +40,5 @@
   <a (click)="mail()"  class="fa fa-envelope-o"></a>
   <a (click)="mail()"  class="fa fa-comment"></a>
   </div>
-
-</div>
 
 </html>

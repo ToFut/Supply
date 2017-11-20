@@ -101,3 +101,9 @@ input[type=text] {
   box-sizing: border-box;
   border: none;
 }
+form > div {
+  position: relative;
+}
+form > div > label {
+  position: absolute;
+}

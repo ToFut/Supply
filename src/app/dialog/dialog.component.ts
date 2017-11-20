@@ -10,8 +10,7 @@ import {SupplierPersonal} from '../SupplierPersonal';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {DateSelected} from './dateAndFrec';
 import {forEach} from '@angular/router/src/utils/collection';
-import {ActivatedRoute, Router} from "@angular/router";
-import {element} from "protractor";
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-dialog',
@@ -40,7 +39,7 @@ export class DialogComponent implements OnInit {
   orderDay: number;
   selectedValues: any;
   constructor( public af: AngularFireDatabase , public afAuth: AngularFireAuth ,
-              route: ActivatedRoute , private router: Router) {
+               route: ActivatedRoute , private router: Router) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userId = user.uid;
@@ -91,14 +90,13 @@ export class DialogComponent implements OnInit {
     console.log(this.frequencySelected);
   }
   OnfrequencyDeSelect(frequency: any) {
-  console.log(frequency);
-  console.log(this.frequencySelected);
+    console.log(this.frequencySelected);
   }
   onfrequencySelectAll(frequencys: any) {
-  console.log(frequencys);
+    console.log(frequencys);
   }
   onfrequencyDeSelectAll(frequencys: any) {
-  console.log(frequencys);
+    console.log(frequencys);
   }
   onDateSelect(date: any) {
     console.log(date.id);
@@ -161,7 +159,7 @@ export class DialogComponent implements OnInit {
   updateItem(Supplier ) {
     this.selectedValues.map( element => {
       console.log(element);
-      this.wayToOrder = this.af.list(`/users/${this.userId}suppliers/${this.supplierKey}/wayToOrder/`);
+      this.wayToOrder = this.af.list(`/users/${this.userId}/suppliers/${this.supplierKey}/wayToOrder/`);
       this.wayToOrder.push({'phone': element});
     });
     this.dateSelected.forEach(value => {
@@ -173,12 +171,15 @@ export class DialogComponent implements OnInit {
         this.dateOrderSupplier.set(this.supplierKey , {'orderIn' : this.orderDay });
         this.dateReciveSupplier.set(this.supplierKey , {'reciveIn' : value.id });
 
-  }
+      }
     });
-    this.item.set(Supplier);
+    this.item.update(Supplier);
+    this.router.navigate(['supplier']);
   }
   deleteItem() {
     this.item.remove();
+    this.dateOrderSupplier.remove(this.supplierKey);
+    this.dateReciveSupplier.remove(this.supplierKey);
+
   }
 }
-

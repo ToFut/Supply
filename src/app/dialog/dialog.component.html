@@ -1,32 +1,29 @@
-<div style="direction: rtl" class="ui-g" >
+<div class="container" style="direction: rtl" class="ui-g" >
 
+    <br><br>
+    <h1 style="text-align: center;font-size: x-large"> הגדרת ספק</h1>
+    <label >שם החברה</label>
+    <input mdInput type="text" #updatename value="{{(item | async)?.name}}" />
 
-    <md-form-field>
-      <input mdInput type="text" #updatename placeholder="שם החברה" />
-    </md-form-field>
-    <md-form-field>
-      <input mdInput type="number" #updatePhoneNumber placeholder="טלפון במשרד" />
-      <p-checkbox class="ui-g-12" name="groupname" value="{{updatePhoneNumber.value}}" [(ngModel)]="selectedValues"></p-checkbox>
-    </md-form-field>
+    <label >טלפון במשרד</label>
+    <input mdInput type="number" #updatePhoneNumber value="{{(item | async)?.PhoneNumber}}" />
+    <p-checkbox  name="groupname" value="{{updatePhoneNumber.value}}" [(ngModel)]="selectedValues"></p-checkbox>
+    <br>
+    <label >מייל החברה</label>
+    <input mdInput type="email"  #updatemail value="{{(item | async)?.email}}" />
+    <p-checkbox class="ui-g-12" name="groupname" value="{{updatemail.value}}" [(ngModel)]="selectedValues"></p-checkbox>
+    <label >שם איש הקשר</label>
+    <input mdInput type="text" #updateContactName value="{{(item | async)?.ContactName}}">
+  <br>
+    <label >נייד איש הקשר</label>
+    <input mdInput type="number" #updateContactNum value="{{(item | async)?.ContactNum}}"  />
+    <p-checkbox   value="{{updateContactNum.value}}" [(ngModel)]="selectedValues"></p-checkbox >
 
-    <md-form-field>
-      <input mdInput type="email"  #updatemail placeholder=" מייל החברה" />
-      <p-checkbox class="ui-g-12" name="groupname" value="{{updatemail.value}}" [(ngModel)]="selectedValues"></p-checkbox>
-    </md-form-field>
-    <br><h3 style="font-size: x-small"> סמן ליד מספרי הפלאפון/מייל האם תרצה לשדר הזמנה דרכם</h3>
-  <md-form-field>
-      <input mdInput type="text" #updateContactName placeholder="שם איש הקשר " />
-    </md-form-field>
+    <label > מייל איש הקשר</label>
+    <input mdInput type="email"  #updateContactEmail value="{{(item | async)?.ContactEmail}}"  />
+    <p-checkbox  value="{{updateContactEmail.value}}" [(ngModel)]="selectedValues"></p-checkbox>
+    <h3 style="font-size: x-small"> סמן ליד מספרי הפלאפון/מייל האם תרצה לשדר הזמנה דרכם</h3>
 
-    <md-form-field>
-      <input mdInput type="number" #updateContactNum placeholder="נייד איש הקשר" />
-      <p-checkbox  class="ui-g-12" value="{{updateContactNum.value}}" [(ngModel)]="selectedValues"></p-checkbox >
-    </md-form-field>
-
-    <md-form-field>
-      <input mdInput type="email"  #updateContactEmail placeholder=" מייל איש הקשר" />
-      <p-checkbox class="ui-g-12" value="{{updateContactEmail.value}}" [(ngModel)]="selectedValues"></p-checkbox>
-    </md-form-field>
   <label class="center-block" style="width:250px;margin-bottom:10px" >תדירות הזמנה:
 
     <angular2-multiselect style="text-align: center" [data]="dateDropDwon" [(ngModel)]="dateSelected"
@@ -47,22 +44,22 @@
   </label>
 
   <form>
-      <md-select placeholder="מועדי הזמנה" [(ngModel)]="selectedWay" name="optionOrder">
+    <md-select placeholder="מועדי הזמנה" [(ngModel)]="selectedWay" name="optionOrder">
       <md-option *ngFor="let option of Options" [value]="option">
         {{option}} ימים לפני
       </md-option>
     </md-select>
   </form>
-<label class="center-block">קטגוריית מוצרים:
-  <input type="text" #updatetype/>
-  {{selectedValues}}
+  <label class="center-block">קטגוריית מוצרים:
+    <input type="text" #updatetype/>
+    {{selectedValues}}
 
-</label>
+  </label>
 
   <button md-fab>
-  <i class="material-icons" (click)="BuildSupplier(updatename.value,updatePhoneNumber.value,updatemail.value,updateContactName.value,updateContactNum.value,updateContactEmail.value,updatetype.value)">update</i>
-</button>
-<button md-fab>
-  <i class="material-icons" (click)="deleteItem()">delete</i>
-</button>
+    <i class="material-icons" (click)="BuildSupplier(updatename.value,updatePhoneNumber.value,updatemail.value,updateContactName.value,updateContactNum.value,updateContactEmail.value,updatetype.value)">update</i>
+  </button>
+  <button md-fab>
+    <i class="material-icons" (click)="deleteItem()">delete</i>
+  </button>
 </div>

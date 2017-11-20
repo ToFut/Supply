@@ -35,7 +35,7 @@ import {SupplierService} from './supplier.service';
 import {AssociateProductToSupplierService} from './associate-product-to-supplier.service';
 import {SupplierPrivateProductsService} from './supplier-private-products.service';
 import { HomeComponent } from './home/home.component';
-import {CheckboxModule, InputTextModule, SelectButtonModule, TooltipModule} from 'primeng/primeng';
+import {CheckboxModule, InputTextModule, MultiSelectModule, SelectButtonModule, TooltipModule} from 'primeng/primeng';
 import {SplitButtonModule} from 'primeng/primeng';
 import { OrderComponent } from './order/order.component';
 import { CalendarModule } from 'angular2-calendar';
@@ -51,6 +51,7 @@ import { ShowProductComponent } from './show-product/show-product.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import {TestBed} from '@angular/core/testing';
 import { HomeRegisterComponent } from './home-register/home-register.component';
+import {Ng2CompleterModule} from "ng2-completer";
 
 @NgModule({
   declarations: [
@@ -105,6 +106,8 @@ import { HomeRegisterComponent } from './home-register/home-register.component';
     FormsModule,
     CheckboxModule,
     SelectButtonModule,
+    MultiSelectModule,
+    Ng2CompleterModule
 
   ],
   exports: [MdButtonModule, MdCheckboxModule , OrderComponent],
@@ -113,8 +116,8 @@ import { HomeRegisterComponent } from './home-register/home-register.component';
     ProductsService ,
     SupplierService , AssociateProductToSupplierService , SupplierPrivateProductsService ,
     MatchSupplierService],
-  entryComponents: [ DialogComponent , DialogEditProductsComponent , ShowAllProductsComponent ,
-    ShowAllSupplierComponent , AddProductsAllDBComponent , TodoListComponent , ShowProductComponent],
+  entryComponents: [  DialogEditProductsComponent , ShowAllProductsComponent ,
+    ShowAllSupplierComponent , AddProductsAllDBComponent  , ShowProductComponent],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ,
     CUSTOM_ELEMENTS_SCHEMA

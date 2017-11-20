@@ -10,6 +10,8 @@ import {DialogEditProductsComponent} from '../dialog-edit-products/dialog-edit-p
 import {ActivatedRoute} from '@angular/router';
 import { OnChanges } from '@angular/core';
 import {FormBuilder, FormGroup, Validators , FormControl} from '@angular/forms';
+import {ProductsService} from '../products.service';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'app-show-all-products',
@@ -23,6 +25,7 @@ export class ShowAllProductsComponent implements OnInit {
   key: string;
   items: FirebaseListObservable<any[]>;
   item: FirebaseListObservable<any[]>;
+  itemProduct: FirebaseListObservable<any[]>;
   dateCurrectSupplirer: any[];
   dateProduct: FirebaseListObservable<any[]>;
   userChoiseAboutsecuringy: string;
@@ -40,12 +43,20 @@ export class ShowAllProductsComponent implements OnInit {
   publicProduct = false;
   privateProduct = false;
   showhidepregnant: boolean;
+  startWith = new Subject();
+  endWith = new Subject();
+  products: any[];
+  lastKeypress = 0;
+  productName = '';
+
+
 
   isLinear = false;
 
 
   constructor(public dialogRef: MdDialogRef<any>, public af: AngularFireDatabase, public afAuth: AngularFireAuth,
-              public dialog: MdDialog , public route: ActivatedRoute , private _formBuilder: FormBuilder) {
+              public dialog: MdDialog , public route: ActivatedRoute , private _formBuilder: FormBuilder ,
+              private ProductsService: ProductsService) {
     this.afAuth.authState.subscribe(user => {
       if (user) {this.userId = user.uid;
       }
@@ -67,6 +78,7 @@ export class ShowAllProductsComponent implements OnInit {
     dialogRef.componentInstance.ProductKey = this.key;
   }
   ngOnInit(): void {
+    this.itemProduct = this.af.list(`/products`);
     this.item = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}`);
      this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/date`).subscribe(data => {
        this.dateCurrectSupplirer = data;
@@ -78,6 +90,10 @@ export class ShowAllProductsComponent implements OnInit {
     console.log('this is items : ' + this.items);
     console.log('key is constratcor ' + this.userId + 'this supplier is ' +
       this.SupplierKey + 'this ProductKey is ' + this.selectProductKey);
+
+    this.ProductsService.getProducts(this.startWith, this.endWith)
+      .subscribe(products => this.products = products);
+
 
   }
   BuildProductForAllDB (/*ProductName: string, UnitOfMeasure: string, price: number,
@@ -95,22 +111,20 @@ export class ShowAllProductsComponent implements OnInit {
     this.updateItem(this.Product);
   }
   updatePublicDB() {
-    this.item = this.af.list(`/products`);
-    this.item.push({ProductName: this.Product.ProductName });
+    this.itemProduct = this.af.list(`/products`);
+    this.itemProduct.push({ProductName: this.Product.ProductName });
   }
   updatePrivateUserDB() {
-    this.item = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/privateProducts`);
-    this.item.push( this.Product);
+    this.itemProduct = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/privateProducts`);
+    this.itemProduct.push( this.Product);
   }
   updateItem(Product) {
     console.log(this.privateProduct);
-    console.log(this.privateProduct);
-    if (this.publicProduct ) {
-      this.updatePublicDB();
-
-    } else if (this.privateProduct) {
+    if (this.privateProduct) {
       this.updatePrivateUserDB();
 
+    }else {
+      this.updatePublicDB();
     }
     this.items.push( Product);
     this.closeDialog();
@@ -145,4 +159,18 @@ export class ShowAllProductsComponent implements OnInit {
     ${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/Inventory`);
     this.dateProduct.push({day : day , inventory : Inventory });
   }
+  search($event) {
+    if ($event.timeStamp - this.lastKeypress > 200) {
+      const q = $event.target.value;
+      this.startWith.next(q);
+      this.endWith.next(q + '\uf8ff');
+    }
+    this.lastKeypress = $event.timeStamp;
+  }
+
+  changename(productName) {
+    this.productName = productName;
+    this.products = null;
+  }
+
 }

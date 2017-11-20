@@ -45,7 +45,6 @@ export class AddProductsToSupplierComponent implements OnInit {
     this.afAuth.authState.subscribe(user => {
       if (user) {this.userId = user.uid;
         this.productsInCurrectSupplier = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`);
-        console.log(this.SupplierKey);
       }
     });
     route.queryParams.subscribe(params => {
@@ -80,7 +79,7 @@ export class AddProductsToSupplierComponent implements OnInit {
 
   }
   ProductAssociationToProvide() {
-    const dialogRef = this.dialog.open(AddProductsAllDBComponent , {
+    const dialogRef = this.dialog.open(ShowAllProductsComponent , {
       width: '300px',
       height: '600px'
     } );
@@ -89,8 +88,8 @@ export class AddProductsToSupplierComponent implements OnInit {
     dialogRef.componentInstance.path = `users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`;
   }
   openDialogShowProducts(selectProductKey) {
-    const dialogRef = this.dialog.open(ShowProductComponent , {
-      width: '300px',
+    const dialogRef = this.dialog.open(ShowAllProductsComponent , {
+      width: '600px',
       height: '600px'
       }
     );

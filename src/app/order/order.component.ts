@@ -9,12 +9,13 @@ import {NavigationExtras, Router} from '@angular/router';
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
-  styleUrls: ['./order.component.css'],
+  styleUrls: ['./order.component.scss'],
 
 })
 export class OrderComponent implements OnInit {
   route: any;
   viewDate: Date = new Date();
+  time = new Date().getHours();
   today: number = Date.now();
   public day = this.viewDate.getDay();
   count: number;

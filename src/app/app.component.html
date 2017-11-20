@@ -12,7 +12,9 @@
 	</span>
   </label>
   <nav id="menu">
-    <h3 *ngIf="(user | async)?.uid" style="text-align: right;color: #f2f2f2; font-family: 'Copperplate Gothic Light'">שלום {{userName}}  </h3>
+
+      <a  *ngIf="(user | async)?.uid" style="text-align: left;color: #f7ffea
+    ; font-family: 'Copperplate Gothic Light'">שלום {{userName}}  </a>
     <a  routerLink="/home" routerLinkActive="active"><b class="nav-text" style="font-size: x-large"> SupplyME </b></a>
     <a  *ngIf="(user | async)?.uid" routerLink="/homeAfterLogin" routerLinkActive="active"><i class="fa fa-home"></i><b class="nav-text"> בית </b></a>
     <a  *ngIf="(user | async)?.uid" routerLink="/supplier" routerLinkActive="active"><i class="fa fa-users"></i><b class="nav-text"> רשימת ספקים  </b></a>

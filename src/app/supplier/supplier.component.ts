@@ -82,7 +82,7 @@ export class SupplierComponent implements OnInit {
         'supplierKey': key,
       }
     };
-    this.router.navigate(['editSupplier'], navigationExtras);
+    this.router.navigate(['dialogSupplier'], navigationExtras);
 
   }
 

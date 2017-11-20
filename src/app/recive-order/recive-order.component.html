@@ -1,4 +1,7 @@
-<h1 style="text-align: center"> קבלת סחורה</h1>
+<div class="container"  style="direction: rtl;" >
+  <br><br>
+
+  <h1 style="text-align: center"> קבלת סחורה</h1>
 
 <div style="text-align: right">
   <div [ngSwitch]=day style="text-align: center">
@@ -11,13 +14,20 @@
     <h2 *ngSwitchCase=6>     יום שבת  </h2>
   </div>
 
-  <div class="container" style="text-align: right">
-  <div *ngFor="let supplier of supplierFounded " >
-    <a style="color: #2ecc71"
-       class="list-group-item " (click)="todoListNavigation(supplier )" > {{ (supplier | async)?.name }}</a>
+  <div class="container" >
+    <div class="btn-group">
+    <div *ngFor="let supplier of supplierFounded " >
+
+    <section>
+      <button (click)="todoListNavigation(supplier )"class="btn btn--stripe btn--radius"
+              [ngClass]="{'btn success': time < 9}" [ngClass]="{'btn warning': time < 12 && time > 9}"
+              [ngClass]="{'btn danger': time < 23 && time > 12}">{{ (supplier | async)?.name }}</button>
+    </section>
+
+  </div>
 
   </div>
 </div>
 </div>
-
+</div>
 

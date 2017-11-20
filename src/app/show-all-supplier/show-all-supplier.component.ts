@@ -20,6 +20,8 @@ export class ShowAllSupplierComponent implements OnInit {
   key: string;
   infoSupply: FirebaseObjectObservable<any[]>;
   productInCurrectSupply: FirebaseListObservable<any[]>;
+  removeDays: FirebaseObjectObservable<any[]>;
+  dayBefor: FirebaseObjectObservable<any[]>;
 
   userId: string;
   public Product = new ProductOptions();
@@ -32,21 +34,26 @@ export class ShowAllSupplierComponent implements OnInit {
     });
   }
 
-  editSupplier() {
-    const dialogRef = this.dialog.open(DialogComponent , {
-        width: '600px'
-    }
-    );
-    dialogRef.componentInstance.supplierKey = this.key;
-  }
-
   ngOnInit(): void {
+    let  count ;
     this.infoSupply = this.af.object(`users/${this.userId}/suppliers/${this.key}`);
     console.log(this.infoSupply);
+    this.infoSupply.$ref.orderByKey().equalTo('OrderDays').on( 'value' , snapshot => {
+      console.log(snapshot.val());
+    });
+      this.infoSupply.$ref.orderByKey().equalTo('date').on( 'child_added' , snapshot => {
+      for (count in snapshot.val()) {
+        console.log(count);
+        this.removeDays = this.af.object(`users/${this.userId}/reciveDateSuppliers/${count}/${this.key}`);
+        console.log(this.removeDays);
+      }
+    });
+
   }
   deleteItem() {
     this.infoSupply.remove();
     this.closeDialog();
+
   }
   associateProduct() {
     const navigationExtras: NavigationExtras = {
@@ -68,7 +75,7 @@ export class ShowAllSupplierComponent implements OnInit {
         'supplierKey': this.key,
       }
     };
-    this.router.navigate(['editSupplier'], navigationExtras);
+    this.router.navigate(['dialogSupplier'], navigationExtras);
     this.closeDialog();
 
   }

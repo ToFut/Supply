@@ -1,20 +1,16 @@
-<div class="w3-tea">
+<div class="container"  style="direction: rtl;" >
+  <br><br>
   <h1 style="text-align: center">הספקים שלי</h1>
 </div>
 
 
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <div>
   <ul>
     <li *ngFor="let item of items | async">
-      <div class="chip" (click)="openDialogShowSupplier(item.$key)">
-        <img src="../../assets/img_avatar_female.png"  alt="Person" width="96" height="96">
-        <b>{{item.name}}</b>
+      <div  >
+        <br>
+        <a (click)="openDialogShowSupplier(item.$key)" class="button">{{item.name}}</a>
       </div>
     </li>
   </ul>

@@ -57,7 +57,7 @@ export class OrderForCurrectSupplierComponent implements OnInit {
   whatsapp() {
     console.log(this.phoneSupplier.toString());
     this.currentOrderInformation.update(`${this.supplierKey}` , this.stringToOrder)
-    location.href =  'whatsapp://send?phone=+9720525754040?text=שלום, ' +
+    location.href =  'whatsapp://send?phone=+972525754040?text=שלום, ' +
       ' להלן הזמנה עבור ' + this.userName + '  לאספקה ביום ____ ' + '/n'
       + this.stringToOrder   /*'mailto:'
       + '?cc='

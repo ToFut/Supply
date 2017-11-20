@@ -1,4 +1,5 @@
 <div class="container"  style="direction: rtl;" >
+  <br><br>
   <h1 style="text-align: center"> ממשק הזמנות</h1>
 
   <div style="text-align: right">
@@ -11,9 +12,12 @@
     <h2 *ngSwitchCase=5>    הזמנות ליום שישי  </h2>
     <h2 *ngSwitchCase=6>    הזמנות ליום שבת  </h2>
   </div>
-<div class="container" style="text-align: right">
+<div class="container" style="    align-items: center;">
   <div *ngFor="let supplier of items ">
-    <a class="list-group-item " (click)="orderFromMe(supplier)" > {{ (supplier | async)?.name }}</a>
+    <br>
+    <button [ngClass]="{'btn success': time < 9}" [ngClass]="{'btn warning': time < 12 && time > 9}"
+            [ngClass]="{'btn danger': time < 23 && time > 12}"
+            class="list-group-item " (click)="orderFromMe(supplier)"  > {{ (supplier | async)?.name }}</button>
     <todo-list></todo-list>
   </div>
 </div>

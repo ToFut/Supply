@@ -9,17 +9,18 @@
         <h2>{{(supplier | async)?.name}}</h2>
 
         <hr>
+        <input type="checkbox" ng-model="selectAll" />Check all?<br />
 
-        <ul *ngFor="let product of currentSupplierProducts | async ">
+        <div *ngFor="let product of currentSupplierProducts | async ">
           <li >
-            <input  id="{{product.ProductName}}" type="checkbox"
+            <input  id="{{product.ProductName}}" type="checkbox" ng-checked="selectAll"
                     (change)="toggleEditable(product.ProductName )">
             <label for="{{product.ProductName}}">{{product.ProductName}}</label>
 
           </li>
-        </ul>
+        </div>
+
       </div> <!-- end to-do-list -->
-      <input type="checkbox" ngModel="all"> Check all<br><br>
       <form>
         <input style="size: 100px;" routerLink="/reciveOrder" (click)="updateRecive()" value="סיים" type="submit" />
       </form>

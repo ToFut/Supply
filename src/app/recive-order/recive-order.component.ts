@@ -9,7 +9,7 @@ import {NavigationExtras, Router} from "@angular/router";
 @Component({
   selector: 'app-recive-order',
   templateUrl: './recive-order.component.html',
-  styleUrls: ['./recive-order.component.css'],
+  styleUrls: ['./recive-order.component.scss'],
   exportAs: 'i'
 
 })
@@ -25,7 +25,7 @@ export class ReciveOrderComponent implements OnInit {
   dayInMonth = this.viewDate.getDate();
   month = this.viewDate.getMonth();
   year = this.viewDate.getFullYear();
-  fullDate: string;
+  time = new Date().getHours();
 
   constructor(public matchSupplier: MatchSupplierService , public af: AngularFireDatabase , public afAuth: AngularFireAuth ,
               public dialog: MdDialog , private router: Router) {
