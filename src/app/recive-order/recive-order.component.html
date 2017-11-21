@@ -1,33 +1,25 @@
-<div class="container"  style="direction: rtl;" >
-  <br><br>
+<div class="container"  style="direction: rtl; text-align: center;">
+<br><span data-shadow-text="Text-Shadow" >קבלת סחורה</span>  <i class="fa fa-truck w3-xxxlarge" style="color: #22262e;"></i><br>
 
-  <h1 style="text-align: center"> קבלת סחורה</h1>
+  <div >
+    <div [ngSwitch]=day style="text-align: center">
+      <h1 *ngSwitchCase=0>    קבלת סחורה יום ראשון  </h1>
+      <h1 *ngSwitchCase=1>    קבלת סחורה יום שני  </h1>
+      <h1 *ngSwitchCase=2>    קבלת סחורה יום שלישי  </h1>
+      <h1 *ngSwitchCase=3>    קבלת סחורה יום רביעי  </h1>
+      <h1 *ngSwitchCase=4>    קבלת סחורה יום חמישי  </h1>
+      <h1 *ngSwitchCase=5>    קבלת סחורה יום שישי  </h1>
+      <h1 *ngSwitchCase=6>    קבלת סחורה יום שבת  </h1>
+    </div>
 
-<div style="text-align: right">
-  <div [ngSwitch]=day style="text-align: center">
-    <h2 *ngSwitchCase=0>     יום ראשון  </h2>
-    <h2 *ngSwitchCase=1>    יום שני  </h2>
-    <h2 *ngSwitchCase=2>     יום שלישי  </h2>
-    <h2 *ngSwitchCase=3>     יום רביעי  </h2>
-    <h2 *ngSwitchCase=4>     יום חמישי  </h2>
-    <h2 *ngSwitchCase=5>     יום שישי  </h2>
-    <h2 *ngSwitchCase=6>     יום שבת  </h2>
-  </div>
-
-  <div class="container" >
-    <div class="btn-group">
+  <div  >
     <div *ngFor="let supplier of supplierFounded " >
+      <button (click)="todoListNavigation(supplier )" class="button"
+              [class.success]=" time <= 9" [class.warning]=" time <= 12 && time > 9"
+              [class.danger]="time > 12">{{ (supplier | async)?.name }} </button>
 
-    <section>
-      <button (click)="todoListNavigation(supplier )"class="btn btn--stripe btn--radius"
-              [ngClass]="{'btn success': time < 9}" [ngClass]="{'btn warning': time < 12 && time > 9}"
-              [ngClass]="{'btn danger': time < 23 && time > 12}">{{ (supplier | async)?.name }}</button>
-    </section>
-
+    </div>
   </div>
-
-  </div>
-</div>
 </div>
 </div>
 

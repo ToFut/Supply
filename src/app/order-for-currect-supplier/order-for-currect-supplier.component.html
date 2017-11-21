@@ -13,9 +13,8 @@
       <thead>
       <tr  class="w3-light-blue w3-hover-blue" style="direction: rtl">
         <th>שם המוצר</th>
-        <th>כמות אופטימלית</th>
+        <th>כמות להשלמה</th>
         <th></th>
-        <th>מחיר המוצר</th>
       </tr>
       </thead>
       <tbody  *ngFor="let Product of (Products | async)">
@@ -29,16 +28,11 @@
                   (blur)="update(box.value , Product.$key , Product.MinInInventory ,
                                                      Product.ProductName)" maxlength="2" size="2" >
           </td>
-            <td >   {{Product.price }} / {{Product.UnitOfMeasure }} </td>
         </tr>
       </tbody>
     </table>
-  </div>
-  <div >
-
-  <a (click)="whatsapp()"  class="fa fa-whatsapp"></a>
-  <a (click)="mail()"  class="fa fa-envelope-o"></a>
-  <a (click)="mail()"  class="fa fa-comment"></a>
-  </div>
-
+  <a (click)="whatsapp()"  class="fa fa-whatsapp fa-4x" style="color: #4CAF50"></a>
+  <a (click)="mail()"  class="fa fa-envelope-o fa-4x" style="color: #3A4A7B"></a>
+  <a (click)="mail()"  class="fa fa-comment fa-4x" style="color: #3498db"></a>
+</div>
 </html>

@@ -1,36 +1,44 @@
+<div dir="rtl" >
 
-  <div dir="rtl" >
-  <i class="material-icons" (click)="closeDialog()">close</i>
-  <div class="form-style-6">
-  <h1>{{ (item | async)?.ProductName }}</h1>
-    <form class="example-form">
-      <md-form-field class="example-full-width">
-        <input mdInput value="{{productName}}" #ProductName id="ProductName" name="ProductName"
+<i class="material-icons" (click)="closeDialog()">close</i>
+  <div >
+  <h1>הוספת מוצר</h1>
+    <form >
+        <input  value="{{productName}}" #ProductName id="ProductName" name="ProductName" placeholder="שם המוצר"
                (blur)="onKeyName(ProductName.value)" (keyup)="search($event);onKeyName(ProductName.value)">
         <md-option *ngFor="let product of products" [value]="product.ProductName">
           <p (click)="changename(product.ProductName)">{{ product.ProductName }}</p> |
-          <small>Population: {{product.model}}</small>
+          <small>הצעות: {{product.model}}</small>
         </md-option>
-      </md-form-field>
-    </form>
-    <input mdInput  type="text" placeholder="יחידות מידה" #UnitOfMeasure (keyup)="onKeyUnitOfMeasure(UnitOfMeasure.value)" name="UnitOfMeasure" value="{{(item | async)?.UnitOfMeasure}}">
-    <input  mdInput type="number"  placeholder="כמות במארז" #UnitInPackaging (keyup)="onKeyUnitInPackaging(UnitInPackaging.value)" name="UnitInPackaging" value="{{(item | async)?.UnitInPackaging}}">
+      <br>       <br>
 
-    <input type="text" pInputText  placeholder="מחיר" #price (keyup)="onKeyPrice(price.value)" name="ProductName" value="{{(item | async)?.ProductName}}">
+      <input   type="text" placeholder="יחידות מידה" #UnitOfMeasure (keyup)="onKeyUnitOfMeasure(UnitOfMeasure.value)" name="UnitOfMeasure" value="{{(item | async)?.UnitOfMeasure}}">
+    <input   type="number"  placeholder="כמות במארז" #UnitInPackaging (keyup)="onKeyUnitInPackaging(UnitInPackaging.value)" name="UnitInPackaging" value="{{(item | async)?.UnitInPackaging}}">
+      <md-select placeholder="יח' להזמנה">
+        <md-option *ngFor="let option of options" [value]="option.value">
+          {{ option.viewValue }}
+        </md-option>
+      </md-select>
+      <br><br>
+
+      <input type="text" pInputText  placeholder="מחיר" #price (keyup)="onKeyPrice(price.value)" name="ProductName" value="{{(item | async)?.ProductName}}">
+    </form>
+
     <section class="example-section" dir="rtl">
-      <md-checkbox class="example-margin" [(ngModel)]="privateProduct">פרטי</md-checkbox>
+      <md-checkbox class="example-margin" [(ngModel)]="privateProduct">מוצר פרטי</md-checkbox>
     </section>
 
     <label>
-      <md-slide-toggle class="example-margin" [(ngModel)]="showhidepregnant"> סמן לאספקה</md-slide-toggle>
+      <md-slide-toggle class="example-margin" [(ngModel)]="showhidepregnant"> סמן להגדרת יעדי הזמנה</md-slide-toggle>
     </label>
     <div   class="col-md-4 divhidetxtdpatient" *ngIf="showhidepregnant">
       <div *ngFor="let day of dateCurrectSupplirer">{{day.itemName}}:
         <input mdInput placeholder="מצבה במלאי" type="number" [(ngModel)]="days[day.id]" (ngModelChange)="days[day.id] = $event" name="MinInInventory" >
       </div>
     </div>
+</div>
     <button md-fab>
       <i class="fa fa-check"  aria-hidden="true" (click)="BuildProductForAllDB()"></i>
     </button>
-</div>
-</div>
+
+  </div>

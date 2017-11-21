@@ -1,25 +1,21 @@
-<div class="container"  style="direction: rtl;" >
-  <br><br>
-  <h1 style="text-align: center"> ממשק הזמנות</h1>
+<div class="container"  style="direction: rtl; text-align: center;">
+  <br><span data-shadow-text="Text-Shadow" >הזמנות</span>  <i class="fa fa-shopping-cart w3-xxxlarge "style="color: #22262e;:"></i><br>
 
-  <div style="text-align: right">
-  <div [ngSwitch]=day style="text-align: center">
-    <h2 *ngSwitchCase=0>    הזמנות ליום ראשון  </h2>
-    <h2 *ngSwitchCase=1>    הזמנות ליום שני  </h2>
-    <h2 *ngSwitchCase=2>    הזמנות ליום שלישי  </h2>
-    <h2 *ngSwitchCase=3>    הזמנות ליום רביעי  </h2>
-    <h2 *ngSwitchCase=4>    הזמנות ליום חמישי  </h2>
-    <h2 *ngSwitchCase=5>    הזמנות ליום שישי  </h2>
-    <h2 *ngSwitchCase=6>    הזמנות ליום שבת  </h2>
+  <div>
+  <div [ngSwitch]=day >
+    <h1 *ngSwitchCase=0>    הזמנות ליום ראשון  </h1>
+    <h1 *ngSwitchCase=1>    הזמנות ליום שני  </h1>
+    <h1 *ngSwitchCase=2>    הזמנות ליום שלישי  </h1>
+    <h1 *ngSwitchCase=3>    הזמנות ליום רביעי  </h1>
+    <h1 *ngSwitchCase=4>    הזמנות ליום חמישי  </h1>
+    <h1 *ngSwitchCase=5>    הזמנות ליום שישי  </h1>
+    <h1 *ngSwitchCase=6>    הזמנות ליום שבת  </h1>
   </div>
-<div class="container" style="    align-items: center;">
+
   <div *ngFor="let supplier of items ">
-    <br>
-    <button [ngClass]="{'btn success': time < 9}" [ngClass]="{'btn warning': time < 12 && time > 9}"
-            [ngClass]="{'btn danger': time < 23 && time > 12}"
-            class="list-group-item " (click)="orderFromMe(supplier)"  > {{ (supplier | async)?.name }}</button>
-    <todo-list></todo-list>
-  </div>
+    <button [class.success]=" time <= 9" [class.warning]=" time <= 12 && time > 9"
+            [class.danger]="time > 12"
+            class="button button4"  (click)="orderFromMe(supplier)"  > {{ (supplier | async)?.name }}</button>
 </div>
 </div>
 </div>

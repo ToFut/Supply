@@ -48,6 +48,13 @@ export class ShowAllProductsComponent implements OnInit {
   products: any[];
   lastKeypress = 0;
   productName = '';
+  options = [
+    {value: '0', viewValue: 'ארגז'},
+    {value: '1', viewValue: 'קרטון'},
+    {value: '2', viewValue: 'יחידות'},
+    {value: '3', viewValue: 'שקיות'}
+
+  ];
 
 
 

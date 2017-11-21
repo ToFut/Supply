@@ -1,21 +1,24 @@
-<div class="container"  style="direction: rtl;" >
+<div class="container"  style="direction: rtl; text-align: center;">
+
   <br><br>
-  <h1 style="text-align: center">הספקים שלי</h1>
-</div>
 
+  <h1 ><i class="fa fa-users"></i> הספקים שלי</h1>
 
-
-<div>
   <ul>
     <li *ngFor="let item of items | async">
-      <div  >
         <br>
-        <a (click)="openDialogShowSupplier(item.$key)" class="button">{{item.name}}</a>
-      </div>
+        <a (click)="openDialogShowSupplier(item.$key)" class="button">{{item.name}}
+          <i *ngIf="item.type == 'אוכל'" class="fa fa-cutlery" aria-hidden="true"></i>
+          <i *ngIf="item.type == 'חלב'" class="fa fa-coffee" aria-hidden="true"></i>
+          <i *ngIf="item.type == 'בשר'" class="fa fa-cutlery" aria-hidden="true"></i>
+          <i *ngIf="item.type == 'משקאות חריפים'" class="fa fa-beer" aria-hidden="true"></i>
+          <i *ngIf="item.type == 'שתייה'" class="large material-icons">local_drink</i>
+          <i *ngIf="item.type == 'ירקות'"  class="fa fa-apple" aria-hidden="true"></i>
+        </a>
     </li>
   </ul>
 </div>
-<div style="direction: rtl">
+<div class="container">
   <a class="btn btn-danger"  aria-label="Delete">
     <i class="fa fa-trash-o fa-2x" aria-hidden="true" (click)="deleteEverything()"></i>
   </a>
