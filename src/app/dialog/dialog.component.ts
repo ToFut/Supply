@@ -11,6 +11,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {DateSelected} from './dateAndFrec';
 import {forEach} from '@angular/router/src/utils/collection';
 import {ActivatedRoute, Router} from '@angular/router';
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-dialog',
@@ -38,6 +39,10 @@ export class DialogComponent implements OnInit {
   frequencydropdownSettings = {};
   orderDay: number;
   selectedValues: any;
+  toppings = new FormControl();
+
+  toppingList = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+
   constructor( public af: AngularFireDatabase , public afAuth: AngularFireAuth ,
                route: ActivatedRoute , private router: Router) {
     this.afAuth.authState.subscribe(user => {

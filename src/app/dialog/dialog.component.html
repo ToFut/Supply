@@ -1,4 +1,4 @@
-<div class="container" style="direction: rtl" class="ui-g" >
+<div class="container" style="direction: rtl"  >
 
     <br><br>
     <h1 style="text-align: center;font-size: x-large"> הגדרת ספק</h1>
@@ -24,7 +24,7 @@
     <p-checkbox  value="{{updateContactEmail.value}}" [(ngModel)]="selectedValues"></p-checkbox>
     <h3 style="font-size: x-small"> סמן ליד מספרי הפלאפון/מייל האם תרצה לשדר הזמנה דרכם</h3>
 
-  <label class="center-block" style="width:250px;margin-bottom:10px" >תדירות הזמנה:
+  <label class="center-block" style="width:250px;margin-bottom:10px" >מועדי אספקה:
 
     <angular2-multiselect style="text-align: center" [data]="dateDropDwon" [(ngModel)]="dateSelected"
                           [settings]="dropdownSettings"
@@ -42,7 +42,6 @@
                           (onSelectAll)="onfrequencySelectAll($event)"
                           (onDeSelectAll)="onfrequencyDeSelectAll($event)"></angular2-multiselect>
   </label>
-
   <form>
     <md-select placeholder="מועדי הזמנה" [(ngModel)]="selectedWay" name="optionOrder">
       <md-option *ngFor="let option of Options" [value]="option">

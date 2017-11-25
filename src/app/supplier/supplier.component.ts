@@ -23,6 +23,7 @@ export class SupplierComponent implements OnInit {
   user: Observable<firebase.User>;
   userId: string;
    public items: FirebaseListObservable<any[]>;
+  public itemToDel: FirebaseListObservable<any[]>;
   datePathFirebase: FirebaseListObservable<any[]>;
   lastKeypress = 0;
   startWith = new Subject();
@@ -32,19 +33,18 @@ export class SupplierComponent implements OnInit {
 
 
 
+
   constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase , public dialog: MdDialog,
               private SupplierService: SupplierService ,  private router: Router) {
     this.afAuth.authState.subscribe(user => {
       if (user) {this.userId = user.uid;
         this.items = this.af.list(`users/${this.userId}/suppliers`);
-        console.log('this is items : ' + this.items);
       }
     });
   }
   ngOnInit(): void {}
 
   showListOfAllDB (): FirebaseListObservable<any[]> {
-    console.log(this.userId);
     return this.items;
 
   }
@@ -60,13 +60,9 @@ export class SupplierComponent implements OnInit {
 
   addItem() {
     this.items = this.af.list(`users/${this.userId}/suppliers`);
-    const newRefToNewProduct = this.items.push({name : ''});
+    const newRefToNewProduct = this.items.push({});
     const newProductKey = newRefToNewProduct.key;
     this.editSupplierPage(newProductKey);
-  }
-  deleteEverything() {
-    this.items.remove();
-
   }
   openDialogEditSupplier(key) {
     const dialogRef = this.dialog.open(DialogComponent , {
@@ -85,6 +81,16 @@ export class SupplierComponent implements OnInit {
     this.router.navigate(['dialogSupplier'], navigationExtras);
 
   }
+  associateProduct(key) {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'userId': this.userId,
+        'supplierKey': key
+      }
+    };
+    this.router.navigate(['correctSupplierProducts'], navigationExtras);
+
+  }
 
   openDialogShowSupplier(key) {
     const dialogRef = this.dialog.open(ShowAllSupplierComponent , {
@@ -93,6 +99,11 @@ export class SupplierComponent implements OnInit {
     } );
     dialogRef.componentInstance.key = key;
     console.log('this ket is: ' + key);
+
+  }
+  deleteItem(key) {
+    this.itemToDel = this.af.list(`users/${this.userId}/suppliers/${key}`);
+    this.itemToDel.remove();
 
   }
 
