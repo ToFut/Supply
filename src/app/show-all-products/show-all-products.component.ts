@@ -49,14 +49,14 @@ export class ShowAllProductsComponent implements OnInit {
   lastKeypress = 0;
   productName = '';
   options = [
-    {value: '0', viewValue: 'ארגז'},
-    {value: '1', viewValue: 'קרטון'},
-    {value: '2', viewValue: 'יחידות'},
-    {value: '3', viewValue: 'שקיות'}
+    {value: 'ארגז', viewValue: 'ארגז'},
+    {value: 'קרטון', viewValue: 'קרטון'},
+    {value: 'יחידות', viewValue: 'יחידות'},
+    {value: 'שקיות', viewValue: 'שקיות'}
 
   ];
 
-
+  TypeOfFillUp: string;
 
   isLinear = false;
 
@@ -94,9 +94,6 @@ export class ShowAllProductsComponent implements OnInit {
 
     console.log(this.dateCurrectSupplirer);
     this.items = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`);
-    console.log('this is items : ' + this.items);
-    console.log('key is constratcor ' + this.userId + 'this supplier is ' +
-      this.SupplierKey + 'this ProductKey is ' + this.selectProductKey);
 
     this.ProductsService.getProducts(this.startWith, this.endWith)
       .subscribe(products => this.products = products);
@@ -113,8 +110,12 @@ export class ShowAllProductsComponent implements OnInit {
     this.Product.MinInInventory = MinInInventory;
 */
     this.Product.MinInInventory = this.days;
+    this.Product.TypeOfFillUp = this.TypeOfFillUp;
+    console.log(this.days);
+    console.log(this.TypeOfFillUp);
+
+
     console.log('key is ' + this.ProductKey + ' supplier key ' + this.SupplierKey + ' MinInInventory :' );
-    console.log('BuildProductForAllCurectSupplier');
     this.updateItem(this.Product);
   }
   updatePublicDB() {
@@ -146,18 +147,25 @@ export class ShowAllProductsComponent implements OnInit {
     this.dialogRef.close();
   }
   onKeyName (ProductName: string) {
+    console.log(ProductName);
     this.Product.ProductName = ProductName;
 
   }
   onKeyUnitInPackaging (UnitInPackaging: number) {
+    console.log(UnitInPackaging);
+
     this.Product.UnitInPackaging = UnitInPackaging;
 
   }
   onKeyPrice (Price: number) {
+    console.log(Price);
+
     this.Product.price = Price;
 
   }
   onKeyUnitOfMeasure (UnitOfMeasure: string) {
+    console.log(UnitOfMeasure);
+
     this.Product.UnitOfMeasure = UnitOfMeasure;
 
   }

@@ -15,11 +15,12 @@ import {TodoListComponent} from './todo-list/todo-list.component';
 import {ShowProductComponent} from './show-product/show-product.component';
 import {ShowAllSupplierComponent} from './show-all-supplier/show-all-supplier.component';
 import {DialogComponent} from './dialog/dialog.component';
+import {SatisticsComponent} from './satistics/satistics.component';
+import {SignUpComponent} from './sign-up/sign-up.component';
+import {ReturnProductsComponent} from './return-products/return-products.component';
 
 const routes: Routes = [
-  { path: '',   redirectTo: '/home', pathMatch: 'full'  },
       { path: 'supplier', component: SupplierComponent , pathMatch: 'full'},
-      { path: 'login', component: LoginPageComponent , pathMatch: 'full' },
       { path: 'correctSupplierProducts', component: AddProductsToSupplierComponent , pathMatch: 'full'},
       { path: 'home', component: HomeComponent , pathMatch: 'full'},
       { path: 'order', component: OrderComponent , pathMatch: 'full'},
@@ -28,8 +29,15 @@ const routes: Routes = [
       { path: 'reciveOrder', component: ReciveOrderComponent , pathMatch: 'full'},
       { path: 'todoList', component: TodoListComponent , pathMatch: 'full'},
       { path: 'dialogSupplier', component: DialogComponent , pathMatch: 'full'},
-      { path: 'showProduct', component: ShowProductComponent , pathMatch: 'full'}
-      ];
+      { path: 'showProduct', component: ShowProductComponent , pathMatch: 'full'},
+      { path: 'satistics', component: SatisticsComponent , pathMatch: 'full'},
+      { path: 'loginPage', component: LoginPageComponent , pathMatch: 'full'},
+      { path: 'signUp', component: SignUpComponent , pathMatch: 'full'},
+      { path: 'returnProdcts', component: ReturnProductsComponent , pathMatch: 'full'},
+
+
+
+];
 
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],

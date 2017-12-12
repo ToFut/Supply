@@ -8,5 +8,6 @@ export class ProductOptions {
   MinInInventory: any;
   model: string;
   comments: string;
+  TypeOfFillUp: string;
   imgSrc: string;
 }

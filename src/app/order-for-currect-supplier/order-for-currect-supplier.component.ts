@@ -8,7 +8,7 @@ import {element} from 'protractor';
 @Component({
   selector: 'app-order-for-currect-supplier',
   templateUrl: './order-for-currect-supplier.component.html',
-  styleUrls: ['./order-for-currect-supplier.component.css']
+  styleUrls: ['./order-for-currect-supplier.component.scss']
 })
 export class OrderForCurrectSupplierComponent implements OnInit {
   supplierKey: string;
@@ -24,6 +24,7 @@ export class OrderForCurrectSupplierComponent implements OnInit {
   sendThis: string;
   viewDate: Date = new Date();
   public day = this.viewDate.getDay();
+  StringDay: string;
   dayInMonth = this.viewDate.getDate();
   month = this.viewDate.getMonth();
   year = this.viewDate.getFullYear();
@@ -37,7 +38,33 @@ export class OrderForCurrectSupplierComponent implements OnInit {
       this.userId = params['userId'];
 
     });
-    console.log(this.supplierKey);
+    this.dayToString();
+  }
+  dayToString() {
+    switch (this.day) {
+      case 0 :
+        this.StringDay = 'ראשון';
+        break;
+      case 1 :
+        this.StringDay = 'שני';
+        break;
+      case 2 :
+        this.StringDay = 'שלישי';
+        break;
+      case 3 :
+        this.StringDay = 'רביעי';
+        break;
+      case 4 :
+        this.StringDay = 'חמישי';
+        break;
+      case 5 :
+        this.StringDay = 'שישי';
+        break;
+      case 6 :
+        this.StringDay = 'שבת';
+        break;
+
+    }
   }
 
   ngOnInit() {
@@ -46,48 +73,65 @@ export class OrderForCurrectSupplierComponent implements OnInit {
 
     this.fullDate = this.dayInMonth + '.' + this.month + '.' + this.year ;
     this.Products = this.af.list(`users/${this.userId}/suppliers/${this.supplierKey}/SupplierProducts/`);
-    this.currentOrderInformation = this.af.list(`users/${this.userId}/orderHistory/${this.year}/${this.month}/${this.dayInMonth}`);
-    console.log(this.dayInMonth);
-    console.log(this.month);
-    console.log(this.currentOrderInformation);
+    this.currentOrderInformation = this.af.list(
+      `users/${this.userId}/orderHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`);
     this.supplierProperty = this.af.object(`users/${this.userId}/suppliers/${this.supplierKey}`);
 
 
   }
-  whatsapp() {
-    console.log(this.phoneSupplier.toString());
-    this.currentOrderInformation.update(`${this.supplierKey}` , this.stringToOrder)
-    location.href =  'whatsapp://send?phone=+972525754040?text=שלום, ' +
-      ' להלן הזמנה עבור ' + this.userName + '  לאספקה ביום ____ ' + '/n'
-      + this.stringToOrder   /*'mailto:'
-      + '?cc='
-      + this.afAuth.auth.currentUser.email
-      + '&subject=' + 'הזמנה אספקה מ-'
-      + this.afAuth.auth.currentUser.displayName
-      + '&body=' + this.stringToOrder*/
-      + ' אנא אשר קבלת הזמנה בלחיצת על הקישור הבא ';
+   whatsapp() {
+    console.log(this.stringToOrder)
+      location.href =  'whatsapp://send?phone=972525754040&text=שלום, ' +
+        ' להלן הזמנה עבור ' + this.userName + '%0A'
+        + ' ' + this.stringToOrder + ' אנא אשר קבלת הזמנה בלחיצת על הקישור הבא ' +  '%0A' ;
+
     }
 
   mail() {
     this.currentOrderInformation.update(`${this.supplierKey}` , this.stringToOrder)
-    console.log(this.supplierProperty.$ref.orderByKey().equalTo('email').toJSON());
     location.href =  'mailto:' + '' + '' + 'subject=הזמנת אספקה' +
-      '&amp;' + 'body=שלום ,' +
+      '&amp;' + '&text=שלום ,' +
       'להלן ההזמנה עבור ' + this.userName + ' לאספקה ביום ___'   +
       this.stringToOrder
-    /*'mailto:'
-    mailto:name1@rapidtables.com?cc=name2@rapidtables.com&bcc=name3@rapidtables.com
-&amp;subject=The%20subject%20of%20the%20email
-&amp;body=The%20body%20of%20the%20email
-      + '?cc='
-      + this.afAuth.auth.currentUser.email
-      + '&subject=' + 'הזמנה אספקה מ-'
-      + this.afAuth.auth.currentUser.displayName
-      + '&body=' + this.stringToOrder*/
       + 'אנא אשר קבלת הזמנה בלחיצת על הקישור הבא';
   }
+  buildMessageWhatsApp() {
+    let name = '';
+    let TypeOfFillUp = '';
+    let amount = '';
+    let count = 1;
+    this.currentOrderInformation.$ref.on('child_added' , element => {
+      if ( element !== null) {
+        console.log(count)
+        count++;
+        name = element.val().name;
+        amount = element.val().amount;
+        console.log(name);
+        console.log(amount);
+        TypeOfFillUp = element.val().TypeOfFillUp;
+        console.log(TypeOfFillUp);
 
-  update(values: number , currentProductKey: string , currentMin: number , productName: string ) {
+        this.stringToOrder.push(' ' + amount + ' ' + TypeOfFillUp + '  ' + name + ' %0A');
+        console.log(this.stringToOrder)
+
+      }
+    }).call(this.whatsapp());
+
+  }
+  buildMessageEmail() {
+    let name = '';
+    let TypeOfFillUp = '';
+    let amount = '';
+    this.currentOrderInformation.$ref.on('child_added' , element => {
+      name = element.exportVal().name;
+      amount = element.exportVal().amount;
+      TypeOfFillUp = element.exportVal().TypeOfFillUp;
+      this.stringToOrder.push(' ' + amount + ' ' + TypeOfFillUp + '  ' + name  + ' %0A');
+    }).call(this.mail());
+
+  }
+
+  update(values: number , currentProductKey: string , currentMin: number , productName: string , TypeOfFillUp: string ) {
     const path = 'table[' + currentProductKey + ']';
     /*this.value.forEach(function(element) {
       if (element[0] = currentProductKey ) {
@@ -95,12 +139,12 @@ export class OrderForCurrectSupplierComponent implements OnInit {
         bool = false;
       }
     });*/
-    this.currentProduct = this.af.object(`users/${this.userId}/suppliers/${this.supplierKey}/${currentProductKey}`);
-    this.stringToOrder.push(values + ' חבילות ' + productName  + '\n');
     console.log(values);
+    console.log(currentProductKey);
 
-    console.log(this.stringToOrder);
-    console.log(this.value);
+    this.currentOrderInformation.set(`${currentProductKey}` , {amount: values, name: productName , TypeOfFillUp: TypeOfFillUp})
+    this.currentProduct = this.af.object(`users/${this.userId}/suppliers/${this.supplierKey}/${currentProductKey}`);
+    console.log(TypeOfFillUp);
     this.value.push({[currentProductKey]: values});
     if (values >= currentMin) { // TODO stack in 100 need to check why
       document.getElementById(path).style.color = 'LimeGreen';

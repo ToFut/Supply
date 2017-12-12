@@ -1,4 +1,44 @@
-<div class="row columns">
-  <button (click)="login()" *ngIf="!(user | async)?.uid"> Login</button>
-  <button (click)="logout()" *ngIf="(user | async)?.uid">Logout</button>
+<div style="direction: rtl; color: #fafafa;">
+<div class="wrapper">
+  <div class="container">
+    <img src="../../assets/logoWithOutBackground.png">
+    <br><br>
+
+    <h1>ברוך הבא</h1>
+
+    <form class="form">
+      <input  type="text" #email (keyup)="onKeyEmail(email.value)" placeholder="שם משתמש" autofocus>
+      <input  type="password" #password  (keyup)="onKeyPassword(password.value)" placeholder="סיסמא">
+
+      <div class="form-group">
+        <button type="submit" class=" w3-btn w3-border-white w3-round-large" (click)="onSubmit()" style="background: none;" id="login-button">התחבר</button>
+      </div>
+      <div class="form-group text-center">
+        <a (click)="linkGoogle()">שכחת סיסמא?</a>&nbsp;|&nbsp;<a routerLink="/signUp">הרשם</a>
+      </div>
+    </form>
+
+  </div>
+
+  <ul class="bg-bubbles">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
 </div>
+</div>
+<script>
+  $("#login-button").click(function(event){
+    event.preventDefault();
+
+    $('form').fadeOut(500);
+    $('.wrapper').addClass('form-success');
+  });
+</script>

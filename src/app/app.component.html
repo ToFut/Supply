@@ -1,31 +1,36 @@
-<header>
-<div class="header">
-  <h1 class="header_logo" style=" font-family: Brush Script MT" >SupplyME</h1>
-</div>
-</header>
-<input type="checkbox" id="navcheck" role="button" title="menu" style="color: #22262e;">
-  <label for="navcheck" aria-hidden="true" title="menu">
-    <span class="burger">
-		<span class="bar">
-			<span class="visuallyhidden" >supplyME</span>
-		</span>
-	</span>
-  </label>
-  <nav id="menu">
+<!DOCTYPE html >
+<html style="direction: rtl">
+<title>W3.CSS</title>
 
-      <a  *ngIf="(user | async)?.uid" style="text-align: left;color: #f7ffea
-    ; font-family: 'Copperplate Gothic Light'">שלום {{userName}}  </a>
-    <a  routerLink="/home" routerLinkActive="active"><b class="nav-text" style="font-size: x-large"> SupplyME </b></a>
-    <a  *ngIf="(user | async)?.uid" routerLink="/homeAfterLogin" routerLinkActive="active"><i class="fa fa-home"></i><b class="nav-text"> בית </b></a>
-    <a  *ngIf="(user | async)?.uid" routerLink="/supplier" routerLinkActive="active"><i class="fa fa-users"></i><b class="nav-text"> רשימת ספקים  </b></a>
-    <a  *ngIf="(user | async)?.uid" routerLink="/order" routerLinkActive="active"><i class="fa fa-shopping-cart"></i><b class="nav-text"> הזמנות </b></a>
-    <a  *ngIf="(user | async)?.uid" routerLink="/reciveOrder" routerLinkActive="active"><i class="fa fa-truck"></i><b class="nav-text"> קבלת סחורה </b></a>
-    <a  *ngIf="(user | async)?.uid" routerLink="/correctSupplierProducts" routerLinkActive="active"><i class="fa fa-cog"></i><b class="nav-text"> הגדרות </b></a>
-    <a  *ngIf="!(user | async)?.uid" routerLink="/home" routerLinkActive="active"><i class="fa fa-info"></i><b class="nav-text"> עוד עלינו </b></a>
-    <a  routerLink="/homeAfterLogin" *ngIf="!(user | async)?.uid" (click)="linkGoogle()"><i class="fa fa-sign-in"></i><b> התחבר </b></a>
-    <a  routerLink="/home" *ngIf="(user | async)?.uid" (click)="logout()" ><i class="fa fa-power-off"></i><b> התנתק </b>
-    </a>
-  </nav>
-  <main>
-    <router-outlet></router-outlet>
-  </main>
+<header class="w3-container " style="background-color: #26D367;color: #fafafa;" *ngIf="showHeader">
+  <button style="    position:absolute;
+    transition: .5s ease;
+    left: 82%;
+    font-size: x-large;
+    height: inherit;" id="openNav" class="w3-button  "  (click)="w3_open()"><i class="fa fa-bars " aria-hidden="true"></i></button>
+  <h1 routerLink="/homeAfterLogin" style="text-align: center;font-size: x-large;" >supplyME</h1>
+</header>
+
+
+<div  class="w3-sidebar w3-bar-block  w3-animate-right" style="display:none; text-align: right; background-color: #fafafa; font-family: 'Comic Sans MS'" id="mySidebar" >
+  <button style=" text-align: right;    font-size: xx-large;
+" class="w3-bar-item w3-button w3-large"
+          (click)="w3_close()"> &times;</button>
+  <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" *ngIf="(user | async)?.uid" routerLink="/homeAfterLogin" routerLinkActive="active"><i class="fa fa-home"></i><b class="nav-text"> בית </b></a>
+  <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" *ngIf="(user | async)?.uid" routerLink="/supplier" routerLinkActive="active"><i class="fa fa-users"></i><b class="nav-text"> רשימת ספקים  </b></a>
+  <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" *ngIf="(user | async)?.uid" routerLink="/order" routerLinkActive="active"><i class="fa fa-shopping-cart"></i><b class="nav-text"> הזמנות </b></a>
+  <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" *ngIf="(user | async)?.uid" routerLink="/reciveOrder" routerLinkActive="active"><i class="fa fa-truck"></i><b class="nav-text"> קבלת סחורה </b></a>
+  <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" *ngIf="(user | async)?.uid" routerLink="/satistics" routerLinkActive="active"><i class="fa fa-cog"></i><b class="nav-text"> הגדרות </b></a>
+  <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" *ngIf="!(user | async)?.uid" routerLink="/home" routerLinkActive="active"><i class="fa fa-info"></i><b class="nav-text"> עוד עלינו </b></a>
+  <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" routerLink="/loginPage" *ngIf="!(user | async)?.uid"><i class="fa fa-sign-in"></i><b> התחבר </b></a>
+  <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" routerLink="/signUp" *ngIf="!(user | async)?.uid"><i class="fa fa-sign-in"></i><b> הרשם </b></a>
+  <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" routerLink="/home" *ngIf="(user | async)?.uid" (click)="logout()" ><i class="fa fa-power-off"></i><b> התנתק </b>
+  </a>
+</div>
+
+<div id="main">
+  <router-outlet></router-outlet>
+</div>
+
+</html>
+

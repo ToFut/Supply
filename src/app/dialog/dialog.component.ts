@@ -162,11 +162,11 @@ export class DialogComponent implements OnInit {
     }
   }
   updateItem(Supplier ) {
-    this.selectedValues.map( element => {
+    /*this.selectedValues.map( element => {
       console.log(element);
       this.wayToOrder = this.af.list(`/users/${this.userId}/suppliers/${this.supplierKey}/wayToOrder/`);
       this.wayToOrder.push({'phone': element});
-    });
+    });*/
     this.dateSelected.forEach(value => {
       if (value.id.toString() !== 'undefined') {
         this.calcDateOrder(value.id);

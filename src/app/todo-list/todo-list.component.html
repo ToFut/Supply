@@ -1,30 +1,57 @@
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<html lang="he" style="direction: rtl;  font-family: 'Comic Sans MS'">
+<div class="container" style="  margin: auto;
+  width: 100%;
+  padding: 0px 25px 0px 25px;
+">
 
-<body style="direction: rtl">
+  <br><br>
+    <div  class="table-responsive" style="text-align: right" >
 
-    <div class="container">
-
-      <div class="to-do-list" >
-
-        <h2>{{(supplier | async)?.name}}</h2>
-
-        <hr>
-        <input type="checkbox" ng-model="selectAll" />Check all?<br />
-
-        <div *ngFor="let product of currentSupplierProducts | async ">
-          <li >
-            <input  id="{{product.ProductName}}" type="checkbox" ng-checked="selectAll"
-                    (change)="toggleEditable(product.ProductName )">
-            <label for="{{product.ProductName}}">{{product.ProductName}}</label>
-
-          </li>
+      <div  style="  background-color: lightgrey;
+  padding: 1px;
+  margin: 40px;
+  text-align: center;background-color: #26D367;color: #fafafa;
+">
+        <div class="w3-dropdown-click">
+          <button (click)="Dropdown()"  style=" font-weight: bold; color: #fafafa; text-align: center; font-size: x-large "> {{(supplier | async)?.name}}  קבלת סחורה <i class="fa fa-caret-down" aria-hidden="true"></i>
+          </button>
+          <div id="Demo" class="w3-dropdown-content w3-bar-block w3-border" >
+            <a href="#" class="w3-bar-item w3-button"> ספק א</a>
+            <a href="#" class="w3-bar-item w3-button">ספק ב </a>
+            <a href="#" class="w3-bar-item w3-button">ספק ג</a>
+          </div>
         </div>
 
-      </div> <!-- end to-do-list -->
-      <form>
-        <input style="size: 100px;" routerLink="/reciveOrder" (click)="updateRecive()" value="סיים" type="submit" />
-      </form>
 
-    </div> <!-- end container -->
+      </div>
+      <input type="checkbox" id="checkAll"[(ngModel)]="selectedAll" (change)="checkAll();"/>
+      <label for="checkAll" class="check-box"> </label><span>בחר הכל</span>
 
-    </body>
+      <table id="customers" >
+        <tr>
+          <th style="text-align: right" >שם המוצר </th>
+          <th style="text-align: right" > כמות לקבלה </th>
+          <th style="text-align: right" >   סוג הכמות לקבלה </th>
+
+        </tr>
+
+        <tr  *ngFor="let prudoct of reciveInfo | async ;let i = index">
+          <td>      <input type="checkbox" [disabled]="howManyReceive" name='{{radioButton[i]}}' id="{{prudoct.name}}" [(ngModel)]="radioButton[i]" (change)="checkIfAllSelected(prudoct.name);">
+            <label for="{{prudoct.name}}" class="check-box"> </label>
+            <span>{{prudoct.name}}</span>
+          </td>'
+          <td>{{prudoct.amount}} <span id="howMuchReceive" [hidden]="radioButton[i]">/  <input type="number" [(ngModel)]="howManyReceive" max="{{prudoct.amount}}" min="0" width="100px"></span></td>
+          <td>{{prudoct.TypeOfFillUp}}</td>
+        </tr>
+        <tr>
+        </tr>
+      </table>
+
+    </div>
+
+
+
+  <button routerLink="/reciveOrder" (click)="updateRecive()" class="button button1" style="background-color: #26D367;"><span>סיים</span></button>
+
+
+</div>

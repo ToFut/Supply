@@ -1,38 +1,44 @@
-<html lang="he" style="direction: rtl">
-<div class="container"  style="direction: rtl;" >
+<html lang="he" style="direction: rtl ">
+<div class="container"  style="direction: rtl;">
   <br><br>
+    <table class="w3-table-all">
 
 <div  class="table-responsive" style="text-align: right" >
-  <h2 style="text-align: center">  הזמנה מספק - {{(supplierProperty |async)?.name }} </h2>
-  <div class="container">
-    <h3> {{fullDate}}</h3>
-  </div>
-</div>
+  <h2 style="text-align: right; font-weight: bold; color: #22262e;     padding: 0px 20px 0px 0px;"> הזמנה מספק </h2>
 
+<h3 style="float:left; display:inline-block; padding: 0px 0px 0px 20px; color: #26D367;">     {{fullDate}}     </h3>  <h1 style="color: #26d367;  display:inline-block;margin-right:10px;   font-weight: bold;    padding: 0px 2px 0px 0px;"> {{(supplierProperty |async)?.name }}</h1>
+</div>
+  </table>
   <table class="w3-table-all">
       <thead>
-      <tr  class="w3-light-blue w3-hover-blue" style="direction: rtl">
-        <th>שם המוצר</th>
-        <th>כמות להשלמה</th>
+      <tr style="font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa">
+        <th style="float: right">שם המוצר </th>
+        <th> כמות להשלמה </th>
         <th></th>
       </tr>
       </thead>
       <tbody  *ngFor="let Product of (Products | async)">
         <tr id=table[{{Product.$key}}] >
-         <td>{{Product.ProductName }}  </td>
-            <td> {{Product.MinInInventory[(supplierProperty |async)?.OrderDays] }} {{Product.UnitOfMeasure}}  / </td>
+         <td style="color: #5e5e5e;font-weight: bold; font-size:large; float: right;  font-family: Comic Sans MS, cursive, sans-serif;">{{Product.ProductName }}  </td>
+            <td style="color: #26D367;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;"> {{Product.MinInInventory[day]}}  {{Product.TypeOfFillUp}}  / </td>
           <td>
-            <input placeholder="כמות להזמנה" style="width: 100px;" #box type="number"
+            <input placeholder="כמות להשלמה" style="width: 100px;color: #16b720;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;" #box type="number"
                   (keyup.enter)="update(box.value , Product.$key , Product.MinInInventory ,
                                                      Product.ProductName , Product.model)"
                   (blur)="update(box.value , Product.$key , Product.MinInInventory ,
-                                                     Product.ProductName)" maxlength="2" size="2" >
+                                                     Product.ProductName , Product.TypeOfFillUp )" maxlength="2" size="2" >
           </td>
         </tr>
+        <div class="menu-button"> שלח לספק<i class="zmdi zmdi-share"></i>
+          <a (click)="buildMessageWhatsApp()"  class="fa fa-whatsapp fa-4x" style="color: #26D367"></a>
+          <a (click)="buildMessageEmail()"  class="fa fa-envelope-o fa-4x" style="color: #3A4A7B"></a>
+          <a (click)="buildMessageEmail()"  class="fa fa-comment fa-4x" style="color: #3498db"></a>
+        </div>
+
       </tbody>
+
     </table>
-  <a (click)="whatsapp()"  class="fa fa-whatsapp fa-4x" style="color: #4CAF50"></a>
-  <a (click)="mail()"  class="fa fa-envelope-o fa-4x" style="color: #3A4A7B"></a>
-  <a (click)="mail()"  class="fa fa-comment fa-4x" style="color: #3498db"></a>
+
 </div>
 </html>
+

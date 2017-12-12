@@ -54,6 +54,7 @@
         "ng2-datetime": "^1.4.0",
         "ng2-dropdown-multiselect": "^1.2.0",
         "ng2-modal-dialog": "^1.0.1",
+        "ng2-smart-table": "^1.2.2",
         "ng2-sweetalert2": "0.0.8",
         "ngx-modialog": "^3.0.4",
         "os-x-contacts": "^0.1.1",

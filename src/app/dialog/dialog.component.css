@@ -1,109 +1,16 @@
-html, body {
-  position: fixed;
-  background-color: #ecf0f1;
-  margin: 20px auto;
-  display: block;
-  max-width: 600px;
-  height: 100%;
-  text-align: center;
-  overflow: scroll;
-
+form{
+  background: #021725;
 }
-
-body {
-  padding: 20px;
-  position: fixed;
+input, textarea, select, option{
+  background: none !important;
+  border-top: #00e124 1px solid !important;
+  border-left: #00e124 1px solid !important;
+  border-bottom: #00e124 3px solid !important;
+  border-right: #00e124 3px solid !important;
+  border-radius: 2px !important;
+  color: #00e124 !important;
 }
-h2, a, p, *:before,h1 {
-  font-family: "Helvetica Neue", sans-serif;
-  font-weight: 300;
-}
-h1 {
-  color: #3498db;
-}
-
-h2 {
-  color: #2980b9;
-  margin-top: 0;
-  font-size: 20px;
-  background-color: white;
-  height: 24px;
-  text-align: center;
-  padding: 16px;
-  z-index: 15;
-  border-radius: 4px;
-
-  transition: all 2s ease-out;
-}
-
-p {
-  display: block;
-  width: 100%;
-  color: #2c3e50;
-  clear: both;
-}
-.description {
-  position: fixed;
-  margin-bottom: 70px;
-}
-
-button {
-  border: 0;
-  background-color: #3498db;
-  color: white;
-  border-radius: 4px;
-  padding: 5px 10px;
-  transition: background-color 0.2s ease-out;
-
-
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #2980b9;
-}
-button:active, button:hover {
-  outline: none;
-}
-
-a {
-  color: #2c3e50;
-  transition: color 0.2s ease-out;
-  /*padding: 5px 10px;*/
-  margin-right: 16px;
-}
-
-a:hover {
-  color: #2ecc71;
-}
-
-.wrapper {
-  position: fixed;
-  border: 1px dashed #95a5a6;
-  height: 56px;
-  margin-top: 16px;
-  border-radius: 4px;
-  font-size: 12px;
-}
-
-.wrapper p {
-  line-height: 31px;
-}
-/* Styles go here */
-.dropdown-holder {
-  padding-left:40px;
-  margin-top:30px;
-}
-input[type=text] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  border: none;
-}
-form > div {
-  position: relative;
-}
-form > div > label {
-  position: absolute;
+.label {
+  font-family: "Comic Sans MS";
+  font-size: medium;
 }

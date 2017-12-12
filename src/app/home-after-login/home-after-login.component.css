@@ -1,0 +1,51 @@
+.container{
+  height:100%;
+  display:table;
+  width: 100%;
+  padding: 0;
+
+}
+.button {
+  border-radius: 14px;
+
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin:  2px;
+  cursor: pointer;
+  align-items: center;
+  padding: 10% 0% 10%;
+}
+
+.button4 {
+  background-color: #fefefe;
+  color: black;
+  border: 2px solid #e7e7e7;
+  color: #26D367;
+  width: 45%;
+  font-weight: bold;
+  height: 45%;
+
+}
+.header{display:inline-block;
+  text-align:center;
+  width:100%;
+}
+
+.logo{
+  width: 100%;
+}
+
+.header h1 {
+  font-size:15px;
+  width:100%;
+}
+@media (min-width:320px)  { /* smartphones, iPhone, portrait 480x320 phones */ }
+@media (min-width:481px)  { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
+@media (min-width:641px)  { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ }
+@media (min-width:961px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
+@media (min-width:1025px  ) { /* big landscape tablets, laptops, and desktops */ }
+@media (min-width:1281px) { /* hi-res laptops and desktops */ }

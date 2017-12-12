@@ -35,7 +35,12 @@ import {SupplierService} from './supplier.service';
 import {AssociateProductToSupplierService} from './associate-product-to-supplier.service';
 import {SupplierPrivateProductsService} from './supplier-private-products.service';
 import { HomeComponent } from './home/home.component';
-import {CheckboxModule, InputTextModule, MultiSelectModule, SelectButtonModule, TooltipModule} from 'primeng/primeng';
+import {
+  AccordionModule,
+  CheckboxModule, FieldsetModule, InputMaskModule, InputTextModule, MultiSelectModule, PasswordModule,
+  SelectButtonModule,
+  TooltipModule
+} from 'primeng/primeng';
 import {SplitButtonModule} from 'primeng/primeng';
 import { OrderComponent } from './order/order.component';
 import { CalendarModule } from 'angular2-calendar';
@@ -51,7 +56,11 @@ import { ShowProductComponent } from './show-product/show-product.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import {TestBed} from '@angular/core/testing';
 import { HomeRegisterComponent } from './home-register/home-register.component';
-import {Ng2CompleterModule} from "ng2-completer";
+import {Ng2CompleterModule} from 'ng2-completer';
+import { SatisticsComponent } from './satistics/satistics.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { ReturnProductsComponent } from './return-products/return-products.component';
+import { Ng2SmartTableModule} from 'ng2-smart-table';
 
 @NgModule({
   declarations: [
@@ -77,8 +86,9 @@ import {Ng2CompleterModule} from "ng2-completer";
     LoaderComponent,
     ShowProductComponent,
     HomeRegisterComponent,
-
-
+    SatisticsComponent,
+    SignUpComponent,
+    ReturnProductsComponent,
   ],
   imports: [
     BrowserModule,
@@ -107,8 +117,12 @@ import {Ng2CompleterModule} from "ng2-completer";
     CheckboxModule,
     SelectButtonModule,
     MultiSelectModule,
-    Ng2CompleterModule
-
+    Ng2CompleterModule,
+    PasswordModule,
+    InputMaskModule,
+    Ng2SmartTableModule,
+    FieldsetModule,
+    AccordionModule,
   ],
   exports: [MdButtonModule, MdCheckboxModule , OrderComponent],
   providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },

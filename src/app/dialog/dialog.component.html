@@ -1,28 +1,28 @@
 <div class="container" style="direction: rtl"  >
 
-    <br><br>
-    <h1 style="text-align: center;font-size: x-large"> הגדרת ספק</h1>
-    <label >שם החברה</label>
-    <input mdInput type="text" #updatename value="{{(item | async)?.name}}" />
+  <br><br>
+  <h1 style="text-align: center;font-size: x-large"> הגדרת ספק</h1>
+  <label >שם החברה</label>
+  <input mdInput type="text" #updatename value="{{(item | async)?.name}}" />
 
-    <label >טלפון במשרד</label>
-    <input mdInput type="number" #updatePhoneNumber value="{{(item | async)?.PhoneNumber}}" />
-    <p-checkbox  name="groupname" value="{{updatePhoneNumber.value}}" [(ngModel)]="selectedValues"></p-checkbox>
-    <br>
-    <label >מייל החברה</label>
-    <input mdInput type="email"  #updatemail value="{{(item | async)?.email}}" />
-    <p-checkbox class="ui-g-12" name="groupname" value="{{updatemail.value}}" [(ngModel)]="selectedValues"></p-checkbox>
-    <label >שם איש הקשר</label>
-    <input mdInput type="text" #updateContactName value="{{(item | async)?.ContactName}}">
+  <label >טלפון במשרד</label>
+  <input mdInput type="number" #updatePhoneNumber value="{{(item | async)?.PhoneNumber}}" />
+  <p-checkbox  name="groupname" value="{{updatePhoneNumber.value}}" [(ngModel)]="selectedValues"></p-checkbox>
   <br>
-    <label >נייד איש הקשר</label>
-    <input mdInput type="number" #updateContactNum value="{{(item | async)?.ContactNum}}"  />
-    <p-checkbox   value="{{updateContactNum.value}}" [(ngModel)]="selectedValues"></p-checkbox >
+  <label >מייל החברה</label>
+  <input mdInput type="email"  #updatemail value="{{(item | async)?.email}}" />
+  <p-checkbox class="ui-g-12" name="groupname" value="{{updatemail.value}}" [(ngModel)]="selectedValues"></p-checkbox>
+  <label >שם איש הקשר</label>
+  <input mdInput type="text" #updateContactName value="{{(item | async)?.ContactName}}">
+  <br>
+  <label >נייד איש הקשר</label>
+  <input mdInput type="number" #updateContactNum value="{{(item | async)?.ContactNum}}"  />
+  <p-checkbox   value="{{updateContactNum.value}}" [(ngModel)]="selectedValues"></p-checkbox >
 
-    <label > מייל איש הקשר</label>
-    <input mdInput type="email"  #updateContactEmail value="{{(item | async)?.ContactEmail}}"  />
-    <p-checkbox  value="{{updateContactEmail.value}}" [(ngModel)]="selectedValues"></p-checkbox>
-    <h3 style="font-size: x-small"> סמן ליד מספרי הפלאפון/מייל האם תרצה לשדר הזמנה דרכם</h3>
+  <label > מייל איש הקשר</label>
+  <input mdInput type="email"  #updateContactEmail value="{{(item | async)?.ContactEmail}}"  />
+  <p-checkbox  value="{{updateContactEmail.value}}" [(ngModel)]="selectedValues"></p-checkbox>
+  <h3 style="font-size: x-small"> סמן ליד מספרי הפלאפון/מייל האם תרצה לשדר הזמנה דרכם</h3>
 
   <label class="center-block" style="width:250px;margin-bottom:10px" >מועדי אספקה:
 
@@ -42,13 +42,11 @@
                           (onSelectAll)="onfrequencySelectAll($event)"
                           (onDeSelectAll)="onfrequencyDeSelectAll($event)"></angular2-multiselect>
   </label>
-  <form>
     <md-select placeholder="מועדי הזמנה" [(ngModel)]="selectedWay" name="optionOrder">
       <md-option *ngFor="let option of Options" [value]="option">
         {{option}} ימים לפני
       </md-option>
     </md-select>
-  </form>
   <label class="center-block">קטגוריית מוצרים:
     <input type="text" #updatetype/>
     {{selectedValues}}

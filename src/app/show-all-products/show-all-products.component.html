@@ -4,25 +4,25 @@
   <div >
   <h1>הוספת מוצר</h1>
     <form >
-        <input  value="{{productName}}" #ProductName id="ProductName" name="ProductName" placeholder="שם המוצר"
+        <input  type="text" value="{{productName}}" #ProductName id="ProductName" name="ProductName" placeholder="שם המוצר"
                (blur)="onKeyName(ProductName.value)" (keyup)="search($event);onKeyName(ProductName.value)">
         <md-option *ngFor="let product of products" [value]="product.ProductName">
           <p (click)="changename(product.ProductName)">{{ product.ProductName }}</p> |
-          <small>הצעות: {{product.model}}</small>
         </md-option>
       <br>       <br>
 
       <input   type="text" placeholder="יחידות מידה" #UnitOfMeasure (keyup)="onKeyUnitOfMeasure(UnitOfMeasure.value)" name="UnitOfMeasure" value="{{(item | async)?.UnitOfMeasure}}">
-    <input   type="number"  placeholder="כמות במארז" #UnitInPackaging (keyup)="onKeyUnitInPackaging(UnitInPackaging.value)" name="UnitInPackaging" value="{{(item | async)?.UnitInPackaging}}">
-      <md-select placeholder="יח' להזמנה">
-        <md-option *ngFor="let option of options" [value]="option.value">
-          {{ option.viewValue }}
-        </md-option>
-      </md-select>
+    <input   type="number"  placeholder="כמות במארז" #minInInvetory (keyup)="onKeyUnitInPackaging(minInInvetory.value)" name="UnitInPackaging" value="{{(item | async)?.UnitInPackaging}}">
       <br><br>
 
-      <input type="text" pInputText  placeholder="מחיר" #price (keyup)="onKeyPrice(price.value)" name="ProductName" value="{{(item | async)?.ProductName}}">
+      <input type="number" pInputText  placeholder="מחיר" #price (keyup)="onKeyPrice(price.value)" name="ProductName" value="{{(item | async)?.ProductName}}">
     </form>
+    <md-select placeholder="יח' להזמנה" [(ngModel)]="TypeOfFillUp" name="TypeOfFillUp">
+      <md-option *ngFor="let option of options" [value]="option.value" >
+        {{ option.viewValue }}
+      </md-option>
+    </md-select>
+
 
     <section class="example-section" dir="rtl">
       <md-checkbox class="example-margin" [(ngModel)]="privateProduct">מוצר פרטי</md-checkbox>

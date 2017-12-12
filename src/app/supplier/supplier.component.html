@@ -1,52 +1,25 @@
-<div class="container" style="text-align: right">
+
+<div  class="container" id="grad1" style="
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden; ">
 
 
-  <div class="row">
-      <div class="panel panel-default" >
-        <div class="panel-heading c-list">
-          <span class="title">ספקים שלי</span>
-          <ul class="pull-right c-controls">
-            <li><a  data-toggle="tooltip"   data-placement="top" (click)="addItem()" title="Add Contact"><i class="glyphicon glyphicon-plus"></i></a></li>
-          </ul>
+        <div class="panel-heading c-list" style="text-align: center">
+            <h2 style="text-align: center; font-weight: bold; color: #010701;     padding: 0px 20px 0px 0px;"> הספקים שלי  </h2>
         </div>
+        <input type="text" id="myInput" (keyup)="search()" placeholder="שם הספק.." >
 
-        <ul class="list-group" id="contact-list" style="text-align: right">
-          <li class="list-group-item" *ngFor="let item of items | async">
-
-            <div class="col-xs-6 col-sm-9">
-              <span class="name" style="text-align: center">{{item.name}}
-                <span   *ngIf="item.type == 'אוכל'" data-toggle="tooltip" title="{{item.type}}" class="fa fa-cutlery " aria-hidden="true"></span>
-                <span  *ngIf="item.type == 'חלב'" data-toggle="tooltip" title="{{item.type}}" class="fa fa-coffee " aria-hidden="true"></span>
-                <span  *ngIf="item.type == 'בשר'" data-toggle="tooltip" title="{{item.type}}" class="fa fa-cutlery " aria-hidden="true"></span>
-                <span  *ngIf="item.type == 'משקאות חריפים'" data-toggle="tooltip" title="{{item.type}}" class="fa fa-beer " aria-hidden="true"></span>
-                <span  *ngIf="item.type == 'שתייה'" data-toggle="tooltip" title="{{item.type}}" class="large material-icons ">local_drink</span>
-                <span  *ngIf="item.type == 'משקאות'" data-toggle="tooltip" title="{{item.type}}" class="large material-icons ">local_drink</span>
-                <span  *ngIf="item.type == 'ירקות'"  data-toggle="tooltip" title="{{item.type}}" class="fa fa-apple " aria-hidden="true"></span>
-              </span><br/>
-
-              <span class="visible-xs"> <span class="text-muted">{{item.type}}</span><br/></span>
-              <a href="mailto:{{item.ContactEmail}}" *ngIf="item.ContactEmail !== '' " class="fa fa-envelope-o text-muted c-info" ></a>
-              <span class="visible-xs"> <span class="text-muted">{{item.ContactEmail}}</span><br/></span>
-              <a href="tel:{{item.PhoneNumber}}" *ngIf="item.PhoneNumber !== ''" class="glyphicon glyphicon-earphone text-muted c-info"></a>
-              <span class="visible-xs" > <span class="text-muted">{{item.PhoneNumber}}</span><br/></span><br>
-              <div class="btn-group" style="width:100%">
-
-                  <a class="btn btn-default" (click)="openDialogShowSupplier(item.$key)" aria-label="Settings">
-                    <i class="fa fa-info  fa-2x" aria-hidden="true" ></i>
-                  </a>
-                  <a class="btn btn-primary" (click)="associateProduct(item.$key)" aria-label="Skip to main navigation">
-                    <i class="fa fa-cart-arrow-down  fa-2x" aria-hidden="true"></i>
-                  </a>
-                <a class="btn btn-danger" (click)="deleteItem(item.$key)" aria-label="Delete">
-                  <i class="fa fa-trash-o   " aria-hidden="true" ></i>
-                </a>
-
-              </div>
-
-            </div>
-            <div class="clearfix"></div>
-          </li>
-        </ul>
-    </div>
-  </div>
+<ul id="contact-list" *ngFor="let item of items | async" data-role="listview" data-dividertheme="d" data-inset="true">
+  <li (click)="associateProduct(item.$key)" ><a >  <h2>{{item.name}}</h2> <span   *ngIf="item.type == 'אוכל'" mdTooltip="{{item.type}}" class="fa fa-cutlery " aria-hidden="true"></span>
+    <span  *ngIf="item.type == 'חלב'" mdTooltip="{{item.type}}" class="fa fa-coffee " aria-hidden="true"></span>
+    <span  *ngIf="item.type == 'בשר'" mdTooltip="{{item.type}}" class="fa fa-cutlery " aria-hidden="true"></span>
+    <span  *ngIf="item.type == 'משקאות חריפים'" mdTooltip="{{item.type}}" class="fa fa-beer " aria-hidden="true"></span>
+    <span  *ngIf="item.type == 'שתייה'" mdTooltip="{{item.type}}" class="large material-icons ">local_drink</span>
+    <span  *ngIf="item.type == 'משקאות'"mdTooltip="{{item.type}}" class="large material-icons ">local_drink</span>
+    <span  *ngIf="item.type == 'ירקות'"  mdTooltip="{{item.type}}" class="fa fa-apple " aria-hidden="true"></span>
+  </a></li>
+</ul>
+<button mdTooltip="הוסף ספק" style="color: #fefefe;" (click)="addItem()" ><i class="fa fa-plus  fa-4x"></i></button>
 </div>

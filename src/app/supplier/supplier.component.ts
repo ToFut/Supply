@@ -41,6 +41,7 @@ export class SupplierComponent implements OnInit {
         this.items = this.af.list(`users/${this.userId}/suppliers`);
       }
     });
+
   }
   ngOnInit(): void {}
 
@@ -48,14 +49,14 @@ export class SupplierComponent implements OnInit {
     return this.items;
 
   }
-    search($event) {
+    /*search($event) {
     if ($event.timeStamp - this.lastKeypress > 200) {
       const q = $event.target.value;
       this.startWith.next(q);
       this.endWith.next(q + '\uf8ff');
     }
     this.lastKeypress = $event.timeStamp;
-  }
+  }*/
 
 
   addItem() {
@@ -89,7 +90,6 @@ export class SupplierComponent implements OnInit {
       }
     };
     this.router.navigate(['correctSupplierProducts'], navigationExtras);
-
   }
 
   openDialogShowSupplier(key) {
@@ -103,8 +103,33 @@ export class SupplierComponent implements OnInit {
   }
   deleteItem(key) {
     this.itemToDel = this.af.list(`users/${this.userId}/suppliers/${key}`);
+   this.af.list(`users/${this.userId}/orderDateSuppliers/`).map(element => {
+      console.log(element);
+    });
+
     this.itemToDel.remove();
 
   }
+  search() {
+    let input, filter, table, li, td, i;
+    input = document.getElementById('myInput');
+    filter = input.value;
+    console.log(filter);
+    table = document.getElementById('contact-list');
+    li = document.getElementsByTagName('li');
+    console.log(li[1].innerHTML);
+    for (i = 0; i < li.length; i++) {
+      td = li[i].getElementsByTagName('h2');
+      console.log(li[i].innerText);
+      if (td) {
+        if (li[i].innerText.indexOf(filter) > -1) {
+          li[i].style.display = '';
+        } else {
+          li[i].style.display = 'none';
+        }
+      }
+    }
+  }
+
 
 }

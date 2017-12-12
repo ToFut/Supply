@@ -1,154 +1,145 @@
-html {
-  background: #FF7F50 no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  overflow: hidden;
+/* Made by Jimmy Gillam */
+$checked-color: #34b93d;
+$unchecked-color: #000;
+$checkbox-height: 20px;
+$background-color:#667788;
+$font-color:#efefef;
+$duration: .4s;
+
+  h2{
+    margin-bottom:40px;
+  }
+
+  p{
+    margin-top:40px;
+  }
+
+/* Checkmark style starts */
+
+@-moz-keyframes dothabottomcheck{
+  0% { height: 0; }
+  100% { height: $checkbox-height/2; }
 }
 
-.container {
-  width: 500px;
-  height: 500px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+@-webkit-keyframes dothabottomcheck{
+  0% { height: 0; }
+  100% { height: $checkbox-height/2; }
 }
 
-.btn {
-  width: 100px;
-  height: 100px;
-  border: none;
-  color: inherit;
-  background: none;
+@keyframes dothabottomcheck{
+  0% { height: 0; }
+  100% { height: $checkbox-height/2;  }
+}
+
+@keyframes dothatopcheck{
+  0% { height: 0; }
+  50% { height: 0; }
+  100% { height: $checkbox-height * 1.2; }
+}
+@-webkit-keyframes dothatopcheck{
+  0% { height: 0; }
+  50% { height: 0; }
+  100% { height: $checkbox-height * 1.2; }
+}
+@-moz-keyframes dothatopcheck{
+  0% { height: 0; }
+  50% { height: 0; }
+  100% { height: $checkbox-height * 1.2; }
+}
+
+input[type=checkbox]{
+  display:none;
+  font-size: medium;
+}
+
+.check-box {
+  padding: 1px;
+
+  height: $checkbox-height;
+  width: $checkbox-height;
+  background-color: transparent;
+  border: $checkbox-height * .1 solid $unchecked-color;
+  border-radius: 5px;
+  position: relative;
   display: inline-block;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 300;
-  outline: none;
-  position: absolute;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-transition: border-color ease $duration/2;
+  -o-transition: border-color ease $duration/2;
+  -webkit-transition: border-color ease $duration/2;
+  transition: border-color ease $duration/2;
+  cursor:pointer;
+   display:inline-block;
 
-.btn img{
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-
-.btn:after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
-}
-
-.bg {
-  height: 32px;
-  width: 32px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-
-.btn-boarder {
-  border: 2px solid #fff;
-  border-radius: 50%;
-}
-
-.animation {
-  -webkit-transform: translate(100px, -100px);
-  -moz-transform: translate(100px, -100px);
-  -o-transform: translate(100px, -100px);
-  -ms-transform: translate(100px, -100px);
-  transform: translate(100px, -100px);
-  -webkit-transition: all 0.3s linear;
-  -moz-transition: all 0.3s linear;
-  -o-transition: all 0.3s linear;
-  transition: all 0.3s linear;
-}
-
-.animation2 {
-  -webkit-animation: fadeIn 0.4s ease-out;
-  -webkit-animation-iteration-count: 1;
-  -webkit-animation-fill-mode: forwards;
-  -webkit-animation-delay: 0.4s;
-  -moz-animation: fadeIn 0.4s ease-out;
-  -moz-animation-iteration-count: 1;
-  -moz-animation-fill-mode: forwards;
-  -moz-animation-delay: 0.4s;
-  animation: fadeIn 0.4s ease-out;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-delay: 0.4s;
-}
-
-@-webkit-keyframes fadeIn {
-  0% {
-    opacity: 0;
+  &::before, &::after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    position: absolute;
+    height: 0;
+    width: $checkbox-height * .2;
+    background-color: $checked-color;
+    display: inline-block;
+    -moz-transform-origin: left top;
+    -ms-transform-origin: left top;
+    -o-transform-origin: left top;
+    -webkit-transform-origin: left top;
+    transform-origin: left top;
+    border-radius: 5px;
+    content: ' ';
+    -webkit-transition: opacity ease .5;
+    -moz-transition: opacity ease .5;
+    transition: opacity ease .5;
   }
 
-  100% {
-    opacity: 1;
+  &::before {
+    top:$checkbox-height * .72;
+    left: $checkbox-height * .41;
+    box-shadow: 0 0 0 $checkbox-height * .05 $background-color;
+    -moz-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+  }
+
+  &::after {
+    top: $checkbox-height * .37;
+    left: $checkbox-height * .05;
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
   }
 }
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
+input[type=checkbox]:checked + .check-box,
+.check-box.checked{
+  border-color:$checked-color;
+
+  &::after{
+    height: $checkbox-height * .5;
+    -moz-animation: dothabottomcheck $duration/2 ease 0s forwards;
+    -o-animation: dothabottomcheck $duration/2 ease 0s forwards;
+    -webkit-animation: dothabottomcheck $duration/2 ease 0s forwards;
+    animation: dothabottomcheck $duration/2 ease 0s forwards;
   }
 
-  100% {
-    opacity: 1;
+  &::before{
+    height: $checkbox-height * 1.2;
+    -moz-animation: dothatopcheck $duration ease 0s forwards;
+    -o-animation: dothatopcheck $duration ease 0s forwards;
+    -webkit-animation: dothatopcheck $duration ease 0s forwards;
+    animation: dothatopcheck $duration ease 0s forwards;
   }
 }
-.around {
-  width: 101px;
-  height: 101px;
-  border: none;
-  color: inherit;
-  background: none;
-  cursor: pointer;
-  display: inline-block;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 300;
-  outline: none;
-  position: absolute;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
+span{
+  font-family: "Comic Sans MS";
+  font-size: large;
+  font-weight: bold;
+  padding: 1px;
+  margin: 40px;
 
-.around:after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-}
-
-.around-boarder {
-  border: 120px solid #FF7F50;
-  border-radius: 50%;
 }

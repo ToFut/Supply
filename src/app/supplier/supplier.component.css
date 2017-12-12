@@ -52,7 +52,9 @@ body {
 }
 .title {
   display: inline-block;
-  font-size: 1.7em;
+  font-size: xx-large;
+  font-family: "Comic Sans MS";
+  color: #111111;
   font-weight: bold;
   padding: 5px 15px;
 }
@@ -77,7 +79,7 @@ ul.c-controls li a i {
 }
 
 ul.c-controls li a:hover {
-  background-color: rgba(51, 51, 51, 0.2);
+  background-color: rgba(226, 170, 234, 0.11);
 }
 
 .c-toggle {
@@ -121,3 +123,159 @@ h1 { color: #09480d; font-family: 'Trocchi', serif; font-size: 45px; font-weight
   background-color: #3e8e41;
 }
 
+input[type=text] {
+  width: 130px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-image: url('../../assets/search.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 100%;
+}
+body{font-size:100%;
+  background:url("http://www.freebiesgallery.com/wp-content/uploads/2014/02/blurred-background-2.jpg")no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family:"Open Sans";
+}
+.wrapper{
+  width:500px;
+  margin:0 auto;
+}
+
+ul{
+  maring:0;
+  padding:0px;
+
+  list-style:none;
+}
+ul li{
+
+  padding:20px;
+  margin-top:20px;
+  background-color:rgba(255,255,255,0.9);
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  -webkit-box-shadow: 0px 0px 2px #888888;
+  -moz-box-shadow: 0px 0px 2px #888888;
+  box-shadow: 0px 0px 2px #888888;
+
+}
+.head{
+  padding:20px;
+  color:red;
+  font-size:36px;
+  text-align:center;
+  background-color:#ed6f70;
+  color:#fff;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  -webkit-box-shadow: 0px 0px 2px #888888;
+  -moz-box-shadow: 0px 0px 2px #888888;
+  box-shadow: 0px 0px 2px #888888;
+}
+.proPic,img{
+  display:inline-block;
+  width:80px;
+  height:80px;
+
+
+}
+
+li span{
+  font-size:16px;
+
+  color:#a0a29d;
+  margin-right:40px;
+  height: 32px;
+  line-height: 32px;
+
+
+}
+.likes:before{
+  content:url("https://cdn0.iconfinder.com/data/icons/users-android-l-lollipop-icon-pack/24/group2-32.png");
+  vertical-align: -30%;
+  margin-right:2%;
+  opacity: 0.4;
+  filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+.photo:before{
+  content:url("https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-camera-32.png");
+  vertical-align: -25%;
+  margin-right:2%;
+  opacity: 0.4;
+  filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+.comments:before{
+
+  content:url("https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/bubble-24-24.png");
+  vertical-align: -25%;
+  margin-right:2%;
+  opacity: 0.4;
+  filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+.info{
+  width:75%;
+
+  margin:0;
+  margin-left:5%;
+  display:inline-block;
+
+
+}
+
+.social{
+
+  padding-top:20px;
+}
+
+h3{
+
+  color:#767a7b;
+  margin:0;
+  padding-bottom:20px;
+  font-size:36px;
+  font-weight:100;
+  border-bottom:1px solid #e0e1dd;
+}
+h3:after{
+
+  content:url("https://cdn3.iconfinder.com/data/icons/simple-files-1/128/Like-32.png");
+  float:right;
+  -webkit-filter: sepia(70%);
+  filter:  sepia(70%);
+}
+.fav{
+  float:right;
+}
+.button{
+  padding: 20px;
+  font-size: 30px;
+  width: 30px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+  border-radius: 50%;
+
+}
+#grad1 {
+  height: 200px;
+  background: #26D367; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#26D367, #8fb1fe); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#26D367, #8fb1fe); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#26D367, #8fb1fe); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#26D367, #8fb1fe); /* Standard syntax (must be last) */
+}
