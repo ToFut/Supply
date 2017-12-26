@@ -46,9 +46,26 @@
         <tr>
         </tr>
       </table>
+      <table id="returnProduct" >
+        <tr>
+          <th style="text-align: right" >שם המוצר </th>
+          <th style="text-align: right" > כמות להחזרה </th>
+          <th style="text-align: right" >   סוג הכמות לקבלה </th>
+
+        </tr>
+
+        <tr  *ngFor="let prudoct of returnHistory | async ;let i = index">
+          <td>
+            <span>{{prudoct.productName }}}</span>
+          </td>'
+          <td>{{prudoct.amount}} </td>
+          <td>      {{prudoct.amount}} {{prudoct.TypeOfFillUp}}</td>
+        </tr>
+        <tr>
+        </tr>
+      </table>
 
     </div>
-
 
 
   <button routerLink="/reciveOrder" (click)="updateRecive()" class="button button1" style="background-color: #26D367;"><span>סיים</span></button>

@@ -1,7 +1,7 @@
 ///<reference path="../SupplierPersonal.ts"/>
 import {Component, Input, OnInit} from '@angular/core';
-import {DialogModule} from 'primeng/primeng';
-import {MdDialogRef} from '@angular/material';
+import {DialogModule, SelectItem} from 'primeng/primeng';
+import {ErrorStateMatcher, MdDialogRef} from '@angular/material';
 import {
   AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable,
   FirebaseOperation
@@ -10,8 +10,11 @@ import {SupplierPersonal} from '../SupplierPersonal';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {DateSelected} from './dateAndFrec';
 import {forEach} from '@angular/router/src/utils/collection';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormControl} from "@angular/forms";
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+import {FormBuilder, FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+
+
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 @Component({
   selector: 'app-dialog',
@@ -24,102 +27,92 @@ export class DialogComponent implements OnInit {
   item: FirebaseObjectObservable<any[]>;
   dateReciveSupplier: FirebaseListObservable<any[]>;
   dateOrderSupplier: FirebaseListObservable<any[]>;
-  wayToOrder: FirebaseListObservable<any[]>;
   userId: string;
   public Supplier = new SupplierPersonal();
-  @Input() supplierKeyPass: string;
-  dateDropDwon = [];
-  public dateSelectedafterChoose: DateSelected[];
   Options = [1 , 2 , 3];
   selectedWay: number;
   dateSelected = [];
-  frequencyDropDwon = [];
   frequencySelected = [];
-  dropdownSettings = {};
-  frequencydropdownSettings = {};
   orderDay: number;
-  selectedValues: any;
-  toppings = new FormControl();
+  selectedType = [];
+  days = [];
+  selectedDays = [];
+  complexForm: any;
+  email = new FormControl('', [Validators.required, Validators.email]);
+  companyName = new FormControl('', [Validators.required]);
+  buyerName = new FormControl('', [Validators.required]);
+  buyerPhone = new FormControl('', [Validators.required]);
 
-  toppingList = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
 
-  constructor( public af: AngularFireDatabase , public afAuth: AngularFireAuth ,
+
+  typeOption = [
+    {value: 'משקאות', viewValue: 'משקאות'},
+    {value: 'מוצרי בשר', viewValue: 'מוצרי בשר'},
+    {value: 'מוצרי חלב', viewValue: 'מוצרי חלב'},
+    {value: 'חומרי גלם', viewValue: 'חומרי גלם'},
+    {value: 'קינוחים', viewValue: 'קינוחים'},
+    {value: 'מאפים', viewValue: 'מאפים'},
+    {value: 'אריזות וחומרי ניקוי', viewValue: 'אריזות וחומרי ניקוי'},
+    {value: 'כלים', viewValue: 'כלים'},
+    {value: 'מוצרים יבשים', viewValue: 'מוצרים יבשים'},
+
+
+  ];
+
+  constructor( fb: FormBuilder , public af: AngularFireDatabase , public afAuth: AngularFireAuth ,
                route: ActivatedRoute , private router: Router) {
+    this.selectedDays = [];
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userId = user.uid;
       }
     });
+   this.complexForm = fb.group({
+      'email' : [null, Validators.required, Validators.email],
+      'companyName' : [null, Validators.required],
+     'buyerName' : [null, Validators.required],
+     'buyerPhone' : [null, Validators.required],
+    })
+
     route.queryParams.subscribe(params => {
       this.supplierKey = params['supplierKey'];
     });
+    this.Options = [1 , 2 , 3];
+    this.typeOption = [
+      {value: 'משקאות', viewValue: 'משקאות'},
+      {value: 'מוצרי בשר', viewValue: 'מוצרי בשר'},
+      {value: 'מוצרי חלב', viewValue: 'מוצרי חלב'},
+      {value: 'חומרי גלם', viewValue: 'חומרי גלם'},
+      {value: 'קינוחים', viewValue: 'קינוחים'},
+      {value: 'מאפים', viewValue: 'מאפים'},
+      {value: 'אריזות וחומרי ניקוי', viewValue: 'אריזות וחומרי ניקוי'},
+      {value: 'כלים', viewValue: 'כלים'},
+      {value: 'מוצרים יבשים', viewValue: 'מוצרים יבשים'},
 
+
+    ];
+
+    this.days = [];
+    this.days.push({itemName: 'א\'', value: false , id: 0});
+    this.days.push({itemName: 'ב\'', value: false , id: 1});
+    this.days.push({itemName: 'ג\'', value: false , id: 2});
+    this.days.push({itemName: 'ד\'', value: false , id: 3});
+    this.days.push({itemName: 'ה\'', value: false , id: 4});
+    this.days.push({itemName: 'ו\'', value: false , id: 5});
+    this.days.push({itemName: 'ש\'', value: false , id: 6});
   }
   ngOnInit(): void {
     this.item = this.af.object(`users/${this.userId}/suppliers/${this.supplierKey}`);
     console.log('key is  ' + this.supplierKey);
-    this.dateDropDwon = [
-      { 'id': 0, 'itemName' : 'יום ראשון'  },
-      { 'id': 1, 'itemName' : 'יום שני' },
-      { 'id': 2, 'itemName' : 'יום שלישי' },
-      { 'id': 3, 'itemName' : 'יום רביעי' },
-      { 'id': 4, 'itemName' : 'יום חמישי' },
-      { 'id': 5, 'itemName' : 'יום שישי' },
-      { 'id': 6, 'itemName' : 'יום שבת' },
-    ];
-    this.frequencyDropDwon = [
-      { 'id': 0, 'itemName' : 'כל שבוע' },
-      { 'id': 1, 'itemName' : 'כל חודש' },
-      { 'id': 2, 'itemName' : 'פעם ב4 חודשים' },
-      { 'id': 3, 'itemName' : 'פעם בשנה' },
-    ];
-    this.dropdownSettings = {
-      singleSelection: false,
-      text: 'ימים',
-      selectAllText: 'בחר הכל',
-      unSelectAllText: 'הסר הכל',
-      enableSearchFilter: true,
-      classes: 'myclass custom-class'
-    };
-    this.frequencydropdownSettings = {
-      singleSelection: false,
-      text: 'תדירות ההזמנה',
-      selectAllText: 'בחר הכל',
-      unSelectAllText: 'הסר הכל',
-      enableSearchFilter: true,
-      classes: 'myclass custom-class'
-    };
   }
-  onfrequencySelect(frequency: any) {
-    console.log(frequency.id);
-    console.log(this.frequencySelected);
-  }
-  OnfrequencyDeSelect(frequency: any) {
-    console.log(this.frequencySelected);
-  }
-  onfrequencySelectAll(frequencys: any) {
-    console.log(frequencys);
-  }
-  onfrequencyDeSelectAll(frequencys: any) {
-    console.log(frequencys);
-  }
-  onDateSelect(date: any) {
-    console.log(date.id);
-    console.log(this.dateSelected);
-  }
-  OnDateDeSelect(date: any) {
-    console.log(date);
-    console.log(this.dateSelected);
-  }
-  onDateSelectAll(dates: any) {
-    console.log(dates);
-  }
-  onDateDeSelectAll(dates: any) {
-    console.log(dates);
+  getErrorMessage(oneOf: FormControl) {
+    return oneOf.hasError('required') ? 'צריך למלא שדה זה' :
+      this.email.hasError('email') ? 'Not a valid email' :
+        '';
   }
 
   BuildSupplier (name: string , PhoneNumber: number , email: string , ContactName: string , ContactNum: number ,
-                 ContactEmail: string  , type: string ) {
+                 ContactEmail: string   ) {
     this.Supplier.name = name;
     this.Supplier.PhoneNumber = PhoneNumber;
     this.Supplier.email = email;
@@ -128,10 +121,11 @@ export class DialogComponent implements OnInit {
     this.Supplier.ContactNum = ContactNum;
     this.Supplier.ContactEmail = ContactEmail;
     this.Supplier.OrderDays = this.selectedWay;
-    this.Supplier.type = type;
 
     this.Supplier.frequency = this.frequencySelected;
+
     this.Supplier.date = this.dateSelected;
+    this.Supplier.type = this.selectedType['value'];
     this.updateItem(this.Supplier );
 
 
@@ -157,8 +151,6 @@ export class DialogComponent implements OnInit {
       case -6 :
         this.orderDay = 1;
         break;
-
-
     }
   }
   updateItem(Supplier ) {
@@ -172,14 +164,14 @@ export class DialogComponent implements OnInit {
         this.calcDateOrder(value.id);
         this.dateReciveSupplier = this.af.list(`/users/${this.userId}/reciveDateSuppliers/${[value.id]}`);
         this.dateOrderSupplier = this.af.list(`/users/${this.userId}/orderDateSuppliers/${[this.orderDay]}`);
-        console.log('this is ' + value.id);
+        console.log('this is ' + this.orderDay);
         this.dateOrderSupplier.set(this.supplierKey , {'orderIn' : this.orderDay });
         this.dateReciveSupplier.set(this.supplierKey , {'reciveIn' : value.id });
 
       }
     });
     this.item.update(Supplier);
-    this.router.navigate(['supplier']);
+    this.router.navigateByUrl('/supplier');
   }
   deleteItem() {
     this.item.remove();
@@ -187,4 +179,29 @@ export class DialogComponent implements OnInit {
     this.dateReciveSupplier.remove(this.supplierKey);
 
   }
+  updateProductPage(key) {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'userId': this.userId,
+        'SupplierKey': key,
+      }
+    };
+    this.router.navigate(['correctSupplierProducts'], navigationExtras);
+  }
+  checkDay(day , index) {
+    console.log(day);
+    this.days[index].value = !this.days[index].value;
+    if (this.days[index].value === true ) {
+      this.dateSelected.push(this.days[index]);
+      document.getElementById(day).style.backgroundColor = '#008624';
+
+    } else {
+      console.log(index);
+      this.dateSelected.splice(this.days[index], 1);
+      console.log(this.dateSelected);
+      document.getElementById(day).style.backgroundColor = '#FCF5F5';
+    }
+    console.log(this.dateSelected);
+  }
+
 }

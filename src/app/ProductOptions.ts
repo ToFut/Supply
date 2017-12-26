@@ -9,5 +9,8 @@ export class ProductOptions {
   model: string;
   comments: string;
   TypeOfFillUp: string;
+  sizeUnitPackaging: number;
+  deposit: boolean;
+  sale: number;
   imgSrc: string;
 }

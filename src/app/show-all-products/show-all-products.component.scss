@@ -8,3 +8,35 @@
 .example-margin {
   margin: 0 10px;
 }
+
+label {
+  font-size: large;
+
+  position: relative;
+  display: block;
+  padding: 0 0 0 1em;
+  font-weight: bold;
+  line-height: 3;
+  cursor: pointer;
+}
+input:required {
+  box-shadow: 4px 4px 20px rgba(200, 0, 0, 0.85);
+}
+
+/**
+ * style input elements that have a required
+ * attribute and a focus state
+ */
+input:required:focus {
+  border: 1px solid red;
+  outline: none;
+}
+
+/**
+ * style input elements that have a required
+ * attribute and a hover state
+ */
+input:required:hover {
+  opacity: 1;
+}
+

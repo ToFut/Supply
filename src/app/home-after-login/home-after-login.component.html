@@ -9,46 +9,49 @@
 
 
   <div  class="header" >
-    <div class="logo"   > <img  height="50" style="      height: 230px;
-  width: 100%; " src="../../assets/supplyMe_icon_second.png"  /> </div>
+    <div class="logo"   > <img src="../../assets/logoWithOutBackground.png"  /> </div>
     <h5 style="font-family: 'Comic Sans MS'; font-size: small;color: #26D367;">שלום {{userName}}</h5>
 <div class="container">
-  <div class="w3-row-padding w3-padding-16 w3-center" >
-  <div class="w3-quarter">
-    <a routerLink="/supplier" routerLinkActive="active">
-  <span class="button button4 ">
-      <i class="fa fa-users w3-xxxlarge"></i>
-      <h4 class="nav-text" style="font-size: medium"> הספקים שלי</h4>
+  <div class="w3-quarter w3-half">
+    <a routerLink="/reciveOrder" routerLinkActive="active">
+      <span class="button button4" >
+
+              <i class="fa fa-shopping-cart w3-xxxlarge"></i>
+
+      <h4  style="font-size: medium">קבלת סחורה</h4>
       </span>
     </a>
     <a routerLink="/order" routerLinkActive="active">
+
       <span class="button button4" >
-      <i class="fa fa-shopping-cart w3-xxxlarge"></i>
+                <i class="fa fa-shopping-bag w3-xxxlarge"></i>
         <h4 class="nav-text" style="font-size: medium">הזמנת סחורה</h4>
       </span>
     </a>
 </div>
-</div>
-  <div class="w3-row-padding w3-padding-16 w3-center" >
-    <div class="w3-quarter">
-      <a routerLink="/reciveOrder" routerLinkActive="active">
-      <span class="button button4" >
-      <i class="fa fa-shopping-bag w3-xxxlarge"></i>
-      <h4  style="font-size: medium">קבלת סחורה</h4>
+
+    <div class="w3-quarter w3-half">
+      <a [hidden]="subUser" routerLink="/supplier" routerLinkActive="active">
+  <span class="button button4 ">
+      <i class="fa fa-users w3-xxxlarge"></i>
+
+      <h4 class="nav-text" style="font-size: medium"> הספקים שלי</h4>
       </span>
       </a>
+
       <a  routerLink="/returnProdcts" routerLinkActive="active">
     <span class="button button4" >
-      <i class="fa fa-cog w3-xxxlarge"></i>
+      <i class="fa fa-shopping-basket w3-xxlarge" aria-hidden="true"></i>
+      <i class="fa fa-arrow-left w3-xxlarge" aria-hidden="true"></i>
+
        <h4 class="nav-text" style="font-size: medium;">  החזרת סחורה  </h4>
     </span>
       </a>
     </div>
-  </div>
 </div>
   <!-- Footer -->
   <div class="form-group text-center">
-    <a href="/signUp"> עזרה </a>&nbsp;|&nbsp;<a (click)="logout()" routerLink="/loginPage">התנתק</a>
+    <a routerLink="/setting"> הגדרות </a>&nbsp;|&nbsp;<a (click)="logout()" routerLink="/loginPage">התנתק</a>
   </div>
   </div>
 

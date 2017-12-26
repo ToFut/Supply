@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 
@@ -12,13 +12,51 @@ export class LoginPageComponent implements OnInit {
   email: string;
   password: string;
   passReset = false;
+  domainUserId: string;
+  name: string;
+  restName: string;
+  supplierKey: string;
+  userId: string;
 
-  constructor(public afAuth: AngularFireAuth , private router: Router) {
+  constructor(public afAuth: AngularFireAuth , private router: Router , public route: ActivatedRoute) {
+    route.queryParams.subscribe(params => {
+      this.domainUserId = params['domainUserId'];
+      this.name = params['name'];
+      this.restName = params['restName'];
+      this.supplierKey = params['supplierKey'];
+      this.userId = params['userId'];
+
+    });
+
     this.afAuth.authState.subscribe(auth => {
       if (auth) {
         this.router.navigateByUrl('/homeAfterLogin');
       }
+      console.log(this.domainUserId);
+      if ( this.domainUserId !== undefined) {
+        const navigationExtras: NavigationExtras = {
+          queryParams: {
+            'domainUserId': this.domainUserId,
+            'name': this.name,
+            'restName': this.restName,
+
+          }
+        };
+        this.router.navigate(['subUserSignUp'], navigationExtras);
+      }
+      console.log(this.userId);
+      if ( this.userId !== undefined) {
+        const navigationExtras: NavigationExtras = {
+          queryParams: {
+            'userId': this.userId,
+            'supplierKey': this.supplierKey,
+          }
+        };
+        this.router.navigate(['acceptOrder'], navigationExtras);
+      }
+
     });
+
   }
 
   ngOnInit() {
@@ -28,7 +66,6 @@ export class LoginPageComponent implements OnInit {
     console.log('onSubmit');
     this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password).then(
         (success) => {
-          console.log(success);
           this.router.navigate(['/#/homeAfterLogin']);
         }).catch(function (error) {
         const errorCode = error.name;

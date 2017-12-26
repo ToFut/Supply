@@ -5,8 +5,10 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase/app';
 import {User} from './userDetail' ;
-import { RouterModule, Router } from '@angular/router';
+import {RouterModule, Router, ActivatedRoute, NavigationExtras} from '@angular/router';
 import {MatchSupplierService} from './match-supplier.service';
+import {Location} from '@angular/common';
+import {isUndefined} from 'util';
 
 
 
@@ -26,15 +28,78 @@ export class AppComponent implements OnInit {
   items: FirebaseListObservable<any[]>;
   userName: string;
   userId: string;
+  url: any;
+  dayInMonth: string;
+  month: string;
+  year: string;
+  supplierKey: string;
+  domainUserId: string;
+  name: string;
+  restName: string;
+  checkIfInHomePage: boolean;
   constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase , private router: Router ,
-              public matchSupplier: MatchSupplierService) {
+              public matchSupplier: MatchSupplierService , private location: Location ,  public link: ActivatedRoute) {
+      link.queryParams.subscribe(params => {
+        this.supplierKey = params['supplierKey'];
+        this.name = params['name'];
+        this.userId = params['userId'];
+        this.dayInMonth = params['dayInMonth'];
+        this.month = params['month'];
+        this.year = params['year'];
+        this.domainUserId = params['domainUserId'];
+        this.name = params['name'];
+        this.restName = params['restName'];
+      });
+
     this.afAuth.authState.subscribe(user => {
-      if (user) {this.userId = user.uid;
+      if (user) {
         this.router.navigate(['/homeAfterLogin']);
       } else {
-        this.router.navigate(['/loginPage']);
-      }
+        console.log(this.supplierKey);
+        if (!isUndefined(this.supplierKey)) {
+          console.log('/acceptOrder');
 
+          const navigationExtras: NavigationExtras = {
+            queryParams: {
+              'userId': this.userId,
+              'supplierKey': this.supplierKey,
+              'dayInMonth': this.dayInMonth,
+              'month': this.month,
+              'year': this.year,
+
+            }
+          };
+          this.router.navigate(['acceptOrder'], navigationExtras);
+        } else if (!isUndefined(this.domainUserId)) {
+          console.log('/subUserSignUp');
+
+          const navigationExtras: NavigationExtras = {
+            queryParams: {
+              'domainUserId': this.domainUserId,
+              'name': this.name,
+              'restName': this.restName,
+            }
+          };
+          this.router.navigate(['subUserSignUp'], navigationExtras);
+
+        } else {
+          console.log('/loginPage');
+          this.router.navigate(['/loginPage']);
+        }
+      }
+    });
+
+    this.router.events.subscribe(event => {
+      this.url = event['url'];
+      console.log(event['url']);
+      this.modifyHeader(event);
+    });
+    this.afAuth.authState.subscribe(user => {
+      if (user) {
+        this.userId = user.uid;
+        this.checkURL();
+        console.log(location);
+      }
     });
     this.user = afAuth.authState;
     if (!this.userId) {return; }
@@ -42,18 +107,22 @@ export class AppComponent implements OnInit {
     this.userName = afAuth.auth.currentUser.displayName;
 
   }
-  onChange() {
+  checkURL() {
+  }
+
+  backClicked() {
+    this.location.back();
   }
 
 
     ngOnInit() {
     this.user = this.afAuth.authState;
+    console.log(location);
     const currentUrl = this.router.url; /// this will give you current url
     let registeredUser = true;
     if (currentUrl === '/home') {
       registeredUser = false;
     }
-      this.router.events.subscribe(event => this.modifyHeader(event));
 
     }
   redirectSupplier() {
@@ -121,7 +190,13 @@ export class AppComponent implements OnInit {
   }
   modifyHeader(location) {
     console.log(location.url);
-    if (location.url === '/homeAfterLogin' || location.url === '/loginPage' || location.url === '/signUp' || location.url === '/home' ) {
+    if (location.url === '/homeAfterLogin') {
+      this.checkIfInHomePage = true;
+    } else {
+      this.checkIfInHomePage = false;
+    }
+    if (location.url === '/homeAfterLogin' || location.url === '/loginPage' || location.url === '/signUp' || location.url === '/home'
+      || location.url === '/acceptOrder' || location.url === '/subUserSignUp') {
       this.showHeader = false;
     } else {
       this.showHeader = true;

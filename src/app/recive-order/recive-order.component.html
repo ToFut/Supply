@@ -16,7 +16,8 @@
       <div  [hidden]=" !allSupplierFinishe ">
         <h2 style="font-size: x-large; color: #4CAF50;"> כל הכבוד , קיבלת את כל הסחורה להיום. </h2>
       </div>
-      <div class="tab" [hidden]=" allSupplierFinishe ">
+      <div >
+      <div class="tab" >
         <input id="tab-one" type="checkbox" name="tabs" [(ngModel)]="show"/>
         <label for="tab-one">  קבלת סחורה  </label>
         <div class="tab-content">
@@ -36,13 +37,15 @@
             <button  class = "button success"(click)="todoListNavigation(supplier )">
               {{ (supplier | async)?.name }} </button>
           </div>
-            <div [hidden]=" someSupplierFinish ">
-              <h2 style="font-size: x-large; color: rgba(180,0,4,0.83);"> עוד לא קיבלתי סחורה להיום.. </h2>
-            </div>
+          <div [hidden]=" someSupplierFinish ">
+            <h2 style="font-size: x-large; color: #4CAF50;"> עוד לא קיבלתי סחורה להיום.. </h2>
+
+          </div>
+
         </div>
       </div>
     </div>
-
+    </div>
   </div>
 
   </div>

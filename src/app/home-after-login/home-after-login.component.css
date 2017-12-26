@@ -37,6 +37,7 @@
 
 .logo{
   width: 100%;
+  background-color: #26D367;
 }
 
 .header h1 {
@@ -49,3 +50,25 @@
 @media (min-width:961px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
 @media (min-width:1025px  ) { /* big landscape tablets, laptops, and desktops */ }
 @media (min-width:1281px) { /* hi-res laptops and desktops */ }
+.round-button {
+  display:block;
+  width:50px;
+  height:50px;
+  line-height:50px;
+  margin-top: 2px;
+  margin-right: 2px;
+  position: relative;
+  top: 0;
+  right: 0;
+  border: 2px solid #f5f5f5;
+  border-radius: 50%;
+  color:#f5f5f5;
+  text-decoration:none;
+  background: #d40a15;
+  box-shadow: 0 0 3px gray;
+  font-size:20px;
+  font-weight:bold;
+}
+.round-button:hover {
+  background: #d40a15;
+}

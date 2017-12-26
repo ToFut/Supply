@@ -18,6 +18,10 @@ import {DialogComponent} from './dialog/dialog.component';
 import {SatisticsComponent} from './satistics/satistics.component';
 import {SignUpComponent} from './sign-up/sign-up.component';
 import {ReturnProductsComponent} from './return-products/return-products.component';
+import {SettingsComponent} from './settings/settings.component';
+import {ShowAllProductsComponent} from './show-all-products/show-all-products.component';
+import {AcceptOrderComponent} from './accept-order/accept-order.component';
+import {SignUpPageSubUserComponent} from './sign-up-page-sub-user/sign-up-page-sub-user.component';
 
 const routes: Routes = [
       { path: 'supplier', component: SupplierComponent , pathMatch: 'full'},
@@ -34,7 +38,10 @@ const routes: Routes = [
       { path: 'loginPage', component: LoginPageComponent , pathMatch: 'full'},
       { path: 'signUp', component: SignUpComponent , pathMatch: 'full'},
       { path: 'returnProdcts', component: ReturnProductsComponent , pathMatch: 'full'},
-
+      { path: 'setting', component: SettingsComponent , pathMatch: 'full'},
+      { path: 'showCurrentSupplierProducts', component: ShowAllProductsComponent , pathMatch: 'full'},
+      { path: 'acceptOrder', component: AcceptOrderComponent , pathMatch: 'full'},
+      { path: 'subUserSignUp', component: SignUpPageSubUserComponent , pathMatch: 'full'},
 
 
 ];

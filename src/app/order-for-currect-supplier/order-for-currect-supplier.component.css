@@ -10,8 +10,10 @@ input {
   background-color:rgba(185,12,31,0);
 }
 .button {
+  border-radius:50%;
+
   display: inline-block;
-  border-radius: 4px;
+
   background-color: #2980b9;
   border: none;
   color: #FFFFFF;
@@ -48,7 +50,7 @@ input {
   opacity: 1;
   right: 0;
 }
-#scrolly{
-  overflow-x: hidden;
-}
 
+tr {
+  overflow: scroll;
+}

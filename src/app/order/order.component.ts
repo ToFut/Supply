@@ -24,6 +24,18 @@ export class OrderComponent implements OnInit {
   objLoaderStatus = true;
   userId: string;
   SupplierFounded: FirebaseListObservable<any[]>;
+  orderAccept: FirebaseListObservable<any[]>;
+  dayInMonth = this.viewDate.getDate();
+  month = this.viewDate.getMonth();
+  year = this.viewDate.getFullYear();
+  KEYSacceptedOrders = [];
+  KEYSNONacceptedOrders = [];
+  showAccepted = [];
+  showNONAccepted = [];
+  show = true;
+  acceptedChecker = [];
+  NONeacceptedChecker = [];
+
 
 
   constructor(public matchSupplier: MatchSupplierService , public afAuth: AngularFireAuth, public af: AngularFireDatabase,
@@ -35,8 +47,28 @@ export class OrderComponent implements OnInit {
        if (user) {
          this.userId = user.uid;
        }
+        this. orderAccept = this.af.list(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}`);
+        this.orderAccept.subscribe( data => {
+          console.log(data);
+          data.forEach( snapshot => {
+            console.log(snapshot.$key);
+            console.log(snapshot.$value);
+            if (snapshot.$value === true) {
+              this.KEYSacceptedOrders.push(snapshot.$key);
+            } else {
+              this.KEYSNONacceptedOrders.push(snapshot.$key);
+            }
+          });
+        });
 
      });
+    if (this.month === 12) {
+      this.month = 1;
+    } else {
+      this.month += 1;
+    }
+
+
     setTimeout(() => {
       this.checkForSupplier();
 
@@ -58,8 +90,30 @@ export class OrderComponent implements OnInit {
       this.objLoaderStatus = false;
       console.log(this.items);
       console.log(this.objLoaderStatus);
+      return this.items;
 
+    }).then(value => {
+      value.forEach( snapshot => {
+        console.log(this.KEYSacceptedOrders.includes(snapshot['$ref']['key']));
+
+        if (this.KEYSacceptedOrders.includes(snapshot['$ref']['key']) && this.acceptedChecker.indexOf(snapshot['$ref']['key']) === -1 ) {
+          this.showAccepted.push(snapshot);
+          this.acceptedChecker.push(snapshot['$ref']['key']);
+        } else if ( this.NONeacceptedChecker
+            .indexOf(snapshot['$ref']['key']) === -1 && this.acceptedChecker.indexOf(snapshot['$ref']['key']) === -1) {
+          this.NONeacceptedChecker.push(snapshot['$ref']['key']);
+          this.showNONAccepted.push(snapshot);
+
+        }
+        console.log(this.showAccepted);
+        console.log(this.showNONAccepted);
+
+
+      });
     });
+
+  }
+   doCheck() {
 
   }
    ngOnInit() {
@@ -79,7 +133,6 @@ export class OrderComponent implements OnInit {
            console.log('this is ' + this.objLoaderStatus);*/
   }
   orderFromMe(supplier ) {
-     console.log(supplier.$ref.key);
 
     const navigationExtras: NavigationExtras = {
       queryParams: {

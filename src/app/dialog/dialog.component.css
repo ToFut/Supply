@@ -1,16 +1,82 @@
-form{
-  background: #021725;
-}
 input, textarea, select, option{
   background: none !important;
-  border-top: #00e124 1px solid !important;
-  border-left: #00e124 1px solid !important;
-  border-bottom: #00e124 3px solid !important;
-  border-right: #00e124 3px solid !important;
+  border-top: #050348 1px solid !important;
+  border-left: #050348 1px solid !important;
+  border-bottom: #050348 3px solid !important;
+  border-right: #050348 3px solid !important;
   border-radius: 2px !important;
-  color: #00e124 !important;
+  color: #050348 !important;
 }
 .label {
   font-family: "Comic Sans MS";
   font-size: medium;
+}
+.button {
+  display: inline-block;
+  border-radius: 10px;
+  background-color: #26D367;
+  border: none;
+  float: right;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+.btn-group .button {
+  background-color: #4CAF50; /* Green */
+  border: 1px solid green;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: left;
+}
+.btn-group .button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+.btn-group .button:hover {
+  background-color: #3e8e41;
+}
+#shadow {
+  border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 10px 8px #888888;
+}
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
 }

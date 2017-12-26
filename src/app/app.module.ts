@@ -8,9 +8,12 @@ import { SupplierComponent } from './supplier/supplier.component';
 import { MockSupplierComponent } from './mock-supplier/mock-supplier.component';
 import { ServerConnectionComponent} from './server-connection/server-connection.component';
 import {HttpClientModule} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app-routing.module';
-import {MdButtonModule, MdCheckboxModule, MdDialogModule , MdGridListModule} from '@angular/material';
+import {
+  MdButtonModule, MdCheckboxModule, MdDialogModule, MdGridListModule,
+  MdNativeDateModule
+} from '@angular/material';
 import { GestureConfig, MaterialModule } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
@@ -21,7 +24,7 @@ import { environment } from '../environments/environment';
 import { Ng2Bs3ModalModule } from '../../node_modules/ng2-bs3-modal/ng2-bs3-modal';
 import 'hammerjs';
 import { LoginPageComponent } from './login-page/login-page.component';
-import { DialogComponent } from './dialog/dialog.component';
+import {DialogComponent} from './dialog/dialog.component';
 import { InviteProductsComponent } from './invite-products/invite-products.component';
 import { AddProductsToSupplierComponent } from './add-products-to-supplier/add-products-to-supplier.component';
 import { SupplierSearchComponent } from './supplier-search/supplier-search.component';
@@ -61,6 +64,9 @@ import { SatisticsComponent } from './satistics/satistics.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { ReturnProductsComponent } from './return-products/return-products.component';
 import { Ng2SmartTableModule} from 'ng2-smart-table';
+import { SettingsComponent } from './settings/settings.component';
+import { AcceptOrderComponent } from './accept-order/accept-order.component';
+import { SignUpPageSubUserComponent } from './sign-up-page-sub-user/sign-up-page-sub-user.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +95,9 @@ import { Ng2SmartTableModule} from 'ng2-smart-table';
     SatisticsComponent,
     SignUpComponent,
     ReturnProductsComponent,
+    SettingsComponent,
+    AcceptOrderComponent,
+    SignUpPageSubUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -120,9 +129,11 @@ import { Ng2SmartTableModule} from 'ng2-smart-table';
     Ng2CompleterModule,
     PasswordModule,
     InputMaskModule,
+    ReactiveFormsModule,
     Ng2SmartTableModule,
     FieldsetModule,
     AccordionModule,
+    MdNativeDateModule,
   ],
   exports: [MdButtonModule, MdCheckboxModule , OrderComponent],
   providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },

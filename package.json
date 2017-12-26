@@ -1,5 +1,5 @@
 {
-    "name": "supply",
+    "name": "supplyME",
     "version": "0.0.0",
     "license": "MIT",
     "scripts": {
@@ -53,6 +53,7 @@
         "ng2-completer": "^1.6.3",
         "ng2-datetime": "^1.4.0",
         "ng2-dropdown-multiselect": "^1.2.0",
+        "ng2-expanding-table": "^1.5.2",
         "ng2-modal-dialog": "^1.0.1",
         "ng2-smart-table": "^1.2.2",
         "ng2-sweetalert2": "0.0.8",

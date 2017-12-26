@@ -1,62 +1,61 @@
-<div class="container" style="direction: rtl"  >
+<div class="container">
 
-  <br><br>
-  <h1 style="text-align: center;font-size: x-large"> הגדרת ספק</h1>
-  <label >שם החברה</label>
-  <input mdInput type="text" #updatename value="{{(item | async)?.name}}" />
+<br><br>
+  <form class="example-form" #bookForm="ngForm">
+  <h1 data-shadow-text="Text-Shadow" style="text-align: center;font-size: x-large;font-family: 'Comic Sans MS'"> הגדרת ספק</h1>
+    <md-form-field class="example-full-width">
 
-  <label >טלפון במשרד</label>
-  <input mdInput type="number" #updatePhoneNumber value="{{(item | async)?.PhoneNumber}}" />
-  <p-checkbox  name="groupname" value="{{updatePhoneNumber.value}}" [(ngModel)]="selectedValues"></p-checkbox>
-  <br>
-  <label >מייל החברה</label>
-  <input mdInput type="email"  #updatemail value="{{(item | async)?.email}}" />
-  <p-checkbox class="ui-g-12" name="groupname" value="{{updatemail.value}}" [(ngModel)]="selectedValues"></p-checkbox>
-  <label >שם איש הקשר</label>
-  <input mdInput type="text" #updateContactName value="{{(item | async)?.ContactName}}">
-  <br>
-  <label >נייד איש הקשר</label>
-  <input mdInput type="number" #updateContactNum value="{{(item | async)?.ContactNum}}"  />
-  <p-checkbox   value="{{updateContactNum.value}}" [(ngModel)]="selectedValues"></p-checkbox >
+      <input mdInput type="text" [formControl]="complexForm.controls['companyName']" #updatename value="{{(item | async)?.name}}" placeholder="שם החברה" required >
+      <md-error *ngIf="companyName.invalid">{{getErrorMessage(companyName)}}</md-error>
 
-  <label > מייל איש הקשר</label>
-  <input mdInput type="email"  #updateContactEmail value="{{(item | async)?.ContactEmail}}"  />
-  <p-checkbox  value="{{updateContactEmail.value}}" [(ngModel)]="selectedValues"></p-checkbox>
-  <h3 style="font-size: x-small"> סמן ליד מספרי הפלאפון/מייל האם תרצה לשדר הזמנה דרכם</h3>
+    </md-form-field>
 
-  <label class="center-block" style="width:250px;margin-bottom:10px" >מועדי אספקה:
+    <md-form-field >
+      <input type="tel"  #updatePhoneNumber value="{{(item | async)?.PhoneNumber}}" mdInput placeholder="טלפון במשרד">
+    </md-form-field>
+    <md-form-field >
+      <input mdInput  type="email" #updatemail value="{{(item | async)?.email}}" placeholder="מייל החברה" [formControl]="complexForm.controls['email']">
+      <md-error *ngIf="email.invalid">{{getErrorMessage(email)}}</md-error>
+    </md-form-field>
 
-    <angular2-multiselect style="text-align: center" [data]="dateDropDwon" [(ngModel)]="dateSelected"
-                          [settings]="dropdownSettings"
-                          (onSelect)="onDateSelect($event)"
-                          (onDeSelect)="OnDateDeSelect($event)"
-                          (onSelectAll)="onDateSelectAll($event)"
-                          (onDeSelectAll)="onDateDeSelectAll($event)"></angular2-multiselect>
-  </label>
+    <md-form-field >
+      <input mdInput type="text"  [formControl]="complexForm.controls['buyerName']"  #updateContactName value="{{(item | async)?.ContactName}}" placeholder="שם איש הקשר לביצוע הזמנות" required>
+      <md-error *ngIf="buyerName.invalid">{{getErrorMessage(buyerName)}}</md-error>
 
-  <label class="center-block" style="width:250px;margin-bottom:10px" >תדירות הזמנה:
-    <angular2-multiselect style="text-align: center" [data]="frequencyDropDwon" [(ngModel)]="frequencySelected"
-                          [settings]="frequencydropdownSettings"
-                          (onSelect)="onfrequencySelect($event)"
-                          (onDeSelect)="OnfrequencyDeSelect($event)"
-                          (onSelectAll)="onfrequencySelectAll($event)"
-                          (onDeSelectAll)="onfrequencyDeSelectAll($event)"></angular2-multiselect>
-  </label>
+    </md-form-field>
+
+    <md-form-field >
+
+      <input type="tel"  [formControl]="complexForm.controls['buyerPhone']" #updateContactNum value="{{(item | async)?.ContactNum}}"  mdInput placeholder="נייד איש הקשר" required>
+      <md-error *ngIf="buyerPhone.invalid">{{getErrorMessage(buyerPhone)}}</md-error>
+
+    </md-form-field>
+    <md-form-field >
+      <input mdInput  type="email" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" required #updateContactEmail value="{{(item | async)?.ContactEmail}}" placeholder="מייל איש הקשר" >
+    </md-form-field>
+
+  </form>
+  <label class="center-block" style="width:250px;margin-bottom:10px" >מועדי אספקה:</label>
+  <div class="col-xs-12 col-sm-6 example-col">
+    <div *ngFor="let day of days" class="btn-group btn-group-sm">
+      <button type="button" id="{{day.itemName}}" (click)="checkDay(day.itemName  , day.id)" class="btn shadow" style="color: #22262e ;background-color: #fcf5f5">{{day.itemName}}</button>
+    </div>
+  </div>
+
+
     <md-select placeholder="מועדי הזמנה" [(ngModel)]="selectedWay" name="optionOrder">
-      <md-option *ngFor="let option of Options" [value]="option">
-        {{option}} ימים לפני
+      <md-option *ngFor="let option of Options " [value]="option">
+       <span>{{option}}  <span> ימים לפני  </span> </span>
       </md-option>
     </md-select>
-  <label class="center-block">קטגוריית מוצרים:
-    <input type="text" #updatetype/>
-    {{selectedValues}}
+  <br>
+  <md-select placeholder="סוגי הזמנה" [(ngModel)]="selectedType" >
+    <md-option *ngFor="let type of typeOption " [value]="type">
+      <span>{{type.viewValue}}  </span>
+    </md-option>
+  </md-select>
 
-  </label>
 
-  <button md-fab>
-    <i class="material-icons" (click)="BuildSupplier(updatename.value,updatePhoneNumber.value,updatemail.value,updateContactName.value,updateContactNum.value,updateContactEmail.value,updatetype.value)">update</i>
-  </button>
-  <button md-fab>
-    <i class="material-icons" (click)="deleteItem()">delete</i>
-  </button>
+  <br> <br>
+  <button [disabled]="!complexForm.valid" class="button"(click)="BuildSupplier(updatename.value,updatePhoneNumber.value,updatemail.value,updateContactName.value,updateContactNum.value,updateContactEmail.value)" style="vertical-align:middle"><span>עדכן </span></button>
 </div>

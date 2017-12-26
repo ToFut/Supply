@@ -3,11 +3,10 @@
 <title>W3.CSS</title>
 
 <header class="w3-container " style="background-color: #26D367;color: #fafafa;" *ngIf="showHeader">
-  <button style="    position:absolute;
-    transition: .5s ease;
-    left: 82%;
-    font-size: x-large;
-    height: inherit;" id="openNav" class="w3-button  "  (click)="w3_open()"><i class="fa fa-bars " aria-hidden="true"></i></button>
+  <button id="openNav" class="w3-button button1 "  (click)="w3_open()"><i class="fa fa-bars " aria-hidden="true"></i></button>
+  <button [hidden]="checkIfInHomePage"
+          (click)="backClicked()"><i class="fa fa-arrow-right button2" aria-hidden="true"></i></button>
+
   <h1 routerLink="/homeAfterLogin" style="text-align: center;font-size: x-large;" >supplyME</h1>
 </header>
 
@@ -20,7 +19,7 @@
   <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" *ngIf="(user | async)?.uid" routerLink="/supplier" routerLinkActive="active"><i class="fa fa-users"></i><b class="nav-text"> רשימת ספקים  </b></a>
   <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" *ngIf="(user | async)?.uid" routerLink="/order" routerLinkActive="active"><i class="fa fa-shopping-cart"></i><b class="nav-text"> הזמנות </b></a>
   <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" *ngIf="(user | async)?.uid" routerLink="/reciveOrder" routerLinkActive="active"><i class="fa fa-truck"></i><b class="nav-text"> קבלת סחורה </b></a>
-  <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" *ngIf="(user | async)?.uid" routerLink="/satistics" routerLinkActive="active"><i class="fa fa-cog"></i><b class="nav-text"> הגדרות </b></a>
+  <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" *ngIf="(user | async)?.uid" routerLink="/setting" routerLinkActive="active"><i class="fa fa-cog"></i><b class="nav-text"> הגדרות </b></a>
   <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" *ngIf="!(user | async)?.uid" routerLink="/home" routerLinkActive="active"><i class="fa fa-info"></i><b class="nav-text"> עוד עלינו </b></a>
   <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" routerLink="/loginPage" *ngIf="!(user | async)?.uid"><i class="fa fa-sign-in"></i><b> התחבר </b></a>
   <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" routerLink="/signUp" *ngIf="!(user | async)?.uid"><i class="fa fa-sign-in"></i><b> הרשם </b></a>

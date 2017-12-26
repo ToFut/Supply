@@ -43,7 +43,9 @@ export class SupplierComponent implements OnInit {
     });
 
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
 
   showListOfAllDB (): FirebaseListObservable<any[]> {
     return this.items;
@@ -86,7 +88,7 @@ export class SupplierComponent implements OnInit {
     const navigationExtras: NavigationExtras = {
       queryParams: {
         'userId': this.userId,
-        'supplierKey': key
+        'SupplierKey': key
       }
     };
     this.router.navigate(['correctSupplierProducts'], navigationExtras);
@@ -98,14 +100,15 @@ export class SupplierComponent implements OnInit {
       height: '500px'
     } );
     dialogRef.componentInstance.key = key;
-    console.log('this ket is: ' + key);
 
   }
+
   deleteItem(key) {
     this.itemToDel = this.af.list(`users/${this.userId}/suppliers/${key}`);
-   this.af.list(`users/${this.userId}/orderDateSuppliers/`).map(element => {
-      console.log(element);
-    });
+    for (let i = 0 ; i < 7 ; i++ ) {
+      this.af.list(`users/${this.userId}/orderDateSuppliers/${i}/${key}`).remove();
+      this.af.list(`users/${this.userId}/reciveDateSuppliers/${i}/${key}`).remove();
+    }
 
     this.itemToDel.remove();
 
@@ -114,7 +117,6 @@ export class SupplierComponent implements OnInit {
     let input, filter, table, li, td, i;
     input = document.getElementById('myInput');
     filter = input.value;
-    console.log(filter);
     table = document.getElementById('contact-list');
     li = document.getElementsByTagName('li');
     console.log(li[1].innerHTML);

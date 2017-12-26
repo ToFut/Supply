@@ -1,6 +1,5 @@
 <div style="text-align:right">
-  <h2 style="text-align: center; font-weight: bold; color: #22262e;     padding: 0px 20px 0px 0px;">המוצרים שלי  </h2>
-  <input type="text" id="myInput" (keyup)="search($event)" placeholder="חפש אחר מוצר.." title="Type in a name" style="text-align:right">
+  <h2 style="text-align: center; font-weight: bold; color: #22262e;     padding: 0px 20px 0px 0px;"> המוצרים של {{(supplierName | async)?.name}} </h2>
 
   <ul id="myUL">
     <li *ngFor="let Product of productsInCurrectSupplier | async">
@@ -11,14 +10,9 @@
     </li>
   </ul>
 
+  <a class="btn btn-primary"(click)="addItem()">
+    <i class="fa fa-plus fa-2x pull-left"></i> הוסף מוצר </a>
 
-
-  <button md-fab>
-    <i class="material-icons" (click)="addItem()">add</i>
-  </button>
-  <button md-fab>
-    <i class="material-icons">delete</i>
-  </button>
 
   <!--
     <button md-fab>

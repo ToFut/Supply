@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router, RouterLinkActive} from '@angular/router';
 import {escape} from 'querystring';
 import {element} from 'protractor';
+import {DayPilot} from "daypilot-pro-angular";
+import today = DayPilot.Date.today;
 
 @Component({
   selector: 'app-order-for-currect-supplier',
@@ -13,13 +15,15 @@ import {element} from 'protractor';
 export class OrderForCurrectSupplierComponent implements OnInit {
   supplierKey: string;
   userId: string;
-  phoneSupplier: FirebaseObjectObservable<any[]>;
-  emailSupplier: FirebaseObjectObservable<any[]>;
-  Products: FirebaseListObservable<any[]>;
+  phoneSupplier: number;
+  emailSupplier: string;
+  nameSupplier: string;
+  Products = [];
   supplierProperty: FirebaseObjectObservable<any[]>;
   value = [];
   stringToOrder = [];
-  currentProduct: FirebaseObjectObservable<any[]>;
+  sentenceToReturn = [];
+  reciveUpdate: FirebaseListObservable<any[]>;
   currentOrderInformation: FirebaseListObservable<any[]>;
   sendThis: string;
   viewDate: Date = new Date();
@@ -31,9 +35,16 @@ export class OrderForCurrectSupplierComponent implements OnInit {
   fullDate: string;
   supplierName: string;
   userName = this.afAuth.auth.currentUser.displayName;
+  reciveAfter: number;
+  private reciveDay: Date ;
+  returnProducts: FirebaseListObservable<any[]>;
+  ifTodayIsReturnDay = false;
+  returnHistory: FirebaseListObservable<any[]>;
+  acceptOrder: FirebaseListObservable<any[]>;
+  acceptLink: string;
   // ToDo day - (supplierProperty |async)?.OrderDays check and put with absulote
-  constructor( public af: AngularFireDatabase , public afAuth: AngularFireAuth, route: ActivatedRoute ) {
-    route.queryParams.subscribe(params => {
+  constructor( public af: AngularFireDatabase , public afAuth: AngularFireAuth, public route: Router , public link: ActivatedRoute) {
+    link.queryParams.subscribe(params => {
       this.supplierKey = params['supplierKey'];
       this.userId = params['userId'];
 
@@ -66,73 +77,226 @@ export class OrderForCurrectSupplierComponent implements OnInit {
 
     }
   }
-
-  ngOnInit() {
-    this.phoneSupplier = this.af.object(`/users/${this.userId}/suppliers/${this.supplierKey}/wayToOrder/phone`);
-    this.emailSupplier = this.af.object(`/users/${this.userId}/suppliers/${this.supplierKey}/wayToOrder/email`);
-
-    this.fullDate = this.dayInMonth + '.' + this.month + '.' + this.year ;
-    this.Products = this.af.list(`users/${this.userId}/suppliers/${this.supplierKey}/SupplierProducts/`);
-    this.currentOrderInformation = this.af.list(
-      `users/${this.userId}/orderHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`);
-    this.supplierProperty = this.af.object(`users/${this.userId}/suppliers/${this.supplierKey}`);
-
-
-  }
-   whatsapp() {
-    console.log(this.stringToOrder)
-      location.href =  'whatsapp://send?phone=972525754040&text=שלום, ' +
-        ' להלן הזמנה עבור ' + this.userName + '%0A'
-        + ' ' + this.stringToOrder + ' אנא אשר קבלת הזמנה בלחיצת על הקישור הבא ' +  '%0A' ;
+  dayToNumber(day) {
+    console.log(this.day);
+    switch (day) {
+      case 'יום ראשון' :
+        if ( this.day === 0) {
+          this.ifTodayIsReturnDay = true;
+        }
+        break;
+      case 'יום שני' :
+        if ( this.day === 1) {
+          this.ifTodayIsReturnDay = true;
+        }
+        break;
+      case 'יום שלישי' :
+        if ( this.day === 2) {
+          this.ifTodayIsReturnDay = true;
+        }
+        break;
+      case 'יום רביעי' :
+        if ( this.day === 3) {
+          this.ifTodayIsReturnDay = true;
+        }
+        break;
+      case 'יום חמישי' :
+        if ( this.day === 4) {
+          this.ifTodayIsReturnDay = true;
+        }
+        break;
+      case 'יום שישי' :
+        if ( this.day === 5) {
+          this.ifTodayIsReturnDay = true;
+        }
+        break;
+      case 'יום שבת' :
+        if ( this.day === 6) {
+          this.ifTodayIsReturnDay = true;
+        }
+        break;
 
     }
+  }
+
+  ngOnInit() {
+    if (this.month === 12) {
+      this.month = 1;
+    } else {
+      this.month += 1;
+    }
+    this.acceptLink = 'https://supplyme.net/#/acceptOrder/?userId=' + this.userId +
+      '&supplierKey=' + this.supplierKey;
+
+    this.acceptOrder =
+      this.af.list(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}`);
+    this.af.object(`/users/${this.userId}/suppliers/${this.supplierKey}`).subscribe(data => {
+      this.phoneSupplier = data['ContactNum'];
+      this.emailSupplier = data['ContactEmail'];
+      this.nameSupplier = data['ContactName'];
+      console.log('name ' + this.nameSupplier + ' email ' + this.emailSupplier + ' phone number ' + this.phoneSupplier);
+    });
+    this.fullDate = this.dayInMonth + '.' + this.month + '.' + this.year;
+    console.log(this.month);
+    this.returnProducts = this.af.list(`users/${this.userId}/returnList/${this.supplierKey}`);
+    console.log(this.returnProducts);
+    // this.returnDay();
+    this.af.list(`users/${this.userId}/suppliers/${this.supplierKey}/SupplierProducts/`).subscribe(data => {
+      console.log(data);
+      data.forEach(snapshot => {
+        if (snapshot['MinInInventory'] !== undefined) {
+          console.log(snapshot);
+          console.log(snapshot['MinInInventory'][this.day]);
+
+          if (snapshot['MinInInventory'][this.day] !== undefined) {
+            this.Products.push(snapshot);
+            console.log(this.Products);
+          }
+        }
+
+      });
+    });
+    this.supplierProperty = this.af.object(`users/${this.userId}/suppliers/${this.supplierKey}`);
+    this.currentOrderInformation = this.af.list(
+      `users/${this.userId}/orderHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`);
+    this.returnHistory = this.af.list(
+      `users/${this.userId}/returnHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`);
+    this.returnProducts.$ref.on('value', snap => {
+      this.ifTodayIsReturnDay = snap.hasChildren();
+    });
+    this.af.object(`users/${this.userId}/suppliers/${this.supplierKey}/OrderDays`).subscribe(data => {
+      this.reciveAfter = data.$value;
+      this.reciveDay = new Date(this.viewDate);
+      this.reciveDay.setDate(this.viewDate.getDate() + this.reciveAfter);
+
+    });
+  }
+   /* returnDay() { TODO dependes the day return
+     this.af.list(`users/${this.userId}/returnHistory/${this.supplierKey}`).subscribe( data => {
+      this.dayToNumber(data[3].$value);
+       console.log(data);
+       if ( this.ifTodayIsReturnDay) {
+        this.returnProducts.push(data);
+      }
+    });
+     console.log(this.returnProducts);
+   } */
 
   mail() {
-    this.currentOrderInformation.update(`${this.supplierKey}` , this.stringToOrder)
-    location.href =  'mailto:' + '' + '' + 'subject=הזמנת אספקה' +
-      '&amp;' + '&text=שלום ,' +
-      'להלן ההזמנה עבור ' + this.userName + ' לאספקה ביום ___'   +
-      this.stringToOrder
-      + 'אנא אשר קבלת הזמנה בלחיצת על הקישור הבא';
   }
-  buildMessageWhatsApp() {
+  async buildMessageWhatsApp() {
     let name = '';
     let TypeOfFillUp = '';
     let amount = '';
-    let count = 1;
-    this.currentOrderInformation.$ref.on('child_added' , element => {
-      if ( element !== null) {
-        console.log(count)
-        count++;
+    let count = 0;
+    let WhatsAppMesage = '';
+    let check = true;
+    await this.returnProduct();
+    console.log(this.sentenceToReturn);
+    this.currentOrderInformation.$ref.on('child_added', element => {
+      count++;
+      check = true;
+      if (element !== undefined) {
         name = element.val().name;
         amount = element.val().amount;
         console.log(name);
-        console.log(amount);
         TypeOfFillUp = element.val().TypeOfFillUp;
-        console.log(TypeOfFillUp);
+        this.stringToOrder.forEach( data => {
+          console.log(data.includes(name) );
+          check = false;
+        });
+        console.log(check);
 
-        this.stringToOrder.push(' ' + amount + ' ' + TypeOfFillUp + '  ' + name + ' %0A');
-        console.log(this.stringToOrder)
-
+        if (check) {
+          this.stringToOrder.push(' ' + amount + ' ' + TypeOfFillUp + '  ' + name + ' %0A');
+        }
       }
-    }).call(this.whatsapp());
+      this.currentOrderInformation.subscribe(data => {
+        if (count === data.length) {
+          console.log('first');
+          const demo = 'whatsapp://send?phone=972' + this.phoneSupplier + '&text=שלום ' + this.nameSupplier +
+            ' להלן הזמנה עבור ' + this.userName + '%0A'
+            + ' ' + this.stringToOrder + ' אנא אשר קבלת הזמנה בלחיצת על הקישור הבא ' + '%0A';
+           WhatsAppMesage = ' https://api.whatsapp.com/send?phone=972' + this.phoneSupplier + '&text=שלום ' + this.nameSupplier +
+            ' להלן הזמנה עבור ' + this.userName + '%0A'
+            + ' ' + this.stringToOrder + '%0A' +  this.sentenceToReturn +
+            '%0A' +  'אנא אשר קבלת הזמנה בלחיצת על הקישור הבא ' + '%0A' + 'https://supplyme.net/#/acceptOrder?userId=' + this.userId +
+            '&supplierKey=' + this.supplierKey + '&dayInMonth=' + this.dayInMonth + '&month=' + this.month + '&year=' + this.year;
+          location.href = WhatsAppMesage;
+          console.log(this.stringToOrder);
+          console.log(WhatsAppMesage);
+          this.acceptOrder.set(`${this.supplierKey}` , false);
+          this.returnProducts.remove(element.key);
 
+        }
+      });
+    }).call(this.redirectOrder());
   }
-  buildMessageEmail() {
+    buildMessageEmail() {
     let name = '';
     let TypeOfFillUp = '';
     let amount = '';
-    this.currentOrderInformation.$ref.on('child_added' , element => {
-      name = element.exportVal().name;
-      amount = element.exportVal().amount;
-      TypeOfFillUp = element.exportVal().TypeOfFillUp;
-      this.stringToOrder.push(' ' + amount + ' ' + TypeOfFillUp + '  ' + name  + ' %0A');
-    }).call(this.mail());
+    let count = 0;
+    this.returnProduct();
+    this.currentOrderInformation.$ref.on('child_added', element => {
+      count++;
+      if (element !== undefined) {
+        name = element.val().name;
+        amount = element.val().amount;
+        this.returnProducts.remove(element.key);
+        console.log(name);
+        console.log(amount);
+        TypeOfFillUp = element.val().TypeOfFillUp;
+        if (this.stringToOrder.indexOf(name) !== -1) {
+          this.stringToOrder.push(' ' + amount + ' ' + TypeOfFillUp + '  ' + name + ' %0A');
+        }
+      }
+      this.currentOrderInformation.subscribe(data => {
+        console.log('data.length' + data.length + ' and count is ' + count);
+        if (count === data.length) {
+          this.currentOrderInformation.update(`${this.supplierKey}` , this.stringToOrder);
+          location.href =  'mailto:' + this.emailSupplier + 'subject=הזמנת אספקה' +
+            '&amp;' + '&text=שלום ' +
+            'להלן ההזמנה עבור ' + this.userName + ' לאספקה ביום ___'   +
+            this.stringToOrder + this.sentenceToReturn + '%0A'
+            + 'אנא אשר קבלת הזמנה בלחיצת על הקישור הבא' + '%0A' + this.acceptLink ;
+        }
+      });
+      }).call(this.redirectOrder());
+    }
+  redirectOrder() {
+  }
+  returnProduct() {
+    let check = false;
+    this.returnProducts.subscribe( data => {
+      data.forEach(element => {
+        check = true;
+        console.log(element.$key);
+        this.af.list
+        (`users/${this.userId}/returnHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`).set(`${element.$key}` , {
+          TypeOfFillUp: element['TypeOfFillUp'] , amount: element['amount'] ,
+          productName: element['productName'] , reason: element['reason']
+          , returnDay: element['returnDay'] , supplierName: element['supplierName']});
+        this.sentenceToReturn.forEach( snap => {
+          console.log(snap.includes(element['productName']) );
+          check = false;
+        });
+        console.log(check);
+
+        if (this.sentenceToReturn.indexOf(element['productName']) === -1) {
+          this.sentenceToReturn.push('\n  אלו המוצרים שצריכים להחזיר\n' + ' ' +
+          element['amount'] + ' ' + element['TypeOfFillUp'] + ' ' + element['productName'] +
+          '' + ' בגלל שהמוצר ' + element['reason'] + '\n') ;
+        }
+
+        console.log(this.sentenceToReturn);
+      });
+    });
 
   }
-
-  update(values: number , currentProductKey: string , currentMin: number , productName: string , TypeOfFillUp: string ) {
+  update(values: number , currentProductKey: string , currentMin: number , productName: string , TypeOfFillUp: string ) { // TODO last month
     const path = 'table[' + currentProductKey + ']';
+    let reciveMonth, reciveYear , reciveDay;
     /*this.value.forEach(function(element) {
       if (element[0] = currentProductKey ) {
         element[1] = values ;
@@ -140,16 +304,24 @@ export class OrderForCurrectSupplierComponent implements OnInit {
       }
     });*/
     console.log(values);
-    console.log(currentProductKey);
+    this.currentOrderInformation.set(`${currentProductKey}` , {amount: values, name: productName
+      , TypeOfFillUp: TypeOfFillUp , reciveAfter: this.reciveAfter});
+    reciveDay = this.reciveDay.getDate();
+    reciveMonth = this.reciveDay.getMonth();
+    reciveYear = this.reciveDay.getFullYear();
+    if (reciveMonth === 12) {
+      reciveMonth = 1;
+    } else {
+      reciveMonth += 1;
+    }
 
-    this.currentOrderInformation.set(`${currentProductKey}` , {amount: values, name: productName , TypeOfFillUp: TypeOfFillUp})
-    this.currentProduct = this.af.object(`users/${this.userId}/suppliers/${this.supplierKey}/${currentProductKey}`);
-    console.log(TypeOfFillUp);
+    this.af.list(`users/${this.userId}/reciveHistory/${reciveYear}/${reciveMonth}/${reciveDay}/${this.supplierKey}`)
+      .set(`${currentProductKey}` , {amount: values, name: productName
+      , TypeOfFillUp: TypeOfFillUp , reciveAfter: this.reciveAfter});
     this.value.push({[currentProductKey]: values});
     if (values >= currentMin) { // TODO stack in 100 need to check why
       document.getElementById(path).style.color = 'LimeGreen';
     } else {
-      console.log(values + '' + currentMin );
       document.getElementById(path).style.color = 'red';
     }
   }

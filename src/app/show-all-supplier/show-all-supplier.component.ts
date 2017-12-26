@@ -27,8 +27,8 @@ export class ShowAllSupplierComponent implements OnInit {
   public Product = new ProductOptions();
 
 
-  constructor(public dialogRef: MdDialogRef<any>, public af: AngularFireDatabase, public afAuth: AngularFireAuth,
-              public dialog: MdDialog , private router: Router) {
+  constructor( public af: AngularFireDatabase, public afAuth: AngularFireAuth,
+               private router: Router) {
     this.afAuth.authState.subscribe(user => {
       if (user) {this.userId = user.uid; }
     });
@@ -52,7 +52,6 @@ export class ShowAllSupplierComponent implements OnInit {
   }
   deleteItem() {
     this.infoSupply.remove();
-    this.closeDialog();
 
   }
   associateProduct() {
@@ -63,11 +62,7 @@ export class ShowAllSupplierComponent implements OnInit {
       }
     };
     this.router.navigate(['correctSupplierProducts'], navigationExtras);
-    this.closeDialog();
 
-  }
-  closeDialog() {
-    this.dialogRef.close();
   }
   editSupplierPage() {
     const navigationExtras: NavigationExtras = {
@@ -76,7 +71,6 @@ export class ShowAllSupplierComponent implements OnInit {
       }
     };
     this.router.navigate(['dialogSupplier'], navigationExtras);
-    this.closeDialog();
 
   }
 

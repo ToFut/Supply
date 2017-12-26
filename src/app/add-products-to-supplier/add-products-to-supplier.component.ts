@@ -6,7 +6,7 @@ import {Subject} from 'rxjs/Subject';
 import {ProductsService} from '../products.service';
 import {DialogEditProductsComponent} from '../dialog-edit-products/dialog-edit-products.component';
 import {ShowAllProductsComponent} from '../show-all-products/show-all-products.component';
-import {ActivatedRoute, NavigationExtras} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {AssociateProductToSupplierService} from '../associate-product-to-supplier.service';
 import {ProductOptions} from '../ProductOptions';
 import {SupplierPrivateProductsService} from '../supplier-private-products.service';
@@ -34,22 +34,23 @@ export class AddProductsToSupplierComponent implements OnInit {
   path: string;
   stateCtrl: FormControl;
   text: string;
-
+  supplierName: FirebaseObjectObservable<any[]>;
   results: string[];
 
 
   constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase , public dialog: MdDialog ,
               private ProductsService: ProductsService , route: ActivatedRoute ,
               private AssociateProductToSupplierService: AssociateProductToSupplierService ,
-              private SupplierPrivateProductsService: SupplierPrivateProductsService) {
+              private SupplierPrivateProductsService: SupplierPrivateProductsService, private router: Router) {
     this.afAuth.authState.subscribe(user => {
       if (user) {this.userId = user.uid;
         this.productsInCurrectSupplier = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`);
+        this.supplierName = this.af.object(`users/${this.userId}/suppliers/${this.SupplierKey}`);
       }
     });
     route.queryParams.subscribe(params => {
       this.userId = params['userId'];
-      this.SupplierKey = params['supplierKey'];
+      this.SupplierKey = params['SupplierKey'];
     });
 
   }
@@ -79,29 +80,31 @@ export class AddProductsToSupplierComponent implements OnInit {
 
   }
   ProductAssociationToProvide() {
-    const dialogRef = this.dialog.open(ShowAllProductsComponent , {
-      width: '300px',
-      height: '600px'
-    } );
-    dialogRef.componentInstance.userId = this.userId;
-    dialogRef.componentInstance.SupplierKey = this.SupplierKey;
-    dialogRef.componentInstance.path = `users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`;
-  }
-  openDialogShowProducts(selectProductKey) {
-    const dialogRef = this.dialog.open(ShowAllProductsComponent , {
-      width: '600px',
-      height: '600px'
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'userId': this.userId,
+        'SupplierKey': this.SupplierKey,
+        'path': `users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`
       }
-    );
-    dialogRef.componentInstance.userId = this.userId;
-    dialogRef.componentInstance.SupplierKey = this.SupplierKey;
-    dialogRef.componentInstance.selectProductKey = selectProductKey;
-    console.log('supplier key ' + this.SupplierKey + ' user id : ' + this.userId + ' this selectProdduct key is ' + selectProductKey);
+    };
+    this.router.navigate(['showCurrentSupplierProducts'], navigationExtras);
+  }
 
+  openDialogShowProducts(selectProductKey) {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'userId': this.userId,
+        'SupplierKey': this.SupplierKey,
+        'selectProductKey': selectProductKey,
+        'path': `users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`
+      }
+    };
+    this.router.navigate(['showCurrentSupplierProducts'], navigationExtras);
   }
 
   addThisProductToCurrectSupplier(selectProductKey , ProductName ) {
     this.openDialogShowProducts(selectProductKey);
+
   }
 
   search($event) {

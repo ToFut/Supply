@@ -34,7 +34,7 @@ export class TodoListComponent implements OnInit {
   reciveInfo: FirebaseListObservable<any[]>;
   ifFinisheSupplier: FirebaseListObservable<any[]>;
   howManyReceive= false;
-
+  returnHistory: FirebaseListObservable<any[]>;
 
 
   ngOnInit(): void {
@@ -49,6 +49,7 @@ export class TodoListComponent implements OnInit {
 
     }, 1000);
 
+    this.returnHistory = this.af.list(`users/${this.userId}/returnHistory/${this.year}/${this.month}/${this.dayInMonth}`);
 
 
     console.log(this.count);
@@ -73,14 +74,22 @@ export class TodoListComponent implements OnInit {
     this.currentSupplierProducts = this.af.list(`/users/${this.userId}/suppliers/${this.supplierKey}/SupplierProducts/`);
   }
     updateRecive() {
+      if (this.month === 12) {
+        this.month = 1;
+      } else {
+        this.month += 1;
+      }
+
       this.currentReciveInformation = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}`);
       this.ifFinisheSupplier = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/status`);
-      console.log(this.selectedAll);
+      console.log(this.ifFinisheSupplier);
       try {
         this.currentReciveInformation.update(`${this.supplierKey}` , this.radioButton);
       } catch (err) {
         console.log(err);
       }
+      console.log(this.checkIfAllSelected());
+
       if (this.checkIfAllSelected()) {
         this.ifFinisheSupplier.set(`${this.supplierKey}` , this.selectedAll);
         console.log(this.ifFinisheSupplier);

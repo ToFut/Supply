@@ -36,8 +36,10 @@ export class ReciveOrderComponent implements OnInit {
   reciveComplete = [];
   reciveNONEComplete = [];
   allSupplierFinishe = false;
-
-
+  checkIfExist = false;
+  noStatusOfOrders = false;
+  allOrderForToday: FirebaseListObservable<any[]>;
+  reciveOrderBefore: number;
 
   constructor(public matchSupplier: MatchSupplierService , public af: AngularFireDatabase , public afAuth: AngularFireAuth ,
               public dialog: MdDialog , private router: Router) {
@@ -55,11 +57,19 @@ export class ReciveOrderComponent implements OnInit {
     if (this.checkIfNONEFinisheSupplier.length === 0) {
       this.allSupplierFinishe = true;
     }
-
+    this.reciveComplete = [];
   }
 
      ngOnInit() {
+       if (this.month === 12) {
+         this.month = 1;
+       } else {
+         this.month += 1;
+       }
        this.currentReciveInformation = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}`);
+       this.allOrderForToday = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}`);
+
+
      }
 
    showProducts(supplierKey , name) {
@@ -71,12 +81,11 @@ export class ReciveOrderComponent implements OnInit {
     }
   }
   checkWhatFinish(key , event) {
-    console.log(key);
+
     console.log(event);
 
     this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/status`)
       .$ref.orderByChild(key).on('child_added', snapshot => {
-        console.log(snapshot.val());
     });
 
   }
@@ -98,42 +107,51 @@ export class ReciveOrderComponent implements OnInit {
     let index;
     this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/status`)
       .$ref.orderByKey().on('child_added' ,  element => {
-      this.finisheSupplierArray.push(element.key.toString());
-      console.log(this.finisheSupplierArray);
-
+          this.finisheSupplierArray.push(element.key.toString());
+          console.log(this.finisheSupplierArray);
     });
+    console.log(this.finisheSupplierArray);
 
     this.matchSupplier.pushSupplier('recive').then((data) => {
       this.supplierFounded = data;
       console.log(this.supplierFounded);
       this.supplierFounded.map(snapshot => {
         key = snapshot.$ref.key;
-        console.log(this.checkIfFinisheSupplier);
-        if ( this.finisheSupplierArray.includes(key) && !(this.checkIfFinisheSupplier.includes(key))) {
+        console.log(this.supplierFounded);
+        this.allOrderForToday.$ref.on('value', check => {
+          if ( check.key === key) {
+            this.checkIfExist = true;
+          }
+        });
+        console.log(this.month);
+        console.log(this.dayInMonth);
+
+        console.log(this.finisheSupplierArray.length === 0 );
+        console.log(this.finisheSupplierArray.indexOf(key) === -1);
+        console.log(this.checkIfFinisheSupplier.indexOf(key) > -1 );
+        console.log(this.reciveComplete.indexOf(key) === -1);
+
+        if ( this.checkIfExist ) {
           index = this.checkIfNONEFinisheSupplier.indexOf(key);
           if ( index === -1) {
             this.checkIfNONEFinisheSupplier.splice(index , 1);
           }
-          console.log(this.checkIfFinisheSupplier);
-          console.log(key);
 
+          console.log(this.checkIfFinisheSupplier);
           this.checkIfFinisheSupplier.push(key);
           this.reciveComplete.push(snapshot);
-        } else if (!(this.finisheSupplierArray.includes(key)) && !(this.checkIfNONEFinisheSupplier.includes(key)) ) {
+        } else if (!(this.finisheSupplierArray.includes(key)) && !(this.checkIfNONEFinisheSupplier.includes(key))) {
             this.checkIfNONEFinisheSupplier.push(key);
-            console.log(this.checkIfNONEFinisheSupplier);
-            console.log(key);
             this.reciveNONEComplete.push(snapshot);
-          console.log(this.reciveNONEComplete);
-          console.log(this.allSupplierFinishe);
         }
-        console.log(this.checkIfNONEFinisheSupplier.length);
+        console.log(this.checkIfNONEFinisheSupplier);
         if (this.checkIfNONEFinisheSupplier.length === 0) {
             this.allSupplierFinishe = true;
           } else {
             this.allSupplierFinishe = false;
           }
-        })
+
+        });
       if (this.reciveComplete.length === 0) {
         this.someSupplierFinish = false;
         console.log(this.someSupplierFinish);
@@ -142,10 +160,8 @@ export class ReciveOrderComponent implements OnInit {
         this.someSupplierFinish = true;
 
       }
-
-
+      console.log(this.finisheSupplierArray.length + ' and ' + this.reciveComplete.length);
     });
-
 
   }
 }
