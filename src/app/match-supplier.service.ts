@@ -19,13 +19,6 @@ export class MatchSupplierService  {
 
 
   constructor(public af: AngularFireDatabase , public afAuth: AngularFireAuth ) {
-    this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.userId = user.uid;
-      }
-    });
-
-
     this.list = [];
     this.flag = false;
     this.supplierFounded = [];
@@ -63,6 +56,8 @@ export class MatchSupplierService  {
             console.log(count);
             reciveBeforDay.push(count);
             this.list.push(count);
+            console.log(this.af.object(`/users/${this.userId}/suppliers/${count}`));
+            console.log(this.userId);
             this.supplierFounded.push(this.af.object(`/users/${this.userId}/suppliers/${count}`));
             this.flag = true;
             console.log(this.list);
@@ -74,8 +69,10 @@ export class MatchSupplierService  {
     }
 
   }
-   async pushSupplier(way: string)  {
-    this.recive = [];
+   async pushSupplier(way: string , userId )  {
+    this.userId = userId;
+     console.log(this.userId);
+     this.recive = [];
     this.order = [];
      this.supplierFounded = [];
     console.log('return From sortSupplier order ');

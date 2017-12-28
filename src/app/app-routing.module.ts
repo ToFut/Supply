@@ -22,6 +22,9 @@ import {SettingsComponent} from './settings/settings.component';
 import {ShowAllProductsComponent} from './show-all-products/show-all-products.component';
 import {AcceptOrderComponent} from './accept-order/accept-order.component';
 import {SignUpPageSubUserComponent} from './sign-up-page-sub-user/sign-up-page-sub-user.component';
+import {SubUserOrderListComponent} from './sub-user-order-list/sub-user-order-list.component';
+import {SubUserReciveListComponent} from './sub-user-recive-list/sub-user-recive-list.component';
+import {SubUserTodoListComponent} from './sub-user-todo-list/sub-user-todo-list.component';
 
 const routes: Routes = [
       { path: 'supplier', component: SupplierComponent , pathMatch: 'full'},
@@ -42,6 +45,12 @@ const routes: Routes = [
       { path: 'showCurrentSupplierProducts', component: ShowAllProductsComponent , pathMatch: 'full'},
       { path: 'acceptOrder', component: AcceptOrderComponent , pathMatch: 'full'},
       { path: 'subUserSignUp', component: SignUpPageSubUserComponent , pathMatch: 'full'},
+      { path: 'subUserOrderList', component: SubUserOrderListComponent , pathMatch: 'full'},
+       { path: 'subUserReciveList', component: SubUserReciveListComponent , pathMatch: 'full'},
+      { path: 'subUserTodoList', component: SubUserTodoListComponent , pathMatch: 'full'},
+
+
+
 
 
 ];

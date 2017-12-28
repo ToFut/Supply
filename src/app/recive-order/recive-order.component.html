@@ -13,11 +13,15 @@
       <h1 *ngSwitchCase=6>     שבת  </h1>
     </div>
     <div >
-      <div  [hidden]=" !allSupplierFinishe ">
-        <h2 style="font-size: x-large; color: #4CAF50;"> כל הכבוד , קיבלת את כל הסחורה להיום. </h2>
+      <div  [hidden]=" !checkIfExist ">
+        <h2 style="font-size: x-large; color: #4CAF50;"> אין לך הזמנות להיום</h2>
       </div>
-      <div >
-      <div class="tab" >
+      <div [hidden]=" checkIfExist " >
+        <div  [hidden]=" !allSupplierFinishe ">
+          <h2 style="font-size: x-large; color: #4CAF50;"> כל הכבוד ביצעת את כל ההזמנות להיום!</h2>
+        </div>
+
+        <div class="tab" [hidden]=" allSupplierFinishe ">
         <input id="tab-one" type="checkbox" name="tabs" [(ngModel)]="show"/>
         <label for="tab-one">  קבלת סחורה  </label>
         <div class="tab-content">

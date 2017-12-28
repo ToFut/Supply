@@ -66,6 +66,7 @@ export class LoginPageComponent implements OnInit {
     console.log('onSubmit');
     this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password).then(
         (success) => {
+          console.log(success);
           this.router.navigate(['/#/homeAfterLogin']);
         }).catch(function (error) {
         const errorCode = error.name;

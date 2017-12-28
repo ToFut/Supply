@@ -125,8 +125,6 @@ export class OrderForCurrectSupplierComponent implements OnInit {
     } else {
       this.month += 1;
     }
-    this.acceptLink = 'https://supplyme.net/#/acceptOrder/?userId=' + this.userId +
-      '&supplierKey=' + this.supplierKey;
 
     this.acceptOrder =
       this.af.list(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}`);
@@ -192,6 +190,10 @@ export class OrderForCurrectSupplierComponent implements OnInit {
     let WhatsAppMesage = '';
     let check = true;
     await this.returnProduct();
+    this.acceptLink = 'https://supplyme.net/#/acceptOrder?userId=' + this.userId +
+      '&supplierKey=' + this.supplierKey + '&dayInMonth=' + this.dayInMonth + '&month=' + this.month + '&year=' + this.year;
+    this.acceptLink = encodeURIComponent(this.acceptLink);
+
     console.log(this.sentenceToReturn);
     this.currentOrderInformation.$ref.on('child_added', element => {
       count++;
@@ -202,14 +204,15 @@ export class OrderForCurrectSupplierComponent implements OnInit {
         console.log(name);
         TypeOfFillUp = element.val().TypeOfFillUp;
         this.stringToOrder.forEach( data => {
-          console.log(data.includes(name) );
-          check = false;
+          if (data.includes(name) ) {
+            check = false;
+          }
         });
         console.log(check);
-
         if (check) {
           this.stringToOrder.push(' ' + amount + ' ' + TypeOfFillUp + '  ' + name + ' %0A');
         }
+
       }
       this.currentOrderInformation.subscribe(data => {
         if (count === data.length) {
@@ -220,9 +223,8 @@ export class OrderForCurrectSupplierComponent implements OnInit {
            WhatsAppMesage = ' https://api.whatsapp.com/send?phone=972' + this.phoneSupplier + '&text=שלום ' + this.nameSupplier +
             ' להלן הזמנה עבור ' + this.userName + '%0A'
             + ' ' + this.stringToOrder + '%0A' +  this.sentenceToReturn +
-            '%0A' +  'אנא אשר קבלת הזמנה בלחיצת על הקישור הבא ' + '%0A' + 'https://supplyme.net/#/acceptOrder?userId=' + this.userId +
-            '&supplierKey=' + this.supplierKey + '&dayInMonth=' + this.dayInMonth + '&month=' + this.month + '&year=' + this.year;
-          location.href = WhatsAppMesage;
+            '%0A' +  'אנא אשר קבלת הזמנה בלחיצת על הקישור הבא ' + '%0A' + this.acceptLink;
+           location.href = WhatsAppMesage;
           console.log(this.stringToOrder);
           console.log(WhatsAppMesage);
           this.acceptOrder.set(`${this.supplierKey}` , false);
@@ -238,7 +240,11 @@ export class OrderForCurrectSupplierComponent implements OnInit {
     let amount = '';
     let count = 0;
     this.returnProduct();
-    this.currentOrderInformation.$ref.on('child_added', element => {
+      this.acceptLink = 'https://supplyme.net?userId=' + this.userId +
+        '&supplierKey=' + this.supplierKey + '&dayInMonth=' + this.dayInMonth + '&month=' + this.month + '&year=' + this.year;
+      this.acceptLink = encodeURIComponent(this.acceptLink);
+
+      this.currentOrderInformation.$ref.on('child_added', element => {
       count++;
       if (element !== undefined) {
         name = element.val().name;
@@ -279,11 +285,14 @@ export class OrderForCurrectSupplierComponent implements OnInit {
           , returnDay: element['returnDay'] , supplierName: element['supplierName']});
         this.sentenceToReturn.forEach( snap => {
           console.log(snap.includes(element['productName']) );
-          check = false;
+          console.log(snap);
+          console.log(element['productName']);
+          if ( snap.includes(element['productName'])) {
+            check = false;
+          }
         });
-        console.log(check);
 
-        if (this.sentenceToReturn.indexOf(element['productName']) === -1) {
+        if (check) {
           this.sentenceToReturn.push('\n  אלו המוצרים שצריכים להחזיר\n' + ' ' +
           element['amount'] + ' ' + element['TypeOfFillUp'] + ' ' + element['productName'] +
           '' + ' בגלל שהמוצר ' + element['reason'] + '\n') ;

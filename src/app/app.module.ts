@@ -67,6 +67,9 @@ import { Ng2SmartTableModule} from 'ng2-smart-table';
 import { SettingsComponent } from './settings/settings.component';
 import { AcceptOrderComponent } from './accept-order/accept-order.component';
 import { SignUpPageSubUserComponent } from './sign-up-page-sub-user/sign-up-page-sub-user.component';
+import { SubUserOrderListComponent } from './sub-user-order-list/sub-user-order-list.component';
+import { SubUserReciveListComponent } from './sub-user-recive-list/sub-user-recive-list.component';
+import { SubUserTodoListComponent } from './sub-user-todo-list/sub-user-todo-list.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +101,9 @@ import { SignUpPageSubUserComponent } from './sign-up-page-sub-user/sign-up-page
     SettingsComponent,
     AcceptOrderComponent,
     SignUpPageSubUserComponent,
+    SubUserOrderListComponent,
+    SubUserReciveListComponent,
+    SubUserTodoListComponent,
   ],
   imports: [
     BrowserModule,

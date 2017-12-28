@@ -13,7 +13,7 @@
     <h5 style="font-family: 'Comic Sans MS'; font-size: small;color: #26D367;">שלום {{userName}}</h5>
 <div class="container">
   <div class="w3-quarter w3-half">
-    <a routerLink="/reciveOrder" routerLinkActive="active">
+    <a [hidden]="subUser" routerLink="/reciveOrder" routerLinkActive="active">
       <span class="button button4" >
 
               <i class="fa fa-shopping-cart w3-xxxlarge"></i>
@@ -21,14 +21,31 @@
       <h4  style="font-size: medium">קבלת סחורה</h4>
       </span>
     </a>
-    <a routerLink="/order" routerLinkActive="active">
+    <a [hidden]="!subUser"  (click)="reciveSubUser()"  routerLinkActive="active">
+      <span class="button button4" >
+
+              <i class="fa fa-shopping-cart w3-xxxlarge"></i>
+
+      <h4  style="font-size: medium">קבלת סחורה</h4>
+      </span>
+    </a>
+
+    <a [hidden]="subUser" routerLink="/order" routerLinkActive="active">
 
       <span class="button button4" >
                 <i class="fa fa-shopping-bag w3-xxxlarge"></i>
         <h4 class="nav-text" style="font-size: medium">הזמנת סחורה</h4>
       </span>
     </a>
-</div>
+    <a [hidden]="!subUser" (click)="orderSubUser()"  routerLinkActive="active">
+
+      <span class="button button4" >
+                <i class="fa fa-shopping-bag w3-xxxlarge"></i>
+        <h4 class="nav-text" style="font-size: medium">הזמנת סחורה</h4>
+      </span>
+    </a>
+
+  </div>
 
     <div class="w3-quarter w3-half">
       <a [hidden]="subUser" routerLink="/supplier" routerLinkActive="active">
@@ -39,7 +56,7 @@
       </span>
       </a>
 
-      <a  routerLink="/returnProdcts" routerLinkActive="active">
+      <a  [hidden]="subUser" routerLink="/returnProdcts" routerLinkActive="active">
     <span class="button button4" >
       <i class="fa fa-shopping-basket w3-xxlarge" aria-hidden="true"></i>
       <i class="fa fa-arrow-left w3-xxlarge" aria-hidden="true"></i>

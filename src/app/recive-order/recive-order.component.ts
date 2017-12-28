@@ -66,6 +66,7 @@ export class ReciveOrderComponent implements OnInit {
        } else {
          this.month += 1;
        }
+       console.log(this.month);
        this.currentReciveInformation = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}`);
        this.allOrderForToday = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}`);
 
@@ -105,43 +106,36 @@ export class ReciveOrderComponent implements OnInit {
   checkForSupplier() {
     let key;
     let index;
+
     this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/status`)
       .$ref.orderByKey().on('child_added' ,  element => {
+        if (this.finisheSupplierArray.indexOf(element.key.toString()) === -1) {
           this.finisheSupplierArray.push(element.key.toString());
           console.log(this.finisheSupplierArray);
+        }
     });
     console.log(this.finisheSupplierArray);
 
-    this.matchSupplier.pushSupplier('recive').then((data) => {
+    this.matchSupplier.pushSupplier('recive' , this.userId).then((data) => {
       this.supplierFounded = data;
       console.log(this.supplierFounded);
       this.supplierFounded.map(snapshot => {
         key = snapshot.$ref.key;
-        console.log(this.supplierFounded);
-        this.allOrderForToday.$ref.on('value', check => {
-          if ( check.key === key) {
-            this.checkIfExist = true;
-          }
-        });
-        console.log(this.month);
-        console.log(this.dayInMonth);
-
-        console.log(this.finisheSupplierArray.length === 0 );
         console.log(this.finisheSupplierArray.indexOf(key) === -1);
-        console.log(this.checkIfFinisheSupplier.indexOf(key) > -1 );
-        console.log(this.reciveComplete.indexOf(key) === -1);
-
-        if ( this.checkIfExist ) {
-          index = this.checkIfNONEFinisheSupplier.indexOf(key);
-          if ( index === -1) {
-            this.checkIfNONEFinisheSupplier.splice(index , 1);
-          }
-
-          console.log(this.checkIfFinisheSupplier);
+        console.log(this.checkIfFinisheSupplier.indexOf(key) === -1);
+        console.log(this.reciveComplete.indexOf(key));
+        console.log(key);
+        if ( this.finisheSupplierArray.indexOf(key.toString()) !== -1  && this.checkIfFinisheSupplier.indexOf(key) === -1 ) {
+            index = this.checkIfNONEFinisheSupplier.indexOf(key);
+          console.log(this.checkIfNONEFinisheSupplier);
+          this.checkIfNONEFinisheSupplier.splice(index , 1);
           this.checkIfFinisheSupplier.push(key);
           this.reciveComplete.push(snapshot);
         } else if (!(this.finisheSupplierArray.includes(key)) && !(this.checkIfNONEFinisheSupplier.includes(key))) {
-            this.checkIfNONEFinisheSupplier.push(key);
+          index = this.checkIfNONEFinisheSupplier.indexOf(key);
+          console.log(this.checkIfNONEFinisheSupplier);
+          this.checkIfNONEFinisheSupplier.splice(index , 1);
+          this.checkIfNONEFinisheSupplier.push(key);
             this.reciveNONEComplete.push(snapshot);
         }
         console.log(this.checkIfNONEFinisheSupplier);
@@ -152,15 +146,24 @@ export class ReciveOrderComponent implements OnInit {
           }
 
         });
-      if (this.reciveComplete.length === 0) {
+
+      if (this.reciveComplete.length === 0 ) {
         this.someSupplierFinish = false;
         console.log(this.someSupplierFinish);
       } else {
         console.log(this.reciveComplete.length);
         this.someSupplierFinish = true;
-
       }
+
       console.log(this.finisheSupplierArray.length + ' and ' + this.reciveComplete.length);
+    }).catch( error => {
+      if (this.reciveComplete.length === 0 && this.reciveNONEComplete.length === 0 ) {
+      this.checkIfExist = false;
+      console.log(this.checkIfExist);
+    } else {
+      console.log(this.checkIfExist);
+      this.checkIfExist = true;
+    }
     });
 
   }

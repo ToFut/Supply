@@ -8,6 +8,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {count} from 'console';
 import {element} from 'protractor';
+import {isUndefined} from 'util';
 
 @Component({
   selector: 'app-todo-list',
@@ -35,9 +36,17 @@ export class TodoListComponent implements OnInit {
   ifFinisheSupplier: FirebaseListObservable<any[]>;
   howManyReceive= false;
   returnHistory: FirebaseListObservable<any[]>;
+  domainUserId: string;
 
 
   ngOnInit(): void {
+    if (this.month === 12) {
+      this.month = 1;
+    } else {
+      this.month += 1;
+    }
+    console.log(this.month);
+
     console.log(this.supplierKey);
     this.currentSupplierProducts = this.af.list(`/users/${this.userId}/suppliers/${this.supplierKey}/SupplierProducts/`);
     this.supplier = this.af.object(`/users/${this.userId}/suppliers/${this.supplierKey}`);
@@ -61,29 +70,30 @@ export class TodoListComponent implements OnInit {
   }
   constructor( public af: AngularFireDatabase, public afAuth: AngularFireAuth ,
               route: ActivatedRoute , private router: Router ) {
-    this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.userId = user.uid;
-      }
-    });
+    console.log(this.month);
+
     route.queryParams.subscribe(params => {
       this.supplierKey = params['supplierKey'];
       this.supplierFounded = params['supplierFounded'];
+      this.domainUserId = params['domainUserId'];
+      this.afAuth.authState.subscribe(user => {
+        if (user) {
+          this.userId = user.uid;
+        }
+      });
+      if ( !isUndefined(this.domainUserId) ) {
+        this.userId = this.domainUserId;
+      }
     });
-
+    console.log(this.userId);
     this.currentSupplierProducts = this.af.list(`/users/${this.userId}/suppliers/${this.supplierKey}/SupplierProducts/`);
   }
     updateRecive() {
-      if (this.month === 12) {
-        this.month = 1;
-      } else {
-        this.month += 1;
-      }
-
       this.currentReciveInformation = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}`);
       this.ifFinisheSupplier = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/status`);
       console.log(this.ifFinisheSupplier);
       try {
+        console.log(this.supplierKey);
         this.currentReciveInformation.update(`${this.supplierKey}` , this.radioButton);
       } catch (err) {
         console.log(err);
