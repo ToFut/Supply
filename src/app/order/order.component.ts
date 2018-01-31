@@ -35,33 +35,48 @@ export class OrderComponent implements OnInit {
   show = true;
   acceptedChecker = [];
   NONeacceptedChecker = [];
+  allSupplierOrder: boolean;
+  noneSupplierOrder: boolean;
+  noneAnyOrders: boolean;
+  warning: Array<boolean>;
+  orderLimitTime: string;
 
 
-
-  constructor(public matchSupplier: MatchSupplierService , public afAuth: AngularFireAuth, public af: AngularFireDatabase,
-               private router: Router) {
+  constructor(public matchSupplier: MatchSupplierService, public afAuth: AngularFireAuth, public af: AngularFireDatabase,
+              private router: Router) {
 
     console.log('constructor');
-
-      this.afAuth.authState.subscribe(user => {
-       if (user) {
-         this.userId = user.uid;
-       }
-        this. orderAccept = this.af.list(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}`);
-        this.orderAccept.subscribe( data => {
-          console.log(data);
-          data.forEach( snapshot => {
+    this.warning = [];
+    this.orderLimitTime = this.viewDate.toTimeString();
+    this.afAuth.authState.subscribe(user => {
+      if (user) {
+        this.userId = user.uid;
+      }
+      this.orderAccept = this.af.list(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}`);
+      this.orderAccept.subscribe(data => {
+        console.log(data);
+        data.forEach(snapshot => {
+          console.log(snapshot);
+          console.log(snapshot.$key);
+          console.log(snapshot.$value);
+          this.warning[snapshot.$key] = snapshot.$value;
+          console.log(this.warning[snapshot.$key]);
+          if (snapshot.$value === true) {
+            let indexNONEAccept = this.KEYSNONacceptedOrders.indexOf(snapshot.$key);
+            this.KEYSacceptedOrders.splice(indexNONEAccept, 1);
             console.log(snapshot.$key);
-            console.log(snapshot.$value);
-            if (snapshot.$value === true) {
-              this.KEYSacceptedOrders.push(snapshot.$key);
-            } else {
-              this.KEYSNONacceptedOrders.push(snapshot.$key);
-            }
-          });
+            this.KEYSacceptedOrders.push(snapshot.$key);
+          } else if (snapshot.$value === false) {
+            let indexAccept = this.KEYSacceptedOrders.indexOf(snapshot.$key);
+            this.KEYSacceptedOrders.splice(indexAccept, 1);
+            this.KEYSNONacceptedOrders.push(snapshot.$key);
+            console.log(this.KEYSNONacceptedOrders.indexOf(snapshot.$key));
+          }
         });
-
-     });
+      });
+    });
+    console.log('this.KEYSacceptedOrders', this.KEYSacceptedOrders);
+    console.log('this.KEYSNONacceptedOrders', this.KEYSNONacceptedOrders);
     if (this.month === 12) {
       this.month = 1;
     } else {
@@ -84,7 +99,16 @@ export class OrderComponent implements OnInit {
     }, 1000);
 
   }
-   checkForSupplier() {
+
+  getWarning(key) {
+    console.log(key.$ref.key);
+    if (this.KEYSNONacceptedOrders.indexOf(key.$ref.key) > -1) {
+      console.log('warning');
+      return true;
+    }
+    return false;
+  }
+  checkForSupplier() {
     this.matchSupplier.pushSupplier('order' , this.userId ).then((data) => {
       this.items = data;
       this.objLoaderStatus = false;
@@ -111,6 +135,22 @@ export class OrderComponent implements OnInit {
 
       });
     });
+     if (this.showNONAccepted.length === 0) {
+       this.noneSupplierOrder = true;
+     } else {
+       this.noneSupplierOrder = false;
+
+     }
+     if ( this.showAccepted.length === 0) {
+       this.allSupplierOrder = true;
+     } else {
+       this.allSupplierOrder = false;
+     }
+     if (!this.allSupplierOrder && this.noneSupplierOrder) {
+       this.noneAnyOrders = true;
+     } else {
+       this.noneAnyOrders = false;
+     }
 
   }
    doCheck() {
@@ -147,5 +187,6 @@ export class OrderComponent implements OnInit {
   checkIt() {
     console.log(this.items);
   }
+
 
 }

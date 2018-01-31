@@ -8,6 +8,39 @@
   border: 1px solid #ddd;
   margin-bottom: 12px;
 }
+ul li{
+
+  padding:5px;
+  background-color:rgba(255,255,255,0.9);
+  -webkit-box-shadow: 0px 0px 2px #888888;
+  -moz-box-shadow: 0px 0px 2px #888888;
+  box-shadow: 0px 0px 2px #888888;
+
+}
+
+ul.c-controls {
+  list-style: none;
+  margin: 0px;
+  max-height: 12px;
+}
+
+ul.c-controls li {
+  margin-top: 8px;
+  float: left;
+}
+
+ul.c-controls li a {
+  font-size: 1.7em;
+}
+ul.c-controls li a i {
+  min-width: 12px;
+  text-align: center;
+}
+
+ul.c-controls li a:hover {
+  background-color: rgba(226, 170, 234, 0.11);
+}
+
 
 #myUL {
   list-style-type: none;
@@ -28,4 +61,9 @@
 
 #myUL li a:hover:not(.header) {
   background-color: #eee;
+}
+#fixed {
+  position: fixed;
+  top: 110px;
+  right: 20px;
 }

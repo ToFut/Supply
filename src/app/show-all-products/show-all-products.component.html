@@ -1,99 +1,122 @@
 <div dir="rtl" class="container">
+  <div class="form-style-2-heading" >
+    <h2 style="text-align: center" [hidden]="!(!this.updateStatus && !this.undifineCheck)">  הגדרת מוצר  </h2>
+    <h2 style="text-align: center" [hidden]="!this.updateStatus && !this.undifineCheck">  עדכון מוצר {{(item | async)?.ProductName}} </h2>
+  </div>
 
   <div>
-    <label [hidden]="!(!this.updateStatus && !this.undifineCheck)">  הגדרת מוצר  </label>
-    <label [hidden]="!this.updateStatus && !this.undifineCheck">  עדכון מוצר {{(item | async)?.ProductName}} </label>
-
+    <div class="form-style-2" >
     <form >
-      <md-form-field class="example-full-width">
-        <input mdInput value="{{(item | async)?.ProductName}}" type="text"  #ProductName id="ProductName" name="ProductName" placeholder="שם המוצר"
+      <label><h5 style="text-align: right"><span class="required">*</span> שם המוצר</h5>
+        <input mdInput  class="input-field" value="{{(item | async)?.ProductName}}" type="text"  #ProductName id="ProductName" name="ProductName" placeholder="שם המוצר"
                 (blur)="onKeyName(ProductName.value)" (keyup)="search($event);onKeyName(ProductName.value)" required>
-        <md-option *ngFor="let product of products" [value]="product.ProductName">
+      </label>
+        <mat-option *ngFor="let product of products" [value]="product.ProductName">
           <p (click)="changename(product.ProductName)">{{ product.ProductName }}</p> |
-        </md-option>
-      </md-form-field>
-      <br>      <br>
-
-      <md-select placeholder="יח' מידה" [(ngModel)]="UnitOfMeasure" name="UnitOfMeasure">
-        <md-option *ngFor="let unit of unitOFMeasurementOption" [value]="unit.value" >
+        </mat-option>
+      <br>
+      <label><mat-select placeholder="יח' מידה" [(ngModel)]="UnitOfMeasure" name="UnitOfMeasure">
+        <mat-option *ngFor="let unit of unitOFMeasurementOption" [value]="unit.value" >
           {{ unit.viewValue }}
-        </md-option>
-      </md-select>
-      <md-form-field class="example-full-width">
-        <input mdInput type="number" pInputText  value="{{(item | async)?.sizeUnitPackaging}}" placeholder="גודל יחידה" #sizeUnitPackaging  (blur)="onKeySizeUnitPackaging(discount.value)" name="ProductName" >
-        <span mdSuffix>{{UnitOfMeasure}}</span>
-      </md-form-field>
-
+        </mat-option>
+      </mat-select></label>
+      <br>
+      <label>
+        <h5 > גודל יחידה&nbsp;  </h5>
+        <div class="input-group suffix">
+          <input mdInput  type="number" pInputText  value="{{(item | async)?.sizeUnitPackaging}}"  #sizeUnitPackaging  (blur)="onKeySizeUnitPackaging(discount.value)" name="ProductName" >
+          <span class="input-group-addon ">{{UnitOfMeasure}}</span>
+        </div>
+      </label>
+      <br>
+      <label>
+        <mat-select placeholder="צורת אריזה" [(ngModel)]="TypeOfFillUp" name="TypeOfFillUp" >
+        <mat-option *ngFor="let option of options" [value]="option.value" >
+          {{ option.viewValue }}
+        </mat-option>
+        </mat-select>
+      </label>
+      <br>
+      <label>
+        <h5 > כמות במארז&nbsp;  </h5>
+        <div class="input-group suffix">
+        <input  mdInput  type="number"  value="{{(item | async)?.UnitInPackaging}}"  #UnitInPackaging  required (blur)="onKeyUnitInPackaging(UnitInPackaging.value)" name="UnitInPackaging" >
+          <span class="input-group-addon">{{TypeOfFillUp}}</span>
+        </div>
+      </label>
+      <br>
+      <label>
+        <h5> מחיר </h5>
+        <div class="input-group presuffix">
+          <input mdInput  type="number" pInputText  value="{{(item | async)?.price}}" placeholder="מחיר" #price  (blur)="onKeyPrice(price.value)" required name="ProductName" >
+          <span class="input-group-addon suffix">₪/{{UnitOfMeasure}}</span>
+        </div>
+      </label>
+      <br>
+      <label>
+        <h5> הנחה </h5>
+        <div class="input-group presuffix">
+          <input mdInput type="number" pInputText  value="{{(item | async)?.discount}}" placeholder="הנחה" #discount  (blur)="onKeyDiscount(discount.value)" name="ProductName" >
+          <span class="input-group-addon suffix">% </span>
+        </div>
+      </label>
+      <br>
+      <label>
+      <mat-select placeholder="מבצע" [(ngModel)]="saleProduct" name="saleProduct">
+        <mat-option *ngFor="let option of sales" [value]="option.value" >
+          {{ option.viewValue }}
+        </mat-option>
+      </mat-select>
+      </label>
       <br>      <br>
-
-      <md-select placeholder="צורת אריזה" [(ngModel)]="TypeOfFillUp" name="TypeOfFillUp" >
-        <md-option *ngFor="let option of options" [value]="option.value" >
-          {{ option.viewValue }}
-        </md-option>
-      </md-select>
-      <br>
-
-      <md-form-field class="example-full-width">
-        <input  mdInput type="number"  value="{{(item | async)?.MinInInventory}}" placeholder="כמות במארז" #UnitInPackaging  required (blur)="onKeyUnitInPackaging(UnitInPackaging.value)" name="UnitInPackaging" value="{{(item | async)?.UnitInPackaging}}">
-        <span mdSuffix> יחידות ב {{TypeOfFillUp}}</span>
-      </md-form-field>
-
-      <br>
-
-      <md-form-field class="example-full-width">
-        <span mdPrefix>₪ &nbsp;</span>
-        <input mdInput  type="number" pInputText  value="{{(item | async)?.price}}" placeholder="מחיר" #price  (blur)="onKeyPrice(price.value)" required name="ProductName" >
-        <md-icon mdSuffix>mode_edit</md-icon>
-      </md-form-field>
-      <md-form-field class="example-full-width">
-        <span mdPrefix>% &nbsp;</span>
-        <input mdInput type="number" pInputText  value="{{(item | async)?.discount}}" placeholder="הנחה" #discount  (blur)="onKeyDiscount(discount.value)" name="ProductName" >
-        <md-icon mdSuffix>mode_edit</md-icon>
-      </md-form-field>
-      <md-select placeholder="מבצע" [(ngModel)]="saleProduct" name="saleProduct">
-        <md-option *ngFor="let option of sales" [value]="option.value" >
-          {{ option.viewValue }}
-        </md-option>
-      </md-select>
-
-
 
     </form>
-
 <!--
     <section class="example-section" dir="rtl">
       <md-checkbox class="example-margin" [(ngModel)]="privateProduct">מוצר פרטי</md-checkbox>
     </section>
 -->
-    <section class="example-section">
-      <md-slide-toggle [(ngModel)]="depositCchecked"
-                       class="example-margin"
-                       [color]="color"
-                       [checked]="depositCchecked"
-                       [disabled]="disabled">
-        <span>כולל החזרת פיקדון?</span>
-      </md-slide-toggle>
-    </section>
+      <section class="example-section">
+        <mat-slide-toggle [(ngModel)]="depositCchecked"
+                         class="example-margin"
+                         [color]="color"
+                         [checked]="depositCchecked"
+                         [disabled]="disabled">
+          <span>כולל החזרת פיקדון?</span>
+        </mat-slide-toggle>
+      </section>
 
-    <label>
-      <md-slide-toggle class="example-margin" [(ngModel)]="showhidepregnant"> סמן להגדרת מצבות להשלמה</md-slide-toggle>
-    </label>
+      <label [hidden]="!depositCchecked">
+        <h5> פיקדון </h5>
+        <div class="input-group presuffix">
+          <input mdInput  type="number" pInputText  value="{{(item | async)?.depositPrice}}" placeholder="עלות הפיקדון" #depositPrice  (blur)="onKeyDepositPrice(depositPrice.value)"  name="depositPrice" >
+          <span class="input-group-addon suffix">אג'</span>
+        </div>
+      </label>
+
+      <label>
+      <mat-slide-toggle class="example-margin" [(ngModel)]="showhidepregnant"> קבע מצבה להשלמה ביום ההזמנה <span class="required">*</span></mat-slide-toggle>
+      </label>
     <form>
-    <div   class="col-md-4 divhidetxtdpatient" *ngIf="showhidepregnant">
-      <div *ngFor="let day of dateCurrectSupplirer">{{day.itemName}}:
-        <input mdInput placeholder="מצבה במלאי" type="number"  [(ngModel)]="days[day.id]" aria-required="true" (ngModelChange)="days[day.id] = $event" name="MinInInventory" required >
+
+      <div    *ngIf="showhidepregnant">
+        <div *ngFor="let day of dateCurrectSupplirer ; let i = index">
+          <label>
+            <h5 style="font-size: small;text-align: right;"> להזמנה ביום {{day.itemName}}: <h6 style="font-size: xx-small;text-align: right;">וקבלה ביום {{day.itemNameOrder}}:</h6> </h5>
+            <div class="input-group presuffix">
+              <input  placeholder="מצבה במלאי" id="{{day.id}}" type="number" #input value="{{days[day.id]}}" (keyup)="modifyDays(day.id , day.orderIn, input.value)"   name="MinInInventory" required >
+              <span class="input-group-addon suffix"> {{TypeOfFillUp}}  </span>
+            </div>
+          </label>
+        </div>
       </div>
-    </div>
     </form>
-</div>
-  <a class="btn btn-success" [hidden]="!(!this.updateStatus && !this.undifineCheck)" (click)="BuildProductForAllDB(discount.value , price.value , UnitInPackaging.value , sizeUnitPackaging.value , ProductName.value )">
+    </div>
+  <a class="btn btn-success" [hidden]="!(!this.updateStatus && !this.undifineCheck)" (click)="BuildProductForAllDB(discount.value , price.value , UnitInPackaging.value , sizeUnitPackaging.value , ProductName.value ,depositPrice.value )">
     <i class="fa fa-check-square"></i> הוסף </a>
-  <a class="btn btn-success" [hidden]="!this.updateStatus && !this.undifineCheck"  (click)="BuildProductForAllDB(discount.value , price.value , UnitInPackaging.value , sizeUnitPackaging.value , ProductName.value )">
+  <a class="btn btn-success" [hidden]="!this.updateStatus && !this.undifineCheck"  (click)="BuildProductForAllDB(discount.value , price.value , UnitInPackaging.value , sizeUnitPackaging.value , ProductName.value ,depositPrice.value )">
     <i class="fa fa-check-square"></i> עדכן </a>
-
-  <a class="btn btn-danger " [hidden]="!this.updateStatus && !this.undifineCheck"  (click)="deleteItem()">
+  <a class="btn btn-danger "  style="align-items:flex-start;" [hidden]="!this.updateStatus && !this.undifineCheck"  >
     <i class="fa fa-trash-o fa-lg"></i> מחק </a>
-
-
-
+</div>
 </div>

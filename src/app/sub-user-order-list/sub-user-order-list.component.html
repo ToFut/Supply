@@ -1,0 +1,43 @@
+<div class="container"  style="direction: rtl; text-align: center;">
+  <br><span data-shadow-text="Text-Shadow" >הזמנות</span>  <i class="fa fa-shopping-cart w3-xxxlarge "style="color: #22262e;:"></i><br>
+
+  <div>
+    <div [ngSwitch]=day >
+      <h1 *ngSwitchCase=0>    ראשון  </h1>
+      <h1 *ngSwitchCase=1>    שני  </h1>
+      <h1 *ngSwitchCase=2>     שלישי  </h1>
+      <h1 *ngSwitchCase=3>     רביעי  </h1>
+      <h1 *ngSwitchCase=4>     חמישי  </h1>
+      <h1 *ngSwitchCase=5>     שישי  </h1>
+      <h1 *ngSwitchCase=6>    שבת  </h1>
+    </div>
+      <div class="tab" >
+        <span [hidden]="!noneSupplierOrder"> כל הכבוד הזמנת את כל הסחורה להיום</span>
+        <div [hidden]="noneSupplierOrder">
+          <input id="tab-one" type="checkbox" name="tabs" [(ngModel)]="show"/>
+          <label for="tab-one">  הזמנת סחורה  </label>
+          <div class="tab-content">
+            <div  class="scrolling" *ngFor="let supplier of showNONAccepted " >
+              <button  (click)="orderFromMe(supplier)" class="button"
+                       [class.success]=" time <= 9"
+                       [class.danger]="time > 12 " [ngClass]="{'warning': getWarning(supplier)}"> <h5 style="font-size: small;color: #0E1013;">{{ (supplier | async)?.name }}</h5 > </button>
+
+            </div>
+          </div>
+        </div>
+      <div class="tab">
+        <input id="tab-two" type="checkbox" name="tabs">
+        <label for="tab-two">  הזמנה סחורה שהושלמה  </label>
+        <div  class="tab-content">
+          <h1 [hidden]="!allSupplierOrder"> לא הזמנת סחורה היום </h1>
+          <div [hidden]="allSupplierOrder" class="scrolling" *ngFor="let supplier of showAccepted " >
+            <button  class = "button success"(click)="orderFromMe(supplier)">
+              <h5 style="font-size: small;color: #0E1013;">{{ (supplier | async)?.name }}</h5> </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

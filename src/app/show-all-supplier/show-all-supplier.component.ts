@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DialogModule} from 'primeng/primeng';
-import {MdDialog, MdDialogRef} from '@angular/material';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {SupplierPersonal} from '../SupplierPersonal';
 import {AngularFireAuth} from 'angularfire2/auth';

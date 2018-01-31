@@ -42,6 +42,7 @@ export class OrderForCurrectSupplierComponent implements OnInit {
   returnHistory: FirebaseListObservable<any[]>;
   acceptOrder: FirebaseListObservable<any[]>;
   acceptLink: string;
+  orderForTodayFromSpesificProduct = [];
   // ToDo day - (supplierProperty |async)?.OrderDays check and put with absulote
   constructor( public af: AngularFireDatabase , public afAuth: AngularFireAuth, public route: Router , public link: ActivatedRoute) {
     link.queryParams.subscribe(params => {
@@ -157,6 +158,13 @@ export class OrderForCurrectSupplierComponent implements OnInit {
     this.supplierProperty = this.af.object(`users/${this.userId}/suppliers/${this.supplierKey}`);
     this.currentOrderInformation = this.af.list(
       `users/${this.userId}/orderHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`);
+    this.currentOrderInformation.subscribe(value => {
+      console.log(value);
+      value.forEach( element => {
+        this.orderForTodayFromSpesificProduct[element.$key] = element['amount'];
+        console.log(this.orderForTodayFromSpesificProduct);
+      });
+    });
     this.returnHistory = this.af.list(
       `users/${this.userId}/returnHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`);
     this.returnProducts.$ref.on('value', snap => {
@@ -190,7 +198,7 @@ export class OrderForCurrectSupplierComponent implements OnInit {
     let WhatsAppMesage = '';
     let check = true;
     await this.returnProduct();
-    this.acceptLink = 'https://supplyme.net/#/acceptOrder?userId=' + this.userId +
+    this.acceptLink = 'https://app.supplyme.net/#/acceptOrder?userId=' + this.userId +
       '&supplierKey=' + this.supplierKey + '&dayInMonth=' + this.dayInMonth + '&month=' + this.month + '&year=' + this.year;
     this.acceptLink = encodeURIComponent(this.acceptLink);
 
@@ -227,7 +235,7 @@ export class OrderForCurrectSupplierComponent implements OnInit {
            location.href = WhatsAppMesage;
           console.log(this.stringToOrder);
           console.log(WhatsAppMesage);
-          this.acceptOrder.set(`${this.supplierKey}` , false);
+          this.acceptOrder.update(`${this.supplierKey}` , false);
           this.returnProducts.remove(element.key);
 
         }
@@ -240,7 +248,7 @@ export class OrderForCurrectSupplierComponent implements OnInit {
     let amount = '';
     let count = 0;
     this.returnProduct();
-      this.acceptLink = 'https://supplyme.net?userId=' + this.userId +
+      this.acceptLink = 'https://app.supplyme.net?userId=' + this.userId +
         '&supplierKey=' + this.supplierKey + '&dayInMonth=' + this.dayInMonth + '&month=' + this.month + '&year=' + this.year;
       this.acceptLink = encodeURIComponent(this.acceptLink);
 
@@ -279,7 +287,7 @@ export class OrderForCurrectSupplierComponent implements OnInit {
         check = true;
         console.log(element.$key);
         this.af.list
-        (`users/${this.userId}/returnHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`).set(`${element.$key}` , {
+        (`users/${this.userId}/returnHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`).update(`${element.$key}` , {
           TypeOfFillUp: element['TypeOfFillUp'] , amount: element['amount'] ,
           productName: element['productName'] , reason: element['reason']
           , returnDay: element['returnDay'] , supplierName: element['supplierName']});
@@ -303,7 +311,8 @@ export class OrderForCurrectSupplierComponent implements OnInit {
     });
 
   }
-  update(values: number , currentProductKey: string , currentMin: number , productName: string , TypeOfFillUp: string ) { // TODO last month
+  update(values: number , currentProductKey: string , currentMin: number , productName: string ,
+         TypeOfFillUp: string  , price: number , unit: number) { // TODO last month
     const path = 'table[' + currentProductKey + ']';
     let reciveMonth, reciveYear , reciveDay;
     /*this.value.forEach(function(element) {
@@ -312,9 +321,12 @@ export class OrderForCurrectSupplierComponent implements OnInit {
         bool = false;
       }
     });*/
-    console.log(values);
-    this.currentOrderInformation.set(`${currentProductKey}` , {amount: values, name: productName
-      , TypeOfFillUp: TypeOfFillUp , reciveAfter: this.reciveAfter});
+    const cost = price * unit * values ;
+    console.log(cost);
+    console.log(price);
+    console.log(unit);
+    this.currentOrderInformation.update(`${currentProductKey}` , {amount: values, name: productName
+      , TypeOfFillUp: TypeOfFillUp , reciveAfter: this.reciveAfter , cost: cost});
     reciveDay = this.reciveDay.getDate();
     reciveMonth = this.reciveDay.getMonth();
     reciveYear = this.reciveDay.getFullYear();
@@ -325,7 +337,7 @@ export class OrderForCurrectSupplierComponent implements OnInit {
     }
 
     this.af.list(`users/${this.userId}/reciveHistory/${reciveYear}/${reciveMonth}/${reciveDay}/${this.supplierKey}`)
-      .set(`${currentProductKey}` , {amount: values, name: productName
+      .update(`${currentProductKey}` , {amount: values, name: productName
       , TypeOfFillUp: TypeOfFillUp , reciveAfter: this.reciveAfter});
     this.value.push({[currentProductKey]: values});
     if (values >= currentMin) { // TODO stack in 100 need to check why

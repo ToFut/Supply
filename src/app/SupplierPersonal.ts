@@ -10,5 +10,7 @@ export class SupplierPersonal {
   OrderDays: number;
   type: string;
   frequency = [];
+  orderInThisDays = [];
+  getInWeekEnd: boolean;
   date = [];
 }

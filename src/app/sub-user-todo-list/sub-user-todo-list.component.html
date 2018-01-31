@@ -1,0 +1,75 @@
+<html lang="he" style="direction: rtl;  font-family: 'Comic Sans MS'">
+<div class="container" style="  margin: auto;
+  width: 100%;
+  padding: 0px 25px 0px 25px;
+">
+
+  <br><br>
+  <div  class="table-responsive" style="text-align: right" >
+
+    <div  style="  background-color: lightgrey;
+  padding: 1px;
+  margin: 40px;
+  text-align: center;background-color: #26D367;color: #fafafa;
+">
+      <div class="w3-dropdown-click">
+        <button (click)="Dropdown()"  style=" font-weight: bold; color: #fafafa; text-align: center; font-size: x-large "> {{(supplier | async)?.name}}  קבלת סחורה <i class="fa fa-caret-down" aria-hidden="true"></i>
+        </button>
+        <div id="Demo" class="w3-dropdown-content w3-bar-block w3-border" >
+          <a href="#" class="w3-bar-item w3-button"> ספק א</a>
+          <a href="#" class="w3-bar-item w3-button">ספק ב </a>
+          <a href="#" class="w3-bar-item w3-button">ספק ג</a>
+        </div>
+      </div>
+
+
+    </div>
+    <input type="checkbox" id="checkAll"[(ngModel)]="selectedAll" (change)="checkAll();"/>
+    <label for="checkAll" class="check-box"> </label><span>בחר הכל</span>
+
+    <table id="customers" >
+      <tr>
+        <th style="text-align: right" >שם המוצר </th>
+        <th style="text-align: right" > נתקבל </th>
+        <th style="text-align: right" >   סוג הכמות לקבלה </th>
+
+      </tr>
+
+      <tr  *ngFor="let prudoct of reciveInfo | async ;let i = index">
+        <td>
+          <input type="checkbox" name='{{radioButton[i]}}' id="{{prudoct.name}}" [(ngModel)]="radioButton[i]" (change)="checkIfAllSelected(prudoct.name);">
+          <label for="{{prudoct.name}}" class="check-box"> </label>
+          <span>{{prudoct.name}}</span>
+        </td>'
+        <td>{{prudoct.amount}} <span id="howMuchReceive" [hidden]="radioButton[i]">/  <input type="number" (keyup)="setPartialRecive(prudoct.$key)" [(ngModel)]="howManyReceive[prudoct.$key]" max="{{prudoct.amount}}" min="0" width="100px"></span></td>
+        <td>{{prudoct.TypeOfFillUp}}</td>
+      </tr>
+      <tr>
+      </tr>
+    </table>
+    <table id="returnProduct" >
+      <tr>
+        <th style="text-align: right" >שם המוצר </th>
+        <th style="text-align: right" > כמות להחזרה </th>
+        <th style="text-align: right" >   סוג הכמות לקבלה </th>
+
+      </tr>
+
+      <tr  *ngFor="let prudoct of returnHistory | async ;let i = index">
+        <td>
+          <span>{{prudoct.productName }}}</span>
+        </td>'
+        <td>{{prudoct.amount}} </td>
+        <td>      {{prudoct.amount}} {{prudoct.TypeOfFillUp}}</td>
+      </tr>
+      <tr>
+      </tr>
+    </table>
+
+  </div>
+
+
+  <button routerLink="/reciveOrder" (click)="updateRecive()" class="button button1" style="background-color: #26D367;"><span>סיים</span></button>
+
+
+</div>

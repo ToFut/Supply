@@ -14,6 +14,8 @@ export class HomeAfterLoginComponent implements OnInit {
   domainUserId: string;
   userName: string;
   userId: string;
+  viewDate: Date = new Date();
+  time = new Date().getHours();
   tiles: any[] = [
     {text: 'ספקים שלי', cols: 3, rows: 1, color: 'lightblue' , route: '/supplier'},
     {text: 'הזמנות', cols: 1, rows: 2, color: 'lightgreen' , route: '/order'},
@@ -36,7 +38,7 @@ export class HomeAfterLoginComponent implements OnInit {
             console.log(' SubUser');
             if (data['first']) {
               this.ifSubUser();
-              this.af.list(`/users/${this.userId}`).set('first' , false);
+              this.af.list(`/users/${this.userId}`).update('first' , false);
             }
             this.subUser = true;
           }
@@ -60,6 +62,27 @@ export class HomeAfterLoginComponent implements OnInit {
     this.router.navigate(['subUserReciveList'], navigationExtras);
 
   }
+   supplierSubUser() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'domainUserId': this.domainUserId,
+
+      }
+    };
+    this.router.navigate(['subUserSupplierList'], navigationExtras);
+
+  }
+  returnSubUser() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'domainUserId': this.domainUserId,
+
+      }
+    };
+    this.router.navigate(['subUserReturnList'], navigationExtras);
+
+  }
+
   orderSubUser() {
     const navigationExtras: NavigationExtras = {
       queryParams: {
@@ -75,10 +98,57 @@ export class HomeAfterLoginComponent implements OnInit {
     this.afAuth.auth.signOut();
   }
   ngOnInit(): void {
+    const OrderNotificatoin = '';
+    const ReciveNotificatoin = '';
+    const Recive = false;
+    const Order = false;
+    /*this.af.object(`users/${this.userId}`).subscribe( info => {
+      console.log( this.viewDate.getHours());
+      console.log( this.viewDate.getMinutes());
+      const hourOrder = info['TimeOrder'].substring(0 , 2);
+      const minOrder = info['TimeOrder'].substring(3 );
+      if (hourOrder < this.viewDate.getHours()) {
+        console.log('bigger');
+      } else if (hourOrder === this.viewDate.getHours() && minOrder < this.viewDate.getMinutes() ) {
+        console.log('bigger');
+      }
+      const hourRecive = info['TimeRecive'].substring(0 , 2);
+      const minRecive = info['TimeRecive'].substring(3 );
+      if (hourRecive < this.viewDate.getHours()) {
+        console.log('bigger');
+      } else if (hourRecive === this.viewDate.getHours() && minRecive < this.viewDate.getMinutes() ) {
+        console.log('bigger');
+      }
+      if ( info['NotificationWay'] === 'email' ) {
+        if ( Order ) {
+        this.notificationEmail(OrderNotificatoin);
+        }
+        if ( Recive ) {
+          this.notificationEmail(ReciveNotificatoin);
+        }
+      }
+      if ( info['NotificationWay'] === 'Whatsapp' ) {
+        if ( Order ) {
+          this.notificationWhatsAPP(OrderNotificatoin);
+        }
+        if ( Recive ) {
+          this.notificationWhatsAPP(ReciveNotificatoin);
+        }
+      }
+    });*/
+        /*notificationEmail(message) {
+      window.location.href = 'mailto:' + this.afAuth.auth.currentUser.email + '?subject=הודעה על' + '&body=' + message;
+    }
+    notificationWhatsAPP(message) {
+      const demo =
+        'whatsapp://send?phone=972' + this.afAuth.auth.currentUser.phoneNumber + '&text=שלום ' + this.afAuth.auth.currentUser.displayName + '%0A' +
+        message + '%0A' + ' בתודה SupplyMe';
+
+    }*/
 
   }
   ifSubUser() {
-    this.af.list(`/users/${this.domainUserId}/buyersId`).set(`${this.userId}` , true).then( success => {
+    this.af.list(`/users/${this.domainUserId}/buyersId`).update(`${this.userId}` , true).then( success => {
       alert( 'קושרת לבעל המסעדה' + this.domainUserId );
     }).catch(function (error) {
       // Handle Errors here.
@@ -93,6 +163,16 @@ export class HomeAfterLoginComponent implements OnInit {
       }
       console.log(error);
     });
+  }
+  shareApp() {
+    let WhatsAppMesage = '';
+    WhatsAppMesage = ' https://api.whatsapp.com/send?text=SupplyME ' +
+    ' אפליקציה לניהול ספקים באופן חכם מהיר יעיל תוך חיסכון משמעותי בהוצאות ' +
+      ' נסה עכשיו בחינם !' + ' %0A ' + ' app.supplyme.net ' ;
+    console.log(WhatsAppMesage);
+    location.href = WhatsAppMesage;
+
+
   }
 
 

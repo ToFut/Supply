@@ -1,0 +1,41 @@
+<div class="form-style-2-heading" style="text-align: center;font-size: x-large;font-family: 'Comic Sans MS'"> הגדרות</div>
+
+<div class="container">
+  <label><h5>עדכן שם מסעדה:</h5></label>
+  <input #updateName (blur)="updateProfile(updateName.value)" value="{{ResturantName}}" placeholder="עדכן שם מסעדה">
+  <br>
+  <label><h5>הגדר שעת סיום לביצוע הזמנות:</h5></label>
+  <input type="time" value="{{selectedTimeOrder}}">
+  <button class="button" (click)="openClockOrder()"><span> שנה </span> </button>  <br>
+
+  <label><h5>הגדר שעת סיום לקבלת סחורה:</h5></label>
+  <input type="time" value="{{selectedTimeRecive}}">
+  <button class="button" (click)="openClockRecive()"><span> שנה </span> </button>  <br>
+
+  <label><h5>הגדר בחר אופן לקבלת התראות:</h5></label>
+  <label>
+    <mat-select placeholder="צורת אריזה" [(ngModel)]="TypeOfFillUp" name="TypeOfFillUp" >
+      <mat-option *ngFor="let option of options" [value]="option.value" >
+        {{ option.viewValue }}
+      </mat-option>
+    </mat-select>
+  </label>
+
+  <br><br>
+  <button class="button" style="vertical-align:middle" onclick="document.getElementById('id01').style.display='block'"  >
+    <span>הוסף קניין</span></button>
+
+  <div id="id01" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <h2>הוסף קניין</h2>
+        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <input type="tel"  placeholder="מספר פלאפון" #phoneNumber (blur)="onKeyPhone(phoneNumber.value)" (keyup)="onKeyPhone(phoneNumber.value)">
+        <input type="text" placeholder="שם פרטי" #name (blur)="onKeyName(name.value)" (keyup.enter)="onKeyName(name.value)">
+        <a   (click)="buildLink()"  class="fa fa-whatsapp fa-4x" style="color: #26D367"></a>
+      </div>
+    </div>
+  </div>
+  <button class="button" style="vertical-align:middle" routerLink="/homeAfterLogin" (click)="save()"  >
+    <span>שמור  </span></button>
+</div>

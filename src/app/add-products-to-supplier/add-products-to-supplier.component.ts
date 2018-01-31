@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
-import {MdDialog } from '@angular/material';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Subject} from 'rxjs/Subject';
 import {ProductsService} from '../products.service';
@@ -10,7 +9,6 @@ import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {AssociateProductToSupplierService} from '../associate-product-to-supplier.service';
 import {ProductOptions} from '../ProductOptions';
 import {SupplierPrivateProductsService} from '../supplier-private-products.service';
-import {AddProductsAllDBComponent} from '../../..//src/app/add-products-all-db/add-products-all-db.component';
 import {ShowProductComponent} from '../show-product/show-product.component';
 import {FormControl} from '@angular/forms';
 
@@ -38,7 +36,7 @@ export class AddProductsToSupplierComponent implements OnInit {
   results: string[];
 
 
-  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase , public dialog: MdDialog ,
+  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase ,
               private ProductsService: ProductsService , route: ActivatedRoute ,
               private AssociateProductToSupplierService: AssociateProductToSupplierService ,
               private SupplierPrivateProductsService: SupplierPrivateProductsService, private router: Router) {

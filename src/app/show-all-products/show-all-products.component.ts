@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DialogModule, MenuItem, Message} from 'primeng/primeng';
-import {MdDialog, MdDialogRef} from '@angular/material';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {SupplierPersonal} from '../SupplierPersonal';
 import {AngularFireAuth} from 'angularfire2/auth';
@@ -12,11 +11,12 @@ import { OnChanges } from '@angular/core';
 import {FormBuilder, FormGroup, Validators , FormControl} from '@angular/forms';
 import {ProductsService} from '../products.service';
 import {Subject} from 'rxjs/Subject';
+import {DeleteProductComponent} from '../delete-product/delete-product.component';
 
 @Component({
   selector: 'app-show-all-products',
   templateUrl: './show-all-products.component.html',
-  styleUrls: ['./show-all-products.component.scss']
+  styleUrls: ['./show-all-products.component.css']
 })
 export class ShowAllProductsComponent implements OnInit {
 
@@ -26,7 +26,7 @@ export class ShowAllProductsComponent implements OnInit {
   items: FirebaseListObservable<any[]>;
   item: FirebaseObjectObservable<any[]>;
   itemProduct: FirebaseListObservable<any[]>;
-  dateCurrectSupplirer: any[];
+  dateCurrectSupplirer = [];
   dateProduct: FirebaseListObservable<any[]>;
   userChoiseAboutsecuringy: string;
   path: string;
@@ -37,6 +37,8 @@ export class ShowAllProductsComponent implements OnInit {
     'private',
   ];
   days = [];
+  existProduct = [];
+  orderInThatdays = [];
   publicProductRef: FirebaseListObservable<any[]>;
   public Product = new ProductOptions();
   publicProduct = false;
@@ -62,6 +64,8 @@ export class ShowAllProductsComponent implements OnInit {
     {value: 30, viewValue: 'השני ב30%'},
     {value: 20, viewValue: 'השני ב20%'},
     {value: 10, viewValue: 'השני ב10%'},
+    {value: 0, viewValue: 'ללא מבצע'},
+
 
 
   ];
@@ -78,25 +82,29 @@ export class ShowAllProductsComponent implements OnInit {
     {value: 'גר', viewValue: 'גר'},
     {value: 'מל', viewValue: 'מל'},
     {value: 'מל', viewValue: 'סמק'},
+    {value: 'יחידה', viewValue: 'יחידה'},
 
 
   ];
+  orderDays = 0;
   UnitOfMeasure: string;
   TypeOfFillUp: string;
   color = 'primary';
   depositCchecked = false;
   disabled = false;
-
+  orderType = [];
+  orderBefore = 0;
   isLinear = false;
 
 
   constructor( public af: AngularFireDatabase, public afAuth: AngularFireAuth,
                public route: ActivatedRoute , private _formBuilder: FormBuilder , private router: Router ,
-              private ProductsService: ProductsService) {
+              private ProductsService: ProductsService ) {
     this.afAuth.authState.subscribe(user => {
       if (user) {this.userId = user.uid;
       }
     });
+    this.saleProduct = 0;
     this.updateStatus = false;
     this.undifineCheck = false;
     route.queryParams.subscribe(params => {
@@ -111,47 +119,100 @@ export class ShowAllProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.itemProduct = this.af.list(`/products`);
-
+    this.TypeOfFillUp = '';
+    this.depositCchecked = false;
+    this.saleProduct = 0;
+    this.UnitOfMeasure = '';
     this.item = this.af.object(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}`);
-      this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory`).
-    subscribe( value => {
-      value.forEach( data => {
-        this.days[data.$key] = data.$value;
+    this.af.list
+    (`users/${this.userId}/suppliers/${this.SupplierKey}/orderInThisDays`).subscribe(val => {
+      console.log(val);
+      val.forEach(ele => {
+        console.log(ele);
       });
-      });
+      /*
+            this.orderDays = val['orderInThisDays'];
+            val['orderInThisDays'].forEach( ids => {
+              console.log(ids);
+            });
+      */
+    });
+
     this.item.subscribe(data => {
       if (this.selectProductKey !== undefined && !this.undifineCheck) {
         console.log('inside');
-        this.TypeOfFillUp = data['TypeOfFillUp'];
-        this.UnitOfMeasure = data['UnitOfMeasure'];
-        this.depositCchecked = data['deposit'];
-        this.saleProduct = data['sale'];
+        if ((data['TypeOfFillUp'])) {
+          console.log('TypeOfFillUp');
+          this.TypeOfFillUp = data['TypeOfFillUp'];
+        } else {
+          this.TypeOfFillUp = '';
+        }
+        if ((data['deposit'])) {
+          console.log('deposit');
+
+          this.depositCchecked = data['deposit'];
+        } else {
+          this.depositCchecked = false;
+        }
+        if ((data['UnitOfMeasure'])) {
+          console.log('UnitOfMeasure');
+
+          this.UnitOfMeasure = data['UnitOfMeasure'];
+        } else {
+          this.UnitOfMeasure = '';
+        }
+        if ((data['sale'])) {
+          console.log('sale');
+
+          this.saleProduct = data['sale'];
+        } else {
+          this.saleProduct = 0;
+        }
         this.updateStatus = true;
         this.undifineCheck = true;
-       }
+      }
       console.log(this.selectProductKey !== undefined);
       console.log(!this.undifineCheck);
-
-    });
     console.log(this.selectProductKey);
-
+    console.log(this.orderType);
+    console.log(this.TypeOfFillUp);
+    console.log(this.UnitOfMeasure);
     console.log(this.updateStatus);
+    });
+    this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/orderInThisDays`).subscribe( val => {
+      console.log(val);
+      val.forEach( day => {
+        console.log(day['orderIn']);
+
+        this.af.object
+        (`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory`).subscribe( ids => {
+          console.log(ids);
+          this.days[day['id']] = ids[day['id']] ;
+/*
+        this.af.object
+        (`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory/${day['id']}`).
+        remove();
+        this.af.list
+        (`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory`).
+        set(`${day['id']}` , this.days[day['orderIn']]);
+        */
+        });
+      });
+
+      console.log(val);
+      this.dateCurrectSupplirer = val;
+    });
 
 
-    this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/date`).subscribe(data => {
-       this.dateCurrectSupplirer = data;
-  });
     console.log('this is dateCurrectSupplirer : ' + this.dateCurrectSupplirer);
-
     this.items = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`);
-
     this.ProductsService.getProducts(this.startWith, this.endWith)
       .subscribe(products => this.products = products);
 
 
   }
   BuildProductForAllDB (discount , price, UnitInPackaging,
-                         sizeUnitPackaging, ProductName) {
+                         sizeUnitPackaging, ProductName , depositPrice) {
 
     this.Product.discount = discount;
     this.Product.price = price;
@@ -160,30 +221,45 @@ export class ShowAllProductsComponent implements OnInit {
     this.Product.ProductName = ProductName;
     console.log(this.depositCchecked);
     this.Product.deposit = this.depositCchecked;
-    this.Product.MinInInventory = this.days;
+    this.Product.MinInInventory = this.orderInThatdays;
+    console.log(this.Product.MinInInventory);
     this.Product.TypeOfFillUp = this.TypeOfFillUp;
     this.Product.UnitOfMeasure = this.UnitOfMeasure;
     this.Product.sale = this.saleProduct;
-    console.log(this.days);
-
-
+    this.Product.depositPrice = depositPrice;
     console.log('key is ' + this.selectProductKey + ' supplier key ' + this.SupplierKey + ' MinInInventory :' );
     this.updateItem(this.Product);
     this.back();
   }
   updatePublicDB() {
     this.itemProduct = this.af.list(`/products`);
-    this.itemProduct.push({ProductName: this.Product.ProductName });
+    this.af.list(`/products`).subscribe( products => {
+      products.forEach( product => {
+        const name = product['ProductName'];
+          this.existProduct.push(name);
+      });
+      if (this.existProduct.indexOf(this.Product.ProductName) === -1) {
+        this.itemProduct.push({ProductName: this.Product.ProductName });
+      }
+    });
   }
   updatePrivateUserDB() {
     this.itemProduct = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/privateProducts`);
+  }
+  modifyDays(index , orderIndex , value) {
+  console.log(value);
+  console.log(index);
+    console.log(orderIndex);
+    this.orderInThatdays[index] = value;
+  this.days[index] = value;
+  console.log(this.days);
+    console.log(this.orderInThatdays[orderIndex]);
   }
   updateItem(Product) {
     console.log(this.privateProduct);
     if (this.Product.ProductName !== '') {
       if (this.privateProduct) {
         this.updatePrivateUserDB();
-
       }else {
         this.updatePublicDB();
       }
@@ -198,10 +274,9 @@ export class ShowAllProductsComponent implements OnInit {
       console.log(this.undifineCheck);
       console.log(this.updateStatus);
       console.log(this.selectProductKey);
-      this.items.set(this.selectProductKey , Product);
+      this.items.update(this.selectProductKey , Product);
 
-      this.items.set(this.selectProductKey , Product);
-
+      this.items.update(this.selectProductKey , Product);
     }
     this.associateProduct();
   }
@@ -222,6 +297,12 @@ export class ShowAllProductsComponent implements OnInit {
     this.Product.UnitInPackaging = UnitInPackaging;
 
   }
+  onKeyDepositPrice(depositPrice: number) {
+    console.log(depositPrice);
+
+    this.Product.depositPrice = depositPrice;
+
+  }
   onKeyPrice (Price: number) {
     console.log(Price);
 
@@ -235,7 +316,6 @@ export class ShowAllProductsComponent implements OnInit {
   }
 
   onKeyDiscount (Discount: number) {
-    console.log(Discount);
 
     this.Product.discount = Discount;
 

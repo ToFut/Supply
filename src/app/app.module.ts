@@ -1,5 +1,4 @@
-///<reference path="../../node_modules/@angular/material/typings/module.d.ts"/>
-///<reference path="../../node_modules/daypilot-pro-angular/daypilot-angular.min.d.ts"/>
+///<reference path="../../node_modules/angularfire2/auth/auth.module.d.ts"/>
 import { DropdownMultiselectModule } from 'ng2-dropdown-multiselect';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
@@ -10,11 +9,6 @@ import { ServerConnectionComponent} from './server-connection/server-connection.
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app-routing.module';
-import {
-  MdButtonModule, MdCheckboxModule, MdDialogModule, MdGridListModule,
-  MdNativeDateModule
-} from '@angular/material';
-import { GestureConfig, MaterialModule } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { AngularFireModule } from 'angularfire2';
@@ -32,22 +26,25 @@ import {ImageUploadModule} from 'angular2-image-upload';
 import {ProductsService} from './products.service';
 import { DialogEditProductsComponent } from './dialog-edit-products/dialog-edit-products.component';
 import { ShowAllProductsComponent } from './show-all-products/show-all-products.component';
-import {AddProductsAllDBComponent} from './add-products-all-db/add-products-all-db.component';
 import { ShowAllSupplierComponent } from './show-all-supplier/show-all-supplier.component';
 import {SupplierService} from './supplier.service';
 import {AssociateProductToSupplierService} from './associate-product-to-supplier.service';
 import {SupplierPrivateProductsService} from './supplier-private-products.service';
 import { HomeComponent } from './home/home.component';
+import { AmazingTimePickerModule } from 'amazing-time-picker'; // this line you need
+
 import {
   AccordionModule,
   CheckboxModule, FieldsetModule, InputMaskModule, InputTextModule, MultiSelectModule, PasswordModule,
   SelectButtonModule,
   TooltipModule
 } from 'primeng/primeng';
+import {MatSelectModule} from '@angular/material/select';
+import {MatButtonModule, MatCheckboxModule} from '@angular/material';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 import {SplitButtonModule} from 'primeng/primeng';
 import { OrderComponent } from './order/order.component';
-import { CalendarModule } from 'angular2-calendar';
-import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { HomeAfterLoginComponent } from './home-after-login/home-after-login.component';
 import {MatchSupplierService} from './match-supplier.service';
@@ -70,6 +67,9 @@ import { SignUpPageSubUserComponent } from './sign-up-page-sub-user/sign-up-page
 import { SubUserOrderListComponent } from './sub-user-order-list/sub-user-order-list.component';
 import { SubUserReciveListComponent } from './sub-user-recive-list/sub-user-recive-list.component';
 import { SubUserTodoListComponent } from './sub-user-todo-list/sub-user-todo-list.component';
+import { EditSupplierComponent } from './edit-supplier/edit-supplier.component';
+import { DeleteSupplierComponent } from './delete-supplier/delete-supplier.component';
+import { DeleteProductComponent } from './delete-product/delete-product.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +84,6 @@ import { SubUserTodoListComponent } from './sub-user-todo-list/sub-user-todo-lis
     SupplierSearchComponent,
     DialogEditProductsComponent,
     ShowAllProductsComponent,
-    AddProductsAllDBComponent,
     ShowAllSupplierComponent,
     HomeComponent,
     OrderComponent,
@@ -104,29 +103,25 @@ import { SubUserTodoListComponent } from './sub-user-todo-list/sub-user-todo-lis
     SubUserOrderListComponent,
     SubUserReciveListComponent,
     SubUserTodoListComponent,
+    EditSupplierComponent,
+    DeleteSupplierComponent,
+    DeleteProductComponent,
   ],
   imports: [
     BrowserModule,
     NoopAnimationsModule,
     BrowserAnimationsModule,
-    AngularFireDatabaseModule, // imports firebase/database, only needed for database features
-    AngularFireAuthModule, // imports firebase/auth, only needed for auth features
-    AngularFireModule.initializeApp(environment.firebase, 'Supply'),
-    MaterialModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase),
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-    MdButtonModule,
-    MdCheckboxModule,
-    MdDialogModule,
     Ng2Bs3ModalModule,
     ImageUploadModule.forRoot(),
     TooltipModule,
     SplitButtonModule,
-    CalendarModule.forRoot(),
-    MultiselectDropdownModule,
     AngularMultiSelectModule,
-    MdGridListModule,
     InputTextModule,
     FormsModule,
     CheckboxModule,
@@ -139,16 +134,21 @@ import { SubUserTodoListComponent } from './sub-user-todo-list/sub-user-todo-lis
     Ng2SmartTableModule,
     FieldsetModule,
     AccordionModule,
-    MdNativeDateModule,
+    AmazingTimePickerModule,
+    MatSelectModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatSlideToggleModule,
   ],
-  exports: [MdButtonModule, MdCheckboxModule , OrderComponent],
-  providers: [{ provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
-    {provide: LocationStrategy, useClass: HashLocationStrategy},
+  exports: [ OrderComponent],
+  providers: [
     ProductsService ,
     SupplierService , AssociateProductToSupplierService , SupplierPrivateProductsService ,
-    MatchSupplierService],
+    MatchSupplierService , MatButtonModule, MatCheckboxModule ],
   entryComponents: [  DialogEditProductsComponent , ShowAllProductsComponent ,
-    ShowAllSupplierComponent , AddProductsAllDBComponent  , ShowProductComponent],
+    ShowAllSupplierComponent , DeleteProductComponent,
+    DeleteSupplierComponent , ShowProductComponent],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ,
     CUSTOM_ELEMENTS_SCHEMA

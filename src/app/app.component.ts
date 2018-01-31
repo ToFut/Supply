@@ -1,4 +1,3 @@
-///<reference path="../../node_modules/angularfire2/database/firebase_list_observable.d.ts"/>
 import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -24,7 +23,7 @@ export class AppComponent implements OnInit {
   navLinks: [
     {label: 'Supplier', route: '/supplier'}];
   title = 'Supply';
-  user: Observable<firebase.User>;
+  user: Observable<any>;
   items: FirebaseListObservable<any[]>;
   userName: string;
   userId: string;

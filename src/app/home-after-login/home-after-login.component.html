@@ -7,6 +7,7 @@
 <!-- !PAGE CONTENT! -->
 <div >
 
+  <i id="fixed" class="fa fa-share-alt fa-2x" aria-hidden="true" (click)="shareApp()"></i>
 
   <div  class="header" >
     <div class="logo"   > <img src="../../assets/logoWithOutBackground.png"  /> </div>
@@ -55,6 +56,21 @@
       <h4 class="nav-text" style="font-size: medium"> הספקים שלי</h4>
       </span>
       </a>
+      <a [hidden]="!subUser" (click)="supplierSubUser()" routerLinkActive="active">
+  <span class="button button4 ">
+      <i class="fa fa-users w3-xxxlarge"></i>
+
+      <h4 class="nav-text" style="font-size: medium"> הספקים שלי</h4>
+      </span>
+      </a>
+      <a  [hidden]="!subUser" (click)="returnSubUser()" routerLinkActive="active">
+    <span class="button button4" >
+      <i class="fa fa-shopping-basket w3-xxlarge" aria-hidden="true"></i>
+      <i class="fa fa-arrow-left w3-xxlarge" aria-hidden="true"></i>
+
+       <h4 class="nav-text" style="font-size: medium;">  החזרת סחורה  </h4>
+    </span>
+      </a>
 
       <a  [hidden]="subUser" routerLink="/returnProdcts" routerLinkActive="active">
     <span class="button button4" >
@@ -68,7 +84,7 @@
 </div>
   <!-- Footer -->
   <div class="form-group text-center">
-    <a routerLink="/setting"> הגדרות </a>&nbsp;|&nbsp;<a (click)="logout()" routerLink="/loginPage">התנתק</a>
+    <a [hidden]="subUser" routerLink="/setting"> הגדרות </a>&nbsp;|&nbsp;<a (click)="logout()" routerLink="/loginPage">התנתק</a>
   </div>
   </div>
 

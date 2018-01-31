@@ -24,9 +24,10 @@
           <td>
             <input placeholder="כמות להשלמה" style="width: 100px;color: #16b720;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;" #box type="number"
                   (keyup.enter)="update(box.value , Product.$key , Product.MinInInventory ,
-                                                     Product.ProductName , Product.model)"
+                                                     Product.ProductName , Product.model ,Product.price , Product.UnitInPackaging)"
                   (blur)="update(box.value , Product.$key , Product.MinInInventory ,
-                                                     Product.ProductName , Product.TypeOfFillUp  )" maxlength="2" size="2" >
+                                                     Product.ProductName , Product.TypeOfFillUp ,Product.price , Product.UnitInPackaging )
+                      " value="{{orderForTodayFromSpesificProduct[Product.$key]}}" maxlength="2" size="2" >
           </td>
         </tr>
       </tbody>
@@ -53,13 +54,13 @@
     </tbody>
 
   </table>
-  <div class="menu-button"> שלח לספק<i class="zmdi zmdi-share"></i>
-    <a   (click)="buildMessageWhatsApp()"  class="fa fa-whatsapp fa-4x" style="color: #26D367"></a>
-    <a (click)="buildMessageEmail()"  class="fa fa-envelope-o fa-4x" style="color: #3A4A7B"></a>
-    <a (click)="buildMessageEmail()"  class="fa fa-comment fa-4x" style="color: #3498db"></a>
-  </div>
 
 
+</div>
+<div class="menu-button"> שלח לספק<i class="zmdi zmdi-share"></i>
+  <a   (click)="buildMessageWhatsApp()"  class="fa fa-whatsapp fa-4x" style="color: #26D367"></a>
+  <a (click)="buildMessageEmail()"  class="fa fa-envelope-o fa-4x" style="color: #3A4A7B"></a>
+  <a (click)="buildMessageEmail()"  class="fa fa-comment fa-4x" style="color: #3498db"></a>
 </div>
 
 </html>

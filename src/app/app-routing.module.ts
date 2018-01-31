@@ -4,7 +4,6 @@ import {ServerConnectionComponent} from './server-connection/server-connection.c
 import {SupplierComponent} from './supplier/supplier.component';
 import {LoginPageComponent} from './login-page/login-page.component';
 import {InviteProductsComponent} from './invite-products/invite-products.component';
-import {AddProductsAllDBComponent} from './add-products-all-db/add-products-all-db.component';
 import {AddProductsToSupplierComponent} from './add-products-to-supplier/add-products-to-supplier.component';
 import {HomeComponent} from './home/home.component';
 import {OrderComponent} from './order/order.component';

@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DialogModule} from 'primeng/primeng';
-import {MdDialogRef} from '@angular/material';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {SupplierPersonal} from '../SupplierPersonal';
 import {AngularFireAuth} from 'angularfire2/auth';
@@ -27,7 +26,7 @@ export class DialogEditProductsComponent implements OnInit {
 
 
 
-  constructor(public dialogRef: MdDialogRef<any> , public af: AngularFireDatabase , public afAuth: AngularFireAuth) {
+  constructor( public af: AngularFireDatabase , public afAuth: AngularFireAuth) {
     this.afAuth.authState.subscribe(user => {
       if (user) {this.userId = user.uid;
       }
@@ -57,14 +56,9 @@ export class DialogEditProductsComponent implements OnInit {
   updateItem(Product) {
     this.productFirebaseRef.push( Product);
     console.log('updated ');
-    this.closeDialog();
   }
   deleteItem() {
     this.productFirebaseRef.remove();
-    this.closeDialog();
-  }
-  closeDialog() {
-    this.dialogRef.close();
   }
   imageFinishedUploading(file: FileHolder) {
     console.log(JSON.stringify(file.serverResponse));

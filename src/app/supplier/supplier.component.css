@@ -1,9 +1,6 @@
 
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 
-body {
-  padding: 30px 0px 60px;
-}
 .panel > .list-group .list-group-item:first-child {
   /*border-top: 1px solid rgb(204, 204, 204);*/
 }
@@ -61,7 +58,7 @@ body {
 ul.c-controls {
   list-style: none;
   margin: 0px;
-  min-height: 44px;
+  max-height: 12px;
 }
 
 ul.c-controls li {
@@ -71,10 +68,9 @@ ul.c-controls li {
 
 ul.c-controls li a {
   font-size: 1.7em;
-  padding: 11px 10px 6px;
 }
 ul.c-controls li a i {
-  min-width: 24px;
+  min-width: 12px;
   text-align: center;
 }
 
@@ -102,7 +98,6 @@ h1 { color: #09480d; font-family: 'Trocchi', serif; font-size: 45px; font-weight
   background-color: #4CAF50; /* Green background */
   border: 1px solid green; /* Green border */
   color: white; /* White text */
-  padding: 10px 24px; /* Some padding */
   cursor: pointer; /* Pointer/hand icon */
   float: left; /* Float the buttons side by side */
 }
@@ -123,23 +118,15 @@ h1 { color: #09480d; font-family: 'Trocchi', serif; font-size: 45px; font-weight
   background-color: #3e8e41;
 }
 
-input[type=text] {
-  width: 130px;
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  background-color: white;
-  background-image: url('../../assets/search.png');
+input{
+  background-image: url("../../assets/search.png");
   background-position: 10px 10px;
   background-repeat: no-repeat;
+  width: 90%;
+  font-size: 16px;
   padding: 12px 20px 12px 40px;
-  -webkit-transition: width 0.4s ease-in-out;
-  transition: width 0.4s ease-in-out;
-}
-
-input[type=text]:focus {
-  width: 100%;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
 }
 body{font-size:100%;
   background:url("http://www.freebiesgallery.com/wp-content/uploads/2014/02/blurred-background-2.jpg")no-repeat center center fixed;
@@ -162,12 +149,7 @@ ul{
 }
 ul li{
 
-  padding:20px;
-  margin-top:20px;
-  background-color:rgba(255,255,255,0.9);
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
+  padding:10px;
   -webkit-box-shadow: 0px 0px 2px #888888;
   -moz-box-shadow: 0px 0px 2px #888888;
   box-shadow: 0px 0px 2px #888888;
@@ -199,7 +181,6 @@ li span{
   font-size:16px;
   color: #26D367;
   margin-right:40px;
-  height: 32px;
   line-height: 32px;
 
 
@@ -271,10 +252,74 @@ h3:after{
 
 }
 #grad1 {
-  height: 200px;
+  width: auto;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   background: #26D367; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(#26D367, #8fb1fe); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(#26D367, #8fb1fe); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(#26D367, #8fb1fe); /* For Firefox 3.6 to 15 */
   background: linear-gradient(#26D367, #8fb1fe); /* Standard syntax (must be last) */
+}
+#fixedSort {
+  position: fixed;
+  top: 110px;
+  left: 20px;
+}
+#fixedButton {
+  position: fixed;
+  top: 110px;
+  right: 20px;
+}
+
+#myInput {
+  background-position: 10px 12px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myUL {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#icon {
+  position:absolute;
+  display: inline-block;
+}
+#name {
+  display: inline-block;
+  font-size: small;
+  padding-right: 4em;
+}
+
+#myUL li a {
+  border: 1px solid #ddd;
+  margin-top: -1px; /* Prevent double borders */
+  background-color: #f6f6f6;
+  padding-right: 2em;
+  text-decoration: none;
+  font-size: 18px;
+  color: black;
+  border-radius: 10px;
+  display: block
+}
+
+#myUL li a:hover:not(.header) {
+  background-color: #eee;
+}
+#fixed {
+  position: fixed;
+  top: 110px;
+  right: 20px;
+}
+#name {
+  ;
 }

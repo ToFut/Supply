@@ -18,6 +18,8 @@
   cursor: pointer;
   align-items: center;
   padding: 10% 0% 10%;
+  max-height: 223px;
+  min-height: 186px;
 }
 
 .button4 {
@@ -71,4 +73,10 @@
 }
 .round-button:hover {
   background: #d40a15;
+}
+#fixed {
+  position: fixed;
+  color: #fefefe;
+  top: 110px;
+  left: 20px;
 }

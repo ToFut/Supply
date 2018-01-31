@@ -1,0 +1,45 @@
+<div style="direction: rtl; color: #fafafa;">
+  <div class="wrapper">
+    <div class="container">
+
+    <div class="user">
+  <header class="user__header">
+    <img src="../../assets/logoWithOutBackground.png" alt="" />
+    <h1 class="user__title"> שלום {{name}}</h1>
+    <h1 class="user__title"> צור משתמשש קניין עבור {{restName}}</h1>
+  </header>
+      <form class="form-style-7">
+        <ul>
+          <li>
+            <label>אימייל</label>
+            <input type="email" #email (keyup)="onKeyEmail(email.value)" placeholder="אימייל" class="form__input" />
+            <span>הכנס אימייל</span>
+          </li>
+          <li>
+            <label>סיסמא</label>
+            <input type="password" #password (keyup)="onKeyPassword(password.value)" placeholder="סיסמא" class="form__input" />
+            <span>הכנס סיסמא</span>
+          </li>
+          <li>
+            <button class=" w3-btn  w3-border w3-border-black w3-round-large"  (click)="emailSignUp()" type="button">הרשם</button>
+          </li>
+
+        </ul>
+      </form>
+</div>
+<ul class="bg-bubbles">
+  <li><img src="../../assets/logoWithOutBackground.png"></li>
+  <li></li>
+  <li></li>
+  <li><img src="../../assets/logoWithOutBackground.png"></li>
+  <li><img src="../../assets/logoWithOutBackground.png"></li>
+  <li></li>
+  <li></li>
+  <li><img src="../../assets/logoWithOutBackground.png"></li>
+  <li></li>
+  <li><img src="../../assets/logoWithOutBackground.png"></li>
+</ul>
+<script>$('.btn').on('click', function () {
+  $('.form').addClass('form--no');
+});</script>
+    </div></div></div>

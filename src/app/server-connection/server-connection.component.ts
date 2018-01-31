@@ -1,8 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/map';
-import {MdDialog} from '@angular/material';
-import {DialogComponent} from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-server-connection',
@@ -18,7 +16,7 @@ export class ServerConnectionComponent implements OnInit {
 
   // Inject HttpClient into your component or service.
 
-  constructor(private http: HttpClient , public dialog: MdDialog) {
+  constructor(private http: HttpClient ) {
   }
 
   // get all JSON from server (mongo)
@@ -46,9 +44,6 @@ export class ServerConnectionComponent implements OnInit {
 
   updateName(value: string) {
     this.body.name = value;
-  }
-  openDialog(key) {
-    const dialogRef = this.dialog.open(DialogComponent);
   }
 
 }

@@ -1,7 +1,5 @@
 ///<reference path="../SupplierPersonal.ts"/>
 import {Component, Input, OnInit} from '@angular/core';
-import {DialogModule, SelectItem} from 'primeng/primeng';
-import {ErrorStateMatcher, MdDialogRef} from '@angular/material';
 import {
   AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable,
   FirebaseOperation
@@ -12,6 +10,7 @@ import {DateSelected} from './dateAndFrec';
 import {forEach} from '@angular/router/src/utils/collection';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {isUndefined} from 'util';
 
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -34,101 +33,168 @@ export class DialogComponent implements OnInit {
   dateSelected = [];
   frequencySelected = [];
   orderDay: number;
-  selectedType = [];
+  selectedType: string;
   days = [];
   selectedDays = [];
   complexForm: any;
+  orderInThisDays = [];
   email = new FormControl('', [Validators.required, Validators.email]);
   companyName = new FormControl('', [Validators.required]);
   buyerName = new FormControl('', [Validators.required]);
   buyerPhone = new FormControl('', [Validators.required]);
-
-
-
-  typeOption = [
-    {value: 'משקאות', viewValue: 'משקאות'},
-    {value: 'מוצרי בשר', viewValue: 'מוצרי בשר'},
-    {value: 'מוצרי חלב', viewValue: 'מוצרי חלב'},
-    {value: 'חומרי גלם', viewValue: 'חומרי גלם'},
-    {value: 'קינוחים', viewValue: 'קינוחים'},
-    {value: 'מאפים', viewValue: 'מאפים'},
-    {value: 'אריזות וחומרי ניקוי', viewValue: 'אריזות וחומרי ניקוי'},
-    {value: 'כלים', viewValue: 'כלים'},
-    {value: 'מוצרים יבשים', viewValue: 'מוצרים יבשים'},
-
-
-  ];
-
+  update = false;
+  typeOption: any;
+  getInWeekEnd = false;
   constructor( fb: FormBuilder , public af: AngularFireDatabase , public afAuth: AngularFireAuth ,
                route: ActivatedRoute , private router: Router) {
     this.selectedDays = [];
+    this.getInWeekEnd = false;
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userId = user.uid;
       }
     });
-   this.complexForm = fb.group({
+    route.queryParams.subscribe(params => {
+    this.orderInThisDays = [];
+
+    });
+    this.selectedType = 'ללא קטגוריה';
+    this.complexForm = fb.group({
       'email' : [null, Validators.required, Validators.email],
       'companyName' : [null, Validators.required],
      'buyerName' : [null, Validators.required],
      'buyerPhone' : [null, Validators.required],
-    })
+    });
 
     route.queryParams.subscribe(params => {
       this.supplierKey = params['supplierKey'];
+      this.userId = params['userId'];
+      this.update = params['update'];
+
     });
     this.Options = [1 , 2 , 3];
     this.typeOption = [
-      {value: 'משקאות', viewValue: 'משקאות'},
-      {value: 'מוצרי בשר', viewValue: 'מוצרי בשר'},
-      {value: 'מוצרי חלב', viewValue: 'מוצרי חלב'},
-      {value: 'חומרי גלם', viewValue: 'חומרי גלם'},
-      {value: 'קינוחים', viewValue: 'קינוחים'},
-      {value: 'מאפים', viewValue: 'מאפים'},
-      {value: 'אריזות וחומרי ניקוי', viewValue: 'אריזות וחומרי ניקוי'},
-      {value: 'כלים', viewValue: 'כלים'},
-      {value: 'מוצרים יבשים', viewValue: 'מוצרים יבשים'},
+      {viewValue: 'ללא קטגוריה'},
+      {viewValue: 'משקאות'},
+      { viewValue: 'מוצרי בשר'},
+      { viewValue: 'מוצרי חלב'},
+      { viewValue: 'חומרי גלם'},
+      { viewValue: 'קינוחים'},
+      { viewValue: 'מאפים'},
+      { viewValue: 'אריזות וחומרי ניקוי'},
+      { viewValue: 'כלים'},
+      { viewValue: 'מוצרים יבשים'},
 
 
     ];
 
     this.days = [];
-    this.days.push({itemName: 'א\'', value: false , id: 0});
-    this.days.push({itemName: 'ב\'', value: false , id: 1});
-    this.days.push({itemName: 'ג\'', value: false , id: 2});
-    this.days.push({itemName: 'ד\'', value: false , id: 3});
-    this.days.push({itemName: 'ה\'', value: false , id: 4});
-    this.days.push({itemName: 'ו\'', value: false , id: 5});
-    this.days.push({itemName: 'ש\'', value: false , id: 6});
+    this.days.push({itemName: 'א\'', orderIn: 0, value: false , itemNameOrder: '' , id: 0});
+    this.days.push({itemName: 'ב\'', orderIn: 0, value: false , itemNameOrder: '' , id: 1});
+    this.days.push({itemName: 'ג\'', orderIn: 0, value: false , itemNameOrder: '' , id: 2});
+    this.days.push({itemName: 'ד\'', orderIn: 0, value: false , itemNameOrder: '' , id: 3});
+    this.days.push({itemName: 'ה\'', orderIn: 0, value: false , itemNameOrder: '' , id: 4});
+    this.days.push({itemName: 'ו\'', orderIn: 0, value: false , itemNameOrder: '' , id: 5});
+    this.days.push({itemName: 'ש\'', orderIn: 0, value: false , itemNameOrder: '' , id: 6});
   }
   ngOnInit(): void {
     this.item = this.af.object(`users/${this.userId}/suppliers/${this.supplierKey}`);
     console.log('key is  ' + this.supplierKey);
+    setTimeout(() => {
+      this.rebuild();
+    }, 1000);
+    this.getInWeekEnd = false;
+  }
+  rebuild() {
+    this.item.subscribe(data => {
+      console.log(data['$value']);
+      if (data['$value'] !== null) {
+          console.log('inside');
+          if (!isUndefined(data['getInWeekEnd'])) {
+            this.getInWeekEnd = data['getInWeekEnd'];
+          }
+        if (!isUndefined(data['OrderDays'])) {
+          this.selectedWay = data['OrderDays'] ;
+        }
+        if (!isUndefined(data['type'])) {
+          this.selectedType = data['type'];
+        }
+
+          console.log( data['getInWeekEnd']);
+          data['date'].map( checkDay => {
+              console.log(data['type']);
+              console.log(this.selectedType);
+              this.checkDay(checkDay.itemName , checkDay.id);
+          });
+      }
+    });
+
   }
   getErrorMessage(oneOf: FormControl) {
     return oneOf.hasError('required') ? 'צריך למלא שדה זה' :
       this.email.hasError('email') ? 'Not a valid email' :
         '';
   }
-
+  associateProduct() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'userId': this.userId,
+        'SupplierKey': this.supplierKey,
+        'update': this.update,
+      }
+    };
+    this.router.navigate(['correctSupplierProducts'], navigationExtras);
+  }
+  decribeCurentReciveDate() {
+    this.dateSelected.forEach(ele => {
+      console.log(ele);
+      console.log(this.selectedWay);
+      let sub = ele.id - this.selectedWay;
+      console.log(sub);
+      if (sub === -1 && this.getInWeekEnd) {
+        sub = 5;
+      } else if (sub === -1 && !this.getInWeekEnd) {
+        sub = 6;
+      }
+      if (sub === -2 && this.getInWeekEnd) {
+        sub = 4;
+      } else if (sub === -2 && !this.getInWeekEnd) {
+        sub = 5;
+      }
+      if (sub === -3 && this.getInWeekEnd) {
+        sub = 3;
+      } else if (sub === -3 && !this.getInWeekEnd) {
+        sub = 4;
+      }
+      console.log(this.days[sub]);
+      console.log(sub);
+      this.days[sub].orderIn = ele.id;
+      this.days[sub].itemNameOrder = ele.itemName;
+      console.log(this.days[sub]);
+      if (this.orderInThisDays.indexOf(this.days[sub] !== -1)) {
+        this.orderInThisDays.push(this.days[sub]);
+        console.log(this.orderInThisDays);
+      }
+    });
+  }
   BuildSupplier (name: string , PhoneNumber: number , email: string , ContactName: string , ContactNum: number ,
                  ContactEmail: string   ) {
+    this.decribeCurentReciveDate();
+    console.log('not finish');
     this.Supplier.name = name;
     this.Supplier.PhoneNumber = PhoneNumber;
     this.Supplier.email = email;
-
     this.Supplier.ContactName = ContactName;
     this.Supplier.ContactNum = ContactNum;
     this.Supplier.ContactEmail = ContactEmail;
     this.Supplier.OrderDays = this.selectedWay;
-
+    this.Supplier.getInWeekEnd = this.getInWeekEnd;
     this.Supplier.frequency = this.frequencySelected;
-
     this.Supplier.date = this.dateSelected;
-    this.Supplier.type = this.selectedType['value'];
+    this.Supplier.type = this.selectedType;
+    this.Supplier.orderInThisDays = this.orderInThisDays;
+    console.log(this.selectedType);
     this.updateItem(this.Supplier );
-
-
   }
   calcDateOrder(day) {
     this.orderDay = day - this.selectedWay;
@@ -165,11 +231,11 @@ export class DialogComponent implements OnInit {
         this.dateReciveSupplier = this.af.list(`/users/${this.userId}/reciveDateSuppliers/${[value.id]}`);
         this.dateOrderSupplier = this.af.list(`/users/${this.userId}/orderDateSuppliers/${[this.orderDay]}`);
         console.log('this is ' + this.orderDay);
-        this.dateOrderSupplier.set(this.supplierKey , {'orderIn' : this.orderDay });
-        this.dateReciveSupplier.set(this.supplierKey , {'reciveIn' : value.id });
-
+        this.dateOrderSupplier.update(this.supplierKey , {'orderIn' : this.orderDay });
+        this.dateReciveSupplier.update(this.supplierKey , {'reciveIn' : value.id });
       }
     });
+    console.log(this.Supplier);
     this.item.update(Supplier);
     this.router.navigateByUrl('/supplier');
   }
@@ -177,7 +243,6 @@ export class DialogComponent implements OnInit {
     this.item.remove();
     this.dateOrderSupplier.remove(this.supplierKey);
     this.dateReciveSupplier.remove(this.supplierKey);
-
   }
   updateProductPage(key) {
     const navigationExtras: NavigationExtras = {
@@ -190,18 +255,20 @@ export class DialogComponent implements OnInit {
   }
   checkDay(day , index) {
     console.log(day);
+    console.log(index);
     this.days[index].value = !this.days[index].value;
-    if (this.days[index].value === true ) {
+    if (this.days[index].value === true && !this.dateSelected.includes(day)) {
       this.dateSelected.push(this.days[index]);
+      console.log(this.days[index]);
+      console.log(this.dateSelected);
       document.getElementById(day).style.backgroundColor = '#008624';
-
     } else {
+      const indexOf = this.dateSelected.indexOf(this.days[index]);
       console.log(index);
-      this.dateSelected.splice(this.days[index], 1);
+      console.log(this.days[index]);
+      this.dateSelected.splice(indexOf, 1);
       console.log(this.dateSelected);
       document.getElementById(day).style.backgroundColor = '#FCF5F5';
     }
-    console.log(this.dateSelected);
   }
-
 }

@@ -34,10 +34,11 @@ export class TodoListComponent implements OnInit {
   supplierFounded: FirebaseListObservable<any[]>;
   reciveInfo: FirebaseListObservable<any[]>;
   ifFinisheSupplier: FirebaseListObservable<any[]>;
-  howManyReceive= false;
+  howManyReceive= [];
   returnHistory: FirebaseListObservable<any[]>;
   domainUserId: string;
-
+  acceptedForKey = [];
+  accepted: number;
 
   ngOnInit(): void {
     if (this.month === 12) {
@@ -92,18 +93,22 @@ export class TodoListComponent implements OnInit {
       this.currentReciveInformation = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}`);
       this.ifFinisheSupplier = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/status`);
       console.log(this.ifFinisheSupplier);
-      try {
-        console.log(this.supplierKey);
-        this.currentReciveInformation.update(`${this.supplierKey}` , this.radioButton);
-      } catch (err) {
-        console.log(err);
-      }
-      console.log(this.checkIfAllSelected());
+      console.log(this.checkIfAllSelected( ' ' , '' , ''));
 
-      if (this.checkIfAllSelected()) {
-        this.ifFinisheSupplier.set(`${this.supplierKey}` , this.selectedAll);
-        console.log(this.ifFinisheSupplier);
+      if (this.checkIfAllSelected(' ' , '' , '')) {
+        this.ifFinisheSupplier.update(`${this.supplierKey}` , this.selectedAll);
+        this.reciveInfo.subscribe( value => {
+          console.log(value);
+          value.forEach( ele => {
+            console.log(ele.amount);
+            console.log(ele.$key);
+            this.reciveInfo.update(`${ele.$key}/accepted`,  ele.amount);
+          });
+        });
 
+
+      } else {
+        this.ifFinisheSupplier.update(`${this.supplierKey}` , this.selectedAll);
       }
     }
 updateIfFinishe( ) {
@@ -115,7 +120,15 @@ updateIfFinishe( ) {
       console.log(this.radioButton[i]);
     }
   }
-  checkIfAllSelected() {
+  checkAccepterCurrentKey(amount , accepted , key) {
+    if ( accepted) {
+      this.af.object(
+        `users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}/${key}`)
+        .update({accepted: amount});
+    }
+  }
+  checkIfAllSelected(amount , accepted , key) {
+    this.checkAccepterCurrentKey(amount , accepted , key);
     let check = true;
       this.radioButton.map( element => {
        check = check && element;
@@ -151,28 +164,36 @@ updateIfFinishe( ) {
       sameDay -= orderingBefore;
     }
     this.reciveInfo = this.af.list(
-      `users/${this.userId}/orderHistory/${this.year}/${sameMonth}/${sameDay}/${this.supplierKey}`);
-    this.reciveInfo.$ref.on('value', snapshot => {
-      console.log('There are ' + snapshot.numChildren() + ' products');
-      this.count = snapshot.numChildren();
-      console.log(this.count);
+      `users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`);
+    this.reciveInfo.subscribe( snapshot => {
+      console.log('There are ' + snapshot.length + ' products');
+      this.count = snapshot.length;
+      console.log(snapshot);
+      snapshot.forEach( unit => {
+        console.log(unit);
+        this.howManyReceive[unit.$key] = unit['accepted'];
+      });
+      console.log(this.acceptedForKey);
       for (let i = 0 ; i < this.count ; i++) {
         this.radioButton[i] = false;
         console.log(this.radioButton[i]);
-
       }
     });
-
-
   }
-  inputInsert(input: string) {
-    console.log(input);
-    if (input !== '') {
-      this.howManyReceive = true;
-    } else {
-      this.howManyReceive = false;
-    }
-
+  setPartialRecive(key) {
+    const demok =  key;
+    console.log(key);
+    this.reciveInfo.subscribe( value => {
+      this.accepted = this.howManyReceive[key];
+      console.log(key);
+      console.log(this.howManyReceive[key]);
+      console.log(this.accepted);
+      value.forEach( ele => {
+        if (ele.$key === key) {
+           this.reciveInfo.update(`${key}` , {accepted: this.accepted});
+        }
+      });
+    });
   }
 
 }

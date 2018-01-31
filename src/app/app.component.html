@@ -3,7 +3,10 @@
 <title>W3.CSS</title>
 
 <header class="w3-container " style="background-color: #26D367;color: #fafafa;" *ngIf="showHeader">
+<!--
   <button id="openNav" class="w3-button button1 "  (click)="w3_open()"><i class="fa fa-bars " aria-hidden="true"></i></button>
+  -->
+
   <button [hidden]="checkIfInHomePage"
           (click)="backClicked()"><i class="fa fa-arrow-right button2" aria-hidden="true"></i></button>
 
@@ -11,6 +14,7 @@
 </header>
 
 
+<!--
 <div  class="w3-sidebar w3-bar-block  w3-animate-right" style="display:none; text-align: right; background-color: #fafafa; font-family: 'Comic Sans MS'" id="mySidebar" >
   <button style=" text-align: right;    font-size: xx-large;
 " class="w3-bar-item w3-button w3-large"
@@ -26,6 +30,7 @@
   <a   style="text-align: right " (click)="w3_close()" class="w3-bar-item w3-button" routerLink="/home" *ngIf="(user | async)?.uid" (click)="logout()" ><i class="fa fa-power-off"></i><b> התנתק </b>
   </a>
 </div>
+-->
 
 <div id="main">
   <router-outlet></router-outlet>

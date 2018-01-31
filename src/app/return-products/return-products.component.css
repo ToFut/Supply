@@ -1,0 +1,99 @@
+table {
+  height: 100%;
+  width: 100%;
+  table-layout:fixed;
+  font-size:10px;
+
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+
+}
+@media only screen and (max-width: 480px) {
+  /* horizontal scrollbar for tables if mobile screen */
+  .tablemobile {
+    overflow-x: auto;
+    display: block;
+  }
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+body { background: #9cb8b3; }
+h1 {
+  font: 600 1.5em/1 'Raleway', sans-serif;
+  color: rgba(16, 67, 1, 0.93);
+  text-align: right;
+  text-transform: uppercase;
+  letter-spacing: .5em;
+  position: inherit;
+  top: 25%;
+  width: 100%;
+}
+
+span, span:after {
+  align-items: center;
+  text-align: right;
+  font-weight: 900;
+  color: #050348;
+  white-space: nowrap;
+  display: inline-block;
+  position: inherit;
+  letter-spacing: .1em;
+  padding: .2em 0 .25em 0;
+}
+
+span {
+  text-align: right;
+  font-size: xx-large;
+  z-index: 100;
+  text-shadow: .04em .04em 0 #9cb8b3;
+}
+
+span:after {
+  text-align: right;
+  content: attr(data-shadow-text);
+  color: rgba(0,0,0,.35);
+  text-shadow: none;
+  position: absolute;
+  left: .0875em;
+  top: .0875em;
+  z-index: -1;
+  -webkit-mask-image: url(https://f.cl.ly/items/1t1C0W3y040g1J172r3h/mask.png);
+}
+
+
+.button {
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: right;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  table-layout:fixed;
+  font-size:10px;
+
+}
+.button:hover {background-color: #050348
+}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.success {border-radius: 12px; width: 50%; background-color: #4CAF50; /* Green */}
+.danger {border-radius: 12px; width: 50%; background-color: #990209; /* red */}
+.deafult {border-radius: 12px; width: 50%; background-color: #3e94ec; /* blue */}
+.warning {border-radius: 12px; width: 50%; background-color: #e68a00; /* orange */}

@@ -12,5 +12,6 @@ export class ProductOptions {
   sizeUnitPackaging: number;
   deposit: boolean;
   sale: number;
+  depositPrice: number;
   imgSrc: string;
 }
