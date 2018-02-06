@@ -7,8 +7,8 @@ import {ProductOptions} from '../ProductOptions';
 import {FileHolder} from 'angular2-image-upload/lib/image-upload/image-upload.component';
 import {DialogEditProductsComponent} from '../dialog-edit-products/dialog-edit-products.component';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import { OnChanges } from '@angular/core';
-import {FormBuilder, FormGroup, Validators , FormControl} from '@angular/forms';
+import {OnChanges} from '@angular/core';
+import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {ProductsService} from '../products.service';
 import {Subject} from 'rxjs/Subject';
 import {DeleteProductComponent} from '../delete-product/delete-product.component';
@@ -20,7 +20,7 @@ import {DeleteProductComponent} from '../delete-product/delete-product.component
 })
 export class ShowAllProductsComponent implements OnInit {
 
-  ProductKey:  string;
+  ProductKey: string;
   SupplierKey: string;
   key: string;
   items: FirebaseListObservable<any[]>;
@@ -67,7 +67,6 @@ export class ShowAllProductsComponent implements OnInit {
     {value: 0, viewValue: 'ללא מבצע'},
 
 
-
   ];
   options = [
     {value: 'ארגז', viewValue: 'ארגז'},
@@ -97,11 +96,12 @@ export class ShowAllProductsComponent implements OnInit {
   isLinear = false;
 
 
-  constructor( public af: AngularFireDatabase, public afAuth: AngularFireAuth,
-               public route: ActivatedRoute , private _formBuilder: FormBuilder , private router: Router ,
-              private ProductsService: ProductsService ) {
+  constructor(public af: AngularFireDatabase, public afAuth: AngularFireAuth,
+              public route: ActivatedRoute, private _formBuilder: FormBuilder, private router: Router,
+              private ProductsService: ProductsService) {
     this.afAuth.authState.subscribe(user => {
-      if (user) {this.userId = user.uid;
+      if (user) {
+        this.userId = user.uid;
       }
     });
     this.saleProduct = 0;
@@ -171,31 +171,25 @@ export class ShowAllProductsComponent implements OnInit {
         this.updateStatus = true;
         this.undifineCheck = true;
       }
-      console.log(this.selectProductKey !== undefined);
-      console.log(!this.undifineCheck);
-    console.log(this.selectProductKey);
-    console.log(this.orderType);
-    console.log(this.TypeOfFillUp);
-    console.log(this.UnitOfMeasure);
-    console.log(this.updateStatus);
     });
-    this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/orderInThisDays`).subscribe( val => {
+    this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/orderInThisDays`).subscribe(val => {
       console.log(val);
-      val.forEach( day => {
+      val.forEach(day => {
         console.log(day['orderIn']);
 
         this.af.object
-        (`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory`).subscribe( ids => {
+        (`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory`).subscribe(ids => {
           console.log(ids);
-          this.days[day['id']] = ids[day['id']] ;
-/*
-        this.af.object
-        (`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory/${day['id']}`).
-        remove();
-        this.af.list
-        (`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory`).
-        set(`${day['id']}` , this.days[day['orderIn']]);
-        */
+          this.days[day['id']] = ids[day['id']];
+          this.orderInThatdays[day['id']] = ids[day['id']];
+          /*
+                  this.af.object
+                  (`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory/${day['id']}`).
+                  remove();
+                  this.af.list
+                  (`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory`).
+                  set(`${day['id']}` , this.days[day['orderIn']]);
+                  */
         });
       });
 
@@ -211,8 +205,9 @@ export class ShowAllProductsComponent implements OnInit {
 
 
   }
-  BuildProductForAllDB (discount , price, UnitInPackaging,
-                         sizeUnitPackaging, ProductName , depositPrice) {
+
+  BuildProductForAllDB(discount, price, UnitInPackaging,
+                       sizeUnitPackaging, ProductName, depositPrice) {
 
     this.Product.discount = discount;
     this.Product.price = price;
@@ -227,56 +222,60 @@ export class ShowAllProductsComponent implements OnInit {
     this.Product.UnitOfMeasure = this.UnitOfMeasure;
     this.Product.sale = this.saleProduct;
     this.Product.depositPrice = depositPrice;
-    console.log('key is ' + this.selectProductKey + ' supplier key ' + this.SupplierKey + ' MinInInventory :' );
+    console.log('key is ' + this.selectProductKey + ' supplier key ' + this.SupplierKey + ' MinInInventory :');
     this.updateItem(this.Product);
     this.back();
   }
+
   updatePublicDB() {
     this.itemProduct = this.af.list(`/products`);
-    this.af.list(`/products`).subscribe( products => {
-      products.forEach( product => {
+    this.af.list(`/products`).subscribe(products => {
+      products.forEach(product => {
         const name = product['ProductName'];
-          this.existProduct.push(name);
+        this.existProduct.push(name);
       });
       if (this.existProduct.indexOf(this.Product.ProductName) === -1) {
-        this.itemProduct.push({ProductName: this.Product.ProductName });
+        this.itemProduct.push({ProductName: this.Product.ProductName});
       }
     });
   }
+
   updatePrivateUserDB() {
     this.itemProduct = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/privateProducts`);
   }
-  modifyDays(index , orderIndex , value) {
-  console.log(value);
-  console.log(index);
+
+  modifyDays(index, orderIndex, value) {
+    console.log(value);
+    console.log(index);
     console.log(orderIndex);
     this.orderInThatdays[index] = value;
-  this.days[index] = value;
-  console.log(this.days);
+    this.days[index] = value;
+    console.log(this.days);
     console.log(this.orderInThatdays[orderIndex]);
   }
+
   updateItem(Product) {
     console.log(this.privateProduct);
     if (this.Product.ProductName !== '') {
       if (this.privateProduct) {
         this.updatePrivateUserDB();
-      }else {
+      } else {
         this.updatePublicDB();
       }
     }
-    if (!this.updateStatus && !this.undifineCheck ) {
+    if (!this.updateStatus && !this.undifineCheck) {
       console.log(this.undifineCheck);
       console.log(this.updateStatus);
       console.log(this.selectProductKey);
-      this.items.push( Product);
+      this.af.object(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`).update(Product);
 
     } else {
       console.log(this.undifineCheck);
       console.log(this.updateStatus);
       console.log(this.selectProductKey);
-      this.items.update(this.selectProductKey , Product);
+      this.items.update(this.selectProductKey, Product);
 
-      this.items.update(this.selectProductKey , Product);
+      this.items.update(this.selectProductKey, Product);
     }
     this.associateProduct();
   }
@@ -286,51 +285,58 @@ export class ShowAllProductsComponent implements OnInit {
     this.associateProduct();
   }
 
-  onKeyName (ProductName: string) {
+  onKeyName(ProductName: string) {
     console.log(ProductName);
     this.Product.ProductName = ProductName;
 
   }
-  onKeyUnitInPackaging (UnitInPackaging: number) {
+
+  onKeyUnitInPackaging(UnitInPackaging: number) {
     console.log(UnitInPackaging);
 
     this.Product.UnitInPackaging = UnitInPackaging;
 
   }
+
   onKeyDepositPrice(depositPrice: number) {
     console.log(depositPrice);
 
     this.Product.depositPrice = depositPrice;
 
   }
-  onKeyPrice (Price: number) {
+
+  onKeyPrice(Price: number) {
     console.log(Price);
 
     this.Product.price = Price;
 
   }
-  onKeySizeUnitPackaging (sizeUnitPackaging: number) {
+
+  onKeySizeUnitPackaging(sizeUnitPackaging: number) {
 
     this.Product.sizeUnitPackaging = sizeUnitPackaging;
 
   }
 
-  onKeyDiscount (Discount: number) {
+  onKeyDiscount(Discount: number) {
 
     this.Product.discount = Discount;
 
   }
-  onKeyUnitOfMeasure (UnitOfMeasure: string) {
+
+  onKeyUnitOfMeasure(UnitOfMeasure: string) {
     console.log(UnitOfMeasure);
 
     this.Product.UnitOfMeasure = UnitOfMeasure;
 
   }
-  dateChange(Inventory: number , day: number , key: string) {
+
+  dateChange(Inventory: number, day: number, key: string) {
     this.dateProduct = this.af.list(`users/${this.userId}/suppliers/
     ${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory`);
-    this.dateProduct.push({day : day , inventory : Inventory });
+    this.dateProduct.push({day: day, inventory: Inventory});
   }
+
   search($event) {
     if ($event.timeStamp - this.lastKeypress > 200) {
       const q = $event.target.value;
@@ -339,6 +345,7 @@ export class ShowAllProductsComponent implements OnInit {
     }
     this.lastKeypress = $event.timeStamp;
   }
+
   associateProduct() {
     const navigationExtras: NavigationExtras = {
       queryParams: {

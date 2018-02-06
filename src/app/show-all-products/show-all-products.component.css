@@ -1,23 +1,26 @@
 input, textarea, select, option{
   background: none !important;
-  border-top: #EBEBEB  solid !important;
-  border-left: #EBEBEB  solid !important;
-  border-bottom: #EBEBEB  solid !important;
-  border-right: #EBEBEB  solid !important;
-  width: 197px;
-  height: 0px;
-  padding-top: 16px;
-  box-sizing: initial;
-  color: #0E1013 !important;
-}
-h5 {
-  font-size: small;
-  text-align: right;
+  border-top: #050348 1px solid !important;
+  border-left: #050348 1px solid !important;
+  border-bottom: #050348 3px solid !important;
+  border-right: #050348 3px solid !important;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  color: #050348 !important;
+  border-radius: 10px;
 }
 .container {
   border-radius: 5px;
   background-color: #f2f2f2;
+  max-width: 650px;
   padding: 20px;
+}
+
+.label {
+  font-family: "Comic Sans MS";
+  font-size: large;
 }
 .button {
   display: inline-block;
@@ -63,7 +66,7 @@ h5 {
   background-color: #4CAF50; /* Green */
   border: 1px solid green;
   color: white;
-  padding: 15px 32px;
+  padding: 2px 9px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -82,42 +85,56 @@ h5 {
   padding: 10px;
   box-shadow: 5px 10px 8px #888888;
 }
-.ng-valid[required], .ng-valid.required  {
-  border-left: 5px solid #42A948; /* green */
+.form-style-2 span.required{
+  color:red;
 }
+
 .ng-invalid:not(form)  {
   border-left: 5px solid #a94442; /* red */
 }
 .form-style-2{
   max-width: 500px;
-
+  padding: 20px 12px 10px 20px;
+  font: 13px Arial, Helvetica, sans-serif;
 }
+#showFileds {
+  font-size: 0.9em;
+}
+mat-select {
+  border-bottom: 2px solid;
+  width: 10em;
+}
+.btn-group button {
+  padding: 3px 9px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;}
+
 .form-style-2-heading{
-  border-bottom: 2px solid #0E1013;
+  font-weight: bold;
+  font-style: italic;
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 20px;
+  font-size: 15px;
+  padding-bottom: 3px;
 }
-label , span{
-  text-align: center;
-  font-family: 'Comic Sans MS';
-  font-size: small;
-
+.form-style-2 label{
+  display: block;
+  margin: 0px 0px 15px 0px;
 }
 .form-style-2 label > span{
-  display: inline-block;
-  text-align: center;
-
   width: 100px;
+  font-weight: bold;
   float: right;
-}
-
-.form-style-2 span.required{
-  color:red;
+  padding-top: 8px;
+  padding-right: 5px;
 }
 .form-style-2 .tel-number-field{
   width: 40px;
   text-align: center;
 }
 .form-style-2 input.input-field{
-  width: 60%;
+  width: 75%;
 
 }
 
@@ -132,10 +149,11 @@ label , span{
   box-shadow: 1px 1px 4px #EBEBEB;
   -moz-box-shadow: 1px 1px 4px #EBEBEB;
   -webkit-box-shadow: 1px 1px 4px #EBEBEB;
-  border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   padding: 7px;
+  border-radius: 10px;
+
   outline: none;
 }
 .form-style-2 .input-field:focus,
@@ -167,25 +185,6 @@ label , span{
   background: #EA7B00;
   color: #fff;
 }
-::placeholder { /* Chrome/Opera/Safari */
-  font-size: medium;
-}
-input[type="text"]#subdomaintwo{
-  -webkit-appearance:none!important;
-  color:red;
-  text-align:right;
-  width:75px;
-  border:1px solid gray;
-  border-left:0px;
-  margin:0 0 0 -7px;
-  background:white;
-}
-input[type="text"]#subdomain{
-  -webkit-appearance:none!important;
-  border:1px solid gray;
-  border-right:0px;
-  outline:none;
-}
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -208,39 +207,52 @@ input[type="text"]#subdomain{
   text-align: center;
   background-color: #eee;
   border: 1px solid #ccc;
-  width: 23%;
+  width: 1%;
+  white-space: nowrap;
   vertical-align: middle;
   display: table-cell;
 }
 
+input {
+  position: relative;
+  z-index: 2;
+  float: left;
+  width: 100%;
+  margin-bottom: 0;
+  display: table-cell;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  margin: 0;
+}
 
 .suffix input {
-  border-radius: 4px 0px 0px 4px;
+  border-radius: 10px;
 }
 .suffix .input-group-addon {
   border-left: 0;
-  border-radius: 10px 0px 0px 10px;
 }
 .prefix input {
-  border-radius: 10px 0px 0px 10px;
 }
 .prefix .input-group-addon {
   border-right: 0;
-  border-radius: 10px 0px 0px 10px;
 }
 .presuffix input {
-  border-radius: 0px;
+  border-radius: 10px;
 }
 .input-group-addon.prefix {
-  border-radius: 0px 10px 10px 0px;
   border-right: 0;
 }
 .input-group-addon.suffix {
-  border-radius: 10px 0px 0px 10px;
   border-left: 0;
+  max-width: 63em;
+  border-radius: 10px;
+
 }
 .input-group {
   position: relative;
   display: table;
   border-collapse: separate;
+  max-width: 63em;
+  border-radius: 10px;
+
 }
