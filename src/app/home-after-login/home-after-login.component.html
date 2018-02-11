@@ -5,88 +5,100 @@
 -->
 <!-- Overlay effect when opening sidebar on small screens -->
 <!-- !PAGE CONTENT! -->
-<div >
+<ul id="menu">
+  <li>
+    <input id="check01" type="checkbox" name="menu"/>
+    <label for="check01">  <i style="color: #fafafa;" class="fa fa-ellipsis-v fa-3x"></i>
+    </label>
+    <ul  class="submenu">
+      <label [hidden]="!settingsPermission " routerLink="/setting"> <i class="fa fa-cog fa-2x  " ></i>   <h5>הגדרות</h5> </label>
+      <label [hidden]="!satisticsPermission " routerLink="/satistics"> <i class="fa fa-pie-chart fa-2x " ></i>  <h5>סטיסטיקות</h5> </label>
+      <label [hidden]="!sharePermission " (click)="shareApp()"> <i  class="fa fa-share-alt fa-2x" ></i>  <h5>שתף</h5>  </label>
+      <label [hidden]="subUser " routerLink="/setting"> <i class="fa fa-cog fa-2x  " ></i>   <h5>הגדרות</h5> </label>
+      <label [hidden]="subUser " routerLink="/satistics"> <i class="fa fa-pie-chart fa-2x " ></i>  <h5>סטיסטיקות</h5> </label>
+      <label [hidden]="subUser" (click)="shareApp()"> <i  class="fa fa-share-alt fa-2x" ></i>  <h5>שתף</h5>  </label>
+      <label [hidden]="subUser" (click)="shareApp()"> <img  src="../../assets/support.png" height="20em">  <h5>תקלות</h5>  </label>
+    </ul>
+  </li>
+</ul>
+<div>
+  <i class="fa fa-power-off fa-2x off" (click)="logout()" routerLink="/loginPage"></i>
 
-  <i id="fixed" class="fa fa-share-alt fa-2x" aria-hidden="true" (click)="shareApp()"></i>
-
-  <div  class="header" >
-    <div class="logo"   > <img src="../../assets/logoWithOutBackground.png"  /> </div>
+  <div class="header">
+    <div class="logo"><img src="../../assets/logoWithOutBackground.png"/></div>
     <h5 style="font-family: 'Comic Sans MS'; font-size: small;color: #26D367;">שלום {{userName}}</h5>
-<div class="container">
-  <div class="w3-quarter w3-half">
-    <a [hidden]="subUser" routerLink="/reciveOrder" routerLinkActive="active">
-      <span class="button button4" >
+    <div class="container">
+      <div class="w3-quarter w3-half">
+      <!--user-->  <a [hidden]="subUser  " routerLink="/reciveOrder" routerLinkActive="active">
+      <span class="button button4">
 
               <i class="fa fa-shopping-cart w3-xxxlarge"></i>
 
-      <h4  style="font-size: medium">קבלת סחורה</h4>
+      <h4 style="font-size: medium">קבלת סחורה</h4>
       </span>
-    </a>
-    <a [hidden]="!subUser"  (click)="reciveSubUser()"  routerLinkActive="active">
-      <span class="button button4" >
+        </a>
+
+      <!--SubUser--> <a [hidden]="!recivePermission " (click)="reciveSubUser()" routerLinkActive="active">
+         <span class="button button4">
 
               <i class="fa fa-shopping-cart w3-xxxlarge"></i>
 
-      <h4  style="font-size: medium">קבלת סחורה</h4>
+      <h4 style="font-size: medium">קבלת סחורה</h4>
       </span>
-    </a>
+        </a>
+      <!--user-->     <a [hidden]="subUser" routerLink="/order" routerLinkActive="active">
 
-    <a [hidden]="subUser" routerLink="/order" routerLinkActive="active">
-
-      <span class="button button4" >
+      <span class="button button4">
                 <i class="fa fa-shopping-bag w3-xxxlarge"></i>
         <h4 class="nav-text" style="font-size: medium">הזמנת סחורה</h4>
       </span>
-    </a>
-    <a [hidden]="!subUser" (click)="orderSubUser()"  routerLinkActive="active">
+        </a>
+        <!--SubUser-->  <a [hidden]=" !orderPermission" (click)="orderSubUser()" routerLinkActive="active">
 
-      <span class="button button4" >
+      <span class="button button4">
                 <i class="fa fa-shopping-bag w3-xxxlarge"></i>
         <h4 class="nav-text" style="font-size: medium">הזמנת סחורה</h4>
       </span>
-    </a>
+        </a>
 
-  </div>
+      </div>
 
-    <div class="w3-quarter w3-half">
-      <a [hidden]="subUser" routerLink="/supplier" routerLinkActive="active">
+      <div class="w3-quarter w3-half">
+        <!--user--> <a [hidden]="subUser" routerLink="/supplier" routerLinkActive="active">
   <span class="button button4 ">
       <i class="fa fa-users w3-xxxlarge"></i>
 
       <h4 class="nav-text" style="font-size: medium"> הספקים שלי</h4>
       </span>
-      </a>
-      <a [hidden]="!subUser" (click)="supplierSubUser()" routerLinkActive="active">
+        </a>
+        <!--SubUser-->  <a [hidden]="!suppliersPermission" (click)="supplierSubUser()" routerLinkActive="active">
   <span class="button button4 ">
       <i class="fa fa-users w3-xxxlarge"></i>
 
       <h4 class="nav-text" style="font-size: medium"> הספקים שלי</h4>
       </span>
-      </a>
-      <a  [hidden]="!subUser" (click)="returnSubUser()" routerLinkActive="active">
-    <span class="button button4" >
+        </a>
+        <!--SubUser--><a [hidden]="!returnPermission" (click)="returnSubUser()" routerLinkActive="active">
+    <span class="button button4">
       <i class="fa fa-shopping-basket w3-xxlarge" aria-hidden="true"></i>
       <i class="fa fa-arrow-left w3-xxlarge" aria-hidden="true"></i>
 
        <h4 class="nav-text" style="font-size: medium;">  החזרת סחורה  </h4>
     </span>
-      </a>
+        </a>
 
-      <a  [hidden]="subUser" routerLink="/returnProdcts" routerLinkActive="active">
-    <span class="button button4" >
+        <!--user-->  <a [hidden]="subUser" routerLink="/returnProdcts" routerLinkActive="active">
+    <span class="button button4">
       <i class="fa fa-shopping-basket w3-xxlarge" aria-hidden="true"></i>
       <i class="fa fa-arrow-left w3-xxlarge" aria-hidden="true"></i>
 
        <h4 class="nav-text" style="font-size: medium;">  החזרת סחורה  </h4>
     </span>
-      </a>
+        </a>
+      </div>
     </div>
+    <!-- Footer -->
+    <!-- End page content -->
+  </div>
 </div>
-  <!-- Footer -->
-  <div class="form-group text-center">
-    <a [hidden]="subUser" routerLink="/setting"> הגדרות </a>&nbsp;|&nbsp;<a (click)="logout()" routerLink="/loginPage">התנתק</a>
-  </div>
-  </div>
 
-  <!-- End page content -->
-</div>

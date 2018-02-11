@@ -1,0 +1,76 @@
+span, span:after {
+  text-align: center;
+  font-weight: 900;
+  color: #050348;
+  white-space: nowrap;
+  display: inline-block;
+  position: inherit;
+  letter-spacing: .1em;
+  padding: .2em 0 .25em 0;
+}
+
+span {
+  text-align: right;
+  font-size: x-large;
+  z-index: 100;
+  text-shadow: .04em .04em 0 #9cb8b3;
+}
+
+span:after {
+  text-align: right;
+  content: attr(data-shadow-text);
+  color: rgba(0,0,0,.35);
+  text-shadow: none;
+  position: absolute;
+  left: .0875em;
+  top: .0875em;
+  z-index: -1;
+  -webkit-mask-image: url(https://f.cl.ly/items/1t1C0W3y040g1J172r3h/mask.png);
+}
+.chart{
+  display: block;
+  height: 419px;
+  width: 838px;
+  margin-right: 25%;
+}
+input {
+    margin: 1em;
+  margin-top: 1em;
+  width: 45%;
+  border-radius: 9px;
+}
+.required{
+  color:red;
+}
+.mat-select{
+  border-bottom: 1px solid;
+  width: 20em;
+  text-align: center;
+
+}
+.button {
+  background-color: #26d367; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  display: list-item;
+  border-radius: 5px;
+}
+
+.button1 {
+  background-color: white;
+  color: black;
+  border: 2px solid #4CAF50;
+  margin-top: 2em;
+}
+#insideDimmer {
+  font-family: David;
+  color: #26d367; /* Green */
+  text-align: center;
+  font-size: 3em;
+}

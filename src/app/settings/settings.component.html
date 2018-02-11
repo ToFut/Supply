@@ -1,41 +1,127 @@
-<div class="form-style-2-heading" style="text-align: center;font-size: x-large;font-family: 'Comic Sans MS'"> הגדרות</div>
+<div class="container" style="text-align: center">
+  <br><span class="span1" data-shadow-text="Text-Shadow"> הגדרות  </span> <i style="color: #22262e"
+                                                                             class="fa  fa-cog w3-xlarge"
+                                                                             aria-hidden="true"></i>
+</div>
 
 <div class="container">
   <label><h5>עדכן שם מסעדה:</h5></label>
   <input #updateName (blur)="updateProfile(updateName.value)" value="{{ResturantName}}" placeholder="עדכן שם מסעדה">
-  <br>
+  <br> <br>
+
   <label><h5>הגדר שעת סיום לביצוע הזמנות:</h5></label>
   <input type="time" value="{{selectedTimeOrder}}">
-  <button class="button" (click)="openClockOrder()"><span> שנה </span> </button>  <br>
+  <button class="button" (click)="openClockOrder()"> שנה</button>
+  <br>
+  <br>
+  <br>
 
   <label><h5>הגדר שעת סיום לקבלת סחורה:</h5></label>
   <input type="time" value="{{selectedTimeRecive}}">
-  <button class="button" (click)="openClockRecive()"><span> שנה </span> </button>  <br>
+  <button class="button" (click)="openClockRecive()"> שנה</button>
+  <br>
+  <br>
+  <br>
 
   <label><h5>הגדר בחר אופן לקבלת התראות:</h5></label>
   <label>
-    <mat-select placeholder="צורת אריזה" [(ngModel)]="TypeOfFillUp" name="TypeOfFillUp" >
-      <mat-option *ngFor="let option of options" [value]="option.value" >
+    <mat-select placeholder="צורת אריזה" [(ngModel)]="TypeOfFillUp" name="TypeOfFillUp">
+      <mat-option *ngFor="let option of options" [value]="option.value">
         {{ option.viewValue }}
       </mat-option>
     </mat-select>
   </label>
+  <br>
+  <br>
 
   <br><br>
-  <button class="button" style="vertical-align:middle" onclick="document.getElementById('id01').style.display='block'"  >
-    <span>הוסף קניין</span></button>
+  <button class="button" style="vertical-align:middle" onclick="document.getElementById('id01').style.display='block'">
+    הוסף קניין
+  </button>
 
   <div id="id01" class="w3-modal">
     <div class="w3-modal-content">
       <div class="w3-container">
         <h2>הוסף קניין</h2>
         <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-        <input type="tel"  placeholder="מספר פלאפון" #phoneNumber (blur)="onKeyPhone(phoneNumber.value)" (keyup)="onKeyPhone(phoneNumber.value)">
-        <input type="text" placeholder="שם פרטי" #name (blur)="onKeyName(name.value)" (keyup.enter)="onKeyName(name.value)">
-        <a   (click)="buildLink()"  class="fa fa-whatsapp fa-4x" style="color: #26D367"></a>
+        <form-wizard>
+          <wizard-step [title]="'צעד 1'" (onNext)="onStep1Next($event)">
+            <h1>הגדר מספר פלאפון של הקניין</h1>
+            <form #emailForm="ngForm">
+              <div class="form-group">
+                <input type="tel" placeholder="מספר פלאפון" #phoneNumber (blur)="onKeyPhone(phoneNumber.value)"
+                       (keyup)="onKeyPhone(phoneNumber.value)">
+              </div>
+            </form>
+          </wizard-step>
+          <wizard-step [title]="'צעד 2'" (onNext)="onStep2Next($event)">
+            <h1>הכנס שם קניין</h1>
+            <form #emailForm="ngForm">
+              <div class="form-group">
+                <input type="text" placeholder="שם פרטי" #name (blur)="onKeyName(name.value)"
+                       (keyup.enter)="onKeyName(name.value)">
+              </div>
+            </form>
+          </wizard-step>
+          <wizard-step [title]="'צעד 3'" (onNext)="onStep3Next($event)">
+            <h1>נהל הרשאות קניין</h1>
+            <br>
+            <sui-checkbox class="toggle"  [(ngModel)]="orderPermission">הזמנת סחורה</sui-checkbox>
+            <br>
+            <sui-checkbox class="toggle" [(ngModel)]="returnPermission">החזרת סחורה</sui-checkbox>
+            <br>
+            <sui-checkbox class="toggle" [(ngModel)]="recivePermission">קבלת סחורה</sui-checkbox>
+            <br>
+            <sui-checkbox class="toggle" [(ngModel)]="suppliersPermission">הספקים שלי</sui-checkbox>
+            <br>
+            <sui-checkbox class="toggle" [(ngModel)]="satisticsPermission">סטיסטיקות</sui-checkbox>
+            <br>
+            <sui-checkbox class="toggle" [(ngModel)]="sharePermission">שתף</sui-checkbox>
+            <br>
+
+          </wizard-step>
+          <wizard-step [title]="'צעד 4'" (onComplete)="onComplete($event)">
+            <div [ngSwitch]="isCompleted">
+              <div *ngSwitchDefault>
+                <h1>סיים ושמור</h1>
+              </div>
+              <a (click)="buildLink()" class="fa fa-whatsapp fa-4x" style="color: #26D367"></a>
+            </div>
+          </wizard-step>
+        </form-wizard>
       </div>
     </div>
   </div>
-  <button class="button" style="vertical-align:middle" routerLink="/homeAfterLogin" (click)="save()"  >
-    <span>שמור  </span></button>
+  <button class="button" style="vertical-align:middle" onclick="document.getElementById('id02').style.display='block'">
+    נהל הרשאות קניין
+  </button>
+
+  <div id="id02" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <h1>נהל הרשאות קניין</h1>
+        <br>
+        <sui-checkbox class="toggle"  [(ngModel)]="orderPermission">הזמנת סחורה</sui-checkbox>
+        <br>
+        <sui-checkbox class="toggle" [(ngModel)]="returnPermission">החזרת סחורה</sui-checkbox>
+        <br>
+        <sui-checkbox class="toggle" [(ngModel)]="recivePermission">קבלת סחורה</sui-checkbox>
+        <br>
+        <sui-checkbox class="toggle" [(ngModel)]="suppliersPermission">הספקים שלי</sui-checkbox>
+        <br>
+        <sui-checkbox class="toggle" [(ngModel)]="settingsPermission">הגדרות</sui-checkbox>
+        <br>
+        <sui-checkbox class="toggle" [(ngModel)]="satisticsPermission">סטיסטיקות</sui-checkbox>
+        <br>
+        <sui-checkbox class="toggle" [(ngModel)]="sharePermission">שתף</sui-checkbox>
+        <br>
+        <button (click)="buildPermissions()"><i class="fa fa-check fa-4x"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <button class="button" style="vertical-align:middle" routerLink="/homeAfterLogin" (click)="save()">
+    שמור
+  </button>
 </div>

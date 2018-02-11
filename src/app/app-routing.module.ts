@@ -47,11 +47,6 @@ const routes: Routes = [
       { path: 'subUserOrderList', component: SubUserOrderListComponent , pathMatch: 'full'},
        { path: 'subUserReciveList', component: SubUserReciveListComponent , pathMatch: 'full'},
       { path: 'subUserTodoList', component: SubUserTodoListComponent , pathMatch: 'full'},
-
-
-
-
-
 ];
 
 @NgModule({

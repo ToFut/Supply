@@ -1,8 +1,12 @@
 input {
   border: none;
   border-bottom: 2px solid blue;
-}
+  border-radius: 10px;
 
+}
+tr{
+  font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa
+}
 .SupplyFinish {
   background-color:#2ecc71;
 }
@@ -53,4 +57,14 @@ input {
 
 tr {
   overflow: scroll;
+}
+#footer{
+  padding-top: 2em;
+}
+.page{
+  background-color: yellow;
+}
+h2 , i{
+  font-size: xx-large;
+  display: block;
 }

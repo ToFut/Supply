@@ -13,7 +13,6 @@ export class SupplierService implements OnInit {
     });
   }
   ngOnInit(): void {
-    console.log(this.userId);
 
   }
 

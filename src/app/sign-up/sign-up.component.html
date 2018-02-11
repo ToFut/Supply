@@ -1,60 +1,25 @@
 <div style="direction: rtl; color: #fafafa;">
   <div class="wrapper">
     <div class="container">
-      <br><br>
       <img src="../../assets/logoWithOutBackground.png">
-      <form class="form-style-7">
-        <ul>
-          <li>
-            <label>שם משתמש</label>
-            <input  #name (keyup)="onKeyName(name.value)"  type="text" placeholder="שם משתמש" autofocus>
-            <span>הכנס שם משתמש</span>
-          </li>
-          <li>
-            <label>תפקיד</label>
-            <input mdInput #name (keyup)="onKeyJobTitle(name.value)"  type="text" placeholder="תפקיד" autofocus>
-            <span>הכנס תפקיד</span>
-          </li>
-          <li>
-            <label>שם העסק</label>
-            <input mdInput #businessName (keyup)="onKeybusiness(businessName.value)"  type="text" placeholder="שם העסק" >
-            <span>הכנס שם העסק</span>
-          </li>
-          <li>
-            <label>מייל</label>
-            <input mdInput #email (keyup)="onKeyEmail(email.value)"  type="text" placeholder="מייל">
-            <span>הכנס מייל</span>
-          </li>
-          <li>
-            <label>סיסמא</label>
-            <input mdInput #firstPassword (keyup)="onKeyfirstPassword(firstPassword.value)"  type="password" placeholder="סיסמא">
-            <span>הכנס סיסמא</span>
-          </li>
-          <li>
-            <label>סיסמא</label>
-            <input mdInput #secondPassword (keyup)="onKeysecondPassword(secondPassword.value)"  type="password" placeholder="הקש סיסמא שוב">
-            <span>הכנס סיסמא שוב</span>
-          </li>
-          <li>
-            <label>נייד</label>
-            <input mdInput #phone (keyup)="onKeyPhone(phone.value)"  type="tel" placeholder="פלאפון נייד" pattern="\(\d{3}\) \d{3}\-\d{4}">
-            <span>הכנס מספר פלאפון</span>
-          </li>
-
-        </ul>
-      </form>
-
+      <br><br>
       <form class="form">
 
+      <input  #name (keyup)="onKeyName(name.value)"  type="text" placeholder="שם משתמש" autofocus>
+            <input mdInput #name (keyup)="onKeyJobTitle(name.value)"  type="text" placeholder="תפקיד" autofocus>
+            <input mdInput #businessName (keyup)="onKeybusiness(businessName.value)"  type="text" placeholder="שם העסק" >
+            <input mdInput #email (keyup)="onKeyEmail(email.value)"  type="text" placeholder="מייל">
+            <input mdInput #firstPassword (keyup)="onKeyfirstPassword(firstPassword.value)"  type="password" placeholder="סיסמא">
+            <input mdInput #secondPassword (keyup)="onKeysecondPassword(secondPassword.value)"  type="password" placeholder="הקש סיסמא שוב">
+            <input mdInput #phone (keyup)="onKeyPhone(phone.value)"  type="tel" placeholder="פלאפון נייד" pattern="\(\d{3}\) \d{3}\-\d{4}">
         <div class="form-group">
+
           <button  class=" w3-btn  w3-border w3-border-black w3-round-large" (click)="emailSignUp()" style="background: none;" >הרשם</button>
         </div>
         <div class="form-group text-center">
           <a href="#">הצהרות והסכמים</a>&nbsp;|&nbsp;<a routerLink="/loginPage">התחבר</a>
         </div>
-
       </form>
-
     </div>
 
     <ul class="bg-bubbles">

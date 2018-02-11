@@ -1,24 +1,49 @@
+@media only screen and (max-width:2000px) {
+  /* For tablets: */
+  form{
+    display: flex;
+    padding: 1em 2em 1em 2em;
+  }
+  .container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+  label {
+    padding: 1em;
+  }
+
+
+}
+@media only screen and (max-width:500px) {
+  /* For mobile phones: */
+  form{
+    display: block;
+  }
+  .container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    max-width: 650px;
+    padding: 20px;
+  }
+
+}
 input, textarea, select, option{
   background: none !important;
-  border-top: #050348 1px solid !important;
-  border-left: #050348 1px solid !important;
-  border-bottom: #050348 3px solid !important;
-  border-right: #050348 3px solid !important;
+  border-top: #EBEBEB 1px solid !important;
+  border-bottom: #EBEBEB 3px solid !important;
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
+  border-radius: 10px;
   color: #050348 !important;
-}
-.container {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
 }
 
 .label {
   font-family: "Comic Sans MS";
-  font-size: medium;
+  font-size: large;
+  padding: 0.2em;
 }
 .button {
   display: inline-block;
@@ -64,7 +89,7 @@ input, textarea, select, option{
   background-color: #4CAF50; /* Green */
   border: 1px solid green;
   color: white;
-  padding: 15px 32px;
+  padding: 2px 9px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -95,6 +120,19 @@ input, textarea, select, option{
   padding: 20px 12px 10px 20px;
   font: 13px Arial, Helvetica, sans-serif;
 }
+#showFileds {
+  font-size: 0.9em;
+}
+mat-select {
+  border-bottom: 2px solid;
+  width: 10em;
+}
+.btn-group button {
+  padding: 3px 9px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;}
+
 .form-style-2-heading{
   font-weight: bold;
   font-style: italic;
@@ -168,4 +206,7 @@ input, textarea, select, option{
 .form-style-2 input[type=button]:hover{
   background: #EA7B00;
   color: #fff;
+}
+span , input{
+  font-size: medium;
 }

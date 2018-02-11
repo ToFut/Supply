@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {isUndefined} from 'util';
@@ -17,41 +17,60 @@ export class HomeAfterLoginComponent implements OnInit {
   viewDate: Date = new Date();
   time = new Date().getHours();
   tiles: any[] = [
-    {text: 'ספקים שלי', cols: 3, rows: 1, color: 'lightblue' , route: '/supplier'},
-    {text: 'הזמנות', cols: 1, rows: 2, color: 'lightgreen' , route: '/order'},
-    {text: 'המוצרים שלי', cols: 1, rows: 1, color: 'lightpink' , route: '/correctSupplierProducts'},
-    {text: 'החזרת סחורה', cols: 2, rows: 1, color: '#DDBDF1' , route: '/returnProdcts'},
+    {text: 'ספקים שלי', cols: 3, rows: 1, color: 'lightblue', route: '/supplier'},
+    {text: 'הזמנות', cols: 1, rows: 2, color: 'lightgreen', route: '/order'},
+    {text: 'המוצרים שלי', cols: 1, rows: 1, color: 'lightpink', route: '/correctSupplierProducts'},
+    {text: 'החזרת סחורה', cols: 2, rows: 1, color: '#DDBDF1', route: '/returnProdcts'},
   ];
+  orderPermission: boolean;
+  returnPermission: boolean;
+  recivePermission: boolean;
+  suppliersPermission: boolean;
+  settingsPermission: boolean;
+  satisticsPermission: boolean;
+  sharePermission: boolean;
 
-  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase ,  private router: Router ) {
+
+  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase, private router: Router) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userId = user.uid;
-        console.log(this.userId);
+        this.userName = afAuth.auth.currentUser.displayName;
         this.af.object(`/users/${this.userId}`).subscribe(data => {
-          console.log(data['subUser']);
-          if ( isUndefined(data['subUser'])) {
-            console.log('no SubUser');
+          if (isUndefined(data['subUser'])) {
             this.subUser = false;
           } else {
             this.domainUserId = data['subUser'];
-            console.log(' SubUser');
             if (data['first']) {
               this.ifSubUser();
-              this.af.list(`/users/${this.userId}`).update('first' , false);
+              this.af.list(`/users/${this.userId}`).update('first', false);
             }
             this.subUser = true;
           }
+          this.af.object(`users/${this.domainUserId}/buyerPermissions`).subscribe(info => {
+            console.log(info);
+            this.orderPermission = info['order'];
+            this.returnPermission = info['return'];
+            this.recivePermission = info['recive'];
+            this.suppliersPermission = info['suppliers'];
+            this.settingsPermission = info['settings'];
+            this.satisticsPermission = info['satistics'];
+            this.sharePermission = info['share'];
+
+          });
+
         });
+
 
 
       }
 
-      this.userName = afAuth.auth.currentUser.displayName;
+
 
     });
 
   }
+
   reciveSubUser() {
     const navigationExtras: NavigationExtras = {
       queryParams: {
@@ -62,16 +81,18 @@ export class HomeAfterLoginComponent implements OnInit {
     this.router.navigate(['subUserReciveList'], navigationExtras);
 
   }
-   supplierSubUser() {
+
+  supplierSubUser() {
     const navigationExtras: NavigationExtras = {
       queryParams: {
         'domainUserId': this.domainUserId,
 
       }
     };
-    this.router.navigate(['subUserSupplierList'], navigationExtras);
+    this.router.navigate(['supplier'], navigationExtras);
 
   }
+
   returnSubUser() {
     const navigationExtras: NavigationExtras = {
       queryParams: {
@@ -79,7 +100,7 @@ export class HomeAfterLoginComponent implements OnInit {
 
       }
     };
-    this.router.navigate(['subUserReturnList'], navigationExtras);
+    this.router.navigate(['returnProdcts'], navigationExtras);
 
   }
 
@@ -97,6 +118,7 @@ export class HomeAfterLoginComponent implements OnInit {
   logout() {
     this.afAuth.auth.signOut();
   }
+
   ngOnInit(): void {
     const OrderNotificatoin = '';
     const ReciveNotificatoin = '';
@@ -136,20 +158,21 @@ export class HomeAfterLoginComponent implements OnInit {
         }
       }
     });*/
-        /*notificationEmail(message) {
-      window.location.href = 'mailto:' + this.afAuth.auth.currentUser.email + '?subject=הודעה על' + '&body=' + message;
-    }
-    notificationWhatsAPP(message) {
-      const demo =
-        'whatsapp://send?phone=972' + this.afAuth.auth.currentUser.phoneNumber + '&text=שלום ' + this.afAuth.auth.currentUser.displayName + '%0A' +
-        message + '%0A' + ' בתודה SupplyMe';
+    /*notificationEmail(message) {
+  window.location.href = 'mailto:' + this.afAuth.auth.currentUser.email + '?subject=הודעה על' + '&body=' + message;
+}
+notificationWhatsAPP(message) {
+  const demo =
+    'whatsapp://send?phone=972' + this.afAuth.auth.currentUser.phoneNumber + '&text=שלום ' + this.afAuth.auth.currentUser.displayName + '%0A' +
+    message + '%0A' + ' בתודה SupplyMe';
 
-    }*/
+}*/
 
   }
+
   ifSubUser() {
-    this.af.list(`/users/${this.domainUserId}/buyersId`).update(`${this.userId}` , true).then( success => {
-      alert( 'קושרת לבעל המסעדה' + this.domainUserId );
+    this.af.list(`/users/${this.domainUserId}/buyersId`).update(`${this.userId}`, true).then(success => {
+      alert('קושרת לבעל המסעדה' + this.domainUserId);
     }).catch(function (error) {
       // Handle Errors here.
       const errorCode = error.name;
@@ -164,12 +187,12 @@ export class HomeAfterLoginComponent implements OnInit {
       console.log(error);
     });
   }
+
   shareApp() {
     let WhatsAppMesage = '';
     WhatsAppMesage = ' https://api.whatsapp.com/send?text=SupplyME ' +
-    ' אפליקציה לניהול ספקים באופן חכם מהיר יעיל תוך חיסכון משמעותי בהוצאות ' +
-      ' נסה עכשיו בחינם !' + ' %0A ' + ' app.supplyme.net ' ;
-    console.log(WhatsAppMesage);
+      ' אפליקציה לניהול ספקים באופן חכם מהיר יעיל תוך חיסכון משמעותי בהוצאות ' +
+      ' נסה עכשיו בחינם !' + ' %0A ' + ' https://supplyme.net ';
     location.href = WhatsAppMesage;
 
 

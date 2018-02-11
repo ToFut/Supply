@@ -30,7 +30,8 @@ export class AcceptOrderComponent implements OnInit {
     }
   ngOnInit() {
     console.log(this.month);
-    this.af.list(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}`).update(`${this.supplierKey}` , true);
+    this.af.object(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`)
+      .set( true);
   }
 
 }

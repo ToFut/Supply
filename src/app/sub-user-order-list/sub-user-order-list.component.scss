@@ -1,11 +1,18 @@
-body { background: #9cb8b3; }
+body {
+  background: #9cb8b3; }
+.container {
+  -ms-overflow-style: none;  // IE 10+
+  overflow: auto;  // Firefox
+}
+.container::-webkit-scrollbar {
+  display: none;  // Safari and Chrome
+}
 
 h1 {
-  font: 600 1.5em/1 'Raleway', sans-serif;
-  color: rgba(16, 67, 1, 0.93);
+  font: 600 1.5em/1 'David', sans-serif;
+  color: #050348;
   text-align: center;
-  text-transform: uppercase;
-  letter-spacing: .5em;
+  letter-spacing: .2em;
   position: inherit;
   top: 25%;
   width: 100%;
@@ -15,7 +22,7 @@ span, span:after {
   align-items: center;
   text-align: center;
   font-weight: 900;
-  color: #050348;
+  color: #26D367;
   white-space: nowrap;
   display: inline-block;
   position: inherit;
@@ -25,7 +32,7 @@ span, span:after {
 
 span {
   text-align: right;
-  font-size: xx-large;
+  font-size: x-large;
   z-index: 100;
   text-shadow: .04em .04em 0 #9cb8b3;
 }
@@ -41,8 +48,9 @@ span:after {
   z-index: -1;
   -webkit-mask-image: url(https://f.cl.ly/items/1t1C0W3y040g1J172r3h/mask.png);
 }
-
-
+#over {
+  border-radius: 12px; width: 50%; background-color: #ffffff;
+  border: 1px solid black;  }
 .button {
   color: white;
   text-align: center;
@@ -52,7 +60,7 @@ span:after {
   width: 20%;
   height: 20%;
 }
-.button:hover {background-color: #050348
+.button:hover {background-color: #979ca7;
 }
 .button:active {
   background-color: #3e8e41;
@@ -61,7 +69,7 @@ span:after {
 }
 .success {
   border-style: solid;  border-left-color: #26D367;border-width: medium; border-radius: 12px; width: 50%; height: 20%; background-color: #f4fef8; /* Green */}
-.danger { border-style: solid;
+.danger {
   border-left-color: red;border-width: medium; border-radius: 12px; width: 50%; height: 20%; background-color: #f4fef8; /* red */}
 .deafult {border-radius: 12px; width: 50%; background-color: #3e94ec; /* blue */}
 .warning {border-style: solid;
@@ -71,18 +79,15 @@ body {
 }
 h1 {
   font-size: large;
-
-  text-align: center;
-}
+  text-align: center;  }
 /* Acordeon styles */
 .tab {
   font-size: large;
-
   position: relative;
   margin-bottom: 1px;
   width: 100%;
   color: #fff;
-  overflow: scroll;
+  overflow: auto;
 }
 input {
   position: absolute;
@@ -91,17 +96,16 @@ input {
 }
 label {
   font-size: large;
-
-  position: relative;
   display: block;
   padding: 0 0 0 1em;
   font-weight: bold;
   line-height: 3;
-  cursor: pointer;
+  text-align: center;
+  margin-right: 2em;
 }
 .tab-content {
   max-height: 0;
-  overflow: scroll;
+  overflow: auto;
   -webkit-transition: max-height .35s;
   -o-transition: max-height .35s;
   transition: max-height .35s;

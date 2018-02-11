@@ -1,8 +1,8 @@
 /* Made by Jimmy Gillam */
-$checked-color: #34b93d;
+$checked-color: #26D367;
 $unchecked-color: #000;
 $checkbox-height: 20px;
-$background-color:#667788;
+$background-color: white;
 $font-color:#efefef;
 $duration: .4s;
 
@@ -142,4 +142,8 @@ span{
   padding: 1px;
   margin: 40px;
 
+}
+td , input{
+  font-size: large;
+  color: #26D367;
 }

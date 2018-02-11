@@ -57,20 +57,20 @@ export class OrderComponent implements OnInit {
         console.log(data);
         data.forEach(snapshot => {
           console.log(snapshot);
-          console.log(snapshot.$key);
-          console.log(snapshot.$value);
           this.warning[snapshot.$key] = snapshot.$value;
-          console.log(this.warning[snapshot.$key]);
           if (snapshot.$value === true) {
-            let indexNONEAccept = this.KEYSNONacceptedOrders.indexOf(snapshot.$key);
-            this.KEYSacceptedOrders.splice(indexNONEAccept, 1);
+            if (this.KEYSNONacceptedOrders.indexOf(snapshot.$key) !== -1) {
+              const indexNONEAccept = this.KEYSNONacceptedOrders.indexOf(snapshot.$key);
+              this.KEYSNONacceptedOrders.splice(indexNONEAccept, 1);
+            }
             console.log(snapshot.$key);
             this.KEYSacceptedOrders.push(snapshot.$key);
           } else if (snapshot.$value === false) {
-            let indexAccept = this.KEYSacceptedOrders.indexOf(snapshot.$key);
-            this.KEYSacceptedOrders.splice(indexAccept, 1);
+            if (this.KEYSacceptedOrders.indexOf(snapshot.$key) !== -1) {
+              const indexAccept = this.KEYSacceptedOrders.indexOf(snapshot.$key);
+              this.KEYSacceptedOrders.splice(indexAccept, 1);
+            }
             this.KEYSNONacceptedOrders.push(snapshot.$key);
-            console.log(this.KEYSNONacceptedOrders.indexOf(snapshot.$key));
           }
         });
       });
@@ -101,15 +101,15 @@ export class OrderComponent implements OnInit {
   }
 
   getWarning(key) {
-    console.log(key.$ref.key);
     if (this.KEYSNONacceptedOrders.indexOf(key.$ref.key) > -1) {
-      console.log('warning');
       return true;
     }
     return false;
   }
+
   checkForSupplier() {
-    this.matchSupplier.pushSupplier('order' , this.userId ).then((data) => {
+
+    this.matchSupplier.pushSupplier('order', this.userId).then((data) => {
       this.items = data;
       this.objLoaderStatus = false;
       console.log(this.items);
@@ -117,46 +117,40 @@ export class OrderComponent implements OnInit {
       return this.items;
 
     }).then(value => {
-      value.forEach( snapshot => {
-        console.log(this.KEYSacceptedOrders.includes(snapshot['$ref']['key']));
-
-        if (this.KEYSacceptedOrders.includes(snapshot['$ref']['key']) && this.acceptedChecker.indexOf(snapshot['$ref']['key']) === -1 ) {
+      value.forEach(snapshot => {
+        if (this.KEYSacceptedOrders.indexOf(snapshot['$ref']['key']) !== -1 && this.acceptedChecker.indexOf(snapshot['$ref']['key']) === -1) {
           this.showAccepted.push(snapshot);
           this.acceptedChecker.push(snapshot['$ref']['key']);
-        } else if ( this.NONeacceptedChecker
-            .indexOf(snapshot['$ref']['key']) === -1 && this.acceptedChecker.indexOf(snapshot['$ref']['key']) === -1) {
+        } else if (this.NONeacceptedChecker
+            .indexOf(snapshot['$ref']['key']) === -1 && this.acceptedChecker.indexOf(snapshot['$ref']['key']) === -1 && this.KEYSacceptedOrders.indexOf(snapshot['$ref']['key']) === -1) {
           this.NONeacceptedChecker.push(snapshot['$ref']['key']);
           this.showNONAccepted.push(snapshot);
-
         }
-        console.log(this.showAccepted);
-        console.log(this.showNONAccepted);
-
-
       });
     });
-     if (this.showNONAccepted.length === 0) {
-       this.noneSupplierOrder = true;
-     } else {
-       this.noneSupplierOrder = false;
-
-     }
-     if ( this.showAccepted.length === 0) {
-       this.allSupplierOrder = true;
-     } else {
-       this.allSupplierOrder = false;
-     }
-     if (!this.allSupplierOrder && this.noneSupplierOrder) {
-       this.noneAnyOrders = true;
-     } else {
-       this.noneAnyOrders = false;
-     }
-
-  }
-   doCheck() {
+    if (this.showNONAccepted.length === 0) {
+      this.noneSupplierOrder = true;
+    } else {
+      this.noneSupplierOrder = false;
+    }
+    if (this.showAccepted.length === 0) {
+      this.allSupplierOrder = true;
+    } else {
+      this.allSupplierOrder = false;
+    }
+    if (!this.allSupplierOrder && this.noneSupplierOrder) {
+      this.noneAnyOrders = true;
+    } else {
+      this.noneAnyOrders = false;
+    }
 
   }
-   ngOnInit() {
+
+  doCheck() {
+
+  }
+
+  ngOnInit() {
 
     /*
           this.matchSupplier.searchItem().then(retData => {
@@ -172,7 +166,8 @@ export class OrderComponent implements OnInit {
            console.log(this.supplierFounded);
            console.log('this is ' + this.objLoaderStatus);*/
   }
-  orderFromMe(supplier ) {
+
+  orderFromMe(supplier) {
 
     const navigationExtras: NavigationExtras = {
       queryParams: {
@@ -184,6 +179,7 @@ export class OrderComponent implements OnInit {
     this.router.navigate(['orderCurrect'], navigationExtras);
 
   }
+
   checkIt() {
     console.log(this.items);
   }

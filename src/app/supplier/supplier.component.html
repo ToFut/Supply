@@ -1,16 +1,19 @@
+<div class="container"  style="direction: rtl; text-align: center;">
 
+<br><span style="  color: #050348;" data-shadow-text="Text-Shadow" >ספקים שלי </span>  <i class="fa fa-users w3-xlarge" style="color: #22262e;"></i><br>
+</div>
 <div style="text-align:right">
-  <h2 style="text-align: center; color: #000000;     padding: 0px 20px 0px 0px;"> הספקים שלי  </h2>
-  <button id="fixedSort" (click)="sortList()"><i style="color: #000000;" class="fa fa-sort-alpha-desc fa-2x" aria-hidden="true"></i></button>
-  <input type="text" id="myInput" (keyup)="search()" placeholder=" חפש לפי שם הספק.." >
 
+  <button id="fixedSort" (click)="sortList()"><i style="color: #26D367;" class="fa fa-sort-alpha-desc fa-2x" aria-hidden="true"></i></button>
+  <input style="border-radius: 10px;" type="text" id="myInput" (keyup)="search()" placeholder=" חפש לפי שם הספק" >
+  <img id="imgSearch"src="../../assets/search.png">
   <ul id="myUL" >
     <li *ngFor="let item of items | async" (click)="associateProduct(item.$key)" >    <button style="float: left;color: red;" ><i class="fa fa-trash-o fa-2x " aria-hidden="true"></i></button>
       <a >
         <div id="icon">
-        <span   *ngIf="item.type == 'אוכל'" class="fa fa-cutlery " aria-hidden="true"></span>
-        <span  *ngIf="item.type == 'חלב'"  class="fa fa-coffee " aria-hidden="true"></span>
-        <span  *ngIf="item.type == 'בשר'"  class="fa fa-cutlery " aria-hidden="true"></span>
+        <span   *ngIf="item.type == 'מאפים'" class="fa fa-cutlery " aria-hidden="true"></span>
+        <span  *ngIf="item.type == 'מוצרי חלב'"  class="fa fa-coffee " aria-hidden="true"></span>
+        <span  *ngIf="item.type == 'מוצרי בשר'"  class="fa fa-cutlery " aria-hidden="true"></span>
         <span  *ngIf="item.type == 'משקאות חריפים'" class="fa fa-beer " aria-hidden="true"></span>
         <span  *ngIf="item.type == 'שתייה'" class="large material-icons ">local_drink</span>
         <span  *ngIf="item.type == 'משקאות'"  class="large material-icons ">local_drink</span>
@@ -21,9 +24,11 @@
     </li>
   </ul>
 
-  <span id ="fixedButton" (click)="addItem()" class="fa-stack fa-lg">
-  <i class="fa fa-circle fa-stack-2x"></i>
-  <i class="fa fa-plus fa-stack-1x fa-inverse"></i>
+  <span class="fixedButton" (click)="addItem()">
+    <div class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fa fa-plus fa-stack-1x fa-inverse"></i>
+    </div>
   </span>
 
   <!--

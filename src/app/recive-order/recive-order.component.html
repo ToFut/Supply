@@ -1,6 +1,6 @@
 
 <div class="container"  style="direction: rtl; text-align: center;">
-<br><span data-shadow-text="Text-Shadow" >קבלת סחורה </span>  <i class="fa fa-truck w3-xxxlarge" style="color: #22262e;"></i><br>
+<br><span style="  font-size: x-large; color: #050348;" data-shadow-text="Text-Shadow" >קבלת סחורה </span>  <i class="fa fa-truck w3-xlarge" style="color: #22262e;"></i><br>
 
   <div >
     <div [ngSwitch]=day style="text-align: center">
@@ -13,22 +13,26 @@
       <h1 *ngSwitchCase=6>     שבת  </h1>
     </div>
     <div >
+<!--
       <div  [hidden]=" !checkIfExist ">
-        <h2 style="font-size: x-large; color: #4CAF50;"> אין לך הזמנות להיום</h2>
+        <span style="font-size: x-large; color: #4CAF50;"> אין לך הזמנות להיום</span>
       </div>
+-->
       <div [hidden]=" checkIfExist " >
         <div  [hidden]=" !allSupplierFinishe ">
-          <h2 style="font-size: x-large; color: #4CAF50;"> כל הכבוד ביצעת את כל ההזמנות להיום!</h2>
+          <span > כל הכבוד </span>
+          <br>
+          <span>קיבלת את כל הסחורה להיום!</span>
         </div>
 
         <div class="tab" [hidden]=" allSupplierFinishe ">
         <input id="tab-one" type="checkbox" name="tabs" [(ngModel)]="show"/>
-        <label for="tab-one">  קבלת סחורה  </label>
+        <label  for="tab-one">  קבלת סחורה  </label>
         <div class="tab-content">
           <div *ngFor="let supplier of reciveNONEComplete " >
             <button  (click)="todoListNavigation(supplier )" class="button"
                      [class.success]=" time <= 9"
-                     [class.danger]="time > 12 " [ngClass]="{'warning': getWarning(supplier)}"> <h5 style="font-size: small;color: #0E1013;">{{ (supplier | async)?.name }}</h5 > </button>
+                     [class.danger]="time > 9 && time <= 23 " [ngClass]="{'warning': getWarning(supplier)}"> <h5 style="font-size: small;color: #0E1013;">{{ (supplier | async)?.name }}</h5 > </button>
           </div>
         </div>
       </div>
@@ -42,7 +46,7 @@
               <h5 style="font-size: small;color: #0E1013;">{{ (supplier | async)?.name }}</h5 ></button>
           </div>
           <div [hidden]=" someSupplierFinish ">
-            <h2 style="font-size: x-large; color: #4CAF50;"> עוד לא קיבלתי סחורה להיום.. </h2>
+            <h1 > עוד לא קיבלתי סחורה להיום.. </h1>
 
           </div>
 

@@ -54,9 +54,7 @@ export class AppComponent implements OnInit {
       if (user) {
         this.router.navigate(['/homeAfterLogin']);
       } else {
-        console.log(this.supplierKey);
         if (!isUndefined(this.supplierKey)) {
-          console.log('/acceptOrder');
 
           const navigationExtras: NavigationExtras = {
             queryParams: {
@@ -70,7 +68,6 @@ export class AppComponent implements OnInit {
           };
           this.router.navigate(['acceptOrder'], navigationExtras);
         } else if (!isUndefined(this.domainUserId)) {
-          console.log('/subUserSignUp');
 
           const navigationExtras: NavigationExtras = {
             queryParams: {
@@ -82,7 +79,6 @@ export class AppComponent implements OnInit {
           this.router.navigate(['subUserSignUp'], navigationExtras);
 
         } else {
-          console.log('/loginPage');
           this.router.navigate(['/loginPage']);
         }
       }
@@ -90,14 +86,12 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe(event => {
       this.url = event['url'];
-      console.log(event['url']);
       this.modifyHeader(event);
     });
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userId = user.uid;
         this.checkURL();
-        console.log(location);
       }
     });
     this.user = afAuth.authState;
@@ -116,7 +110,6 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
     this.user = this.afAuth.authState;
-    console.log(location);
     const currentUrl = this.router.url; /// this will give you current url
     let registeredUser = true;
     if (currentUrl === '/home') {
@@ -188,7 +181,6 @@ export class AppComponent implements OnInit {
     document.body.style.backgroundColor = 'white';
   }
   modifyHeader(location) {
-    console.log(location.url);
     if (location.url === '/homeAfterLogin') {
       this.checkIfInHomePage = true;
     } else {

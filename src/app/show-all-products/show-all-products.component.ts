@@ -80,7 +80,6 @@ export class ShowAllProductsComponent implements OnInit {
     {value: 'קג', viewValue: 'קג'},
     {value: 'גר', viewValue: 'גר'},
     {value: 'מל', viewValue: 'מל'},
-    {value: 'מל', viewValue: 'סמק'},
     {value: 'יחידה', viewValue: 'יחידה'},
 
 
@@ -88,7 +87,7 @@ export class ShowAllProductsComponent implements OnInit {
   orderDays = 0;
   UnitOfMeasure: string;
   TypeOfFillUp: string;
-  color = 'primary';
+  color = '#26D367';
   depositCchecked = false;
   disabled = false;
   orderType = [];
@@ -263,21 +262,38 @@ export class ShowAllProductsComponent implements OnInit {
         this.updatePublicDB();
       }
     }
-    if (!this.updateStatus && !this.undifineCheck) {
-      console.log(this.undifineCheck);
+      if (!this.updateStatus && !this.undifineCheck) {
+        let up = true;
+
+        console.log(this.undifineCheck);
       console.log(this.updateStatus);
       console.log(this.selectProductKey);
-      this.af.object(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`).update(Product);
+      try {
+      this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`).push(Product);
 
+      } catch (err) {
+        alert('לא מילאת את כל השדות');
+        return;
+      } finally {
+        this.associateProduct();
+
+      }
     } else {
       console.log(this.undifineCheck);
       console.log(this.updateStatus);
       console.log(this.selectProductKey);
+      try {
       this.items.update(this.selectProductKey, Product);
 
-      this.items.update(this.selectProductKey, Product);
+      } catch (err) {
+        alert('לא מילאת את כל השדות');
+        return;
+      } finally {
+        this.associateProduct();
+
+      }
+
     }
-    this.associateProduct();
   }
 
   deleteItem() {

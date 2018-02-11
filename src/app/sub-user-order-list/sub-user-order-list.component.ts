@@ -11,6 +11,7 @@ import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
   styleUrls: ['./sub-user-order-list.component.scss']
 })
 export class SubUserOrderListComponent implements OnInit {
+  route: any;
   viewDate: Date = new Date();
   time = new Date().getHours();
   today: number = Date.now();
@@ -18,9 +19,8 @@ export class SubUserOrderListComponent implements OnInit {
   count: number;
   items: FirebaseListObservable<any[]>;
   keys = [];
-  userId: string;
   objLoaderStatus = true;
-  domainUserId: string;
+  userId: string;
   SupplierFounded: FirebaseListObservable<any[]>;
   orderAccept: FirebaseListObservable<any[]>;
   dayInMonth = this.viewDate.getDate();
@@ -36,49 +36,51 @@ export class SubUserOrderListComponent implements OnInit {
   allSupplierOrder: boolean;
   noneSupplierOrder: boolean;
   noneAnyOrders: boolean;
+  warning: Array<boolean>;
+  orderLimitTime: string;
 
 
+  constructor(public matchSupplier: MatchSupplierService, public afAuth: AngularFireAuth, public af: AngularFireDatabase,
+              private router: Router , route: ActivatedRoute) {
 
-  constructor(public matchSupplier: MatchSupplierService , public afAuth: AngularFireAuth, public af: AngularFireDatabase,
-              private router: Router , public route: ActivatedRoute) {
+    this.warning = [];
+    this.orderLimitTime = this.viewDate.toTimeString();
     route.queryParams.subscribe(params => {
-      this.domainUserId = params['domainUserId'];
+      this.userId = params['domainUserId'];
 
     });
-
-    console.log('constructor');
     if (this.month === 12) {
       this.month = 1;
     } else {
       this.month += 1;
     }
 
-    this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.userId = user.uid;
-      }
 
-    });
-
-    this. orderAccept = this.af.list(`acceptOrders/${this.domainUserId}/${this.year}/${this.month}/${this.dayInMonth}`);
-    this.orderAccept.subscribe( data => {
+    this.orderAccept = this.af.list(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}`);
+    this.orderAccept.subscribe(data => {
       console.log(data);
-      data.forEach( snapshot => {
-        console.log(snapshot.$key);
-        console.log(snapshot.$value);
+      data.forEach(snapshot => {
+        console.log(snapshot);
+        this.warning[snapshot.$key] = snapshot.$value;
         if (snapshot.$value === true) {
-          let indexNONEAccept = this.KEYSNONacceptedOrders.indexOf(snapshot.$key);
-          this.KEYSacceptedOrders.splice(indexNONEAccept, 1);
+          if (this.KEYSNONacceptedOrders.indexOf(snapshot.$key) !== -1) {
+            const indexNONEAccept = this.KEYSNONacceptedOrders.indexOf(snapshot.$key);
+            this.KEYSNONacceptedOrders.splice(indexNONEAccept, 1);
+          }
           console.log(snapshot.$key);
           this.KEYSacceptedOrders.push(snapshot.$key);
         } else if (snapshot.$value === false) {
-          let indexAccept = this.KEYSacceptedOrders.indexOf(snapshot.$key);
-          this.KEYSacceptedOrders.splice(indexAccept, 1);
+          if (this.KEYSacceptedOrders.indexOf(snapshot.$key) !== -1) {
+            const indexAccept = this.KEYSacceptedOrders.indexOf(snapshot.$key);
+            this.KEYSacceptedOrders.splice(indexAccept, 1);
+          }
           this.KEYSNONacceptedOrders.push(snapshot.$key);
-          console.log(this.KEYSNONacceptedOrders.indexOf(snapshot.$key));
         }
       });
     });
+    console.log('this.KEYSacceptedOrders', this.KEYSacceptedOrders);
+    console.log('this.KEYSNONacceptedOrders', this.KEYSNONacceptedOrders);
+
 
     setTimeout(() => {
       this.checkForSupplier();
@@ -95,52 +97,57 @@ export class SubUserOrderListComponent implements OnInit {
     }, 1000);
 
   }
+
+  getWarning(key) {
+    if (this.KEYSNONacceptedOrders.indexOf(key.$ref.key) > -1) {
+      return true;
+    }
+    return false;
+  }
+
   checkForSupplier() {
-    console.log(this.domainUserId);
-    this.matchSupplier.pushSupplier('order' , this.domainUserId).then((data) => {
+
+    this.matchSupplier.pushSupplier('order', this.userId).then((data) => {
       this.items = data;
       this.objLoaderStatus = false;
       console.log(this.items);
+      console.log(this.objLoaderStatus);
       return this.items;
 
     }).then(value => {
-      value.forEach( snapshot => {
-
-        if (this.KEYSacceptedOrders.indexOf(snapshot['$ref']['key']) !== -1 && this.acceptedChecker.indexOf(snapshot['$ref']['key']) === -1 ) {
+      value.forEach(snapshot => {
+        if (this.KEYSacceptedOrders.indexOf(snapshot['$ref']['key']) !== -1 && this.acceptedChecker.indexOf(snapshot['$ref']['key']) === -1) {
           this.showAccepted.push(snapshot);
           this.acceptedChecker.push(snapshot['$ref']['key']);
-        } else if ( this.NONeacceptedChecker
-            .indexOf(snapshot['$ref']['key']) === -1 && this.acceptedChecker.indexOf(snapshot['$ref']['key']) === -1) {
+        } else if (this.NONeacceptedChecker
+            .indexOf(snapshot['$ref']['key']) === -1 && this.acceptedChecker.indexOf(snapshot['$ref']['key']) === -1 && this.KEYSacceptedOrders.indexOf(snapshot['$ref']['key']) === -1) {
           this.NONeacceptedChecker.push(snapshot['$ref']['key']);
           this.showNONAccepted.push(snapshot);
-
         }
-        console.log(this.showAccepted);
-        console.log(this.showNONAccepted);
-        if (this.showNONAccepted.length === 0) {
-          this.noneSupplierOrder = true;
-        } else {
-          this.noneSupplierOrder = false;
-
-        }
-        if ( this.showAccepted.length === 0) {
-          this.allSupplierOrder = true;
-        } else {
-          this.allSupplierOrder = false;
-        }
-        if (!this.allSupplierOrder && this.noneSupplierOrder) {
-          this.noneAnyOrders = true;
-        } else {
-          this.noneAnyOrders = false;
-        }
-
       });
     });
+    if (this.showNONAccepted.length === 0) {
+      this.noneSupplierOrder = true;
+    } else {
+      this.noneSupplierOrder = false;
+    }
+    if (this.showAccepted.length === 0) {
+      this.allSupplierOrder = true;
+    } else {
+      this.allSupplierOrder = false;
+    }
+    if (!this.allSupplierOrder && this.noneSupplierOrder) {
+      this.noneAnyOrders = true;
+    } else {
+      this.noneAnyOrders = false;
+    }
 
   }
+
   doCheck() {
 
   }
+
   ngOnInit() {
 
     /*
@@ -157,28 +164,22 @@ export class SubUserOrderListComponent implements OnInit {
            console.log(this.supplierFounded);
            console.log('this is ' + this.objLoaderStatus);*/
   }
-  orderFromMe(supplier ) {
+
+  orderFromMe(supplier) {
 
     const navigationExtras: NavigationExtras = {
       queryParams: {
         'supplierKey': supplier.$ref.key,
-        'userId': this.domainUserId,
+        'userId': this.userId,
       }
     };
     console.log(supplier);
     this.router.navigate(['orderCurrect'], navigationExtras);
 
   }
+
   checkIt() {
     console.log(this.items);
-  }
-  getWarning(key) {
-    console.log(key.$ref.key);
-    if (this.KEYSNONacceptedOrders.indexOf(key.$ref.key) > -1) {
-      console.log('warning');
-      return true;
-    }
-    return false;
   }
 
 

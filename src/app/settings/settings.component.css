@@ -1,3 +1,33 @@
+span, span:after {
+  text-align: center;
+  font-weight: 900;
+  color: #050348;
+  white-space: nowrap;
+  display: inline-block;
+  position: inherit;
+  letter-spacing: .1em;
+  padding: .2em 0 .25em 0;
+}
+
+span {
+  text-align: right;
+  font-size: x-large;
+  z-index: 100;
+  text-shadow: .04em .04em 0 #9cb8b3;
+}
+
+span:after {
+  text-align: right;
+  content: attr(data-shadow-text);
+  color: rgba(0,0,0,.35);
+  text-shadow: none;
+  position: absolute;
+  left: .0875em;
+  top: .0875em;
+  z-index: -1;
+  -webkit-mask-image: url(https://f.cl.ly/items/1t1C0W3y040g1J172r3h/mask.png);
+}
+
 input[type=text], input[type=password] {
   width: 100%;
   padding: 12px 20px;
@@ -13,6 +43,13 @@ input[type=text], input[type=password] {
   padding: 14px 20px;
   background-color: #26D367;
 }
+.mat-select{
+  border-bottom: 1px solid;
+  width: 20em;
+  text-align: center;
+
+}
+
 
 /* Float cancel and signup buttons and add an equal width */
 .cancelbtn,.signupbtn {float:left;width:50%}
@@ -98,8 +135,8 @@ input {
   color: #FFFFFF;
   text-align: center;
   font-size: small;
-  padding: 20px;
-  width: 100px;
+  padding: 7px;
+  width: 78px;
   height: 25%;
   transition: all 0.5s;
   cursor: pointer;

@@ -1,15 +1,44 @@
+@media only screen and (max-width:2000px) {
+  /* For tablets: */
+  form{
+    display: flex;
+  }
+  .container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+  .option {
+    padding: 1em 2em 1em 2em;
+  }
+
+
+
+}
+@media only screen and (max-width:500px) {
+  /* For mobile phones: */
+  form{
+    display: block;
+  }
+  .container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    max-width: 650px;
+    padding: 20px;
+  }
+
+}
+
 input, textarea, select, option{
   background: none !important;
-  border-top: #050348 1px solid !important;
-  border-left: #050348 1px solid !important;
-  border-bottom: #050348 3px solid !important;
-  border-right: #050348 3px solid !important;
+  border-top: #EBEBEB 1px solid !important;
+  border-bottom: #EBEBEB 3px solid !important;
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
-  color: #050348 !important;
   border-radius: 10px;
+  color: #050348 !important;
 }
 .container {
   border-radius: 5px;
@@ -254,5 +283,13 @@ input {
   border-collapse: separate;
   max-width: 63em;
   border-radius: 10px;
+  padding: 1em 2em 1em 2em;
 
+}
+md-slide-toggle{
+  background-color: #26D367 ;
+}
+
+span , input{
+  font-size: medium;
 }

@@ -105,12 +105,22 @@ export class AddProductsToSupplierComponent implements OnInit {
 
   }
 
-  search($event) {
-    if ($event.timeStamp - this.lastKeypress > 200) {
-      const q = $event.target.value;
-      this.startWith.next(q);
-      this.endWith.next(q + '\uf8ff');
+  search() {
+    let input, filter, table, li, td, i;
+    input = document.getElementById('myInput');
+    filter = input.value;
+    table = document.getElementById('myUL');
+    li = document.getElementsByTagName('li');
+    for (i = 0; i < li.length; i++) {
+      td = li[i].getElementsByTagName('h3');
+      if (td) {
+        if (li[i].innerText.indexOf(filter) > -1) {
+          li[i].style.display = '';
+        } else {
+          li[i].style.display = 'none';
+        }
+      }
     }
-    this.lastKeypress = $event.timeStamp;
   }
+
 }

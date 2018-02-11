@@ -1,6 +1,8 @@
 
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
-
+h4{
+  font-size: small;color: #050348;
+}
 .panel > .list-group .list-group-item:first-child {
   /*border-top: 1px solid rgb(204, 204, 204);*/
 }
@@ -104,10 +106,10 @@ h1 { color: #09480d; font-family: 'Trocchi', serif; font-size: 45px; font-weight
 
 /* Clear floats (clearfix hack) */
 .btn-group:after {
-  content: "";
-  clear: both;
-  display: table;
-}
+  padding: 3px 9px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;}
 
 .btn-group button:not(:last-child) {
   border-right: none; /* Prevent double borders */
@@ -173,17 +175,11 @@ ul li{
   display:inline-block;
   width:80px;
   height:80px;
-
-
 }
-
 li span{
-  font-size:16px;
-  color: #26D367;
-  margin-right:40px;
-  line-height: 32px;
-
-
+  font-size: medium;
+  color: #050348;
+    margin-top: 0.4em;
 }
 .likes:before{
   content:url("https://cdn0.iconfinder.com/data/icons/users-android-l-lollipop-icon-pack/24/group2-32.png");
@@ -263,17 +259,27 @@ h3:after{
   background: -moz-linear-gradient(#26D367, #8fb1fe); /* For Firefox 3.6 to 15 */
   background: linear-gradient(#26D367, #8fb1fe); /* Standard syntax (must be last) */
 }
+#imgSearch {
+  margin-top: -5.5em;
+  width: 2em;
+  height: 2em;
+  margin-right: 3em;}
 #fixedSort {
-  position: fixed;
-  top: 110px;
+  position: relative;
+  margin-top: 0em;
+  margin-right: 1em;
+  border-image: url("../../assets/search.png");
+}
+.fixedButton {
+  top: 90%;
+  color: #26D367;
+  position: absolute;
   left: 20px;
+  font-size: 1.3em;}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: black;
+  text-align: center;
 }
-#fixedButton {
-  position: fixed;
-  top: 110px;
-  right: 20px;
-}
-
 #myInput {
   background-position: 10px 12px;
   background-repeat: no-repeat;
@@ -284,22 +290,21 @@ h3:after{
   margin-bottom: 12px;
 }
 
+#icon {
+  position: relative;
+  display: inline-block;
+}
+#name {
+  display: inline-block;
+  font-size: medium;
+  padding-right: 1.7em;
+  margin-top: 0.5em;
+  padding-bottom: 0.5em;}
 #myUL {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
-
-#icon {
-  position:absolute;
-  display: inline-block;
-}
-#name {
-  display: inline-block;
-  font-size: small;
-  padding-right: 4em;
-}
-
 #myUL li a {
   border: 1px solid #ddd;
   margin-top: -1px; /* Prevent double borders */
@@ -315,11 +320,51 @@ h3:after{
 #myUL li a:hover:not(.header) {
   background-color: #eee;
 }
+span, span:after {
+  align-items: center;
+  text-align: center;
+  font-weight: 900;
+  color: #050348;
+  white-space: nowrap;
+  display: inline-block;
+  position: inherit;
+  letter-spacing: .1em;
+  padding: .2em 0 .25em 0;
+}
+
+span {
+  text-align: center;
+  font-size: x-large;
+  z-index: 100;
+  text-shadow: .04em .04em 0 #9cb8b3;
+}
+
+span:after {
+  text-align: right;
+  content: attr(data-shadow-text);
+  color: rgba(0,0,0,.35);
+  text-shadow: none;
+  position: absolute;
+  left: .0875em;
+  top: .0875em;
+  z-index: -1;
+  -webkit-mask-image: url(https://f.cl.ly/items/1t1C0W3y040g1J172r3h/mask.png);
+}
 #fixed {
   position: fixed;
   top: 110px;
   right: 20px;
 }
-#name {
-  ;
+.fa-2x {
+  font-size: 1.2em;
+  margin-top: 11px;
+  margin-left: 22px;
+  float: left;
 }
+#headerSupplier{
+  border-bottom: 2px solid #EBEBEB;
+  text-align: center;
+  color: #000000;
+  /* padding: 0px 20px 0px 0px; */
+}
+

@@ -14,22 +14,14 @@
         <button type="submit" class=" w3-btn w3-border-black w3-round-large" (click)="onSubmit()" style="background: none;" id="login-button">התחבר</button>
       </div>
       <div class="form-group text-center">
-        <a (click)="linkGoogle()">שכחת סיסמא?</a>&nbsp;|&nbsp;<a routerLink="/signUp">הרשם</a>
+        <a (click)="foregetPassword()">שכחת סיסמא?</a>&nbsp;|&nbsp;<a routerLink="/signUp">הרשם</a>
       </div>
     </form>
 
   </div>
 
   <ul class="bg-bubbles">
-    <li><img src="../../assets/logoWithOutBackground.png"></li>
-    <li></li>Versions of @angular/compiler-cli and typescript could not be determined.
-    The most common reason for this is a broken npm install.
-
-    Please make sure your package.json contains both @angular/compiler-cli and typescript in
-    devDependencies, then delete node_modules and package-lock.json (if you have one) and
-    run npm install again.
-
-    <li></li>
+    <li><img src="../../assets/logoWithOutBackground.png"></li>>
     <li><img src="../../assets/logoWithOutBackground.png"></li>
     <li><img src="../../assets/logoWithOutBackground.png"></li>
     <li></li>
@@ -40,6 +32,7 @@
   </ul>
 </div>
 </div>
+
 <script>
   $("#login-button").click(function(event){
     event.preventDefault();

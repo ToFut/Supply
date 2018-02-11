@@ -5,71 +5,97 @@
 ">
 
   <br><br>
-    <div  class="table-responsive" style="text-align: right" >
+  <div class="table-responsive" style="text-align: right">
 
-      <div  style="  background-color: lightgrey;
+    <div style="  background-color: lightgrey;
   padding: 1px;
   margin: 40px;
   text-align: center;background-color: #26D367;color: #fafafa;
 ">
-        <div class="w3-dropdown-click">
-          <button (click)="Dropdown()"  style=" font-weight: bold; color: #fafafa; text-align: center; font-size: x-large "> {{(supplier | async)?.name}}  קבלת סחורה <i class="fa fa-caret-down" aria-hidden="true"></i>
-          </button>
-          <div id="Demo" class="w3-dropdown-content w3-bar-block w3-border" >
-            <a href="#" class="w3-bar-item w3-button"> ספק א</a>
-            <a href="#" class="w3-bar-item w3-button">ספק ב </a>
-            <a href="#" class="w3-bar-item w3-button">ספק ג</a>
-          </div>
-        </div>
-
-
+      <div class="w3-dropdown-click">
+        <button (click)="Dropdown()"
+                style=" font-weight: bold; color: #fafafa; text-align: center; font-size: x-large "> {{(supplier |
+          async)?.name}} קבלת סחורה <i class="fa fa-caret-down" aria-hidden="true"></i>
+        </button>
+        <!--
+                  <div id="Demo" class="w3-dropdown-content w3-bar-block w3-border" >
+                    <a href="#" class="w3-bar-item w3-button"> ספק א</a>
+                    <a href="#" class="w3-bar-item w3-button">ספק ב </a>
+                    <a href="#" class="w3-bar-item w3-button">ספק ג</a>
+                  </div>
+        -->
       </div>
-      <input type="checkbox" id="checkAll"[(ngModel)]="selectedAll" (change)="checkAll();"/>
-      <label for="checkAll" class="check-box"> </label><span>בחר הכל</span>
 
-      <table id="customers" >
-        <tr>
-          <th style="text-align: right" >שם המוצר </th>
-          <th style="text-align: right" > נתקבל </th>
-          <th style="text-align: right" >   סוג הכמות לקבלה </th>
-
-        </tr>
-
-        <tr  *ngFor="let prudoct of reciveInfo | async ;let i = index">
-          <td>
-            <input type="checkbox" name='{{radioButton[i]}}' id="{{prudoct.name}}" [(ngModel)]="radioButton[i]" (change)=" checkIfAllSelected(prudoct.amount , radioButton[i], prudoct.$key);">
-            <label for="{{prudoct.name}}" class="check-box"> </label>
-            <span>{{prudoct.name}}</span>
-          </td>
-          <td>{{prudoct.amount}} <span id="howMuchReceive" [hidden]="radioButton[i]">/  <input type="number" id="{{prudoct.$key}}" (keyup)="setPartialRecive(prudoct.$key)" [(ngModel)]="howManyReceive[prudoct.$key]" max="{{prudoct.amount}}" value="{{howManyReceive[prudoct.$key]}}" min="0" width="100px"></span></td>
-          <td>{{prudoct.TypeOfFillUp}}</td>
-        </tr>
-        <tr>
-        </tr>
-      </table>
-      <table id="returnProduct" >
-        <tr>
-          <th style="text-align: right" >שם המוצר </th>
-          <th style="text-align: right" > כמות להחזרה </th>
-          <th style="text-align: right" >   סוג הכמות לקבלה </th>
-
-        </tr>
-
-        <tr  *ngFor="let prudoct of returnHistory | async ;let i = index">
-          <td>
-            <span>{{prudoct.productName }}}</span>
-          </td>'
-          <td>{{prudoct.amount}} </td>
-          <td>      {{prudoct.amount}} {{prudoct.TypeOfFillUp}}</td>
-        </tr>
-        <tr>
-        </tr>
-      </table>
 
     </div>
+    <h3>מוצרים לקבלה</h3>
+    <input type="checkbox" id="checkAll" [(ngModel)]="selectedAll" (change)="checkAll();"/>
+    <label for="checkAll" class="check-box"> </label><span>בחר הכל</span>
+
+    <table id="customers">
+      <tr
+        style="      font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa">
+        <th style="text-align: right">שם המוצר</th>
+        <th style="text-align: right"> נתקבל</th>
+        <th style="text-align: right"> סוג הכמות לקבלה</th>
+
+      </tr>
+
+      <tr *ngFor="let prudoct of reciveInfo | async ;let i = index">
+        <td>
+          <input style="border-radius: 10px" type="checkbox" name='{{radioButton[i]}}' id="{{prudoct.name}}"
+                 [(ngModel)]="radioButton[i]"
+                 (change)=" checkIfAllSelected(prudoct.amount , radioButton[i], prudoct.$key);">
+          <label for="{{prudoct.name}}" class="check-box"> </label>
+          <span>{{prudoct.name}}</span>
+        </td>
+        <td>{{prudoct.amount}} <span id="howMuchReceive" [hidden]="radioButton[i]">/  <input type="number"
+                                                                                             id="{{prudoct.$key}}"
+                                                                                             (mousemove)="checkDone( prudoct.$key  , prudoct.amount , howManyReceive[prudoct.$key] );"
+                                                                                             (keyup)="setPartialRecive(prudoct.$key);checkDone(i , prudoct.amount , howManyReceive[prudoct.$key]);checkIfAllSelected(prudoct.amount , radioButton[i], prudoct.$key);"
+                                                                                             max="{{prudoct.amount}}"
+                                                                                             value="{{howManyReceive[prudoct.$key]}}"
+                                                                                             min="0"
+                                                                                             width="100px"></span></td>
+        <td>
+          <mat-select style="order:2" [(ngModel)]="prudoct.TypeOfFillUp"
+                      (change)="updateTypeOfFill(prudoct.TypeOfFillUp , prudoct.$key)">
+            <mat-option *ngFor="let type of types  " [value]="type.value">
+              <p>{{type.value}} </p>
+            </mat-option>
+          </mat-select>
+        </td>
+      </tr>
+      <tr>
+      </tr>
+    </table>
+    <h3>מוצרים להחזרה</h3>
+
+    <table id="returnProduct">
+      <tr
+        style="      font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa">
+        <th style="text-align: right">שם המוצר</th>
+        <th style="text-align: right"> כמות להחזרה</th>
+        <th style="text-align: right"> סוג הכמות לקבלה</th>
+
+      </tr>
+
+      <tr *ngFor="let product of returnHistory | async  ;let i = index">
+        <td>
+          <span>{{product.productName}}</span>
+        </td>
+        <td>{{product.amount}}</td>
+        <td> {{product.amount}} {{product.TypeOfFillUp}}</td>
+      </tr>
+      <tr>
+      </tr>
+    </table>
+
+  </div>
 
 
-  <button routerLink="/reciveOrder" (click)="updateRecive()" class="button button1" style="background-color: #26D367;"><span>סיים</span></button>
+  <button routerLink="/reciveOrder" (click)="updateRecive()" class="button button1" style="background-color: #26D367;">
+    <span>סיים</span></button>
 
 
 </div>

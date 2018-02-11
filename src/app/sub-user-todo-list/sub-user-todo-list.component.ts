@@ -72,11 +72,6 @@ export class SubUserTodoListComponent implements OnInit {
   constructor( public af: AngularFireDatabase, public afAuth: AngularFireAuth ,
                route: ActivatedRoute , private router: Router ) {
 
-    route.queryParams.subscribe(params => {
-      this.supplierKey = params['supplierKey'];
-      this.supplierFounded = params['supplierFounded'];
-      this.userId = params['domainUserId'];
-    });
     console.log(this.userId);
     this.currentSupplierProducts = this.af.list(`/users/${this.userId}/suppliers/${this.supplierKey}/SupplierProducts/`);
   }

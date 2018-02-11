@@ -14,9 +14,12 @@ h1{
   line-height:135%;
 
 }
-.menu-button {
-  position: absolute;
-  right: 50px;
+#menu-button {
+  top: 90%;
+  margin-right: 4%;
+  color: #ffffff;
+  position: fixed;
+  font-size: 1.3em;
   bottom: 50px;
   width: 60px;
   height: 60px;
@@ -24,8 +27,6 @@ h1{
   line-height: 60px;
   border-radius: 50%;
   background-color: #26D367;
-  color: #FFFFFF;
-  font-size: 24px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgba(0, 0, 0, 0.22);
   cursor: pointer;
   &:hover {
@@ -101,4 +102,45 @@ h1{
       font-size: 25px;
     }
   }
+
+body{
+  margin: 0;
+  padding: 0;
+  background: #eee;
+  font-family: "Arial";
+}
+
+.share{
+  width: 200px;
+  height: 200px;
+  margin: 5em auto;
+  background: #fff;
+  text-align: center;
+  border-radius: 100px;
+  overflow: hidden;
+  position: relative;
+}
+
+.share a{
+  display: inline-block;
+  width: 100px;
+  height: 200px;
+  float: left;
+  position: relative;
+  text-indent: -9999px;
+  z-index: 9999;
+}
+
+.share:after{
+  content: "Share";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40%;
+  font-size: 25px;
+  font-weight: normal;
+  font-style: italic;
+  text-transform: uppercase;
+  color: #333;
+}
 

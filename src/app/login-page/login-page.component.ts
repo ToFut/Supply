@@ -32,7 +32,6 @@ export class LoginPageComponent implements OnInit {
       if (auth) {
         this.router.navigateByUrl('/homeAfterLogin');
       }
-      console.log(this.domainUserId);
       if ( this.domainUserId !== undefined) {
         const navigationExtras: NavigationExtras = {
           queryParams: {
@@ -44,7 +43,6 @@ export class LoginPageComponent implements OnInit {
         };
         this.router.navigate(['subUserSignUp'], navigationExtras);
       }
-      console.log(this.userId);
       if ( this.userId !== undefined) {
         const navigationExtras: NavigationExtras = {
           queryParams: {
@@ -66,7 +64,6 @@ export class LoginPageComponent implements OnInit {
     console.log('onSubmit');
     this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password).then(
         (success) => {
-          console.log(success);
           this.router.navigate(['/#/homeAfterLogin']);
         }).catch(function (error) {
         const errorCode = error.name;
@@ -75,17 +72,13 @@ export class LoginPageComponent implements OnInit {
           alert('Wrong password.');
         } else {
           alert(errorMessage);
-        }
-        console.log(error);
-      });
+        }     });
   }
   onKeyEmail (email: string) {
     this.email = email;
-    console.log(this.email);
   }
   onKeyPassword (password: string) {
     this.password = password;
-    console.log(this.password);
 
 
   }
@@ -99,6 +92,9 @@ export class LoginPageComponent implements OnInit {
       this.router.navigate(['/#/homeAfterLogin']);
 
     });
+  }
+  forgetPassword() {
+
   }
 
 

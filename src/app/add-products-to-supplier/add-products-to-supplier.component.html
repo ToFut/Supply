@@ -1,17 +1,22 @@
 <div style="text-align:right">
   <h2 style="text-align: center; color: #22262e;     padding: 0px 20px 0px 0px;"> המוצרים של {{(supplierName | async)?.name}} </h2>
 
+  <input style="border-radius: 10px;text-align: center" type="text" id="myInput" (keyup)="search()" placeholder=" חפש לפי שם הספק" >
+  <img id="imgSearch"src="../../assets/search.png">
+
   <ul id="myUL">
     <li *ngFor="let Product of productsInCurrectSupplier | async " >
-      <div  (click)="openDialogShowProducts(Product.$key)" style="background-color: #e9ffed;border-radius: 12px" >
-        <h3 style=" color: #22262e;     padding: 0px 20px 0px 0px;">{{Product.ProductName}}         <span style="font-size:x-small; text-align: right;  color: #22262e;">{{Product.price}}₪</span></h3>
+      <div id="list" (click)="openDialogShowProducts(Product.$key)" style="background-color: #e9ffed;border-radius: 12px" >
+        <h3 style=" color: #22262e;     padding: 0px 20px 0px 0px;">{{Product.ProductName}}         <span style="font-size:x-small; text-align: center; float: left; color: #22262e;">{{Product.price}}₪ /{{Product.TypeOfFillUp}} </span></h3>
       </div>
     </li>
   </ul>
-  <span id ="fixed" (click)="addItem()" class="fa-stack fa-lg">
-  <i class="fa fa-circle fa-stack-2x"></i>
-  <i class="fa fa-plus fa-stack-1x fa-inverse"></i>
-  </span>
+  <span class ="fixedButton" (click)="addItem()" >
+      <div class="fa-stack fa-lg" >
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-plus fa-stack-1x fa-inverse"></i>
+     </div>
+    </span>
   <!--
     <button md-fab>
       <i class="material-icons"  (click)="deleteEverything()">delete</i>

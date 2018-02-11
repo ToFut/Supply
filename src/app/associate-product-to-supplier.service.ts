@@ -13,7 +13,6 @@ export class AssociateProductToSupplierService implements OnInit {
   }
   getThisProductInsideThisSupplier(productsInCurrectSupplier , key) {
     this.Product = this.af.object(`/products/${key}`);
-    console.log('this is a firebase observable' + productsInCurrectSupplier + 'this is a key ' + this.Product);
     productsInCurrectSupplier.set(this.Product);
   }
 

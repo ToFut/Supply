@@ -281,10 +281,12 @@ body {
   height: inherit;
 }
 .button2 {
-  position:absolute;
+  position: absolute;
+  -webkit-transition: .5s ease;
   transition: .5s ease;
-  right: 82%;
+  margin-top: 1em;
+  float: right;
   font-size: x-large;
   height: inherit;
-
+  margin-right: 1em;
 }

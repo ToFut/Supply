@@ -21,14 +21,14 @@ const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA
   styleUrls: ['./dialog.component.css']
 })
 export class DialogComponent implements OnInit {
-  supplierKey:  string;
+  supplierKey: string;
   items: FirebaseListObservable<any[]>;
   item: FirebaseObjectObservable<any[]>;
   dateReciveSupplier: FirebaseListObservable<any[]>;
   dateOrderSupplier: FirebaseListObservable<any[]>;
   userId: string;
   public Supplier = new SupplierPersonal();
-  Options = [1 , 2 , 3];
+  Options = [1, 2, 3];
   selectedWay: number;
   dateSelected = [];
   frequencySelected = [];
@@ -45,8 +45,10 @@ export class DialogComponent implements OnInit {
   update = false;
   typeOption: any;
   getInWeekEnd = false;
-  constructor( fb: FormBuilder , public af: AngularFireDatabase , public afAuth: AngularFireAuth ,
-               route: ActivatedRoute , private router: Router) {
+  orderDaysList = [];
+
+  constructor(fb: FormBuilder, public af: AngularFireDatabase, public afAuth: AngularFireAuth,
+              route: ActivatedRoute, private router: Router) {
     this.selectedDays = [];
     this.getInWeekEnd = false;
     this.afAuth.authState.subscribe(user => {
@@ -55,15 +57,15 @@ export class DialogComponent implements OnInit {
       }
     });
     route.queryParams.subscribe(params => {
-    this.orderInThisDays = [];
+      this.orderInThisDays = [];
 
     });
-    this.selectedType = 'ללא קטגוריה';
+    this.selectedType = 'בחר קטגוריה';
     this.complexForm = fb.group({
-      'email' : [null, Validators.required, Validators.email],
-      'companyName' : [null, Validators.required],
-     'buyerName' : [null, Validators.required],
-     'buyerPhone' : [null, Validators.required],
+      'email': [null, Validators.required, Validators.email],
+      'companyName': [null, Validators.required],
+      'buyerName': [null, Validators.required],
+      'buyerPhone': [null, Validators.required],
     });
 
     route.queryParams.subscribe(params => {
@@ -72,31 +74,34 @@ export class DialogComponent implements OnInit {
       this.update = params['update'];
 
     });
-    this.Options = [1 , 2 , 3];
+    this.Options = [1, 2, 3];
     this.typeOption = [
-      {viewValue: 'ללא קטגוריה'},
+      {viewValue: 'בחר קטגוריה'},
       {viewValue: 'משקאות'},
-      { viewValue: 'מוצרי בשר'},
-      { viewValue: 'מוצרי חלב'},
-      { viewValue: 'חומרי גלם'},
-      { viewValue: 'קינוחים'},
-      { viewValue: 'מאפים'},
-      { viewValue: 'אריזות וחומרי ניקוי'},
-      { viewValue: 'כלים'},
-      { viewValue: 'מוצרים יבשים'},
+      {viewValue: 'מוצרי בשר'},
+      {viewValue: 'מוצרי חלב'},
+      {viewValue: 'חומרי גלם'},
+      {viewValue: 'קינוחים'},
+      {viewValue: 'מאפים'},
+      {viewValue: 'ירקות'},
+      {viewValue: 'משקאות חריפים'},
+      {viewValue: 'אריזות וחומרי ניקוי'},
+      {viewValue: 'כלים'},
+      {viewValue: 'מוצרים יבשים'},
 
 
     ];
 
     this.days = [];
-    this.days.push({itemName: 'א\'', orderIn: 0, value: false , itemNameOrder: '' , id: 0});
-    this.days.push({itemName: 'ב\'', orderIn: 0, value: false , itemNameOrder: '' , id: 1});
-    this.days.push({itemName: 'ג\'', orderIn: 0, value: false , itemNameOrder: '' , id: 2});
-    this.days.push({itemName: 'ד\'', orderIn: 0, value: false , itemNameOrder: '' , id: 3});
-    this.days.push({itemName: 'ה\'', orderIn: 0, value: false , itemNameOrder: '' , id: 4});
-    this.days.push({itemName: 'ו\'', orderIn: 0, value: false , itemNameOrder: '' , id: 5});
-    this.days.push({itemName: 'ש\'', orderIn: 0, value: false , itemNameOrder: '' , id: 6});
+    this.days.push({itemName: 'א\'', orderIn: 0, value: false, itemNameOrder: '', id: 0});
+    this.days.push({itemName: 'ב\'', orderIn: 0, value: false, itemNameOrder: '', id: 1});
+    this.days.push({itemName: 'ג\'', orderIn: 0, value: false, itemNameOrder: '', id: 2});
+    this.days.push({itemName: 'ד\'', orderIn: 0, value: false, itemNameOrder: '', id: 3});
+    this.days.push({itemName: 'ה\'', orderIn: 0, value: false, itemNameOrder: '', id: 4});
+    this.days.push({itemName: 'ו\'', orderIn: 0, value: false, itemNameOrder: '', id: 5});
+    this.days.push({itemName: 'ש\'', orderIn: 0, value: false, itemNameOrder: '', id: 6});
   }
+
   ngOnInit(): void {
     this.item = this.af.object(`users/${this.userId}/suppliers/${this.supplierKey}`);
     console.log('key is  ' + this.supplierKey);
@@ -105,36 +110,41 @@ export class DialogComponent implements OnInit {
     }, 1000);
     this.getInWeekEnd = false;
   }
+
   rebuild() {
     this.item.subscribe(data => {
       console.log(data['$value']);
       if (data['$value'] !== null) {
-          console.log('inside');
-          if (!isUndefined(data['getInWeekEnd'])) {
-            this.getInWeekEnd = data['getInWeekEnd'];
-          }
+        console.log('inside');
+        if (!isUndefined(data['getInWeekEnd'])) {
+          this.getInWeekEnd = data['getInWeekEnd'];
+        }
         if (!isUndefined(data['OrderDays'])) {
-          this.selectedWay = data['OrderDays'] ;
+          this.selectedWay = data['OrderDays'];
         }
         if (!isUndefined(data['type'])) {
           this.selectedType = data['type'];
         }
 
-          console.log( data['getInWeekEnd']);
-          data['date'].map( checkDay => {
-              console.log(data['type']);
-              console.log(this.selectedType);
-              this.checkDay(checkDay.itemName , checkDay.id);
-          });
+        console.log(data['getInWeekEnd']);
+        data['date'].map(checkDay => {
+          console.log(data['type']);
+          console.log(this.selectedType);
+          this.dateSelected.push(this.days[checkDay.id]);
+          this.days[checkDay.id].value = true;
+          document.getElementById(checkDay.itemName).style.backgroundColor = '#008624';
+        });
       }
     });
 
   }
+
   getErrorMessage(oneOf: FormControl) {
     return oneOf.hasError('required') ? 'צריך למלא שדה זה' :
       this.email.hasError('email') ? 'Not a valid email' :
         '';
   }
+
   associateProduct() {
     const navigationExtras: NavigationExtras = {
       queryParams: {
@@ -145,10 +155,9 @@ export class DialogComponent implements OnInit {
     };
     this.router.navigate(['correctSupplierProducts'], navigationExtras);
   }
+
   decribeCurentReciveDate() {
     this.dateSelected.forEach(ele => {
-      console.log(ele);
-      console.log(this.selectedWay);
       let sub = ele.id - this.selectedWay;
       console.log(sub);
       if (sub === -1 && this.getInWeekEnd) {
@@ -166,6 +175,7 @@ export class DialogComponent implements OnInit {
       } else if (sub === -3 && !this.getInWeekEnd) {
         sub = 4;
       }
+
       console.log(this.days[sub]);
       console.log(sub);
       this.days[sub].orderIn = ele.id;
@@ -177,8 +187,9 @@ export class DialogComponent implements OnInit {
       }
     });
   }
-  BuildSupplier (name: string , PhoneNumber: number , email: string , ContactName: string , ContactNum: number ,
-                 ContactEmail: string   ) {
+
+  BuildSupplier(name: string, PhoneNumber: number, email: string, ContactName: string, ContactNum: number,
+                ContactEmail: string) {
     this.decribeCurentReciveDate();
     console.log('not finish');
     this.Supplier.name = name;
@@ -194,8 +205,9 @@ export class DialogComponent implements OnInit {
     this.Supplier.type = this.selectedType;
     this.Supplier.orderInThisDays = this.orderInThisDays;
     console.log(this.selectedType);
-    this.updateItem(this.Supplier );
+    this.updateItem(this.Supplier);
   }
+
   calcDateOrder(day) {
     this.orderDay = day - this.selectedWay;
     switch (this.orderDay) {
@@ -219,7 +231,8 @@ export class DialogComponent implements OnInit {
         break;
     }
   }
-  updateItem(Supplier ) {
+
+  updateItem(Supplier) {
     /*this.selectedValues.map( element => {
       console.log(element);
       this.wayToOrder = this.af.list(`/users/${this.userId}/suppliers/${this.supplierKey}/wayToOrder/`);
@@ -231,19 +244,30 @@ export class DialogComponent implements OnInit {
         this.dateReciveSupplier = this.af.list(`/users/${this.userId}/reciveDateSuppliers/${[value.id]}`);
         this.dateOrderSupplier = this.af.list(`/users/${this.userId}/orderDateSuppliers/${[this.orderDay]}`);
         console.log('this is ' + this.orderDay);
-        this.dateOrderSupplier.update(this.supplierKey , {'orderIn' : this.orderDay });
-        this.dateReciveSupplier.update(this.supplierKey , {'reciveIn' : value.id });
+        this.dateOrderSupplier.update(this.supplierKey, {'orderIn': this.orderDay});
+        this.dateReciveSupplier.update(this.supplierKey, {'reciveIn': value.id});
       }
     });
-    console.log(this.Supplier);
+    this.dateSelected.forEach(value => {
+      this.calcDateOrder(value.id);
+      this.orderDaysList.push(this.orderDay);
+      console.log(this.orderDaysList);
+    });
+    this.days.forEach(day => {
+      if (this.orderDaysList.indexOf(day.id) === -1) {
+        this.af.list(`/users/${this.userId}/orderDateSuppliers/${[day.id]}`).remove(`/${this.supplierKey}`);
+      }
+    });
     this.item.update(Supplier);
     this.router.navigateByUrl('/supplier');
   }
+
   deleteItem() {
     this.item.remove();
     this.dateOrderSupplier.remove(this.supplierKey);
     this.dateReciveSupplier.remove(this.supplierKey);
   }
+
   updateProductPage(key) {
     const navigationExtras: NavigationExtras = {
       queryParams: {
@@ -253,21 +277,19 @@ export class DialogComponent implements OnInit {
     };
     this.router.navigate(['correctSupplierProducts'], navigationExtras);
   }
-  checkDay(day , index) {
+
+  checkDay(day, index) {
     console.log(day);
     console.log(index);
     this.days[index].value = !this.days[index].value;
-    if (this.days[index].value === true && !this.dateSelected.includes(day)) {
+    if (this.days[index].value === true && this.dateSelected.indexOf(day) === -1) {
       this.dateSelected.push(this.days[index]);
-      console.log(this.days[index]);
-      console.log(this.dateSelected);
+      // this.af.object(`/users/${this.userId}/orderDateSuppliers/${index}/${this.supplierKey}`).set( this.days[index].orderIn);
       document.getElementById(day).style.backgroundColor = '#008624';
     } else {
       const indexOf = this.dateSelected.indexOf(this.days[index]);
-      console.log(index);
-      console.log(this.days[index]);
       this.dateSelected.splice(indexOf, 1);
-      console.log(this.dateSelected);
+      //   this.af.list(`/users/${this.userId}/orderDateSuppliers/${index}`).remove(`/${this.supplierKey}`);
       document.getElementById(day).style.backgroundColor = '#FCF5F5';
     }
   }

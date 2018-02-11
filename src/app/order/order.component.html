@@ -1,5 +1,5 @@
 <div class="container"  style="direction: rtl; text-align: center;">
-  <br><span data-shadow-text="Text-Shadow" >הזמנות</span>  <i class="fa fa-shopping-cart w3-xxxlarge "style="color: #22262e;:"></i><br>
+  <br><span style="  color: #050348;" data-shadow-text="Text-Shadow" >הזמנות</span>  <i class="fa fa-shopping-cart w3-xlarge "style="color: #22262e;:"></i><br>
 
   <div>
     <div [ngSwitch]=day >
@@ -11,7 +11,7 @@
       <h1 *ngSwitchCase=5>     שישי  </h1>
       <h1 *ngSwitchCase=6>    שבת  </h1>
     </div>
-      <div class="tab" >
+      <div  class="tab" >
         <span [hidden]="!noneSupplierOrder">כל הסחורה הוזמנה </span>
         <div  [hidden]="noneSupplierOrder">
           <input id="tab-one" type="checkbox" name="tabs" [(ngModel)]="show"/>
@@ -20,7 +20,7 @@
             <div  class="scrolling" *ngFor="let supplier of showNONAccepted " >
               <div   ><button id ="{{supplier.$ref.$key}}" (click)="orderFromMe(supplier)" class="button"
                        [class.success]=" time <= 9"
-                       [class.danger]="time > 12 " [ngClass]="{'warning': getWarning(supplier)}"><h5 style="font-size: small;color: #0E1013;">{{ (supplier | async)?.name }}</h5> </button></div>
+                       [class.danger]="time > 9 && time <= 23 " [ngClass]="{'warning': getWarning(supplier)}"><h5 style="font-size: small;color: #0E1013;">{{ (supplier | async)?.name }}</h5> </button></div>
               {{supplier.$ref.$key}}
             </div>
           </div>
@@ -29,10 +29,10 @@
         <input id="tab-two" type="checkbox" name="tabs">
         <label for="tab-two">  הזמנה סחורה שהושלמה  </label>
         <div  class="tab-content">
-          <h1 [hidden]="!allSupplierOrder"> לא הזמנת סחורה היום </h1>
+          <h1 [hidden]="!allSupplierOrder"> עוד לא השלמת הזמנות להיום.. </h1>
           <div [hidden]="allSupplierOrder" class="scrolling" *ngFor="let supplier of showAccepted " >
             <button  class = "button success"(click)="orderFromMe(supplier)">
-              <h5 style="font-size: small;color: #0E1013;">{{ (supplier | async)?.name }}</h5> </button>
+              <h5 style="font-size: small;color: #26D367;">{{ (supplier | async)?.name }}</h5> </button>
           </div>
         </div>
       </div>

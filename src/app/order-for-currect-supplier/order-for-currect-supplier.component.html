@@ -1,67 +1,92 @@
 <html lang="he" style="direction: rtl ">
-<div class="container"  style="direction: rtl;">
+<div class="container" style="direction: rtl;">
   <br><br>
-    <table class="w3-table-all">
+  <table class="w3-table-all">
 
-<div  class="table-responsive" style="text-align: right;" >
-  <h2 style="text-align: right; font-weight: bold; color: #22262e;     padding: 0px 20px 0px 0px;"> הזמנה והחזרת סחורה </h2>
+    <div class="table-responsive" style="text-align: right;">
+      <h2 style="text-align: right; font-weight: bold; color: #22262e;font-size: xx-large;  padding: 0px 20px 0px 0px;"> הזמנה והחזרת
+        סחורה </h2>
 
-<h3 style="     float:left; display:inline-block; padding: 0px 0px 0px 20px; color: #26D367;">     {{fullDate}}     </h3>  <h1 style="color: #26d367;  display:inline-block;margin-right:10px;   font-weight: bold;    padding: 0px 2px 0px 0px;"> {{(supplierProperty |async)?.name }}</h1>
-</div>
+      <h3 style="     float:left; display:inline-block; padding: 0px 0px 0px 20px; color: #26D367;"> {{fullDate}} </h3>
+      <h1
+        style="color: #26d367;  display:inline-block;margin-right:10px;   font-weight: bold;    padding: 0px 2px 0px 0px;">
+        {{(supplierProperty |async)?.name }}</h1>
+    </div>
   </table>
-  <table class="w3-table-all" >
-      <thead>
-      <tr style="      font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa">
-        <th style="float: right">שם המוצר </th>
-        <th> כמות להשלמה </th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody [hidden]="Product.MinInInventory.toString() === ''" *ngFor="let Product of (Products )">
-        <tr id=table[{{Product.$key}}] >
-         <td style="color: #5e5e5e;font-weight: bold; font-size:large; float: right;  font-family: Comic Sans MS, cursive, sans-serif;">{{Product.ProductName }}  </td>
-            <td  style="color: #26D367;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;"> {{Product.MinInInventory[day]}}  {{Product.TypeOfFillUp}}  / </td>
-          <td>
-            <input placeholder="כמות להשלמה" style="width: 100px;color: #16b720;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;" #box type="number"
-                  (keyup.enter)="update(box.value , Product.$key , Product.MinInInventory ,
-                                                     Product.ProductName , Product.model ,Product.price , Product.UnitInPackaging)"
-                  (blur)="update(box.value , Product.$key , Product.MinInInventory ,
-                                                     Product.ProductName , Product.TypeOfFillUp ,Product.price , Product.UnitInPackaging )
-                      " value="{{orderForTodayFromSpesificProduct[Product.$key]}}" maxlength="2" size="2" >
-          </td>
-        </tr>
-      </tbody>
-
-    </table>
-  <table class="w3-table-all" [hidden]="!ifTodayIsReturnDay">
+  <table class="w3-table-all">
     <thead>
-    <tr style="      font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa">
-      <th style="text-align: right;">שם המוצר </th>
-      <th style="text-align: right;">סיבת ההחזרה </th>
-      <th style="text-align: right;"> כמות להחזרה </th>
+    <h3>מוצרים להזמנה</h3>
+
+    <tr
+      style="      font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa">
+      <th style="float: right">שם המוצר</th>
+      <th> כמות להשלמה</th>
       <th></th>
     </tr>
     </thead>
-    <tbody  *ngFor="let product of (returnProducts | async)">
-    <tr id={{product.$key}} >
-      <td style="color: #5e5e5e;text-align: right;font-weight: bold; font-size:large; float: right;  font-family: Comic Sans MS, cursive, sans-serif;">{{product.productName }}  </td>
-      <td style="color: #26D367;text-align: right;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;"> {{product.reason}}   </td>
-      <td style="color: #5e5e5e;text-align: right;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;">
+    <tbody [hidden]="Product.MinInInventory.toString() === ''" *ngFor="let Product of (Products )">
+    <tr id=table[{{Product.$key}}]>
+      <td
+        style="color: #5e5e5e;font-weight: bold; font-size:large; float: right;  font-family: Comic Sans MS, cursive, sans-serif;">
+        {{Product.ProductName }}
+      </td>
+      <td style="color: #26D367;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;">
+        {{Product.MinInInventory[day]}} {{Product.TypeOfFillUp}} /
+      </td>
+      <td>
+        <input placeholder="כמות להשלמה"
+               style="border-radius: 10px;width: 100px;color: #16b720;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;"
+               #box type="number"
+               (keyup.enter)="update(box.value , Product.$key , Product.MinInInventory ,
+                                                     Product.ProductName , Product.model ,Product.price , Product.UnitInPackaging);comppare(Product.MinInInventory[day] , box.value)"
+               (blur)="update(box.value , Product.$key , Product.MinInInventory ,
+                                                     Product.ProductName , Product.TypeOfFillUp ,Product.price , Product.UnitInPackaging ); comppare(Product.MinInInventory[day] , box.value)
+                      " value="{{orderForTodayFromSpesificProduct[Product.$key]}}" maxlength="2" size="2">
+      </td>
+    </tr>
+    </tbody>
+
+  </table>
+  <table class="w3-table-all" [hidden]="!ifTodayIsReturnDay">
+    <thead>
+    <h3>מוצרים להחזרה</h3>
+
+    <tr
+      style="      font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa">
+      <th style="text-align: right;">שם המוצר</th>
+      <th style="text-align: right;">סיבת ההחזרה</th>
+      <th style="text-align: right;"> כמות להחזרה</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let product of (returnProducts | async)">
+    <tr id={{product.$key}}>
+      <td
+        style="color: #5e5e5e;text-align: right;font-weight: bold; font-size:large; float: right;  font-family: Comic Sans MS, cursive, sans-serif;">
+        {{product.productName }}
+      </td>
+      <td
+        style="color: #26D367;text-align: right;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;">
+        {{product.reason}}
+      </td>
+      <td
+        style="color: #5e5e5e;text-align: right;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;">
         {{product.amount}} {{product.TypeOfFillUp}}
       </td>
     </tr>
 
     </tbody>
-
   </table>
-
-
 </div>
-<div class="menu-button"> שלח לספק<i class="zmdi zmdi-share"></i>
-  <a   (click)="buildMessageWhatsApp()"  class="fa fa-whatsapp fa-4x" style="color: #26D367"></a>
-  <a (click)="buildMessageEmail()"  class="fa fa-envelope-o fa-4x" style="color: #3A4A7B"></a>
-  <a (click)="buildMessageEmail()"  class="fa fa-comment fa-4x" style="color: #3498db"></a>
+<div id="menu-button"> שלח לספק<i class="zmdi zmdi-share"></i>
+  <a (click)="buildMessageWhatsApp()" class="fa fa-whatsapp fa-4x" style="color: #26D367"></a>
+  <a (click)="buildMessageEmail()" class="fa fa-envelope-o fa-4x" style="color: #3A4A7B"></a>
+  <a (click)="buildMessageEmail()" class="fa fa-comment fa-4x" style="color: #3498db"></a>
 </div>
-
 </html>
 
+  <sui-dimmer class="page" [(isDimmed)]="pageDimmed">
+    <h2 >
+      <i class="fa fa-exclamation-triangle fa-5x"></i><h2 style="font-size: 2em;">שים לב!</h2> כמות ההזמנה גדולה מהמצבה להשלמה
+    </h2>
+  </sui-dimmer>

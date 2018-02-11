@@ -9,8 +9,9 @@ import {ShowAllSupplierComponent} from '../show-all-supplier/show-all-supplier.c
 import {Subject} from 'rxjs/Subject';
 import {SupplierService} from '../supplier.service';
 import 'rxjs/add/operator/take';
-import {NavigationExtras, Router} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {DeleteSupplierComponent} from '../delete-supplier/delete-supplier.component';
+import {isUndefined} from "util";
 
 
 @Component({
@@ -22,6 +23,7 @@ export class SupplierComponent implements OnInit {
   public result: any;
   user: Observable<firebase.User>;
   userId: string;
+  domainUserId: string;
    public items: FirebaseListObservable<any[]>;
   public itemToDel: FirebaseListObservable<any[]>;
   datePathFirebase: FirebaseListObservable<any[]>;
@@ -36,11 +38,20 @@ export class SupplierComponent implements OnInit {
 
 
   constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase ,
-              private SupplierService: SupplierService ,  private router: Router ) {
+              private SupplierService: SupplierService , route: ActivatedRoute , private router: Router ) {
+    route.queryParams.subscribe(params => {
+      this.domainUserId = params['domainUserId'];
+    });
+
     this.afAuth.authState.subscribe(user => {
-      if (user) {this.userId = user.uid;
-        this.items = this.af.list(`users/${this.userId}/suppliers`);
+      if (user) {
+        this.userId = user.uid;
       }
+      if (!isUndefined(this.domainUserId)) {
+        this.userId = this.domainUserId;
+      }
+      this.items = this.af.list(`users/${this.userId}/suppliers`);
+
     });
 
 

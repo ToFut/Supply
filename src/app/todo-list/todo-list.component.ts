@@ -1,5 +1,5 @@
-import { Component, OnInit , OnChanges} from '@angular/core';
-import {FormGroup, FormBuilder, FormControl, Validators, NgForm } from '@angular/forms';
+import {Component, OnInit, OnChanges} from '@angular/core';
+import {FormGroup, FormBuilder, FormControl, Validators, NgForm} from '@angular/forms';
 import {
   AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable,
   onChildRemoved
@@ -34,11 +34,25 @@ export class TodoListComponent implements OnInit {
   supplierFounded: FirebaseListObservable<any[]>;
   reciveInfo: FirebaseListObservable<any[]>;
   ifFinisheSupplier: FirebaseListObservable<any[]>;
-  howManyReceive= [];
+  howManyReceive = [];
   returnHistory: FirebaseListObservable<any[]>;
   domainUserId: string;
   acceptedForKey = [];
   accepted: number;
+  selectedTypeFillRecive: string;
+  types = [
+    {value: 'ליטר'},
+    {value: 'קג'},
+    {value: 'גר'},
+    {value: 'מל'},
+    {value: 'יחידה'},
+    {value: 'ארגז'},
+    {value: 'יחידות'},
+    {value: 'קרטון'},
+    {value: 'שקיות'},
+
+
+  ];
 
   ngOnInit(): void {
     if (this.month === 12) {
@@ -52,92 +66,111 @@ export class TodoListComponent implements OnInit {
     this.currentSupplierProducts = this.af.list(`/users/${this.userId}/suppliers/${this.supplierKey}/SupplierProducts/`);
     this.supplier = this.af.object(`/users/${this.userId}/suppliers/${this.supplierKey}`);
     this.supplierProfile = this.af.list(`/users/${this.userId}/suppliers/${this.supplierKey}`);
-    console.log(this.currentSupplierProducts);
-    this.currentSupplierProducts.subscribe(list => this.count = list.length );
+    this.currentSupplierProducts.subscribe(list => this.count = list.length);
+    this.returnHistory = this.af.list(`users/${this.userId}/returnHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`);
+
     setTimeout(() => {
       this.checkDate();
 
     }, 1000);
 
-    this.returnHistory = this.af.list(`users/${this.userId}/returnHistory/${this.year}/${this.month}/${this.dayInMonth}`);
 
-
-    console.log(this.count);
+    console.log(this.returnHistory);
   }
+
   OnChanges() {
     this.currentSupplierProducts = this.af.list(`/users/${this.userId}/suppliers/${this.supplierKey}/SupplierProducts/`);
 
 
   }
-  constructor( public af: AngularFireDatabase, public afAuth: AngularFireAuth ,
-              route: ActivatedRoute , private router: Router ) {
+
+  constructor(public af: AngularFireDatabase, public afAuth: AngularFireAuth,
+              route: ActivatedRoute, private router: Router) {
     console.log(this.month);
 
     route.queryParams.subscribe(params => {
       this.supplierKey = params['supplierKey'];
       this.supplierFounded = params['supplierFounded'];
-      this.domainUserId = params['domainUserId'];
+      this.domainUserId = params['userId'];
       this.afAuth.authState.subscribe(user => {
         if (user) {
           this.userId = user.uid;
         }
+        if (!isUndefined(this.domainUserId)) {
+          this.userId = this.domainUserId;
+        }
       });
-      if ( !isUndefined(this.domainUserId) ) {
-        this.userId = this.domainUserId;
-      }
     });
-    console.log(this.userId);
     this.currentSupplierProducts = this.af.list(`/users/${this.userId}/suppliers/${this.supplierKey}/SupplierProducts/`);
   }
-    updateRecive() {
-      this.currentReciveInformation = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}`);
-      this.ifFinisheSupplier = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/status`);
-      console.log(this.ifFinisheSupplier);
-      console.log(this.checkIfAllSelected( ' ' , '' , ''));
+  updateRecive() {
+    this.currentReciveInformation = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}`);
+    this.ifFinisheSupplier = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/status`);
+    console.log(this.ifFinisheSupplier);
+    console.log(this.checkIfAllSelected(' ', '', ''));
+    this.af.list(`users/${this.userId}/returnList/${this.supplierKey}`).subscribe(value => {
+      value.forEach(element => {
+        console.log(element);
+        //   if(element.status === 'sent') {
+        //  this.af.list(`users/${this.userId}/returnList/${this.supplierKey}/${element`).
+      });
+    });
 
-      if (this.checkIfAllSelected(' ' , '' , '')) {
-        this.ifFinisheSupplier.update(`${this.supplierKey}` , this.selectedAll);
-        this.reciveInfo.subscribe( value => {
-          console.log(value);
-          value.forEach( ele => {
-            console.log(ele.amount);
-            console.log(ele.$key);
-            this.reciveInfo.update(`${ele.$key}/accepted`,  ele.amount);
-          });
+    if (this.checkIfAllSelected(' ', '', '')) {
+      this.af.object(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/status/${this.supplierKey}`)
+        .set(this.selectedAll);
+      this.reciveInfo.subscribe(value => {
+        console.log(value);
+        value.forEach(ele => {
+          console.log(ele);
+          this.reciveInfo.update(`${ele.$key}/accepted`, ele.amount);
         });
+      });
 
 
-      } else {
-        this.ifFinisheSupplier.update(`${this.supplierKey}` , this.selectedAll);
-      }
+    } else {
+      this.ifFinisheSupplier.update(`/${this.supplierKey}`, this.selectedAll);
     }
-updateIfFinishe( ) {
+  }
+
+  updateTypeOfFill(type, key) {
+    if (!isUndefined(type)) {
+      this.af.object(
+        `users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}/${key}/TypeOfFillUp`)
+        .set(type);
+    }
+  }
+
+  updateIfFinishe() {
   }
 
   checkAll(sourceCheckbox) {
-    for (let i = 0 ; i < this.count ; i++) {
+    for (let i = 0; i < this.count; i++) {
       this.radioButton[i] = this.selectedAll;
       console.log(this.radioButton[i]);
     }
   }
-  checkAccepterCurrentKey(amount , accepted , key) {
-    if ( accepted) {
+
+  checkAccepterCurrentKey(amount, accepted, key) {
+    if (accepted ) {
       this.af.object(
-        `users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}/${key}`)
-        .update({accepted: amount});
+        `users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}/${key}/accepted`)
+        .set(amount);
     }
   }
-  checkIfAllSelected(amount , accepted , key) {
-    this.checkAccepterCurrentKey(amount , accepted , key);
+
+  checkIfAllSelected(amount, accepted, key) {
+    this.checkAccepterCurrentKey(amount, accepted, key);
     let check = true;
-      this.radioButton.map( element => {
-       check = check && element;
-        console.log(element);
+    this.radioButton.map(element => {
+      check = check && element;
+      console.log(element);
     });
     console.log(check);
     this.selectedAll = check;
     return check;
   }
+
   Dropdown() {
     const x = document.getElementById('Demo');
     if (x.className.indexOf('w3-show') === -1) {
@@ -146,17 +179,18 @@ updateIfFinishe( ) {
       x.className = x.className.replace(' w3-show', '');
     }
   }
+
   checkDate() {
     let orderingBefore;
     let subDate;
-    let sameDay = this.dayInMonth ;
-    let sameMonth = this.month ;
+    let sameDay = this.dayInMonth;
+    let sameMonth = this.month;
     console.log('checkDate');
-    this.supplier.$ref.orderByKey().equalTo('OrderDays').on( 'child_added' ,  element => {
+    this.supplier.$ref.orderByKey().equalTo('OrderDays').on('child_added', element => {
       console.log(element.val());
       orderingBefore = element.val();
     });
-    if (sameDay - orderingBefore <= 0 ) {
+    if (sameDay - orderingBefore <= 0) {
       sameMonth -= orderingBefore;
       subDate = this.dayInMonth - orderingBefore;
       sameDay = new Date(this.year, sameMonth + 1, subDate).getDay();
@@ -165,35 +199,38 @@ updateIfFinishe( ) {
     }
     this.reciveInfo = this.af.list(
       `users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`);
-    this.reciveInfo.subscribe( snapshot => {
+    this.reciveInfo.subscribe(snapshot => {
       console.log('There are ' + snapshot.length + ' products');
       this.count = snapshot.length;
       console.log(snapshot);
-      snapshot.forEach( unit => {
+      snapshot.forEach(unit => {
         console.log(unit);
         this.howManyReceive[unit.$key] = unit['accepted'];
       });
-      console.log(this.acceptedForKey);
-      for (let i = 0 ; i < this.count ; i++) {
+      for (let i = 0; i < this.count; i++) {
         this.radioButton[i] = false;
-        console.log(this.radioButton[i]);
       }
     });
   }
+
   setPartialRecive(key) {
-    const demok =  key;
-    console.log(key);
-    this.reciveInfo.subscribe( value => {
+    const demok = key;
+    this.reciveInfo.subscribe(value => {
       this.accepted = this.howManyReceive[key];
-      console.log(key);
-      console.log(this.howManyReceive[key]);
-      console.log(this.accepted);
-      value.forEach( ele => {
+      value.forEach(ele => {
         if (ele.$key === key) {
-           this.reciveInfo.update(`${key}` , {accepted: this.accepted});
+          this.af.object(
+            `users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}/${key}/accepted`)
+            .set(this.accepted);
         }
       });
     });
+  }
+
+  checkDone(index, amount, accept) {
+    if (accept >= amount) {
+      this.radioButton[index] = true;
+    }
   }
 
 }
