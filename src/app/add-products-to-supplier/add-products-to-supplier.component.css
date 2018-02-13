@@ -92,3 +92,6 @@ ul.c-controls li a:hover {
   top: 110px;
   right: 20px;
 }
+.mat-select{
+  font-size: large;
+}

@@ -12,6 +12,7 @@ import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {ProductsService} from '../products.service';
 import {Subject} from 'rxjs/Subject';
 import {DeleteProductComponent} from '../delete-product/delete-product.component';
+import {isUndefined} from "util";
 
 @Component({
   selector: 'app-show-all-products',
@@ -53,6 +54,14 @@ export class ShowAllProductsComponent implements OnInit {
   updateStatus: boolean;
   undifineCheck: boolean;
   saleProduct: number;
+  sumPrice = 0;
+  selectedUnitOfMeasure: string;
+  selectedsecondTypeOfFillUp: string;
+  selectedTypeOfFillUp: string;
+  openselectedUnitOfMeasure = true;
+  openselectedsecondTypeOfFillUp = true;
+  openselectedTypeOfFillUp = true;
+
   sales = [
     {value: 100, viewValue: '1+1'},
     {value: 90, viewValue: 'השני ב90%'},
@@ -68,6 +77,14 @@ export class ShowAllProductsComponent implements OnInit {
 
 
   ];
+  secondFillUp = [
+    {value: 'פאוץ', viewValue: 'פאוץ'},
+    {value: 'שרוול', viewValue: 'שרוול'},
+    {value: 'שקיות', viewValue: 'שקיות'},
+    {value: 'יחידות', viewValue: 'יחידות'}
+
+  ];
+
   options = [
     {value: 'ארגז', viewValue: 'ארגז'},
     {value: 'קרטון', viewValue: 'קרטון'},
@@ -87,13 +104,17 @@ export class ShowAllProductsComponent implements OnInit {
   orderDays = 0;
   UnitOfMeasure: string;
   TypeOfFillUp: string;
+  secondTypeOfFillUp: string;
   color = '#26D367';
   depositCchecked = false;
   disabled = false;
   orderType = [];
   orderBefore = 0;
+  Completeall = true;
   isLinear = false;
-
+  pricePerUnit = 1;
+  UnitInPackaging = 1;
+  secondUnitInPackaging = 1;
 
   constructor(public af: AngularFireDatabase, public afAuth: AngularFireAuth,
               public route: ActivatedRoute, private _formBuilder: FormBuilder, private router: Router,
@@ -119,6 +140,7 @@ export class ShowAllProductsComponent implements OnInit {
   ngOnInit(): void {
     this.itemProduct = this.af.list(`/products`);
     this.TypeOfFillUp = '';
+    this.secondTypeOfFillUp = '';
     this.depositCchecked = false;
     this.saleProduct = 0;
     this.UnitOfMeasure = '';
@@ -146,6 +168,13 @@ export class ShowAllProductsComponent implements OnInit {
         } else {
           this.TypeOfFillUp = '';
         }
+        if ((data['secondTypeOfFillUp'])) {
+          console.log('secondTypeOfFillUp');
+          this.secondTypeOfFillUp = data['secondTypeOfFillUp'];
+        } else {
+          this.secondTypeOfFillUp = '';
+        }
+
         if ((data['deposit'])) {
           console.log('deposit');
 
@@ -167,18 +196,44 @@ export class ShowAllProductsComponent implements OnInit {
         } else {
           this.saleProduct = 0;
         }
+        if ((data['pricePerUnit'])) {
+
+          this.pricePerUnit = data['pricePerUnit'];
+          console.log(this.pricePerUnit);
+
+        } else {
+          this.pricePerUnit = 1;
+        }
+        if ((data['UnitInPackaging'])) {
+
+          this.UnitInPackaging = data['UnitInPackaging'];
+
+        } else {
+          this.UnitInPackaging = 1;
+        }
+        if ((data['secondUnitInPackaging'])) {
+
+          this.secondUnitInPackaging = data['secondUnitInPackaging'];
+          console.log(this.secondUnitInPackaging);
+
+        } else {
+          this.secondUnitInPackaging = 1;
+        }
+        this.sumPrice = 0;
+        if (this.secondUnitInPackaging !== 0) {
+          this.sumPrice = this.pricePerUnit * this.UnitInPackaging * this.secondUnitInPackaging;
+        } else {
+          this.sumPrice = this.pricePerUnit * this.UnitInPackaging;
+        }
         this.updateStatus = true;
         this.undifineCheck = true;
       }
     });
     this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/orderInThisDays`).subscribe(val => {
-      console.log(val);
       val.forEach(day => {
-        console.log(day['orderIn']);
 
         this.af.object
         (`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory`).subscribe(ids => {
-          console.log(ids);
           this.days[day['id']] = ids[day['id']];
           this.orderInThatdays[day['id']] = ids[day['id']];
           /*
@@ -192,7 +247,6 @@ export class ShowAllProductsComponent implements OnInit {
         });
       });
 
-      console.log(val);
       this.dateCurrectSupplirer = val;
     });
 
@@ -205,25 +259,51 @@ export class ShowAllProductsComponent implements OnInit {
 
   }
 
+  changeUnitOfMeasure(value) {
+    this.unitOFMeasurementOption.push({value: value, viewValue: value});
+    this.UnitOfMeasure = value;
+  }
+
+  changesecondTypeOfFillUp(value) {
+    this.secondFillUp.push({value: value, viewValue: value});
+    this.secondTypeOfFillUp = value;
+  }
+
+  changeTypeOfFillUp(value) {
+    this.options.push({value: value, viewValue: value});
+    this.TypeOfFillUp = value;
+  }
+
+  funcopenselectedTypeOfFillUp() {
+    this.openselectedTypeOfFillUp = !this.openselectedTypeOfFillUp;
+  }
+
+  funcopenselectedsecondTypeOfFillUp() {
+    this.openselectedsecondTypeOfFillUp = !this.openselectedsecondTypeOfFillUp;
+  }
+
+  funcopenselectedUnitOfMeasure() {
+    this.openselectedUnitOfMeasure = !this.openselectedUnitOfMeasure;
+  }
+
   BuildProductForAllDB(discount, price, UnitInPackaging,
                        sizeUnitPackaging, ProductName, depositPrice) {
 
     this.Product.discount = discount;
-    this.Product.price = price;
+    this.Product.price = this.sumPrice;
     this.Product.UnitInPackaging = UnitInPackaging;
     this.Product.sizeUnitPackaging = sizeUnitPackaging;
     this.Product.ProductName = ProductName;
-    console.log(this.depositCchecked);
     this.Product.deposit = this.depositCchecked;
     this.Product.MinInInventory = this.orderInThatdays;
-    console.log(this.Product.MinInInventory);
+    this.Product.secondTypeOfFillUp = this.secondTypeOfFillUp;
     this.Product.TypeOfFillUp = this.TypeOfFillUp;
     this.Product.UnitOfMeasure = this.UnitOfMeasure;
     this.Product.sale = this.saleProduct;
     this.Product.depositPrice = depositPrice;
     console.log('key is ' + this.selectProductKey + ' supplier key ' + this.SupplierKey + ' MinInInventory :');
     this.updateItem(this.Product);
-    this.back();
+    // this.back();
   }
 
   updatePublicDB() {
@@ -244,13 +324,8 @@ export class ShowAllProductsComponent implements OnInit {
   }
 
   modifyDays(index, orderIndex, value) {
-    console.log(value);
-    console.log(index);
-    console.log(orderIndex);
     this.orderInThatdays[index] = value;
     this.days[index] = value;
-    console.log(this.days);
-    console.log(this.orderInThatdays[orderIndex]);
   }
 
   updateItem(Product) {
@@ -262,17 +337,23 @@ export class ShowAllProductsComponent implements OnInit {
         this.updatePublicDB();
       }
     }
-      if (!this.updateStatus && !this.undifineCheck) {
-        let up = true;
+    if (!this.updateStatus && !this.undifineCheck) {
+      let up = true;
 
-        console.log(this.undifineCheck);
+      console.log(this.undifineCheck);
       console.log(this.updateStatus);
       console.log(this.selectProductKey);
       try {
-      this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`).push(Product);
+        this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`).push(Product);
+        this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${Product}`).subscribe(newProduct => {
+          console.log(newProduct);
+        });
 
       } catch (err) {
-        alert('לא מילאת את כל השדות');
+        if (this.days.indexOf(undefined) !== -1) {
+          alert('לא מילאת מצבה להשלמה');
+          this.Completeall = false;
+        }
         return;
       } finally {
         this.associateProduct();
@@ -283,10 +364,16 @@ export class ShowAllProductsComponent implements OnInit {
       console.log(this.updateStatus);
       console.log(this.selectProductKey);
       try {
-      this.items.update(this.selectProductKey, Product);
+        this.items.update(this.selectProductKey, Product);
+        this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${Product}`).subscribe(newProduct => {
+          console.log(newProduct);
+        });
 
       } catch (err) {
-        alert('לא מילאת את כל השדות');
+        if (this.days.indexOf(undefined) !== -1) {
+          alert('לא מילאת מצבה להשלמה');
+          this.Completeall = false;
+        }
         return;
       } finally {
         this.associateProduct();
@@ -311,7 +398,7 @@ export class ShowAllProductsComponent implements OnInit {
     console.log(UnitInPackaging);
 
     this.Product.UnitInPackaging = UnitInPackaging;
-
+    this.calcPrice();
   }
 
   onKeyDepositPrice(depositPrice: number) {
@@ -324,7 +411,8 @@ export class ShowAllProductsComponent implements OnInit {
   onKeyPrice(Price: number) {
     console.log(Price);
 
-    this.Product.price = Price;
+    this.Product.pricePerUnit = Price;
+    this.calcPrice();
 
   }
 
@@ -347,6 +435,35 @@ export class ShowAllProductsComponent implements OnInit {
 
   }
 
+  onKeySecondSizeUnitPackaging(secondUnitInPackaging: number) {
+    console.log(secondUnitInPackaging);
+
+    this.Product.secondUnitInPackaging = secondUnitInPackaging;
+    this.calcPrice();
+
+  }
+
+  calcPrice() {
+    this.sumPrice = 0;
+    if (!isUndefined(this.Product.pricePerUnit) && !isUndefined(this.Product.UnitInPackaging) && !isUndefined(this.Product.secondUnitInPackaging)) {
+      this.sumPrice = this.Product.pricePerUnit * this.Product.UnitInPackaging * this.Product.secondUnitInPackaging;
+    } else if (isUndefined(this.Product.pricePerUnit) && isUndefined(this.Product.UnitInPackaging) && !isUndefined(this.Product.secondUnitInPackaging)) {
+      this.sumPrice = this.pricePerUnit * this.UnitInPackaging * this.Product.secondUnitInPackaging;
+    } else if (isUndefined(this.Product.pricePerUnit) && !isUndefined(this.Product.UnitInPackaging) && isUndefined(this.Product.secondUnitInPackaging)) {
+      this.sumPrice = this.pricePerUnit * this.Product.UnitInPackaging * this.secondUnitInPackaging;
+    } else if (!isUndefined(this.Product.pricePerUnit) && isUndefined(this.Product.UnitInPackaging) && isUndefined(this.Product.secondUnitInPackaging)) {
+      this.sumPrice = this.Product.pricePerUnit * this.UnitInPackaging * this.secondUnitInPackaging;
+    } else if (isUndefined(this.Product.pricePerUnit) && !isUndefined(this.Product.UnitInPackaging) && !isUndefined(this.Product.secondUnitInPackaging)) {
+      this.sumPrice = this.pricePerUnit * this.Product.UnitInPackaging * this.Product.secondUnitInPackaging;
+    } else if (!isUndefined(this.Product.pricePerUnit) && !isUndefined(this.Product.UnitInPackaging) && isUndefined(this.Product.secondUnitInPackaging)) {
+      this.sumPrice = this.Product.pricePerUnit * this.Product.UnitInPackaging * this.secondUnitInPackaging;
+    } else if (!isUndefined(this.Product.pricePerUnit) && isUndefined(this.Product.UnitInPackaging) && !isUndefined(this.Product.secondUnitInPackaging)) {
+      this.sumPrice = this.Product.pricePerUnit * this.UnitInPackaging * this.Product.secondUnitInPackaging;
+    } else {
+      this.sumPrice = this.pricePerUnit * this.UnitInPackaging * this.secondUnitInPackaging;
+    }
+  }
+
   dateChange(Inventory: number, day: number, key: string) {
     this.dateProduct = this.af.list(`users/${this.userId}/suppliers/
     ${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory`);
@@ -363,13 +480,15 @@ export class ShowAllProductsComponent implements OnInit {
   }
 
   associateProduct() {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        'userId': this.userId,
-        'SupplierKey': this.SupplierKey,
-      }
-    };
-    this.router.navigate(['correctSupplierProducts'], navigationExtras);
+    if (this.Completeall) {
+      const navigationExtras: NavigationExtras = {
+        queryParams: {
+          'userId': this.userId,
+          'SupplierKey': this.SupplierKey,
+        }
+      };
+      this.router.navigate(['correctSupplierProducts'], navigationExtras);
+    }
   }
 
   back() {

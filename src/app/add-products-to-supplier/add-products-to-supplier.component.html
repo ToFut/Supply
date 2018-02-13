@@ -6,9 +6,12 @@
 
   <ul id="myUL">
     <li *ngFor="let Product of productsInCurrectSupplier | async " >
-      <div id="list" (click)="openDialogShowProducts(Product.$key)" style="background-color: #e9ffed;border-radius: 12px" >
-        <h3 style=" color: #22262e;     padding: 0px 20px 0px 0px;">{{Product.ProductName}}         <span style="font-size:x-small; text-align: center; float: left; color: #22262e;">{{Product.price}}₪ /{{Product.TypeOfFillUp}} </span></h3>
-      </div>
+      <div id="list" suiPopup popupText="{{Product.pricePerUnit}}₪ ל{{Product.UnitOfMeasure}} , {{Product.secondUnitInPackaging}} {{Product.secondTypeOfFillUp}}
+         ,  {{Product.UnitInPackaging}} {{Product.TypeOfFillUp}} - סהכ: {{Product.price}}₪" popupInverted
+           [popupPlacement]="position"(click)="openDialogShowProducts(Product.$key)" style="background-color: #e9ffed;border-radius: 12px" >
+        <h3 style=" color: #22262e;     padding: 0px 20px 0px 0px;">{{Product.ProductName}}         </h3>
+<!-- <span style="font-size:x-small; text-align: center; float: left; color: #22262e;">{{Product.price}}₪ /{{Product.TypeOfFillUp}} </span> -->
+        </div>
     </li>
   </ul>
   <span class ="fixedButton" (click)="addItem()" >

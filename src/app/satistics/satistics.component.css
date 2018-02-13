@@ -46,7 +46,7 @@ input {
   border-bottom: 1px solid;
   width: 20em;
   text-align: center;
-
+  font-size: x-small;
 }
 .button {
   background-color: #26d367; /* Green */

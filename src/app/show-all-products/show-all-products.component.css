@@ -293,3 +293,9 @@ md-slide-toggle{
 span , input{
   font-size: medium;
 }
+.mat-select{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: x-small;
+}

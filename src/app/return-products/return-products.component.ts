@@ -159,6 +159,10 @@ export class ReturnProductsComponent implements OnInit {
 
     });
   }
+  changeType(value) {
+    this.types.push({value: value});
+    this.selectedType = value;
+  }
 
   cahngeInput() {
     this.open = !this.open;

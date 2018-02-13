@@ -17,7 +17,7 @@
       <label [hidden]="subUser " routerLink="/setting"> <i class="fa fa-cog fa-2x  " ></i>   <h5>הגדרות</h5> </label>
       <label [hidden]="subUser " routerLink="/satistics"> <i class="fa fa-pie-chart fa-2x " ></i>  <h5>סטיסטיקות</h5> </label>
       <label [hidden]="subUser" (click)="shareApp()"> <i  class="fa fa-share-alt fa-2x" ></i>  <h5>שתף</h5>  </label>
-      <label [hidden]="subUser" (click)="shareApp()"> <img  src="../../assets/support.png" height="20em">  <h5>תקלות</h5>  </label>
+      <label [hidden]="subUser" routerLink="/contcat"> <i class="fa fa-question-circle fa-2x"></i><h5>תקלות</h5>  </label>
     </ul>
   </li>
 </ul>

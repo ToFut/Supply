@@ -75,8 +75,10 @@
                     </mat-option>
                   </mat-select>
                   <i class="fa fa-plus" (click)="cahngeInput()"></i>
-                  <input [hidden]="open" (mouseout)="cahngeInput()" [(ngModel)]="selectedType">
-                  {{selectedType}}
+                  <input [hidden]="open"
+                         #InputselectedType
+                         (blur)="changeType(InputselectedType.value)"
+                         (mouseout)="cahngeInput()" [(ngModel)]="selectedType">
                 </td>
               </tr>
 

@@ -5,11 +5,11 @@
       <br><br>
       <form class="form">
 
-      <input  #name (keyup)="onKeyName(name.value)"  type="text" placeholder="שם משתמש" autofocus>
+      <input  #name (keyup)="onKeyName(name.value)"  type="text" placeholder="שם מלא" autofocus>
             <input mdInput #name (keyup)="onKeyJobTitle(name.value)"  type="text" placeholder="תפקיד" autofocus>
             <input mdInput #businessName (keyup)="onKeybusiness(businessName.value)"  type="text" placeholder="שם העסק" >
             <input mdInput #email (keyup)="onKeyEmail(email.value)"  type="text" placeholder="מייל">
-            <input mdInput #firstPassword (keyup)="onKeyfirstPassword(firstPassword.value)"  type="password" placeholder="סיסמא">
+            <input mdInput #firstPassword (keyup)="onKeyfirstPassword(firstPassword.value)"  type="password" placeholder="סיסמא - 6 ספרות ומעלה">
             <input mdInput #secondPassword (keyup)="onKeysecondPassword(secondPassword.value)"  type="password" placeholder="הקש סיסמא שוב">
             <input mdInput #phone (keyup)="onKeyPhone(phone.value)"  type="tel" placeholder="פלאפון נייד" pattern="\(\d{3}\) \d{3}\-\d{4}">
         <div class="form-group">

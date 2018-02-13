@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {ActivatedRoute} from '@angular/router';
 import {User} from 'firebase/app';
@@ -21,7 +21,7 @@ export class SettingsComponent implements OnInit {
   message: string;
   public selectedTimeOrder: string;
   public selectedTimeRecive: string;
-
+  buyers: FirebaseListObservable<any[]>;
   ResturantName: string;
   NotificationWay: string;
   orderPermission: boolean;
@@ -80,8 +80,9 @@ export class SettingsComponent implements OnInit {
         });
 
       }
-
+      this.buyers = this.af.list(`users/${this.userId}/buyersId`);
     });
+
 
   }
 

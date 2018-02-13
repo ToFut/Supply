@@ -20,6 +20,9 @@
         <mat-option *ngFor="let product of products" [value]="product.ProductName">
           <p (click)="changename(product.ProductName)">{{ product.ProductName }}</p> |
         </mat-option>
+      </form>
+      <form>
+
         <div class="option">
 
           <h5 class=" select"> יח' מידה&nbsp;</h5>
@@ -28,17 +31,46 @@
               {{ unit.viewValue }}
             </mat-option>
           </mat-select>
+          <i class="fa fa-plus" (click)="funcopenselectedUnitOfMeasure()"></i>
+          <input #InputUnitOfMeasure [hidden]="openselectedUnitOfMeasure"
+                 (blur)="changeUnitOfMeasure(InputUnitOfMeasure.value)" (mouseout)="funcopenselectedUnitOfMeasure()">
+
         </div>
+        <label>
+          <h5> מחיר ל{{UnitOfMeasure}}</h5>
+
+          <div class="input-group presuffix">
+            <input mdInput type="number" pInputText value="{{(item | async)?.pricePerUnit}}" placeholder="מחיר" #price
+                   (keyup)="onKeyPrice(price.value)" required name="ProductName">
+            <span class="input-group-addon suffix">₪/{{UnitOfMeasure}}</span>
+          </div>
+        </label>
       </form>
       <form>
+        <div class="option">
+
+          <h5 class=" select"> מארז משני &nbsp;</h5>
+          <mat-select placeholder="יח' מידה" [(ngModel)]="secondTypeOfFillUp" name="UnitOfMeasure">
+            <mat-option *ngFor="let unit of secondFillUp" [value]="unit.value">
+              {{ unit.viewValue }}
+            </mat-option>
+          </mat-select>
+          <i class="fa fa-plus" (click)="funcopenselectedsecondTypeOfFillUp()"></i>
+          <input #InputsecondTypeOfFillUp [hidden]="openselectedsecondTypeOfFillUp"
+                 (blur)="changesecondTypeOfFillUp(InputsecondTypeOfFillUp.value)"
+                 (mouseout)="funcopenselectedsecondTypeOfFillUp()">
+        </div>
+
         <label>
-          <h5> גודל יחידה&nbsp; </h5>
+          <h5> כמות ב{{secondTypeOfFillUp}} &nbsp; </h5>
           <div class="input-group suffix">
             <input mdInput type="number" value="{{(item | async)?.sizeUnitPackaging}}" #sizeUnitPackaging
-                   (blur)="onKeySizeUnitPackaging(discount.value)" name="ProductName">
+                   (keyup)="onKeySecondSizeUnitPackaging(sizeUnitPackaging.value)" name="ProductName">
             <span class="input-group-addon ">{{UnitOfMeasure}}</span>
           </div>
         </label>
+      </form>
+      <form>
         <div class="option">
           <h5 class=" select"> צורת אריזה&nbsp; </h5>
           <mat-select placeholder="צורת אריזה" [(ngModel)]="TypeOfFillUp" name="TypeOfFillUp">
@@ -46,27 +78,31 @@
               {{ option.viewValue }}
             </mat-option>
           </mat-select>
+          <i class="fa fa-plus" (click)="funcopenselectedTypeOfFillUp()"></i>
+          <input #InputTypeOfFillUp [hidden]="openselectedTypeOfFillUp"
+                 (blur)="changeTypeOfFillUp(InputTypeOfFillUp.value)" (mouseout)="funcopenselectedTypeOfFillUp()">
+
         </div>
-      </form>
-      <form>
         <label>
-          <h5> כמות במארז&nbsp; </h5>
+          <h5> כמות ב {{TypeOfFillUp}}&nbsp; </h5>
 
           <div class="input-group suffix">
             <input mdInput type="number" value="{{(item | async)?.UnitInPackaging}}" #UnitInPackaging required
-                   (blur)="onKeyUnitInPackaging(UnitInPackaging.value)" name="UnitInPackaging">
-            <span class="input-group-addon">{{TypeOfFillUp}}</span>
+                   (keyup)="onKeyUnitInPackaging(UnitInPackaging.value)" name="UnitInPackaging">
+            <span class="input-group-addon">{{secondTypeOfFillUp}}</span>
           </div>
         </label>
+      </form>
+      <form>
         <label>
-          <h5> מחיר </h5>
-
-          <div class="input-group presuffix">
-            <input mdInput type="number" pInputText value="{{(item | async)?.price}}" placeholder="מחיר" #price
-                   (blur)="onKeyPrice(price.value)" required name="ProductName">
-            <span class="input-group-addon suffix">₪/{{UnitOfMeasure}}</span>
+          <h5 (click)="calcPrice()"> חשב מחיר סופי&nbsp; </h5>
+          <div class="input-group suffix">
+            <span>{{sumPrice}}</span>
           </div>
         </label>
+      </form>
+      <form>
+
         <label>
           <h5> הנחה </h5>
 
@@ -90,7 +126,7 @@
             <md-checkbox class="example-margin" [(ngModel)]="privateProduct">מוצר פרטי</md-checkbox>
           </section>
       -->
-      <section >
+      <section>
         <mat-slide-toggle [(ngModel)]="depositCchecked"
 
                           [color]="color"
@@ -112,8 +148,8 @@
       <br>
       <label>
         <mat-slide-toggle
-                          [color]="color"
-                          [(ngModel)]="showhidepregnant"> קבע מצבה להשלמה ביום ההזמנה <span
+          [color]="color"
+          [(ngModel)]="showhidepregnant"> קבע מצבה להשלמה ביום ההזמנה <span
           class="required">*</span></mat-slide-toggle>
       </label>
       <form>
@@ -139,7 +175,7 @@
     <a class="btn btn-success" [hidden]="!(!this.updateStatus && !this.undifineCheck)"
        (click)="BuildProductForAllDB(discount.value , price.value , UnitInPackaging.value , sizeUnitPackaging.value , ProductName.value ,depositPrice.value )">
       <i class="fa fa-check-square"></i> הוסף </a>
-    <a class="btn btn-success" [hidden]="!this.updateStatus && !this.undifineCheck"
+    <a class="btn btn-success"  [hidden]="!this.updateStatus && !this.undifineCheck"
        (click)="BuildProductForAllDB(discount.value , price.value , UnitInPackaging.value , sizeUnitPackaging.value , ProductName.value ,depositPrice.value )">
       <i class="fa fa-check-square"></i> עדכן </a>
     <a class="btn btn-danger " (click)="deleteItem()" style="align-items:flex-start;"

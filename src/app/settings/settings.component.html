@@ -8,22 +8,7 @@
   <label><h5>עדכן שם מסעדה:</h5></label>
   <input #updateName (blur)="updateProfile(updateName.value)" value="{{ResturantName}}" placeholder="עדכן שם מסעדה">
   <br> <br>
-
-  <label><h5>הגדר שעת סיום לביצוע הזמנות:</h5></label>
-  <input type="time" value="{{selectedTimeOrder}}">
-  <button class="button" (click)="openClockOrder()"> שנה</button>
-  <br>
-  <br>
-  <br>
-
-  <label><h5>הגדר שעת סיום לקבלת סחורה:</h5></label>
-  <input type="time" value="{{selectedTimeRecive}}">
-  <button class="button" (click)="openClockRecive()"> שנה</button>
-  <br>
-  <br>
-  <br>
-
-  <label><h5>הגדר בחר אופן לקבלת התראות:</h5></label>
+  <label><h5>הגדר  אופן לקבלת התראות:</h5></label>
   <label>
     <mat-select placeholder="צורת אריזה" [(ngModel)]="TypeOfFillUp" name="TypeOfFillUp">
       <mat-option *ngFor="let option of options" [value]="option.value">
@@ -34,9 +19,24 @@
   <br>
   <br>
 
+  <label><h5>הגדר שעת סיום לביצוע הזמנות:</h5></label>
+  <input type="time" value="{{selectedTimeOrder}}">
+  <button class="button" (click)="openClockOrder()"> שנה</button>
+  <br>
+
+  <label><h5>הגדר שעת סיום לקבלת סחורה:</h5></label>
+  <input type="time" value="{{selectedTimeRecive}}">
+  <button class="button" (click)="openClockRecive()"> שנה</button>
+  <br>
+  <label><h5>הגדר שעת סיום להזמנה חריגה:</h5></label>
+  <input type="time" value="{{selectedTimeRecive}}">
+  <button class="button" (click)="openClockRecive()"> שנה</button>
+  <br>
+
+
   <br><br>
   <button class="button" style="vertical-align:middle" onclick="document.getElementById('id01').style.display='block'">
-    הוסף קניין
+    הוסף מנהל רכש
   </button>
 
   <div id="id01" class="w3-modal">
@@ -46,20 +46,20 @@
         <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
         <form-wizard>
           <wizard-step [title]="'צעד 1'" (onNext)="onStep1Next($event)">
-            <h1>הגדר מספר פלאפון של הקניין</h1>
-            <form #emailForm="ngForm">
-              <div class="form-group">
-                <input type="tel" placeholder="מספר פלאפון" #phoneNumber (blur)="onKeyPhone(phoneNumber.value)"
-                       (keyup)="onKeyPhone(phoneNumber.value)">
-              </div>
-            </form>
-          </wizard-step>
-          <wizard-step [title]="'צעד 2'" (onNext)="onStep2Next($event)">
             <h1>הכנס שם קניין</h1>
             <form #emailForm="ngForm">
               <div class="form-group">
                 <input type="text" placeholder="שם פרטי" #name (blur)="onKeyName(name.value)"
                        (keyup.enter)="onKeyName(name.value)">
+              </div>
+            </form>
+          </wizard-step>
+          <wizard-step [title]="'צעד 2'" (onNext)="onStep2Next($event)">
+            <h1>הגדר מספר פלאפון של הקניין</h1>
+            <form #emailForm="ngForm">
+              <div class="form-group">
+                <input type="tel" placeholder="מספר פלאפון" #phoneNumber (blur)="onKeyPhone(phoneNumber.value)"
+                       (keyup)="onKeyPhone(phoneNumber.value)">
               </div>
             </form>
           </wizard-step>
@@ -93,14 +93,14 @@
     </div>
   </div>
   <button class="button" style="vertical-align:middle" onclick="document.getElementById('id02').style.display='block'">
-    נהל הרשאות קניין
+    הרשאות מנהל הרכש
   </button>
 
   <div id="id02" class="w3-modal">
     <div class="w3-modal-content">
       <div class="w3-container">
         <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-        <h1>נהל הרשאות קניין</h1>
+        <h1> הרשאות מנהל הרכש</h1>
         <br>
         <sui-checkbox class="toggle"  [(ngModel)]="orderPermission">הזמנת סחורה</sui-checkbox>
         <br>
@@ -120,6 +120,27 @@
       </div>
     </div>
   </div>
+  <button class="button" style="vertical-align:middle" onclick="document.getElementById('id03').style.display='block'">
+    ניהול מנהלי הרכש
+  </button>
+
+  <div id="id03" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span onclick="document.getElementById('id03').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <h1> הרשאות מנהל הרכש</h1>
+        <br>
+        <div *ngFor="let buyer of buyer">
+          <h1>{{buyer.$value}}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+
+  <br>
+  <br>
 
   <button class="button" style="vertical-align:middle" routerLink="/homeAfterLogin" (click)="save()">
     שמור

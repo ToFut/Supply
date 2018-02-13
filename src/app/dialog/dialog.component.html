@@ -10,6 +10,12 @@
         <span>{{type.viewValue}}  </span>
       </mat-option>
     </mat-select>
+      <i class="fa fa-plus" (click)="functionOpen()"></i>
+      <input #InputsecondTypeOfFillUp [hidden]="open"
+             (blur)="changeCatogrey(InputsecondTypeOfFillUp.value)"
+             (mouseout)="functionOpen()"
+             [(ngModel)]="secondTypeOfFillUp">
+
     </label>
     <br>
     <form  #bookForm="ngForm">

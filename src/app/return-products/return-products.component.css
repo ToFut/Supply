@@ -308,20 +308,13 @@ input {
   max-width: 32vw;
   font-size: 1.5rem;
 }
-
-.mat-select {
-  margin-right: 80em;
-  font-size: 1.5rem;
-
-}
-
 button {
   /* border-radius: 0; */
   max-width: 82vw;
 }
 
 .mat-select {
-  margin-right: -133em;
+  margin-right: 0em;
   font-size: 1.5rem;
   display: -ms-inline-flexbox;
   margin-top: 1em;

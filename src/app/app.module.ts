@@ -83,6 +83,7 @@ import {CalcAmountService} from './satistics/services/calc-amount.service';
 import {SuppliersDeatilService} from './satistics/services/suppliers-deatil.service';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {GetReturnService} from './getReturn.service';
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import {GetReturnService} from './getReturn.service';
     EditSupplierComponent,
     DeleteSupplierComponent,
     DeleteProductComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,

@@ -46,6 +46,7 @@ export class DialogComponent implements OnInit {
   typeOption: any;
   getInWeekEnd = false;
   orderDaysList = [];
+  open = true;
 
   constructor(fb: FormBuilder, public af: AngularFireDatabase, public afAuth: AngularFireAuth,
               route: ActivatedRoute, private router: Router) {
@@ -187,7 +188,14 @@ export class DialogComponent implements OnInit {
       }
     });
   }
+  changeCatogrey(value) {
+    this.typeOption.push({viewValue: value});
+    this.selectedType = value;
+  }
 
+  functionOpen() {
+    this.open = !this.open;
+  }
   BuildSupplier(name: string, PhoneNumber: number, email: string, ContactName: string, ContactNum: number,
                 ContactEmail: string) {
     this.decribeCurentReciveDate();

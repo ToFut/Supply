@@ -34,6 +34,7 @@ export class AddProductsToSupplierComponent implements OnInit {
   text: string;
   supplierName: FirebaseObjectObservable<any[]>;
   results: string[];
+  position = '  top';
 
 
   constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase ,

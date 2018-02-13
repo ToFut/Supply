@@ -24,6 +24,7 @@ import {SignUpPageSubUserComponent} from './sign-up-page-sub-user/sign-up-page-s
 import {SubUserOrderListComponent} from './sub-user-order-list/sub-user-order-list.component';
 import {SubUserReciveListComponent} from './sub-user-recive-list/sub-user-recive-list.component';
 import {SubUserTodoListComponent} from './sub-user-todo-list/sub-user-todo-list.component';
+import {ContactComponent} from './contact/contact.component';
 
 const routes: Routes = [
       { path: 'supplier', component: SupplierComponent , pathMatch: 'full'},
@@ -47,6 +48,8 @@ const routes: Routes = [
       { path: 'subUserOrderList', component: SubUserOrderListComponent , pathMatch: 'full'},
        { path: 'subUserReciveList', component: SubUserReciveListComponent , pathMatch: 'full'},
       { path: 'subUserTodoList', component: SubUserTodoListComponent , pathMatch: 'full'},
+      { path: 'contcat', component: ContactComponent , pathMatch: 'full'},
+
 ];
 
 @NgModule({
