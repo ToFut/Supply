@@ -7,6 +7,10 @@ export class SupplierPersonal {
   ContactName: string;
   ContactEmail: string;
   ContactNum: number;
+  ContactNameSecond: string;
+  ContactEmailSecond: string;
+  ContactNumSecond: number;
+
   OrderDays: number;
   type: string;
   frequency = [];

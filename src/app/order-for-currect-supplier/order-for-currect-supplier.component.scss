@@ -1,24 +1,25 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,500);
 
-body{
-  background:#A7FFEB;
+body {
+  background: #A7FFEB;
 }
 
-h1{
+h1 {
   font-family: 'Roboto', sans-serif;
-  font-weight:500;
-  font-size:32px;
-  color:#212121;
-  padding:100px 50px 50px 50px;
-  text-align:center;
-  line-height:135%;
+  font-weight: 500;
+  font-size: 32px;
+  color: #212121;
+  padding: 100px 50px 50px 50px;
+  text-align: center;
+  line-height: 135%;
 
 }
+
 #menu-button {
   top: 90%;
   margin-right: 4%;
   color: #ffffff;
-  position: fixed;
+  position: inherit;
   font-size: 1.3em;
   bottom: 50px;
   width: 60px;
@@ -75,42 +76,39 @@ h1{
         right: 80px;
         bottom: 0px;
         &:hover {
-          background: darken(#3498db, 5%);
         }
       }
       &:nth-child(3) {
         right: 65px;
         bottom: 65px;
         &:hover {
-          background: #3A4A7B;
         }
       }
       &:nth-child(4) {
         right: 0px;
         bottom: 80px;
         &:hover {
-          background: darken(#26D367, 5%);
         }
       }
     }
   }
 }
-  /*---FOR MOBILE VIEW---*/
-  @media screen and (max-width: 400px) {
-    h1 {
-      padding: 15px;
-      font-size: 25px;
-    }
-  }
 
-body{
+/*---FOR MOBILE VIEW---*/
+@media screen and (max-width: 400px) {
+  h1 {
+    padding: 15px;
+    font-size: 25px;
+  }
+}
+
+body {
   margin: 0;
   padding: 0;
-  background: #eee;
   font-family: "Arial";
 }
 
-.share{
+.share {
   width: 200px;
   height: 200px;
   margin: 5em auto;
@@ -121,7 +119,7 @@ body{
   position: relative;
 }
 
-.share a{
+.share a {
   display: inline-block;
   width: 100px;
   height: 200px;
@@ -131,7 +129,7 @@ body{
   z-index: 9999;
 }
 
-.share:after{
+.share:after {
   content: "Share";
   position: absolute;
   left: 0;
@@ -144,3 +142,82 @@ body{
   color: #333;
 }
 
+h3 {
+  font-family: David;
+  font-size: medium;
+}
+
+/* container */
+
+#share {
+  width: 100%;
+  text-align: center;
+}
+
+/* buttons */
+
+#share a {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  margin: 8px;
+  border-radius: 50%;
+  font-size: 24px;
+  color: #fff;
+  opacity: 0.75;
+  transition: opacity 0.15s linear;
+}
+
+#share a:hover {
+  opacity: 1;
+}
+
+/* icons */
+
+#share i {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* colors */
+
+.whatsapp {
+  background: #26D367;
+}
+
+.email {
+  background: #3A4A7B;
+}
+
+.sms {
+  background: #3498db;
+}
+
+.phone {
+  background: #2ecc71;
+}
+
+.pinterest {
+  background: #cb2027;
+}
+
+#sendWith {
+  display: grid;
+  text-align: center;
+  font-size: x-large;
+}
+
+.downCheck {
+  margin-top: 1em;
+  color: #26D367;
+  border-radius: 5px;
+}
+
+.downPhone {
+  margin-top: 1em;
+  color: #3e94ec;
+  border-radius: 5px;
+  margin-left: 2em;
+
+}

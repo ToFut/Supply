@@ -42,9 +42,12 @@ export class ReciveOrderComponent implements OnInit {
   reciveOrderBefore = [];
   KEYSNONacceptedRecive = [];
   KEYSacceptedRecive = [];
+  showWarning = [];
+  showWarningKeys = [];
+  showInsideWarningKeys = [];
 
   constructor(public matchSupplier: MatchSupplierService, public af: AngularFireDatabase, public afAuth: AngularFireAuth,
-              private router: Router , route: ActivatedRoute) {
+              private router: Router, route: ActivatedRoute) {
     route.queryParams.subscribe(params => {
       this.domainUserId = params['domainUserId'];
     });
@@ -115,12 +118,11 @@ export class ReciveOrderComponent implements OnInit {
   }
 
   getWarning(key) {
-    console.log(key.$ref.key);
-    console.log(this.KEYSacceptedRecive);
-    if (this.KEYSNONacceptedRecive.indexOf(key.$ref.key) > -1) {
-      /* const index = this.KEYSNONacceptedRecive.indexOf(key.$ref.key);
-      this.KEYSNONacceptedRecive.splice(index, 1);
-     */
+    console.log(this.KEYSNONacceptedRecive);
+    if (this.showWarningKeys.indexOf(key) === -1 && this.KEYSNONacceptedRecive.indexOf(key) !== -1) {
+      const indexAccept = this.KEYSNONacceptedRecive.indexOf(key);
+      this.KEYSNONacceptedRecive.splice(indexAccept, 1);
+      this.showWarningKeys.push(key);
       return true;
     }
     return false;
@@ -144,6 +146,7 @@ export class ReciveOrderComponent implements OnInit {
           this.KEYSNONacceptedRecive.push(val.$key);
           console.log(this.KEYSNONacceptedRecive.indexOf(val.$key));
         }
+        this.getWarning(val.$key);
 
       });
     });
@@ -181,7 +184,13 @@ export class ReciveOrderComponent implements OnInit {
           console.log(this.checkIfFinisheSupplier);
           this.checkIfFinisheSupplier.push(key);
           this.reciveComplete.push(snapshot);
-        } else if ((this.finisheSupplierArray.indexOf(key) === -1) && (this.checkIfNONEFinisheSupplier.indexOf(key) === -1) &&
+        }else if (this.showWarningKeys.indexOf(key) !== -1 &&
+          this.showInsideWarningKeys.indexOf(key) === -1) {
+          let indexAccept = this.showWarningKeys.indexOf(key);
+          this.showInsideWarningKeys.push(key);
+          this.showWarning.push(snapshot);
+        } else if ((this.finisheSupplierArray.indexOf(key) === -1) && this.showInsideWarningKeys.indexOf(key) ===-1
+          && (this.checkIfNONEFinisheSupplier.indexOf(key) === -1) &&
           this.reciveOrderBefore.indexOf(key) !== -1) {
           index = this.checkIfNONEFinisheSupplier.indexOf(key);
           console.log(this.checkIfNONEFinisheSupplier);
@@ -192,10 +201,9 @@ export class ReciveOrderComponent implements OnInit {
         console.log(this.checkIfNONEFinisheSupplier);
         if (this.checkIfNONEFinisheSupplier.length === 0) {
           this.allSupplierFinishe = true;
-        } else {
+        }  else {
           this.allSupplierFinishe = false;
         }
-
       });
       this.checkIfNONEFinisheSupplier.forEach(id => {
         console.log(id);

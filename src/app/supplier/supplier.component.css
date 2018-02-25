@@ -1,26 +1,84 @@
-
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
-h4{
-  font-size: small;color: #050348;
+
+h4 {
+  font-size: small;
+  color: #050348;
 }
-.panel > .list-group .list-group-item:first-child {
-  /*border-top: 1px solid rgb(204, 204, 204);*/
+
+@media only screen and (max-width: 780px) {
+  .fixedButton {
+    top: 90%;
+    color: #26D367;
+    position: fixed;
+    left: 30px;
+    font-size: 1.3em;
+  }
+
+  .tableShow {
+    display: none;
+  }
+
+  #newSupplierButton {
+    display: none;
+  }
+
+  .namePhone {
+    color: #22262e;
+    padding: 0px 20px 0px 0px;
+  }
 }
-@media (max-width: 767px) {
+
+th {
+  font-size: medium;
+  text-align: right;
+}
+
+@media only screen and (min-width: 781px) {
   .visible-xs {
     display: inline-block !important;
   }
-  .block {
-    display: block !important;
-    width: 100%;
-    height: 1px !important;
+
+  .namePhone {
+    display: none;
   }
-}
-#back-to-bootsnipp {
-  position: fixed;
-  top: 10px; right: 10px;
+
+  .fixedButton {
+    display: none;
+  }
+
+  #newSupplierButton {
+    top: 90%;
+
+  }
+
+  .button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #26D367;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: small;
+    padding: 7px;
+    width: 103px;
+    height: 35px;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin-right: 38px;
+  }
+
 }
 
+.panel > .list-group .list-group-item:first-child {
+  /*border-top: 1px solid rgb(204, 204, 204);*/
+}
+
+#back-to-bootsnipp {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
 
 .c-search > .form-control {
   border-radius: 0px;
@@ -31,11 +89,13 @@ h4{
   height: 44px;
   outline: none !important;
 }
+
 .c-search > .form-control:focus {
-  outline:0px !important;
-  -webkit-appearance:none;
+  outline: 0px !important;
+  -webkit-appearance: none;
   box-shadow: none;
 }
+
 .c-search > .input-group-btn .btn {
   border-radius: 0px;
   border-width: 0px;
@@ -44,11 +104,11 @@ h4{
   height: 44px;
 }
 
-
 .c-list {
   padding: 0px;
   min-height: 44px;
 }
+
 .title {
   display: inline-block;
   font-size: xx-large;
@@ -57,6 +117,7 @@ h4{
   font-weight: bold;
   padding: 5px 15px;
 }
+
 ul.c-controls {
   list-style: none;
   margin: 0px;
@@ -71,6 +132,7 @@ ul.c-controls li {
 ul.c-controls li a {
   font-size: 1.7em;
 }
+
 ul.c-controls li a i {
   min-width: 12px;
   text-align: center;
@@ -93,8 +155,15 @@ ul.c-controls li a:hover {
   padding: 5px 10px;
   font-size: 1.25em;
 }
-h1 { color: #09480d; font-family: 'Trocchi', serif; font-size: 45px; font-weight: normal; line-height: 48px; margin: 0; }
 
+h1 {
+  color: #09480d;
+  font-family: 'Trocchi', serif;
+  font-size: 45px;
+  font-weight: normal;
+  line-height: 48px;
+  margin: 0;
+}
 
 .btn-group button {
   background-color: #4CAF50; /* Green background */
@@ -109,7 +178,8 @@ h1 { color: #09480d; font-family: 'Trocchi', serif; font-size: 45px; font-weight
   padding: 3px 9px;
   font-size: 12px;
   line-height: 1.5;
-  border-radius: 3px;}
+  border-radius: 3px;
+}
 
 .btn-group button:not(:last-child) {
   border-right: none; /* Prevent double borders */
@@ -120,7 +190,7 @@ h1 { color: #09480d; font-family: 'Trocchi', serif; font-size: 45px; font-weight
   background-color: #3e8e41;
 }
 
-input{
+input {
   background-image: url("../../assets/search.png");
   background-position: 10px 10px;
   background-repeat: no-repeat;
@@ -130,123 +200,123 @@ input{
   border: 1px solid #ddd;
   margin-bottom: 12px;
 }
-body{font-size:100%;
-  background:url("http://www.freebiesgallery.com/wp-content/uploads/2014/02/blurred-background-2.jpg")no-repeat center center fixed;
+
+body {
+  font-size: 100%;
+  background: url("http://www.freebiesgallery.com/wp-content/uploads/2014/02/blurred-background-2.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  font-family:"Open Sans";
-}
-.wrapper{
-  width:500px;
-  margin:0 auto;
+  font-family: "Open Sans";
 }
 
-ul{
-  maring:0;
-  padding:0px;
-
-  list-style:none;
+.wrapper {
+  width: 500px;
+  margin: 0 auto;
 }
-ul li{
 
-  padding:10px;
+ul {
+  maring: 0;
+  padding: 0px;
+
+  list-style: none;
+}
+
+ul li {
+
+  padding: 10px;
   -webkit-box-shadow: 0px 0px 2px #888888;
   -moz-box-shadow: 0px 0px 2px #888888;
   box-shadow: 0px 0px 2px #888888;
 
 }
-.head{
-  padding:20px;
-  color:red;
-  font-size:36px;
-  text-align:center;
-  background-color:#ed6f70;
-  color:#fff;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
+
+.head {
+  padding: 20px;
+  color: red;
+  font-size: 36px;
+  text-align: center;
+  background-color: #ed6f70;
+  color: #fff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
   -webkit-box-shadow: 0px 0px 2px #888888;
   -moz-box-shadow: 0px 0px 2px #888888;
   box-shadow: 0px 0px 2px #888888;
 }
-.proPic,img{
-  display:inline-block;
-  width:80px;
-  height:80px;
+
+.proPic, img {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
 }
-li span{
+
+li span {
   font-size: medium;
   color: #050348;
-    margin-top: 0.4em;
+  margin-top: 0.4em;
 }
-.likes:before{
-  content:url("https://cdn0.iconfinder.com/data/icons/users-android-l-lollipop-icon-pack/24/group2-32.png");
+
+.likes:before {
+  content: url("https://cdn0.iconfinder.com/data/icons/users-android-l-lollipop-icon-pack/24/group2-32.png");
   vertical-align: -30%;
-  margin-right:2%;
+  margin-right: 2%;
   opacity: 0.4;
   filter: alpha(opacity=40); /* For IE8 and earlier */
 }
-.photo:before{
-  content:url("https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-camera-32.png");
+
+.photo:before {
+  content: url("https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-camera-32.png");
   vertical-align: -25%;
-  margin-right:2%;
+  margin-right: 2%;
   opacity: 0.4;
   filter: alpha(opacity=40); /* For IE8 and earlier */
 }
-.comments:before{
 
-  content:url("https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/bubble-24-24.png");
+.comments:before {
+
+  content: url("https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/bubble-24-24.png");
   vertical-align: -25%;
-  margin-right:2%;
+  margin-right: 2%;
   opacity: 0.4;
   filter: alpha(opacity=40); /* For IE8 and earlier */
 }
-.info{
-  width:75%;
 
-  margin:0;
-  margin-left:5%;
-  display:inline-block;
+.info {
+  width: 75%;
 
-
-}
-
-.social{
-
-  padding-top:20px;
-}
-
-h3{
-
-  color:#767a7b;
-  margin:0;
-  padding-bottom:20px;
-  font-size:36px;
-  font-weight:100;
-  border-bottom:1px solid #e0e1dd;
-}
-h3:after{
-
-  content:url("https://cdn3.iconfinder.com/data/icons/simple-files-1/128/Like-32.png");
-  float:right;
-  -webkit-filter: sepia(70%);
-  filter:  sepia(70%);
-}
-.fav{
-  float:right;
-}
-.button{
-  padding: 20px;
-  font-size: 30px;
-  width: 30px;
-  text-align: center;
-  text-decoration: none;
-  margin: 5px 2px;
-  border-radius: 50%;
+  margin: 0;
+  margin-left: 5%;
+  display: inline-block;
 
 }
+
+.social {
+
+  padding-top: 20px;
+}
+
+h3 {
+
+  color: #767a7b;
+  margin: 0;
+  padding-bottom: 20px;
+  font-size: 2em;
+  font-weight: 100;
+  border-bottom: 1px solid #e0e1dd;
+}
+
+.ellipsis {
+  margin-left: 18px;
+  margin-top: 3px;
+}
+
+.fav {
+  float: right;
+}
+
 #grad1 {
   width: auto;
   height: 100%;
@@ -259,27 +329,26 @@ h3:after{
   background: -moz-linear-gradient(#26D367, #8fb1fe); /* For Firefox 3.6 to 15 */
   background: linear-gradient(#26D367, #8fb1fe); /* Standard syntax (must be last) */
 }
+
 #imgSearch {
   margin-top: -5.5em;
   width: 2em;
   height: 2em;
-  margin-right: 3em;}
+  margin-right: 3em;
+}
+
 #fixedSort {
   position: relative;
   margin-top: 0em;
   margin-right: 1em;
   border-image: url("../../assets/search.png");
 }
-.fixedButton {
-  top: 90%;
-  color: #26D367;
-  position: absolute;
-  left: 20px;
-  font-size: 1.3em;}
+
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   color: black;
   text-align: center;
 }
+
 #myInput {
   background-position: 10px 12px;
   background-repeat: no-repeat;
@@ -294,17 +363,21 @@ h3:after{
   position: relative;
   display: inline-block;
 }
+
 #name {
   display: inline-block;
   font-size: medium;
   padding-right: 1.7em;
   margin-top: 0.5em;
-  padding-bottom: 0.5em;}
+  padding-bottom: 0.5em;
+}
+
 #myUL {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
+
 #myUL li a {
   border: 1px solid #ddd;
   margin-top: -1px; /* Prevent double borders */
@@ -320,6 +393,7 @@ h3:after{
 #myUL li a:hover:not(.header) {
   background-color: #eee;
 }
+
 span, span:after {
   align-items: center;
   text-align: center;
@@ -342,7 +416,7 @@ span {
 span:after {
   text-align: right;
   content: attr(data-shadow-text);
-  color: rgba(0,0,0,.35);
+  color: rgba(0, 0, 0, .35);
   text-shadow: none;
   position: absolute;
   left: .0875em;
@@ -350,21 +424,91 @@ span:after {
   z-index: -1;
   -webkit-mask-image: url(https://f.cl.ly/items/1t1C0W3y040g1J172r3h/mask.png);
 }
+
 #fixed {
   position: fixed;
   top: 110px;
   right: 20px;
 }
+
 .fa-2x {
-  font-size: 1.2em;
-  margin-top: 11px;
-  margin-left: 22px;
   float: left;
 }
-#headerSupplier{
+
+#headerSupplier {
   border-bottom: 2px solid #EBEBEB;
   text-align: center;
   color: #000000;
   /* padding: 0px 20px 0px 0px; */
 }
+
+#loader {
+  /* Uncomment this to make it run! */
+  /*
+     animation: loader 5s linear infinite;
+  */
+
+  position: absolute;
+  top: calc(50% - 20px);
+  left: calc(50% - 20px);
+}
+
+@keyframes loader {
+  0% {
+    left: -100px
+  }
+  100% {
+    left: 110%;
+  }
+}
+
+#box {
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  animation: animate .5s linear infinite;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 3px;
+}
+
+@keyframes animate {
+  17% {
+    border-bottom-right-radius: 3px;
+  }
+  25% {
+    transform: translateY(9px) rotate(22.5deg);
+  }
+  50% {
+    transform: translateY(18px) scale(1, .9) rotate(45deg);
+    border-bottom-right-radius: 40px;
+  }
+  75% {
+    transform: translateY(9px) rotate(67.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(90deg);
+  }
+}
+
+#shadow {
+  width: 50px;
+  height: 5px;
+  background: #000;
+  opacity: 0.1;
+  position: absolute;
+  top: 59px;
+  left: 0;
+  border-radius: 50%;
+  animation: shadow .5s linear infinite;
+}
+
+@keyframes shadow {
+  50% {
+    transform: scale(1.2, 1);
+  }
+}
+
+
 

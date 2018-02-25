@@ -7,7 +7,7 @@
     <h1>ברוך הבא</h1>
 
     <form class="form">
-      <input  type="text" #email (keyup)="onKeyEmail(email.value)" placeholder="שם משתמש" autofocus>
+      <input  type="text" #email (keyup)="onKeyEmail(email.value)" placeholder="מייל" autofocus>
       <input  type="password" #password  (keyup)="onKeyPassword(password.value)" placeholder="סיסמא">
 
       <div class="form-group">
@@ -17,9 +17,7 @@
         <a (click)="foregetPassword()">שכחת סיסמא?</a>&nbsp;|&nbsp;<a routerLink="/signUp">משתמש חדש?</a>
       </div>
     </form>
-
   </div>
-
   <ul class="bg-bubbles">
     <li><img src="../../assets/logoWithOutBackground.png"></li>>
     <li><img src="../../assets/logoWithOutBackground.png"></li>

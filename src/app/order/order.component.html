@@ -1,42 +1,57 @@
-<div class="container"  style="direction: rtl; text-align: center;">
-  <br><span style="  color: #050348;" data-shadow-text="Text-Shadow" >הזמנות</span>  <i class="fa fa-shopping-cart w3-xlarge "style="color: #22262e;:"></i><br>
+<div class="container" style="direction: rtl; text-align: center;">
+  <br><span style="  color: #050348; font-size: xx-large" data-shadow-text="Text-Shadow">הזמנות</span>
+  <i class="fa fa-shopping-cart fa-3x " style="color: #22262e;:"></i><br>
 
+
+  <div [ngSwitch]=day>
+    <h1 *ngSwitchCase=0> ראשון </h1>
+    <h1 *ngSwitchCase=1> שני </h1>
+    <h1 *ngSwitchCase=2> שלישי </h1>
+    <h1 *ngSwitchCase=3> רביעי </h1>
+    <h1 *ngSwitchCase=4> חמישי </h1>
+    <h1 *ngSwitchCase=5> שישי </h1>
+    <h1 *ngSwitchCase=6> שבת </h1>
+  </div>
+  <!--<div class="tab-content">-->
+  <div #loading id="loader"
+       *ngIf="showWarning?.length == 0 && showNONAccepted?.length == 0 && showAccepted?.length == 0;  else start ; ">
+    <div id="shadow"></div>
+    <div id="box"></div>
+  </div>
   <div>
-    <div [ngSwitch]=day >
-      <h1 *ngSwitchCase=0>    ראשון  </h1>
-      <h1 *ngSwitchCase=1>    שני  </h1>
-      <h1 *ngSwitchCase=2>     שלישי  </h1>
-      <h1 *ngSwitchCase=3>     רביעי  </h1>
-      <h1 *ngSwitchCase=4>     חמישי  </h1>
-      <h1 *ngSwitchCase=5>     שישי  </h1>
-      <h1 *ngSwitchCase=6>    שבת  </h1>
-    </div>
-      <div  class="tab" >
-        <span [hidden]="!noneSupplierOrder">כל הסחורה הוזמנה </span>
-        <div  [hidden]="noneSupplierOrder">
-          <input id="tab-one" type="checkbox" name="tabs" [(ngModel)]="show"/>
-          <label for="tab-one">  הזמנת סחורה  </label>
-          <div class="tab-content">
-            <div  class="scrolling" *ngFor="let supplier of showNONAccepted " >
-              <div   ><button id ="{{supplier.$ref.$key}}" (click)="orderFromMe(supplier)" class="button"
-                       [class.success]=" time <= 9"
-                       [class.danger]="time > 9 && time <= 23 " [ngClass]="{'warning': getWarning(supplier)}"><h5 style="font-size: small;color: #0E1013;">{{ (supplier | async)?.name }}</h5> </button></div>
-              {{supplier.$ref.$key}}
-            </div>
-          </div>
-        </div>
-        <div class="tab">
-        <input id="tab-two" type="checkbox" name="tabs">
-        <label for="tab-two">  הזמנה סחורה שהושלמה  </label>
-        <div  class="tab-content">
-          <h1 [hidden]="!allSupplierOrder"> עוד לא השלמת הזמנות להיום.. </h1>
-          <div [hidden]="allSupplierOrder" class="scrolling" *ngFor="let supplier of showAccepted " >
-            <button  class = "button success"(click)="orderFromMe(supplier)">
-              <h5 style="font-size: small;color: #26D367;">{{ (supplier | async)?.name }}</h5> </button>
-          </div>
-        </div>
+    <div class="list" *ngFor="let supplier of showNONAccepted ">
+      <div class="space" (click)="orderFromMe(supplier)">
+        <button class=" ui  labeled icon button button1 ">
+          <i class="cart icon" [class.success]=" time <= 9"
+             [class.danger]="time > 9 && time <= 23 "></i>
+          <span class="name">{{(supplier | async)?.name}}</span>
+        </button>
+        <!--<button id="{{supplier.$ref.$key}}" (click)="orderFromMe(supplier)" class="button"-->
+        <!--[class.success]=" time <= 9"-->
+        <!--[class.danger]="time > 9 && time <= 23 " [ngClass]="{'warning': getWarning(supplier)}"><h5-->
+        <!--style="font-size: small;color: #0E1013;">{{ (supplier | async)?.name }}</h5></button>-->
+        <!--{{supplier.$ref.$key}}-->
+
+        <!--</div>-->
       </div>
     </div>
-  </div>
+    <div class="list" *ngFor="let supplier of showWarning ">
+      <div class="space" (click)="orderFromMe(supplier)">
+        <button class=" ui  labeled icon button button1 ">
+          <i class="cart icon warning"></i>
+          <span class="name">{{(supplier | async)?.name}}</span>
+        </button>
+      </div>
+    </div>
 
+    <div class="list" *ngFor="let supplier of showAccepted ">
+      <div class="space" (click)="orderFromMe(supplier)">
+        <button class=" ui  labeled icon button button1 ">
+          <i class="cart icon success"></i>
+          <span class="name">{{(supplier | async)?.name}}</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
 </div>

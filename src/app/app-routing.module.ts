@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {ServerConnectionComponent} from './server-connection/server-connection.component';
 import {SupplierComponent} from './supplier/supplier.component';
 import {LoginPageComponent} from './login-page/login-page.component';
@@ -25,35 +25,41 @@ import {SubUserOrderListComponent} from './sub-user-order-list/sub-user-order-li
 import {SubUserReciveListComponent} from './sub-user-recive-list/sub-user-recive-list.component';
 import {SubUserTodoListComponent} from './sub-user-todo-list/sub-user-todo-list.component';
 import {ContactComponent} from './contact/contact.component';
+import {ConfirmModalComponent} from './confirm-modal/confirm-modal.component';
+import {ReturnProductsDialogComponent} from './return-products/return-products-dialog/return-products-dialog.component';
 
 const routes: Routes = [
-      { path: 'supplier', component: SupplierComponent , pathMatch: 'full'},
-      { path: 'correctSupplierProducts', component: AddProductsToSupplierComponent , pathMatch: 'full'},
-      { path: 'home', component: HomeComponent , pathMatch: 'full'},
-      { path: 'order', component: OrderComponent , pathMatch: 'full'},
-      { path: 'orderCurrect', component: OrderForCurrectSupplierComponent , pathMatch: 'full'},
-      { path: 'homeAfterLogin', component: HomeAfterLoginComponent , pathMatch: 'full'},
-      { path: 'reciveOrder', component: ReciveOrderComponent , pathMatch: 'full'},
-      { path: 'todoList', component: TodoListComponent , pathMatch: 'full'},
-      { path: 'dialogSupplier', component: DialogComponent , pathMatch: 'full'},
-      { path: 'showProduct', component: ShowProductComponent , pathMatch: 'full'},
-      { path: 'satistics', component: SatisticsComponent , pathMatch: 'full'},
-      { path: 'loginPage', component: LoginPageComponent , pathMatch: 'full'},
-      { path: 'signUp', component: SignUpComponent , pathMatch: 'full'},
-      { path: 'returnProdcts', component: ReturnProductsComponent , pathMatch: 'full'},
-      { path: 'setting', component: SettingsComponent , pathMatch: 'full'},
-      { path: 'showCurrentSupplierProducts', component: ShowAllProductsComponent , pathMatch: 'full'},
-      { path: 'acceptOrder', component: AcceptOrderComponent , pathMatch: 'full'},
-      { path: 'subUserSignUp', component: SignUpPageSubUserComponent , pathMatch: 'full'},
-      { path: 'subUserOrderList', component: SubUserOrderListComponent , pathMatch: 'full'},
-       { path: 'subUserReciveList', component: SubUserReciveListComponent , pathMatch: 'full'},
-      { path: 'subUserTodoList', component: SubUserTodoListComponent , pathMatch: 'full'},
-      { path: 'contcat', component: ContactComponent , pathMatch: 'full'},
+  {path: 'supplier', component: SupplierComponent, pathMatch: 'full'},
+  {path: 'correctSupplierProducts', component: AddProductsToSupplierComponent, pathMatch: 'full'},
+  {path: 'home', component: HomeComponent, pathMatch: 'full'},
+  {path: 'order', component: OrderComponent, pathMatch: 'full'},
+  {path: 'orderCurrect', component: OrderForCurrectSupplierComponent, pathMatch: 'full'},
+  {path: 'homeAfterLogin', component: HomeAfterLoginComponent, pathMatch: 'full'},
+  {path: 'reciveOrder', component: ReciveOrderComponent, pathMatch: 'full'},
+  {path: 'todoList', component: TodoListComponent, pathMatch: 'full'},
+  {path: 'dialogSupplier', component: DialogComponent, pathMatch: 'full'},
+  {path: 'showProduct', component: ShowProductComponent, pathMatch: 'full'},
+  {path: 'satistics', component: SatisticsComponent, pathMatch: 'full'},
+  {path: 'loginPage', component: LoginPageComponent, pathMatch: 'full'},
+  {path: 'signUp', component: SignUpComponent, pathMatch: 'full'},
+  {path: 'returnProdcts', component: ReturnProductsComponent, pathMatch: 'full'},
+  {path: 'setting', component: SettingsComponent, pathMatch: 'full'},
+  {path: 'showCurrentSupplierProducts', component: ShowAllProductsComponent, pathMatch: 'full'},
+  {path: 'acceptOrder', component: AcceptOrderComponent, pathMatch: 'full'},
+  {path: 'subUserSignUp', component: SignUpPageSubUserComponent, pathMatch: 'full'},
+  {path: 'subUserOrderList', component: SubUserOrderListComponent, pathMatch: 'full'},
+  {path: 'subUserReciveList', component: SubUserReciveListComponent, pathMatch: 'full'},
+  {path: 'subUserTodoList', component: SubUserTodoListComponent, pathMatch: 'full'},
+  {path: 'contcat', component: ContactComponent, pathMatch: 'full'},
+  {path: 'confireModal', component: ConfirmModalComponent, pathMatch: 'full'},
+  {path: 'formReturnProduct', component: ReturnProductsDialogComponent, pathMatch: 'full'},
+
 
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}

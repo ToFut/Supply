@@ -5,6 +5,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {element} from 'protractor';
 import {isUndefined} from 'util';
 import {GetReturnService} from '../getReturn.service';
+import {MatDialog} from '@angular/material';
+import {ReturnProductsDialogComponent} from './return-products-dialog/return-products-dialog.component';
 
 @Component({
   selector: 'app-return-products',
@@ -17,6 +19,7 @@ export class ReturnProductsComponent implements OnInit {
   viewDate: Date = new Date();
   newAttribute: any = {};
   collapse: boolean;
+  display = false;
   supplierKey: string;
   list = [];
   returnValue: number;
@@ -27,6 +30,7 @@ export class ReturnProductsComponent implements OnInit {
   selectedProduct: FirebaseObjectObservable<any[]>;
   selectedReturnDay: string;
   open = true;
+  openreasons = true;
   returnsDays: FirebaseListObservable<any[]>;
   suppliers: FirebaseListObservable<any[]>;
   productsSuppliers: FirebaseListObservable<any[]>;
@@ -67,7 +71,7 @@ export class ReturnProductsComponent implements OnInit {
   dayInMonth = this.viewDate.getDate();
   month = this.viewDate.getMonth();
   year = this.viewDate.getFullYear();
-
+  dialogResault = false;
   selectedType: string;
   fromDatespesificSupplier = {};
   toDatespesificSupplier = {};
@@ -75,7 +79,7 @@ export class ReturnProductsComponent implements OnInit {
   spesificSupplier: string;
   single: any[];
   view: any[] = [700, 400];
-
+  showDone = [];
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
@@ -92,7 +96,8 @@ export class ReturnProductsComponent implements OnInit {
     }
 
 
-    this.returnHistory = this.af.list(`users/${this.userId}/returnHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`);
+    this.returnHistory =
+      this.af.list(`users/${this.userId}/returnHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`);
 
     this.afAuth.authState.subscribe(user => {
       if (user) {
@@ -107,6 +112,10 @@ export class ReturnProductsComponent implements OnInit {
 
   onSelect(event) {
     console.log(event);
+  }
+
+  openFormReturnPage(): void {
+    this.router.navigate(['formReturnProduct']);
   }
 
   ngOnInit(): void {
@@ -127,41 +136,65 @@ export class ReturnProductsComponent implements OnInit {
 
         this.af.list(`users/${this.userId}/returnList/${snapshot.$key}`).subscribe(after => {
           console.log(after);
-
           after.forEach(element => {
             console.log(element);
             const size = after.length;
-            console.log(this.checkSize);
-            console.log(size);
-
             if (this.checkSize <= size && this.updateLater) {
               if (this.sizePast >= 0) {
                 console.log(this.fieldArray.length);
                 console.log(size);
                 this.demoList = [];
                 console.log('im push');
-                this.fieldArray.push({
-                  productName: element.productName, amount: element.amount,
-                  reason: element.reason, status: element.status, supplierName: element.supplierName,
-                  TypeOfFillUp: element.TypeOfFillUp
-                });
-
+                if (this.fieldArray.indexOf(element) === -1 && !this.dialogResault) {
+                  this.fieldArray.push({
+                    productName: element.productName, amount: element.amount,
+                    reason: element.reason, status: element.status, supplierName: element.supplierName,
+                    TypeOfFillUp: element.TypeOfFillUp
+                  });
+                }
               }
             }
           });
+          this.checkDone();
+
           console.log(this.checkSize);
 
           this.checkSize++;
         });
 
       });
-
-
     });
   }
+
+  checkDone() {
+    this.fieldArray.forEach(item => {
+      if (this.showDone.indexOf(item) === -1) {
+        const indexAccept = this.fieldArray.indexOf(item);
+        this.fieldArray.splice(indexAccept, 1);
+        this.showDone.push(item);
+
+        console.log(item['status']);
+      }
+    });
+
+  }
+
+  showDialog() {
+    this.display = true;
+  }
+
+  changeReason(value) {
+    this.reasons.push({value: value});
+    this.selectedReason = value;
+  }
+
   changeType(value) {
     this.types.push({value: value});
     this.selectedType = value;
+  }
+
+  cahngeReasons() {
+    this.openreasons = !this.openreasons;
   }
 
   cahngeInput() {
@@ -255,7 +288,7 @@ export class ReturnProductsComponent implements OnInit {
 
   createSpesificSupplier() {
     this.supplierKey = this.spesificSupplier['key'];
-    let value = this.getSpesificSupplier(this.fromDatespesificSupplier, this.toDatespesificSupplier);
+    const value = this.getSpesificSupplier(this.fromDatespesificSupplier, this.toDatespesificSupplier);
     console.log(value);
     this.single = [{name: this.spesificSupplier['itemName'], value: value}];
   }

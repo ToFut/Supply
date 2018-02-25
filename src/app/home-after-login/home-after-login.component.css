@@ -1,10 +1,11 @@
-.container{
-  height:100%;
-  display:table;
+.container {
+  height: 100%;
+  display: table;
   width: 100%;
   padding: 0;
 
 }
+
 .button {
   border-radius: 14px;
   max-height: 15em;
@@ -14,12 +15,13 @@
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  margin:  2px;
+  margin: 2px;
   cursor: pointer;
   align-items: center;
   padding: 10% 0% 10%;
   min-height: 186px;
 }
+
 i {
   margin-top: 0.1em;
 }
@@ -34,31 +36,52 @@ i {
   height: 45%;
 
 }
-.header{display:inline-block;
-  text-align:center;
-  width:100%;
+
+.header {
+  display: inline-block;
+  text-align: center;
+  width: 100%;
 }
 
-.logo{
+.logo {
   width: 100%;
   background-color: #26D367;
 }
 
 .header h1 {
-  font-size:15px;
-  width:100%;
+  font-size: 15px;
+  width: 100%;
 }
-@media (min-width:320px)  { /* smartphones, iPhone, portrait 480x320 phones */ }
-@media (min-width:481px)  { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
-@media (min-width:641px)  { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ }
-@media (min-width:961px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
-@media (min-width:1025px  ) { /* big landscape tablets, laptops, and desktops */ }
-@media (min-width:1281px) { /* hi-res laptops and desktops */ }
+
+@media (min-width: 320px) {
+  /* smartphones, iPhone, portrait 480x320 phones */
+}
+
+@media (min-width: 481px) {
+  /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+}
+
+@media (min-width: 641px) {
+  /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+}
+
+@media (min-width: 961px) {
+  /* tablet, landscape iPad, lo-res laptops ands desktops */
+}
+
+@media (min-width: 1025px  ) {
+  /* big landscape tablets, laptops, and desktops */
+}
+
+@media (min-width: 1281px) {
+  /* hi-res laptops and desktops */
+}
+
 .round-button {
-  display:block;
-  width:50px;
-  height:50px;
-  line-height:50px;
+  display: block;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
   margin-top: 2px;
   margin-right: 2px;
   position: relative;
@@ -66,22 +89,25 @@ i {
   right: 0;
   border: 2px solid #f5f5f5;
   border-radius: 50%;
-  color:#f5f5f5;
-  text-decoration:none;
+  color: #f5f5f5;
+  text-decoration: none;
   background: #d40a15;
   box-shadow: 0 0 3px gray;
-  font-size:20px;
-  font-weight:bold;
+  font-size: 20px;
+  font-weight: bold;
 }
+
 .round-button:hover {
   background: #d40a15;
 }
+
 #fixed {
   position: absolute;
   color: #fefefe;
   top: 110px;
   left: 20px;
 }
+
 .off {
   position: absolute;
   color: #fefefe;
@@ -89,14 +115,16 @@ i {
   float: right;
   left: 20px;
 }
-.cog{
+
+.cog {
   position: absolute;
   color: #fefefe;
   top: 1.5em;
   float: right;
   right: 20px;
 }
-.chart{
+
+.chart {
   position: absolute;
   color: #fefefe;
   float: right;
@@ -105,15 +133,18 @@ i {
   right: 20px;
 
 }
+
 .submenu > img {
   height: 24px;
   color: #26D367;
 
 }
-h5{
+
+h5 {
   margin-top: 17px;
   color: #26D367;
 }
+
 /*
 .dropdown {
   position: absolute;
@@ -137,21 +168,25 @@ h5{
   display: block;
 }
 */
-body{
-  margin:0;
-  padding:3em 0;
-  font-family:Helvetica, Arial, sans-serif;
-  background:#eee;
-  color:#26D367;
+body {
+  margin: 0;
+  padding: 3em 0;
+  font-family: Helvetica, Arial, sans-serif;
+  background: #eee;
+  color: #26D367;
 }
+
 i {
-  color:#26D367;
+  color: #26D367;
 
 }
-article{margin:10px;}
+
+article {
+  margin: 10px;
+}
 
 /*Style for the first level menu bar*/
-ul#menu{
+ul#menu {
   position: absolute;
   color: #fefefe;
   top: 1.5em;
@@ -159,88 +194,93 @@ ul#menu{
   right: 20px;
 }
 
-ul#menu > li{
-  float:left;
-  list-style-type:none;
-  position:relative;
+ul#menu > li {
+  float: left;
+  list-style-type: none;
+  position: relative;
 
 }
+
 label {
   display: flex;
   justify-content: space-around;
 }
-label > i{
+
+label > i {
   padding-right: 0.7em;
   border-radius: 10px;
   display: flex;
   justify-content: space-around;
   padding-left: 0.7em;
   margin-top: .55em;
-  margin-right: -0.5em;}
-li > label{
-  position:relative;
-  display:flex;
-  padding:0 18px 0 12px;
-  line-height:3em;
-  transition:background 0.3s;
-  cursor:pointer;
+  margin-right: -0.5em;
 }
 
- label:after{
-  position:absolute;
-  display:flex;
-  top:50%;
-  right:5px;
-  width:0;
-  height:0;
-  border-top:4px solid rgba(255,255,255,.5);
-  border-bottom:0 solid rgba(255,255,255,.5);
-  border-left:4px solid transparent;
-  border-right:4px solid transparent;
-  transition:border-bottom .1s, border-top .1s .1s;
+li > label {
+  position: relative;
+  display: flex;
+  padding: 0 18px 0 12px;
+  line-height: 3em;
+  transition: background 0.3s;
+  cursor: pointer;
 }
 
+label:after {
+  position: absolute;
+  display: flex;
+  top: 50%;
+  right: 5px;
+  width: 0;
+  height: 0;
+  border-top: 4px solid rgba(255, 255, 255, .5);
+  border-bottom: 0 solid rgba(255, 255, 255, .5);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  transition: border-bottom .1s, border-top .1s .1s;
+}
 
-input:checked ~ label:after{
-  border-top:0 solid rgba(255,255,255,.5);
-  border-bottom:4px solid rgba(255,255,255,.5);
-  transition:border-top .1s, border-bottom .1s .1s;
+input:checked ~ label:after {
+  border-top: 0 solid rgba(255, 255, 255, .5);
+  border-bottom: 4px solid rgba(255, 255, 255, .5);
+  transition: border-top .1s, border-bottom .1s .1s;
 }
 
 /*hide the inputs*/
-input{display:none}
+input {
+  display: none
+}
 
 /*show the second levele menu of the selected voice*/
-input:checked ~ ul.submenu{
-  max-height:300px;
-  transition:max-height 0.5s ease-in;
+input:checked ~ ul.submenu {
+  max-height: 300px;
+  transition: max-height 0.5s ease-in;
 }
 
 /*style for the second level menu*/
-ul.submenu{
-  max-height:0;
-  padding:0;
-  overflow:hidden;
-  list-style-type:none;
-  transition:max-height 0.5s ease-out;
-  position:absolute;
-  min-width:100%;
+ul.submenu {
+  max-height: 0;
+  padding: 0;
+  overflow: hidden;
+  list-style-type: none;
+  transition: max-height 0.5s ease-out;
+  position: absolute;
+  min-width: 100%;
   background-color: white;
   width: 11em;
   border-radius: 19px;
 
-
-}
-ul.submenu li a{
-  display:block;
-  padding:12px;
-  color:#ddd;
-  text-decoration:none;
-  box-shadow:0 -1px rgba(0,0,0,.5) inset;
-  transition:background .3s;
-  white-space:nowrap;
 }
 
-ul.submenu li a:hover{
-  background:rgba(0,0,0,.3);
+ul.submenu li a {
+  display: block;
+  padding: 12px;
+  color: #ddd;
+  text-decoration: none;
+  box-shadow: 0 -1px rgba(0, 0, 0, .5) inset;
+  transition: background .3s;
+  white-space: nowrap;
+}
+
+ul.submenu li a:hover {
+  background: rgba(0, 0, 0, .3);
 }

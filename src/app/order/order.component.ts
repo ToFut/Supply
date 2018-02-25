@@ -32,6 +32,9 @@ export class OrderComponent implements OnInit {
   KEYSNONacceptedOrders = [];
   showAccepted = [];
   showNONAccepted = [];
+  showWarning = [];
+  showWarningKeys = [];
+  showInsideWarningKeys = [];
   show = true;
   acceptedChecker = [];
   NONeacceptedChecker = [];
@@ -71,6 +74,8 @@ export class OrderComponent implements OnInit {
               this.KEYSacceptedOrders.splice(indexAccept, 1);
             }
             this.KEYSNONacceptedOrders.push(snapshot.$key);
+            this.getWarning(snapshot.$key);
+
           }
         });
       });
@@ -101,12 +106,14 @@ export class OrderComponent implements OnInit {
   }
 
   getWarning(key) {
-    if (this.KEYSNONacceptedOrders.indexOf(key.$ref.key) > -1) {
+    if (this.KEYSNONacceptedOrders.indexOf(key) > -1 && this.showWarningKeys.indexOf(key) === -1) {
+      const indexAccept = this.KEYSNONacceptedOrders.indexOf(key);
+      this.KEYSNONacceptedOrders.splice(indexAccept, 1);
+      this.showWarningKeys.push(key);
       return true;
     }
     return false;
   }
-
   checkForSupplier() {
 
     this.matchSupplier.pushSupplier('order', this.userId).then((data) => {
@@ -118,13 +125,22 @@ export class OrderComponent implements OnInit {
 
     }).then(value => {
       value.forEach(snapshot => {
-        if (this.KEYSacceptedOrders.indexOf(snapshot['$ref']['key']) !== -1 && this.acceptedChecker.indexOf(snapshot['$ref']['key']) === -1) {
+        if (this.KEYSacceptedOrders.indexOf(snapshot['$ref']['key']) !== -1 &&
+          this.acceptedChecker.indexOf(snapshot['$ref']['key']) === -1) {
           this.showAccepted.push(snapshot);
           this.acceptedChecker.push(snapshot['$ref']['key']);
         } else if (this.NONeacceptedChecker
-            .indexOf(snapshot['$ref']['key']) === -1 && this.acceptedChecker.indexOf(snapshot['$ref']['key']) === -1 && this.KEYSacceptedOrders.indexOf(snapshot['$ref']['key']) === -1) {
+            .indexOf(snapshot['$ref']['key']) === -1
+          && this.acceptedChecker.indexOf(snapshot['$ref']['key']) === -1
+          && this.KEYSacceptedOrders.indexOf(snapshot['$ref']['key']) === -1 &&
+          this.showWarningKeys.indexOf(snapshot['$ref']['key']) === -1) {
           this.NONeacceptedChecker.push(snapshot['$ref']['key']);
           this.showNONAccepted.push(snapshot);
+        } else if (this.showWarningKeys.indexOf(snapshot['$ref']['key']) !== -1 &&
+          this.showInsideWarningKeys.indexOf(snapshot['$ref']['key']) === -1) {
+          const indexAccept = this.showWarningKeys.indexOf(snapshot['$ref']['key']);
+          this.showInsideWarningKeys.push(snapshot['$ref']['key']);
+          this.showWarning.push(snapshot);
         }
       });
     });
@@ -146,9 +162,6 @@ export class OrderComponent implements OnInit {
 
   }
 
-  doCheck() {
-
-  }
 
   ngOnInit() {
 

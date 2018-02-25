@@ -37,12 +37,13 @@ export class AddProductsToSupplierComponent implements OnInit {
   position = '  top';
 
 
-  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase ,
-              private ProductsService: ProductsService , route: ActivatedRoute ,
-              private AssociateProductToSupplierService: AssociateProductToSupplierService ,
+  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase,
+              private ProductsService: ProductsService, route: ActivatedRoute,
+              private AssociateProductToSupplierService: AssociateProductToSupplierService,
               private SupplierPrivateProductsService: SupplierPrivateProductsService, private router: Router) {
     this.afAuth.authState.subscribe(user => {
-      if (user) {this.userId = user.uid;
+      if (user) {
+        this.userId = user.uid;
         this.productsInCurrectSupplier = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`);
         this.supplierName = this.af.object(`users/${this.userId}/suppliers/${this.SupplierKey}`);
       }
@@ -53,16 +54,19 @@ export class AddProductsToSupplierComponent implements OnInit {
     });
 
   }
+
   ngOnInit() {
-    this.SupplierPrivateProductsService.getProductsFromCurrectSupplier(this.startWith, this.endWith , this.SupplierKey ,
-      `users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts` )
+    this.SupplierPrivateProductsService.getProductsFromCurrectSupplier(this.startWith, this.endWith, this.SupplierKey,
+      `users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`)
       .subscribe(products => this.products = products);
 
 
   }
-  showListOfAllDB (): any[] {
+
+  showListOfAllDB(): any[] {
     return this.products;
   }
+
   searchItem(UserInputType: string) {
     this.productsInCurrectSupplier = this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`, {
       query: {
@@ -71,13 +75,16 @@ export class AddProductsToSupplierComponent implements OnInit {
       }
     });
   }
+
   addItem() {
     this.ProductAssociationToProvide();
   }
+
   deleteEverything() {
     this.productsInCurrectSupplier.remove();
 
   }
+
   ProductAssociationToProvide() {
     const navigationExtras: NavigationExtras = {
       queryParams: {
@@ -101,7 +108,7 @@ export class AddProductsToSupplierComponent implements OnInit {
     this.router.navigate(['showCurrentSupplierProducts'], navigationExtras);
   }
 
-  addThisProductToCurrectSupplier(selectProductKey , ProductName ) {
+  addThisProductToCurrectSupplier(selectProductKey, ProductName) {
     this.openDialogShowProducts(selectProductKey);
 
   }

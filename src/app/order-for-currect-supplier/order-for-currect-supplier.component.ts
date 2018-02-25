@@ -44,6 +44,7 @@ export class OrderForCurrectSupplierComponent implements OnInit {
   acceptOrder: FirebaseListObservable<any[]>;
   acceptLink: string;
   orderForTodayFromSpesificProduct = [];
+  display = false;
 
   // ToDo day - (supplierProperty |async)?.OrderDays check and put with absulote
   constructor(public af: AngularFireDatabase, public afAuth: AngularFireAuth, public route: Router, public link: ActivatedRoute) {
@@ -196,6 +197,10 @@ export class OrderForCurrectSupplierComponent implements OnInit {
   mail() {
   }
 
+  phoneCall() {
+    location.href = 'tel:+972' + this.phoneSupplier;
+  }
+
   async buildMessageWhatsApp() {
     let name = '';
     let TypeOfFillUp = '';
@@ -241,45 +246,57 @@ export class OrderForCurrectSupplierComponent implements OnInit {
           location.href = WhatsAppMesage;
           this.af.object(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`)
             .set(false);
-          this.returnProducts.update(element.key, {status: true});
-
+          this.af.list(`users/${this.userId}/returnList/status/${this.supplierKey}`).update(element.key, {status: false});
         }
       });
     });
   }
 
-  buildMessageEmail() {
+  async buildMessageEmail() {
     let name = '';
     let TypeOfFillUp = '';
     let amount = '';
     let count = 0;
-    this.returnProduct();
-    this.acceptLink = 'https://app.supplyme.net?userId=' + this.userId +
+    let WhatsAppMesage = '';
+    let check = true;
+    await this.returnProduct();
+    this.acceptLink = 'https://app.supplyme.net/#/acceptOrder?userId=' + this.userId +
       '&supplierKey=' + this.supplierKey + '&dayInMonth=' + this.dayInMonth + '&month=' + this.month + '&year=' + this.year;
     this.acceptLink = encodeURIComponent(this.acceptLink);
 
+    console.log(this.sentenceToReturn);
     this.currentOrderInformation.$ref.on('child_added', element => {
       count++;
+      check = true;
       if (element !== undefined) {
         name = element.val().name;
         amount = element.val().amount;
-        this.returnProducts.remove(element.key);
         console.log(name);
-        console.log(amount);
         TypeOfFillUp = element.val().TypeOfFillUp;
-        if (this.stringToOrder.indexOf(name) !== -1) {
+        this.stringToOrder.forEach(data => {
+          if (data.includes(name)) {
+            check = false;
+          }
+        });
+        console.log(check);
+        if (check && amount !== '0') {
           this.stringToOrder.push(' ' + amount + ' ' + TypeOfFillUp + '  ' + name + ' %0A');
         }
+
       }
       this.currentOrderInformation.subscribe(data => {
-        console.log('data.length' + data.length + ' and count is ' + count);
         if (count === data.length) {
+          console.log('first');
           this.currentOrderInformation.update(`${this.supplierKey}`, this.stringToOrder);
-          location.href = 'mailto:' + this.emailSupplier + 'subject=הזמנת אספקה' +
-            '&amp;' + '&body=שלום ' +
-            'להלן ההזמנה עבור ' + this.userName + ' לאספקה ביום ___' +
-            this.stringToOrder + this.sentenceToReturn + '%0A'
-            + 'אנא אשר קבלת הזמנה בלחיצת על הקישור הבא' + '%0A' + this.acceptLink;
+          location.href = 'mailto:' + this.emailSupplier + '?subject=הזמנת אספקה ל' + this.userName +
+            '&body=שלום ' + this.nameSupplier +
+            ' להלן הזמנה עבור ' + this.userName + '%0A'
+            + ' ' + this.stringToOrder + '%0A' + this.sentenceToReturn +
+            '%0A' + 'אנא אשר קבלת הזמנה בלחיצת על הקישור הבא ' + '%0A' + this.acceptLink;
+          this.af.object(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`)
+            .set(false);
+          this.af.list(`users/${this.userId}/returnList/status/${this.supplierKey}`).update(element.key, {status: false});
+
         }
       });
     });
@@ -287,6 +304,10 @@ export class OrderForCurrectSupplierComponent implements OnInit {
 
   redurectOrder() {
 
+  }
+
+  showDialog() {
+    this.display = true;
   }
 
   returnProduct() {
@@ -315,7 +336,6 @@ export class OrderForCurrectSupplierComponent implements OnInit {
 
       });
     });
-
   }
 
   update(values: number, currentProductKey: string, currentMin: number, productName: string,

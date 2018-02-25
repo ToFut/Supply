@@ -1,14 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable } from 'rxjs/Observable';
+import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
+import {AngularFireAuth} from 'angularfire2/auth';
+import {Observable} from 'rxjs/Observable';
 import * as firebase from 'firebase/app';
 import {User} from './userDetail' ;
 import {RouterModule, Router, ActivatedRoute, NavigationExtras} from '@angular/router';
 import {MatchSupplierService} from './match-supplier.service';
 import {Location} from '@angular/common';
 import {isUndefined} from 'util';
-
 
 
 @Component({
@@ -21,7 +20,7 @@ import {isUndefined} from 'util';
 export class AppComponent implements OnInit {
   showHeader = true;
   navLinks: [
-    {label: 'Supplier', route: '/supplier'}];
+    { label: 'Supplier', route: '/supplier' }];
   title = 'Supply';
   user: Observable<any>;
   items: FirebaseListObservable<any[]>;
@@ -36,19 +35,20 @@ export class AppComponent implements OnInit {
   name: string;
   restName: string;
   checkIfInHomePage: boolean;
-  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase , private router: Router ,
-              public matchSupplier: MatchSupplierService , private location: Location ,  public link: ActivatedRoute) {
-      link.queryParams.subscribe(params => {
-        this.supplierKey = params['supplierKey'];
-        this.name = params['name'];
-        this.userId = params['userId'];
-        this.dayInMonth = params['dayInMonth'];
-        this.month = params['month'];
-        this.year = params['year'];
-        this.domainUserId = params['domainUserId'];
-        this.name = params['name'];
-        this.restName = params['restName'];
-      });
+
+  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase, private router: Router,
+              public matchSupplier: MatchSupplierService, private location: Location, public link: ActivatedRoute) {
+    link.queryParams.subscribe(params => {
+      this.supplierKey = params['supplierKey'];
+      this.name = params['name'];
+      this.userId = params['userId'];
+      this.dayInMonth = params['dayInMonth'];
+      this.month = params['month'];
+      this.year = params['year'];
+      this.domainUserId = params['domainUserId'];
+      this.name = params['name'];
+      this.restName = params['restName'];
+    });
 
     this.afAuth.authState.subscribe(user => {
       if (user) {
@@ -95,11 +95,14 @@ export class AppComponent implements OnInit {
       }
     });
     this.user = afAuth.authState;
-    if (!this.userId) {return; }
+    if (!this.userId) {
+      return;
+    }
     this.items = this.af.list(`users/${this.userId}/suppliers`);
     this.userName = afAuth.auth.currentUser.displayName;
 
   }
+
   checkURL() {
   }
 
@@ -108,7 +111,7 @@ export class AppComponent implements OnInit {
   }
 
 
-    ngOnInit() {
+  ngOnInit() {
     this.user = this.afAuth.authState;
     const currentUrl = this.router.url; /// this will give you current url
     let registeredUser = true;
@@ -116,26 +119,30 @@ export class AppComponent implements OnInit {
       registeredUser = false;
     }
 
-    }
+  }
+
   redirectSupplier() {
     this.router.navigate(['./supplier']);
   }
+
   redirectOrder() {
     this.router.navigate(['./order']);
   }
 
 
   anonymousLogin() {
-    return this.afAuth.auth.signInAnonymously().then((isSuccess) =>  {
+    return this.afAuth.auth.signInAnonymously().then((isSuccess) => {
     });
 
   }
-   w3_open() {
+
+  w3_open() {
     document.getElementById('main').style.marginRight = '50%';
     document.getElementById('mySidebar').style.width = '50%';
     document.getElementById('mySidebar').style.display = 'block';
   }
-   w3_close() {
+
+  w3_close() {
     document.getElementById('main').style.marginRight = '0%';
     document.getElementById('mySidebar').style.display = 'none';
     document.getElementById('openNav').style.display = 'inline-block';
@@ -143,16 +150,14 @@ export class AppComponent implements OnInit {
 
 
   linkGoogle() {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).
-    then(   (isSuccess) =>  {
+    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((isSuccess) => {
       this.userName = this.afAuth.auth.currentUser.displayName;
 
     });
   }
 
   linkFacebook() {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider()).
-    then(   (isSuccess) =>  {
+    this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider()).then((isSuccess) => {
     });
 
   }
@@ -160,15 +165,19 @@ export class AppComponent implements OnInit {
   getItemList(): FirebaseListObservable<any[]> {
     return this.items;
   }
+
   logout() {
     this.afAuth.auth.signOut();
   }
+
   deleteItem(key: string) {
     this.items.remove(key);
   }
+
   deleteEverything() {
     this.items.remove();
   }
+
   openNav() {
     document.getElementById('mySidenav').style.width = '500px';
     document.getElementById('main').style.marginLeft = '500px';
@@ -180,6 +189,7 @@ export class AppComponent implements OnInit {
     document.getElementById('main').style.marginLeft = '0';
     document.body.style.backgroundColor = 'white';
   }
+
   modifyHeader(location) {
     if (location.url === '/homeAfterLogin') {
       this.checkIfInHomePage = true;

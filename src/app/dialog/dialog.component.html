@@ -1,82 +1,115 @@
 <div class="container">
 
-<br><br>
-  <div >
-    <div class="form-style-2-heading" style="text-align: center;font-size: x-large;font-family: 'Comic Sans MS'"> כרטיס ספק</div>
-    <label ><span> <span class="required">*</span>קטגוריית ספק</span>
+  <br><br>
+  <div>
+    <div class="form-style-2-heading" style="text-align: center;font-size: x-large;font-family: 'Comic Sans MS'"> כרטיס
+      ספק
+    </div>
+    <label><span> <span class="required">*</span>קטגוריית ספק</span>
       <br>
-      <mat-select  placeholder="קטגוריית ספק" [(ngModel)]="selectedType" >
-      <mat-option *ngFor="let type of typeOption " [value]="type.viewValue">
-        <span>{{type.viewValue}}  </span>
-      </mat-option>
-    </mat-select>
+      <mat-select placeholder="קטגוריית ספק" [(ngModel)]="selectedType">
+        <mat-option *ngFor="let type of typeOption " [value]="type.viewValue">
+          <span>{{type.viewValue}}  </span>
+        </mat-option>
+      </mat-select>
       <i class="fa fa-plus" (click)="functionOpen()"></i>
       <input #InputsecondTypeOfFillUp [hidden]="open"
              (blur)="changeCatogrey(InputsecondTypeOfFillUp.value)"
-             (mouseout)="functionOpen()"
-             [(ngModel)]="secondTypeOfFillUp">
-
+             (mouseout)="functionOpen()">
     </label>
     <br>
-    <form  #bookForm="ngForm">
-      <label ><span> <span class="required">*</span>שם החברה</span>
-        <input mdInput type="text"  class="input-field" #updatename value="{{(item | async)?.name}}" placeholder="שם החברה" required ></label>
-    <br>
+    <form #bookForm="ngForm">
+      <label><span> <span class="required">*</span>שם החברה</span>
+        <input mdInput type="text" class="input-field" #updatename value="{{(item | async)?.name}}"
+               placeholder="שם החברה" required></label>
+      <br>
 
-      <label ><span>טלפון במשרד </span>
-        <input type="tel"  class="input-field" #updatePhoneNumber value="{{(item | async)?.PhoneNumber}}" mdInput placeholder="טלפון במשרד"></label>
-    <br>
-      <label ><span>מייל החברה </span>
-        <input mdInput   class="input-field" type="email" #updatemail value="{{(item | async)?.email}}" placeholder="מייל החברה" ></label>
-    <br>
+      <label><span>טלפון במשרד </span>
+        <input type="tel" class="input-field" #updatePhoneNumber value="{{(item | async)?.PhoneNumber}}" mdInput
+               placeholder="טלפון במשרד"></label>
+      <br>
+      <label><span>מייל החברה </span>
+        <input mdInput class="input-field" type="email" #updatemail value="{{(item | async)?.email}}"
+               placeholder="מייל החברה"></label>
+      <br>
     </form>
     <form>
-      <label ><span> <span class="required">*</span>שם איש הקשר לביצוע הזמנות</span>
+      <label><span> <span class="required">*</span>שם איש הקשר לביצוע הזמנות</span>
 
-        <input mdInput type="text"    #updateContactName value="{{(item | async)?.ContactName}}" placeholder="שם איש הקשר לביצוע הזמנות"  class="input-field" required></label>
-    <br>
-      <label ><span> <span class="required">*</span>נייד איש הקשר</span>
-
-        <input type="tel"  #updateContactNum value="{{(item | async)?.ContactNum}}"  mdInput placeholder="נייד איש הקשר"  class="input-field" required></label>
-    <br>
-      <label ><span>מייל איש הקשר </span>
-        <input mdInput  type="email"  class="input-field" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" required #updateContactEmail value="{{(item | async)?.ContactEmail}}" placeholder="מייל איש הקשר" ></label>
+        <input mdInput type="text" #updateContactName value="{{(item | async)?.ContactName}}"
+               placeholder="שם איש הקשר לביצוע הזמנות" class="input-field" required></label>
       <br>
-  </form>
+      <label><span> <span class="required">*</span>נייד איש הקשר</span>
+
+        <input type="tel" #updateContactNum value="{{(item | async)?.ContactNum}}" mdInput placeholder="נייד איש הקשר"
+               class="input-field" required></label>
+      <br>
+      <label><span>מייל איש הקשר </span>
+        <input mdInput type="email" class="input-field"
+               pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+               required #updateContactEmail value="{{(item | async)?.ContactEmail}}"
+               placeholder="מייל איש הקשר"></label>
+      <br>
+    </form>
+    <br>
+    <i style="margin-right: 2em" class="fa fa-plus-circle fa-2x " (click)="openSecondContactForm = !openSecondContactForm"><span class="comment">הוסף איש קשר נוסף </span></i>
     <br>
 
-    <label ><span> <span class="required">*</span>מועדי הזמנה</span>
+    <form>
+      <div [hidden]="openSecondContactForm">
+        <label><span> <span class="required">*</span>שם איש הקשר משני</span>
+
+          <input mdInput type="text" #updateContactNameSecond value="{{(item | async)?.ContactNameSecond}}"
+                 placeholder="שם איש הקשר לביצוע הזמנות" class="input-field" required></label>
+        <label><span> <span class="required">*</span> נייד איש הקשר משני</span>
+
+          <input type="tel" #updateContactNumSecond value="{{(item | async)?.ContactNumSecond}}" mdInput
+                 placeholder="נייד איש הקשר" class="input-field" required></label>
+        <label><span>מייל איש הקשר משני</span>
+          <input mdInput type="email" class="input-field"
+                 pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+                 required #updateContactEmailSecond value="{{(item | async)?.ContactEmailSecond}}"
+                 placeholder="מייל איש הקשר"></label>
+      </div>
       <br>
-      <mat-select id="select" placeholder="מועדי הזמנה" [(ngModel)]="selectedWay" name="optionOrder" >
-      <mat-option>--</mat-option>
-      <mat-option *ngFor="let option of Options " [value]="option">
-        <span>{{option}}  <span> ימים לפני  </span> </span>
-      </mat-option>
-    </mat-select>
+    </form>
+    <br>
+    <label><span> <span class="required">*</span>מועדי הזמנה</span>
+      <br>
+      <mat-select id="select" placeholder="מועדי הזמנה" [(ngModel)]="selectedWay" name="optionOrder">
+        <mat-option>--</mat-option>
+        <mat-option *ngFor="let option of Options " [value]="option">
+          <span>{{option}}  <span> ימים לפני  </span> </span>
+        </mat-option>
+      </mat-select>
     </label>
     <br>
     <br>
     <label>
-      <mat-slide-toggle class="example-margin" [(ngModel)]="getInWeekEnd">לא מקבל הזמנות בשבת<span class="required">*</span></mat-slide-toggle>
+      <mat-slide-toggle class="comment" [(ngModel)]="getInWeekEnd"><span class="comment">לא מקבל הזמנות בשבת </span></mat-slide-toggle>
     </label>
 
     <br><br>
 
-    <label class="center-block" style="width:250px;margin-bottom:10px"  ></label>
+    <label class="center-block" style="width:250px;margin-bottom:10px"></label>
     <span class="required">*</span>מועדי אספקה:
-  <div class="col-xs-12 col-sm-6 example-col">
-    <div *ngFor="let day of days" class="btn-group ">
-      <button type="button" id="{{day.itemName}}" (click)="checkDay(day.itemName ,day.id)" class="btn shadow" style="color: #22262e ;background-color: #fcf5f5">{{day.itemName}}</button>
+    <div class="col-xs-12 col-sm-6 example-col">
+      <div *ngFor="let day of days" class="btn-group ">
+        <button type="button" id="{{day.itemName}}" (click)="checkDay(day.itemName ,day.id)" class="btn shadow"
+                style="color: #22262e ;background-color: #fcf5f5">{{day.itemName}}
+        </button>
+      </div>
     </div>
-  </div>
 
-<br><br>    <br> <br>
+    <br><br> <br> <br>
 
     <br>
 
 
-
-    <button  class="button" [hidden]="!update" (click)="associateProduct()"><span>סל מוצרים </span></button>
-    <button  class="button"(click)="BuildSupplier(updatename.value,updatePhoneNumber.value,updatemail.value,updateContactName.value,updateContactNum.value,updateContactEmail.value)" style="align-items:center;vertical-align:middle"><span>עדכן </span></button>
-</div>
+    <button class="button" [hidden]="!update" (click)="associateProduct()"><span>סל מוצרים </span></button>
+    <button class="button"
+            (click)="BuildSupplier(updatename.value,updatePhoneNumber.value,updatemail.value,updateContactName.value,updateContactNum.value,updateContactEmail.value ,
+            updateContactNameSecond.value,updateContactNumSecond.value,updateContactEmailSecond.value)"
+            style="align-items:center;vertical-align:middle"><span>עדכן </span></button>
+  </div>
 </div>

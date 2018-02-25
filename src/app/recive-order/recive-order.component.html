@@ -1,60 +1,55 @@
+<div class="container" style="direction: rtl; text-align: center;">
+  <br><span style="  font-size: x-large; color: #050348;" data-shadow-text="Text-Shadow">קבלת סחורה </span> <i
+  class="fa fa-truck w3-xlarge" style="color: #22262e;"></i><br>
 
-<div class="container"  style="direction: rtl; text-align: center;">
-<br><span style="  font-size: x-large; color: #050348;" data-shadow-text="Text-Shadow" >קבלת סחורה </span>  <i class="fa fa-truck w3-xlarge" style="color: #22262e;"></i><br>
+  <div [ngSwitch]=day>
+    <h1 *ngSwitchCase=0> ראשון </h1>
+    <h1 *ngSwitchCase=1> שני </h1>
+    <h1 *ngSwitchCase=2> שלישי </h1>
+    <h1 *ngSwitchCase=3> רביעי </h1>
+    <h1 *ngSwitchCase=4> חמישי </h1>
+    <h1 *ngSwitchCase=5> שישי </h1>
+    <h1 *ngSwitchCase=6> שבת </h1>
+  </div>
+  <!--<div class="tab-content">-->
+  <div #loading id="loader"
+       *ngIf="showWarning?.length == 0 && reciveNONEComplete?.length == 0 && reciveComplete?.length == 0;  else start ; ">
+    <div class="loader"></div>
+    <div class="shadow"></div>
+  </div>
 
-  <div >
-    <div [ngSwitch]=day style="text-align: center">
-      <h1 *ngSwitchCase=0>     ראשון  </h1>
-      <h1 *ngSwitchCase=1>     שני  </h1>
-      <h1 *ngSwitchCase=2>     שלישי  </h1>
-      <h1 *ngSwitchCase=3>    רביעי  </h1>
-      <h1 *ngSwitchCase=4>     חמישי  </h1>
-      <h1 *ngSwitchCase=5>     שישי  </h1>
-      <h1 *ngSwitchCase=6>     שבת  </h1>
+  <div class="list" *ngFor="let supplier of reciveNONEComplete ">
+    <div class="space" (click)="todoListNavigation(supplier)">
+      <button class=" ui  labeled icon button button1 ">
+        <i class="cart icon" [class.success]=" time <= 9"
+           [class.danger]="time > 9 && time <= 23 "></i>
+        <span class="name">{{(supplier | async)?.name}}</span>
+      </button>
+      <!--<button id="{{supplier.$ref.$key}}" (click)="orderFromMe(supplier)" class="button"-->
+      <!--[class.success]=" time <= 9"-->
+      <!--[class.danger]="time > 9 && time <= 23 " [ngClass]="{'warning': getWarning(supplier)}"><h5-->
+      <!--style="font-size: small;color: #0E1013;">{{ (supplier | async)?.name }}</h5></button>-->
+      <!--{{supplier.$ref.$key}}-->
+
+      <!--</div>-->
     </div>
-    <div >
-<!--
-      <div  [hidden]=" !checkIfExist ">
-        <span style="font-size: x-large; color: #4CAF50;"> אין לך הזמנות להיום</span>
-      </div>
--->
-      <div [hidden]=" checkIfExist " >
-        <div  [hidden]=" !allSupplierFinishe ">
-          <span > כל הכבוד </span>
-          <br>
-          <span>קיבלת את כל הסחורה להיום!</span>
-        </div>
-
-        <div class="tab" [hidden]=" allSupplierFinishe ">
-        <input id="tab-one" type="checkbox" name="tabs" [(ngModel)]="show"/>
-        <label  for="tab-one">  קבלת סחורה  </label>
-        <div class="tab-content">
-          <div *ngFor="let supplier of reciveNONEComplete " >
-            <button  (click)="todoListNavigation(supplier )" class="button"
-                     [class.success]=" time <= 9"
-                     [class.danger]="time > 9 && time <= 23 " [ngClass]="{'warning': getWarning(supplier)}"> <h5 style="font-size: small;color: #0E1013;">{{ (supplier | async)?.name }}</h5 > </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="tab">
-        <input id="tab-two" type="checkbox" name="tabs">
-        <label for="tab-two">  קבלת סחורה שהושלמה  </label>
-        <div class="tab-content">
-          <div *ngFor="let supplier of reciveComplete " [hidden]=" !someSupplierFinish ">
-            <button  class = "button success"(click)="todoListNavigation(supplier )">
-              <h5 style="font-size: small;color: #0E1013;">{{ (supplier | async)?.name }}</h5 ></button>
-          </div>
-          <div [hidden]=" someSupplierFinish ">
-            <h1 > עוד לא קיבלתי סחורה להיום.. </h1>
-
-          </div>
-
-        </div>
-      </div>
-    </div>
+  </div>
+  <div class="list" *ngFor="let supplier of showWarning ">
+    <div class="space" (click)="todoListNavigation(supplier)">
+      <button class=" ui  labeled icon button button1 ">
+        <i class="cart icon warning"></i>
+        <span class="name">{{(supplier | async)?.name}}</span>
+      </button>
     </div>
   </div>
 
+  <div class="list" *ngFor="let supplier of reciveComplete ">
+    <div class="space" (click)="todoListNavigation(supplier)">
+      <button class=" ui  labeled icon button button1 ">
+        <i class="cart icon success"></i>
+        <span class="name">{{(supplier | async)?.name}}</span>
+      </button>
+    </div>
   </div>
 
+</div>

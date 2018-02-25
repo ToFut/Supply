@@ -6,6 +6,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 @Injectable()
 export class GetReturnService implements OnInit {
   userId: string;
+
   constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
@@ -14,9 +15,9 @@ export class GetReturnService implements OnInit {
     });
 
   }
-
   ngOnInit() {
   }
+
   getAmount(supplierKey, productKey, Fyear, Fmonth, Fday, Tyear, Tmonth, Tday) {
     let count = 0;
     while (!(Fyear.toString() === Tyear && Fmonth.toString() === Tmonth

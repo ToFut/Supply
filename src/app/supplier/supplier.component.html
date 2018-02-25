@@ -1,37 +1,75 @@
-<div class="container"  style="direction: rtl; text-align: center;">
+<div class="container" style="direction: rtl; text-align: center;">
 
-<br><span style="  color: #050348;" data-shadow-text="Text-Shadow" >ספקים שלי </span>  <i class="fa fa-users w3-xlarge" style="color: #22262e;"></i><br>
+  <br><span style="  color: #050348;" data-shadow-text="Text-Shadow">הספקים שלי </span> <i class="fa fa-users w3-xlarge"
+                                                                                           style="color: #22262e;"></i><br>
 </div>
-<div style="text-align:right">
+<div #loading id="loader"
+     *ngIf="(items | async)?.length == 0;  else start ; ">
+  <div id="shadow"></div>
+  <div id="box"></div>
+</div>
 
-  <button id="fixedSort" (click)="sortList()"><i style="color: #26D367;" class="fa fa-sort-alpha-desc fa-2x" aria-hidden="true"></i></button>
-  <input style="border-radius: 10px;" type="text" id="myInput" (keyup)="search()" placeholder=" חפש לפי שם הספק" >
-  <img id="imgSearch"src="../../assets/search.png">
-  <ul id="myUL" >
-    <li *ngFor="let item of items | async" (click)="associateProduct(item.$key)" >    <button style="float: left;color: red;" ><i class="fa fa-trash-o fa-2x " aria-hidden="true"></i></button>
-      <a >
+<span id="newSupplierButton" class="button"
+      (click)="addItem()">
+    <button> הוסף ספק </button>
+  </span>
+
+<div style="text-align:right">
+  <button id="fixedSort" (click)="sortList()"><i style="color: #26D367;" class="fa fa-sort-alpha-desc fa-2x"
+                                                 aria-hidden="true"></i></button>
+  <input style="border-radius: 10px; text-align: center" type="text" id="myInput" (keyup)="search()"
+         placeholder=" חפש לפי שם הספק">
+  <img id="imgSearch" src="../../assets/search.png">
+  <ul id="myUL">
+    <li *ngFor="let item of items | async | sortSupplier">
+      <div style="float: left" class="ui dropdown" suiDropdown>
+        <div><i class="fa fa-ellipsis-v fa-2x ellipsis"></i>
+        </div>
+        <div class="menu" suiDropdownMenu>
+          <button style="float: left;color: red;" suiPopup [popupTemplate]="popupTemplate"
+                  popupTrigger="outsideClick"><i
+            class="fa fa-trash-o fa-4x " aria-hidden="true"></i></button>
+          <ng-template let-popup #popupTemplate>
+            <i class="fa fa-exclamation-triangle fa-4x" style="color: orange; border-radius: 5px"></i>
+            <h3> אתה עומד למחוק את : {{item.name}} אתה בטוח?</h3>
+            <i class="fa fa-check-circle fa-4x " (click)="popup.close(); deleteItem(item.$key)"
+               style="color: green; border-radius: 5px;"> </i>
+            <i class="fa fa-times-circle fa-4x" (click)="popup.close()"
+               style="color: red; border-radius: 5px; margin-right: 3.7em;"></i>
+          </ng-template>
+        </div>
+      </div>
+
+      <a (click)="associateProduct(item.$key)">
         <div id="icon">
-        <span   *ngIf="item.type == 'מאפים'" class="fa fa-cutlery " aria-hidden="true"></span>
-        <span  *ngIf="item.type == 'מוצרי חלב'"  class="fa fa-coffee " aria-hidden="true"></span>
-        <span  *ngIf="item.type == 'מוצרי בשר'"  class="fa fa-cutlery " aria-hidden="true"></span>
-        <span  *ngIf="item.type == 'משקאות חריפים'" class="fa fa-beer " aria-hidden="true"></span>
-        <span  *ngIf="item.type == 'שתייה'" class="large material-icons ">local_drink</span>
-        <span  *ngIf="item.type == 'משקאות'"  class="large material-icons ">local_drink</span>
-        <span  *ngIf="item.type == 'ירקות'"   class="fa fa-apple " aria-hidden="true"></span>
+          <span *ngIf="item.type == 'מאפים'" class="fa fa-cutlery " aria-hidden="true"></span>
+          <span *ngIf="item.type == 'מוצרי חלב'" class="fa fa-coffee " aria-hidden="true"></span>
+          <span *ngIf="item.type == 'מוצרי בשר'" class="fa fa-cutlery " aria-hidden="true"></span>
+          <span *ngIf="item.type == 'משקאות חריפים'" class="fa fa-beer " aria-hidden="true"></span>
+          <span *ngIf="item.type == 'שתייה'" class="large material-icons ">local_drink</span>
+          <span *ngIf="item.type == 'משקאות'" class="large material-icons ">local_drink</span>
+          <span *ngIf="item.type == 'ירקות'" class="fa fa-apple " aria-hidden="true"></span>
         </div>
         <h4 id="name">{{item.name}} </h4>
       </a>
     </li>
   </ul>
-
   <span class="fixedButton" (click)="addItem()">
-    <div class="fa-stack fa-lg">
-      <i class="fa fa-circle fa-stack-2x"></i>
+    <div class="fa-stack fa-lg fa-2x">
+      <i class="fa fa-circle fa-stack-2x "></i>
       <i class="fa fa-plus fa-stack-1x fa-inverse"></i>
     </div>
   </span>
 
-  <!--
+
+  <!--      <button style="float: left;color: red;"  suiPopup [popupTemplate]="popupTemplate" popupTrigger="outsideClick"><i class="fa fa-trash-o fa-2x " aria-hidden="true"></i></button>
+      <ng-template let-popup #popupTemplate>
+        <div class="header">Rating</div>
+        <div class="content">
+          <sui-rating class="star" (click)="popup.close()"></sui-rating>
+        </div>
+      </ng-template>
+
     <button md-fab>
       <i class="material-icons"  (click)="deleteEverything()">delete</i>
     </button>

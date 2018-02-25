@@ -103,28 +103,24 @@ export class TodoListComponent implements OnInit {
     });
     this.currentSupplierProducts = this.af.list(`/users/${this.userId}/suppliers/${this.supplierKey}/SupplierProducts/`);
   }
+
   updateRecive() {
     this.currentReciveInformation = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}`);
     this.ifFinisheSupplier = this.af.list(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/status`);
     console.log(this.ifFinisheSupplier);
     console.log(this.checkIfAllSelected(' ', '', ''));
-    this.af.list(`users/${this.userId}/returnList/${this.supplierKey}`).subscribe(value => {
-      value.forEach(element => {
-        console.log(element);
-        //   if(element.status === 'sent') {
-        //  this.af.list(`users/${this.userId}/returnList/${this.supplierKey}/${element`).
-      });
-    });
+    this.af.object(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/status/${this.supplierKey}`)
+      .set(this.selectedAll);
 
     if (this.checkIfAllSelected(' ', '', '')) {
-      this.af.object(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/status/${this.supplierKey}`)
-        .set(this.selectedAll);
       this.reciveInfo.subscribe(value => {
         console.log(value);
         value.forEach(ele => {
           console.log(ele);
-          this.reciveInfo.update(`${ele.$key}/accepted`, ele.amount);
+          this.af.object(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}/${ele.$key}/accepted`).
+          set(ele.amount);
         });
+        this.af.list(`users/${this.userId}/returnList/${this.supplierKey}`).remove();
       });
 
 
@@ -152,7 +148,7 @@ export class TodoListComponent implements OnInit {
   }
 
   checkAccepterCurrentKey(amount, accepted, key) {
-    if (accepted ) {
+    if (accepted) {
       this.af.object(
         `users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}/${key}/accepted`)
         .set(amount);
@@ -231,6 +227,7 @@ export class TodoListComponent implements OnInit {
     if (accept >= amount) {
       this.radioButton[index] = true;
     }
+    console.log(this.radioButton);
   }
 
 }

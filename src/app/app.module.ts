@@ -32,7 +32,7 @@ import {AssociateProductToSupplierService} from './associate-product-to-supplier
 import {SupplierPrivateProductsService} from './supplier-private-products.service';
 import {HomeComponent} from './home/home.component';
 import {AmazingTimePickerModule} from 'amazing-time-picker'; // this line you need
-import { FormWizardModule } from 'angular2-wizard';
+import {FormWizardModule} from 'angular2-wizard';
 
 import {
   AccordionModule,
@@ -43,13 +43,13 @@ import {
   MatSlideToggleModule,
   MatSelectModule,
   MatButtonModule,
-  MatCheckboxModule,
+  MatCheckboxModule, MatDialogModule,
 } from '@angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {TooltipModule} from 'primeng/tooltip';
 import {SuiModule} from 'ng2-semantic-ui';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { ChartsModule } from 'ng2-charts';
+import {ChartsModule} from 'ng2-charts';
 
 import {SplitButtonModule} from 'primeng/primeng';
 import {OrderComponent} from './order/order.component';
@@ -83,7 +83,15 @@ import {CalcAmountService} from './satistics/services/calc-amount.service';
 import {SuppliersDeatilService} from './satistics/services/suppliers-deatil.service';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {GetReturnService} from './getReturn.service';
-import { ContactComponent } from './contact/contact.component';
+import {ContactComponent} from './contact/contact.component';
+import {ConfirmModalComponent} from './confirm-modal/confirm-modal.component';
+import {DialogModule} from 'primeng/dialog';
+import {ReturnProductsDialogComponent} from './return-products/return-products-dialog/return-products-dialog.component';
+import {FilterProductsPipe} from './return-products/filter-products.pipe';
+import {FilterSupplierPipe} from './return-products/filter-supplier.pipe';
+import {LoadersCssModule} from 'angular2-loaders-css';
+import { SortDaysPipe } from './show-all-products/sort-days.pipe';
+import { SortSupplierPipe } from './supplier/sort-supplier.pipe';
 
 @NgModule({
   declarations: [
@@ -121,6 +129,12 @@ import { ContactComponent } from './contact/contact.component';
     DeleteSupplierComponent,
     DeleteProductComponent,
     ContactComponent,
+    ConfirmModalComponent,
+    ReturnProductsDialogComponent,
+    FilterProductsPipe,
+    FilterSupplierPipe,
+    SortDaysPipe,
+    SortSupplierPipe,
   ],
   imports: [
     BrowserModule,
@@ -159,15 +173,18 @@ import { ContactComponent } from './contact/contact.component';
     NgbModule,
     ChartsModule,
     NgxChartsModule,
-    FormWizardModule
+    FormWizardModule,
+    MatDialogModule,
+    DialogModule,
+    LoadersCssModule
   ],
   exports: [OrderComponent],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy} ,
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},
     ProductsService,
     SupplierService, AssociateProductToSupplierService, SupplierPrivateProductsService,
-    MatchSupplierService, CalcSumService , CalcAmountService , GetReturnService ,
-    SuppliersDeatilService , MatButtonModule, MatTooltipModule , MatCheckboxModule],
-  entryComponents: [DialogEditProductsComponent , ShowAllProductsComponent,
+    MatchSupplierService, CalcSumService, CalcAmountService, GetReturnService,
+    SuppliersDeatilService, MatButtonModule, MatTooltipModule, MatCheckboxModule],
+  entryComponents: [DialogEditProductsComponent, ShowAllProductsComponent,
     ShowAllSupplierComponent, DeleteProductComponent,
     DeleteSupplierComponent, ShowProductComponent],
   bootstrap: [AppComponent],

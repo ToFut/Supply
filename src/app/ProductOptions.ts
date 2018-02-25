@@ -3,7 +3,7 @@ export class ProductOptions {
   ProductNumber: number;
   UnitOfMeasure: string;
   price: number;
-  pricePerUnit: number;
+  priceSum: number;
   discount: number;
   UnitInPackaging: number;
   secondUnitInPackaging: number;
@@ -16,5 +16,8 @@ export class ProductOptions {
   deposit: boolean;
   sale: number;
   depositPrice: number;
+  unitDesposit: number;
+  secondeDesposit: number;
+  fillDesposit: number;
   imgSrc: string;
 }

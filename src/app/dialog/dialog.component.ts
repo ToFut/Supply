@@ -46,7 +46,9 @@ export class DialogComponent implements OnInit {
   typeOption: any;
   getInWeekEnd = false;
   orderDaysList = [];
+  openSecondContactForm = true;
   open = true;
+  orderInDaysItemName = [];
 
   constructor(fb: FormBuilder, public af: AngularFireDatabase, public afAuth: AngularFireAuth,
               route: ActivatedRoute, private router: Router) {
@@ -124,7 +126,12 @@ export class DialogComponent implements OnInit {
           this.selectedWay = data['OrderDays'];
         }
         if (!isUndefined(data['type'])) {
-          this.selectedType = data['type'];
+          if (this.typeOption.indexOf(data['type']) === -1) {
+            this.changeCatogrey(data['type']);
+
+          } else {
+            this.selectedType = data['type'];
+          }
         }
 
         console.log(data['getInWeekEnd']);
@@ -181,13 +188,14 @@ export class DialogComponent implements OnInit {
       console.log(sub);
       this.days[sub].orderIn = ele.id;
       this.days[sub].itemNameOrder = ele.itemName;
-      console.log(this.days[sub]);
-      if (this.orderInThisDays.indexOf(this.days[sub] !== -1)) {
+      if (this.orderInDaysItemName.indexOf(this.days[sub].itemName) === -1) {
         this.orderInThisDays.push(this.days[sub]);
+        this.orderInDaysItemName.push(this.days[sub].itemName)
         console.log(this.orderInThisDays);
       }
     });
   }
+
   changeCatogrey(value) {
     this.typeOption.push({viewValue: value});
     this.selectedType = value;
@@ -196,8 +204,14 @@ export class DialogComponent implements OnInit {
   functionOpen() {
     this.open = !this.open;
   }
+
+  SecondContactForm() {
+    this.openSecondContactForm = !this.openSecondContactForm;
+  }
+
   BuildSupplier(name: string, PhoneNumber: number, email: string, ContactName: string, ContactNum: number,
-                ContactEmail: string) {
+                ContactEmail: string, ContactNameSecond: string, ContactNumSecond: number,
+                ContactEmailSecond: string) {
     this.decribeCurentReciveDate();
     console.log('not finish');
     this.Supplier.name = name;
@@ -206,13 +220,15 @@ export class DialogComponent implements OnInit {
     this.Supplier.ContactName = ContactName;
     this.Supplier.ContactNum = ContactNum;
     this.Supplier.ContactEmail = ContactEmail;
+    this.Supplier.ContactNameSecond = ContactNameSecond;
+    this.Supplier.ContactNumSecond = ContactNumSecond;
+    this.Supplier.ContactEmailSecond = ContactEmailSecond;
     this.Supplier.OrderDays = this.selectedWay;
     this.Supplier.getInWeekEnd = this.getInWeekEnd;
     this.Supplier.frequency = this.frequencySelected;
     this.Supplier.date = this.dateSelected;
     this.Supplier.type = this.selectedType;
     this.Supplier.orderInThisDays = this.orderInThisDays;
-    console.log(this.selectedType);
     this.updateItem(this.Supplier);
   }
 
@@ -267,7 +283,18 @@ export class DialogComponent implements OnInit {
       }
     });
     this.item.update(Supplier);
-    this.router.navigateByUrl('/supplier');
+    if (!this.update) {
+      this.item.subscribe(value => {
+        this.supplierKey = value['$key'];
+        this.associateProduct();
+      });
+    } else {
+      this.router.navigateByUrl('/supplier');
+    }
+  }
+
+  addSecondContact() {
+    this.open = !this.open;
   }
 
   deleteItem() {

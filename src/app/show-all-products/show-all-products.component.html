@@ -1,7 +1,7 @@
 <div dir="rtl" class="container">
   <div class="form-style-2-heading">
     <h2 style="text-align: center" [hidden]="!(!this.updateStatus && !this.undifineCheck)"> הגדרת מוצר </h2>
-    <h2 style="text-align: center" [hidden]="!this.updateStatus && !this.undifineCheck"> עדכון מוצר -{{(item |
+    <h2 style="text-align: center" [hidden]="!this.updateStatus && !this.undifineCheck"> עדכון מוצר - {{(item |
       async)?.ProductName}} </h2>
   </div>
 
@@ -20,8 +20,6 @@
         <mat-option *ngFor="let product of products" [value]="product.ProductName">
           <p (click)="changename(product.ProductName)">{{ product.ProductName }}</p> |
         </mat-option>
-      </form>
-      <form>
 
         <div class="option">
 
@@ -31,7 +29,7 @@
               {{ unit.viewValue }}
             </mat-option>
           </mat-select>
-          <i class="fa fa-plus" (click)="funcopenselectedUnitOfMeasure()"></i>
+          <i class="fa fa-plus fa-2x" (click)="funcopenselectedUnitOfMeasure()"></i>
           <input #InputUnitOfMeasure [hidden]="openselectedUnitOfMeasure"
                  (blur)="changeUnitOfMeasure(InputUnitOfMeasure.value)" (mouseout)="funcopenselectedUnitOfMeasure()">
 
@@ -40,35 +38,76 @@
           <h5> מחיר ל{{UnitOfMeasure}}</h5>
 
           <div class="input-group presuffix">
-            <input mdInput type="number" pInputText value="{{(item | async)?.pricePerUnit}}" placeholder="מחיר" #price
-                   (keyup)="onKeyPrice(price.value)" required name="ProductName">
+            <input mdInput type="number" pInputText value="{{(item | async)?.price}}" placeholder="מחיר" #pricePerUnit
+                   (keyup)="onKeyPricePerUnit(pricePerUnit.value)" required name="ProductName">
             <span class="input-group-addon suffix">₪/{{UnitOfMeasure}}</span>
           </div>
         </label>
-      </form>
-      <form>
-        <div class="option">
-
-          <h5 class=" select"> מארז משני &nbsp;</h5>
-          <mat-select placeholder="יח' מידה" [(ngModel)]="secondTypeOfFillUp" name="UnitOfMeasure">
-            <mat-option *ngFor="let unit of secondFillUp" [value]="unit.value">
-              {{ unit.viewValue }}
-            </mat-option>
-          </mat-select>
-          <i class="fa fa-plus" (click)="funcopenselectedsecondTypeOfFillUp()"></i>
-          <input #InputsecondTypeOfFillUp [hidden]="openselectedsecondTypeOfFillUp"
-                 (blur)="changesecondTypeOfFillUp(InputsecondTypeOfFillUp.value)"
-                 (mouseout)="funcopenselectedsecondTypeOfFillUp()">
-        </div>
-
         <label>
-          <h5> כמות ב{{secondTypeOfFillUp}} &nbsp; </h5>
-          <div class="input-group suffix">
-            <input mdInput type="number" value="{{(item | async)?.sizeUnitPackaging}}" #sizeUnitPackaging
-                   (keyup)="onKeySecondSizeUnitPackaging(sizeUnitPackaging.value)" name="ProductName">
-            <span class="input-group-addon ">{{UnitOfMeasure}}</span>
+          <h5>פקדון ל{{UnitOfMeasure}}</h5>
+
+          <div class="input-group presuffix">
+            <input mdInput type="number" pInputText value="{{(item | async)?.unitDesposit}}" placeholder="מחיר"
+                   #UnitDespoit
+                   (keyup)="onKeyDespoitUnit(UnitDespoit.value)" required>
+            <span class="input-group-addon suffix">₪</span>
+
           </div>
         </label>
+
+      </form>
+      <br>
+      <i style="margin-right: 2em" class="fa fa-plus-circle fa-2x "
+         (click)="openSecondContactForm = !openSecondContactForm"><span class="comment"> הוסף מארז משני  </span></i>
+      <br>
+      <br>
+
+      <form>
+        <div [hidden]="openSecondContactForm">
+
+          <div class="option">
+            <h5 class=" select"> מארז משני &nbsp;</h5>
+            <mat-select placeholder="יח' מידה" [(ngModel)]="secondTypeOfFillUp" name="UnitOfMeasure">
+              <mat-option *ngFor="let unit of secondFillUp" [value]="unit.value">
+                {{ unit.viewValue }}
+              </mat-option>
+            </mat-select>
+            <i class="fa fa-plus fa-2x" (click)="funcopenselectedsecondTypeOfFillUp()"></i>
+            <input #InputsecondTypeOfFillUp [hidden]="openselectedsecondTypeOfFillUp"
+                   (blur)="changesecondTypeOfFillUp(InputsecondTypeOfFillUp.value)"
+                   (mouseout)="funcopenselectedsecondTypeOfFillUp()">
+          </div>
+
+          <label>
+            <h5> כמות ב{{secondTypeOfFillUp}} &nbsp; </h5>
+            <div class="input-group suffix">
+              <input mdInput type="number" value="{{(item | async)?.sizeUnitPackaging}}" #sizeUnitPackaging
+                     (keyup)="onKeySecondSizeUnitPackaging(sizeUnitPackaging.value)" name="ProductName">
+              <span class="input-group-addon ">{{UnitOfMeasure}}</span>
+            </div>
+          </label>
+          <label>
+            <h5> מחיר ל{{secondTypeOfFillUp}}</h5>
+
+            <div class="input-group presuffix">
+              <input mdInput type="number" pInputText value="{{sizeUnitPackaging *  (item | async)?.price}}"
+                     placeholder="מחיר"
+              >
+              <span class="input-group-addon suffix">₪</span>
+            </div>
+          </label>
+          <label>
+            <h5>פקדון ל{{secondTypeOfFillUp}}</h5>
+
+            <div class="input-group presuffix">
+              <input mdInput type="number" pInputText value="{{(item | async)?.secondeDesposit}}" placeholder="מחיר"
+                     #secondDespoit
+                     (keyup)="onKeyDespoitsecondTypeOfFillUp(secondDespoit.value)" required>
+              <span class="input-group-addon suffix">₪</span>
+
+            </div>
+          </label>
+        </div>
       </form>
       <form>
         <div class="option">
@@ -78,10 +117,9 @@
               {{ option.viewValue }}
             </mat-option>
           </mat-select>
-          <i class="fa fa-plus" (click)="funcopenselectedTypeOfFillUp()"></i>
+          <i class="fa fa-plus fa-2x" (click)="funcopenselectedTypeOfFillUp()"></i>
           <input #InputTypeOfFillUp [hidden]="openselectedTypeOfFillUp"
                  (blur)="changeTypeOfFillUp(InputTypeOfFillUp.value)" (mouseout)="funcopenselectedTypeOfFillUp()">
-
         </div>
         <label>
           <h5> כמות ב {{TypeOfFillUp}}&nbsp; </h5>
@@ -89,62 +127,76 @@
           <div class="input-group suffix">
             <input mdInput type="number" value="{{(item | async)?.UnitInPackaging}}" #UnitInPackaging required
                    (keyup)="onKeyUnitInPackaging(UnitInPackaging.value)" name="UnitInPackaging">
-            <span class="input-group-addon">{{secondTypeOfFillUp}}</span>
+            <span class="input-group-addon">{{UnitOfMeasure}}</span>
           </div>
         </label>
-      </form>
-      <form>
         <label>
-          <h5 (click)="calcPrice()"> חשב מחיר סופי&nbsp; </h5>
-          <div class="input-group suffix">
-            <span>{{sumPrice}}</span>
-          </div>
-        </label>
-      </form>
-      <form>
-
-        <label>
-          <h5> הנחה </h5>
+          <h5> מחיר ל{{TypeOfFillUp}}</h5>
 
           <div class="input-group presuffix">
-            <input mdInput type="number" pInputText value="{{(item | async)?.discount}}" placeholder="הנחה" #discount
-                   (blur)="onKeyDiscount(discount.value)" name="ProductName">
-            <span class="input-group-addon suffix">% </span>
+            <input mdInput type="number" pInputText value="{{sumPrice}}" placeholder="מחיר" #price
+                   (keyup)="onKeyPriceSum(price.value)" required disabled>
+            <span class="input-group-addon suffix">₪</span>
+
           </div>
         </label>
-        <div class="option">
-          <h5 class=" select"> מבצע&nbsp; </h5>
-          <mat-select placeholder="מבצע" [(ngModel)]="saleProduct" name="saleProduct">
-            <mat-option *ngFor="let option of sales" [value]="option.value">
-              {{ option.viewValue }}
-            </mat-option>
-          </mat-select>
-        </div>
+        <label>
+          <h5>פקדון ל{{TypeOfFillUp}}</h5>
+
+          <div class="input-group presuffix">
+            <input mdInput type="number" pInputText value="{{(item | async)?.fillDesposot}}" placeholder="מחיר"
+                   #TypeOfFillUpDespoit
+                   (keyup)="onKeyDespoitFillUp(TypeOfFillUpDespoit.value)" required>
+            <span class="input-group-addon suffix">₪</span>
+
+          </div>
+        </label>
+
       </form>
+      <!--<form>-->
+
+      <!--<label>-->
+      <!--<h5> הנחה </h5>-->
+
+      <!--<div class="input-group presuffix">-->
+      <!--<input mdInput type="number" pInputText value="{{(item | async)?.discount}}" placeholder="הנחה" #discount-->
+      <!--(blur)="onKeyDiscount(discount.value)" name="ProductName">-->
+      <!--<span class="input-group-addon suffix">% </span>-->
+      <!--</div>-->
+      <!--</label>-->
+      <!--<div class="option">-->
+      <!--<h5 class=" select"> מבצע&nbsp; </h5>-->
+      <!--<mat-select placeholder="מבצע" [(ngModel)]="saleProduct" name="saleProduct">-->
+      <!--<mat-option *ngFor="let option of sales" [value]="option.value">-->
+      <!--{{ option.viewValue }}-->
+      <!--</mat-option>-->
+      <!--</mat-select>-->
+      <!--</div>-->
+      <!--</form>-->
       <!--
           <section class="example-section" dir="rtl">
             <md-checkbox class="example-margin" [(ngModel)]="privateProduct">מוצר פרטי</md-checkbox>
           </section>
       -->
-      <section>
-        <mat-slide-toggle [(ngModel)]="depositCchecked"
+      <!--<section>-->
+      <!--<mat-slide-toggle [(ngModel)]="depositCchecked"-->
 
-                          [color]="color"
-                          [checked]="depositCchecked"
-                          [disabled]="disabled">
-          <span>כולל החזרת פיקדון?</span>
-        </mat-slide-toggle>
-      </section>
+      <!--[color]="color"-->
+      <!--[checked]="depositCchecked"-->
+      <!--[disabled]="disabled">-->
+      <!--<span>כולל החזרת פיקדון?</span>-->
+      <!--</mat-slide-toggle>-->
+      <!--</section>-->
 
-      <label [hidden]="!depositCchecked">
-        <h5> פיקדון </h5>
+      <!--<label [hidden]="!depositCchecked">-->
+      <!--<h5> פיקדון </h5>-->
 
-        <div class="input-group presuffix">
-          <input mdInput type="number" pInputText value="{{(item | async)?.depositPrice}}" placeholder="עלות הפיקדון"
-                 #depositPrice (blur)="onKeyDepositPrice(depositPrice.value)" name="depositPrice">
-          <span class="input-group-addon suffix">אג'</span>
-        </div>
-      </label>
+      <!--<div class="input-group presuffix">-->
+      <!--<input mdInput type="number" pInputText value="{{(item | async)?.depositPrice}}" placeholder="עלות הפיקדון"-->
+      <!--#depositPrice (blur)="onKeyDepositPrice(depositPrice.value)" name="depositPrice">-->
+      <!--<span class="input-group-addon suffix">אג'</span>-->
+      <!--</div>-->
+      <!--</label>-->
       <br>
       <label>
         <mat-slide-toggle
@@ -157,11 +209,11 @@
         <div *ngIf="showhidepregnant">
           <label>
             <span style="color: red;font-size: x-small"> נא מלא את כל השדות </span>
-            <div class="input-group presuffix" *ngFor="let day of dateCurrectSupplirer ; let i = index">
-              <h5 style="font-size: small;text-align: right;"> להזמנה ביום {{day.itemName}}: <h6
-                style="font-size: xx-small;text-align: right;">וקבלה ביום {{day.itemNameOrder}}:</h6></h5>
-              <div class="input-group presuffix"> השלם ל
-                <input style="border-radius: 10px" placeholder="מצבה במלאי" id="{{day.id}}" type="number" #input
+            <div style="display: flex;" *ngFor="let day of dateCurrectSupplirer | sortDays; let i = index">
+              <h5 style="font-size: x-small;text-align: right;"> הזמנה ב <strong style="font-size: medium">{{day.itemName}}</strong>
+                קבלה ב<strong style="font-size: medium"> {{day.itemNameOrder}}</strong></h5>
+              <div class="input-group presuffix">
+                <input style="border-radius: 10px" placeholder=" השלם ל" id="invatory" type="number" #input
                        value="{{days[day.id]}}" (keyup)="modifyDays(day.id , day.orderIn, input.value)"
                        name="MinInInventory" required>
                 <span class="input-group-addon suffix"> {{TypeOfFillUp}}  </span>
@@ -173,12 +225,12 @@
       </form>
     </div>
     <a class="btn btn-success" [hidden]="!(!this.updateStatus && !this.undifineCheck)"
-       (click)="BuildProductForAllDB(discount.value , price.value , UnitInPackaging.value , sizeUnitPackaging.value , ProductName.value ,depositPrice.value )">
+       (click)="BuildProductForAllDB(  UnitInPackaging.value , sizeUnitPackaging.value , ProductName.value  )">
       <i class="fa fa-check-square"></i> הוסף </a>
-    <a class="btn btn-success"  [hidden]="!this.updateStatus && !this.undifineCheck"
-       (click)="BuildProductForAllDB(discount.value , price.value , UnitInPackaging.value , sizeUnitPackaging.value , ProductName.value ,depositPrice.value )">
+    <a class="btn btn-success" [hidden]="!this.updateStatus && !this.undifineCheck"
+       (click)="BuildProductForAllDB( UnitInPackaging.value , sizeUnitPackaging.value , ProductName.value  )">
       <i class="fa fa-check-square"></i> עדכן </a>
-    <a class="btn btn-danger " (click)="deleteItem()" style="align-items:flex-start;"
+    <a class="btn btn-danger " (click)="deleteItem()" style="align-items:flex-start;float: left; "
        [hidden]="!this.updateStatus && !this.undifineCheck">
       <i class="fa fa-trash-o fa-lg"></i> מחק </a>
   </div>

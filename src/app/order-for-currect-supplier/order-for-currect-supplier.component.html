@@ -1,22 +1,18 @@
 <html lang="he" style="direction: rtl ">
 <div class="container" style="direction: rtl;">
   <br><br>
-  <table class="w3-table-all">
 
-    <div class="table-responsive" style="text-align: right;">
-      <h2 style="text-align: right; font-weight: bold; color: #22262e;font-size: xx-large;  padding: 0px 20px 0px 0px;"> הזמנה והחזרת
-        סחורה </h2>
+  <h2 style="text-align: right; font-weight: bold; color: #22262e;font-size: xx-large;  padding: 0px 20px 0px 0px;">
+    הזמנת
+    סחורה </h2>
 
-      <h3 style="     float:left; display:inline-block; padding: 0px 0px 0px 20px; color: #26D367;"> {{fullDate}} </h3>
-      <h1
-        style="color: #26d367;  display:inline-block;margin-right:10px;   font-weight: bold;    padding: 0px 2px 0px 0px;">
-        {{(supplierProperty |async)?.name }}</h1>
-    </div>
-  </table>
+  <h3 style="     float:left; display:inline-block; padding: 0px 0px 0px 20px; color: #26D367;"> {{fullDate}} </h3>
+  <h1
+    style="color: #26d367;  display:inline-block;margin-right:10px;   font-weight: bold;    padding: 0px 2px 0px 0px;">
+    {{(supplierProperty |async)?.name }}</h1>
+  <h3>מוצרים להזמנה</h3>
   <table class="w3-table-all">
     <thead>
-    <h3>מוצרים להזמנה</h3>
-
     <tr
       style="      font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa">
       <th style="float: right">שם המוצר</th>
@@ -38,19 +34,17 @@
                style="border-radius: 10px;width: 100px;color: #16b720;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;"
                #box type="number"
                (keyup.enter)="update(box.value , Product.$key , Product.MinInInventory ,
-                                                     Product.ProductName , Product.model ,Product.price , Product.UnitInPackaging);comppare(Product.MinInInventory[day] , box.value)"
+                                                     Product.ProductName , Product.TypeOfFillUp ,Product.price , Product.UnitInPackaging);comppare(Product.MinInInventory[day] , box.value)"
                (blur)="update(box.value , Product.$key , Product.MinInInventory ,
                                                      Product.ProductName , Product.TypeOfFillUp ,Product.price , Product.UnitInPackaging ); comppare(Product.MinInInventory[day] , box.value)
                       " value="{{orderForTodayFromSpesificProduct[Product.$key]}}" maxlength="2" size="2">
       </td>
     </tr>
     </tbody>
-
   </table>
+  <h3>מוצרים להחזרה</h3>
   <table class="w3-table-all" [hidden]="!ifTodayIsReturnDay">
     <thead>
-    <h3>מוצרים להחזרה</h3>
-
     <tr
       style="      font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa">
       <th style="text-align: right;">שם המוצר</th>
@@ -78,15 +72,47 @@
     </tbody>
   </table>
 </div>
-<div id="menu-button"> שלח לספק<i class="zmdi zmdi-share"></i>
-  <a (click)="buildMessageWhatsApp()" class="fa fa-whatsapp fa-4x" style="color: #26D367"></a>
-  <a (click)="buildMessageEmail()" class="fa fa-envelope-o fa-4x" style="color: #3A4A7B"></a>
-  <a (click)="buildMessageEmail()" class="fa fa-comment fa-4x" style="color: #3498db"></a>
-</div>
+<!--<div id="menu-button"> שלח לספק<i class="zmdi zmdi-share"></i>-->
+<!--<a (click)="buildMessageWhatsApp()" class="fa fa-whatsapp fa-4x" style="color: #26D367"></a>-->
+<!--<a (click)="buildMessageEmail()" class="fa fa-envelope-o fa-4x" style="color: #3A4A7B"></a>-->
+<!--<a (click)="buildMessageEmail()" class="fa fa-comment fa-4x" style="color: #3498db"></a>-->
+<!--</div>-->
 </html>
+<!--
 
-  <sui-dimmer class="page" [(isDimmed)]="pageDimmed">
-    <h2 >
-      <i class="fa fa-exclamation-triangle fa-5x"></i><h2 style="font-size: 2em;">שים לב!</h2> כמות ההזמנה גדולה מהמצבה להשלמה
-    </h2>
-  </sui-dimmer>
+1. load font awesome with your favorite method
+2. replace items in {{ }}s with details specific to your content
+
+-->
+<div>
+  <span id="sendWith"> שלח כ-</span>
+</div>
+<div id="share">
+  <!-- twitter -->
+  <a class="whatsapp" (click)="buildMessageWhatsApp()"><i
+    class="fa fa-whatsapp"></i></a>
+
+  <!-- google plus -->
+  <a class="email" (click)="buildMessageEmail()"><i
+    class="fa fa-envelope-o"></i></a>
+
+  <!-- linkedin -->
+  <a class="sms" (click)="buildMessageEmail()"
+     target="blank"><i class="fa fa-comment"></i></a>
+
+  <a class="phone" (click)="showDialog()"
+     target="blank"><i class="fa fa-phone"></i></a>
+
+  <p-dialog [(visible)]="display">
+    <i class="fa  fa-volume-control-phone fa-4x downPhone " suiPopup popupText="חייג לספק " (click)="phoneCall()"> </i>
+    <i class="fa fa-check fa-4x downCheck" suiPopup popupText="אשר הזמנה מהספק " (click)="popup.close()"></i>
+  </p-dialog>
+
+
+</div>
+<sui-dimmer class="page" [(isDimmed)]="pageDimmed">
+  <h2>
+    <i class="fa fa-exclamation-triangle fa-5x"></i>
+    <h2 style="font-size: 2em;">שים לב!</h2> כמות ההזמנה גדולה מהמצבה להשלמה
+  </h2>
+</sui-dimmer>

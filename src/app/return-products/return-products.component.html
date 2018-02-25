@@ -5,161 +5,167 @@
                                                                                  aria-hidden="true"></i>
   <i style="color: #22262e" class="fa fa-arrow-left w3-xlarge" aria-hidden="true"></i>
   <br> <br>
-  <sui-tabset>b
-    <div class="ui top attached tabular menu">
-      <button class="item" suiTabHeader="1" [(isActive)]="firstActive"><i class="alarm icon"></i>מוצרים הממתינים להחזרה</button>
-      <button class="item" suiTabHeader="2" [(isActive)]="secondActive" (activate)="alert()" disabled>החזרות סחורה לפי
-        ספק</button>
-      <button class="item" suiTabHeader="3" [(isActive)]="thirdActive" [isDisabled]="thirdDisabled" disabled> סך כל המוצרים
-        שהוחזרו</button>
+  <div id="loader"
+       *ngIf="showDone?.length == 0 && fieldArray?.length == 0 ;  else start ; ">
+    <div id="shadow"></div>
+    <div id="box"></div>
+  </div>
 
-    </div>
-    <div class="ui bottom attached segment" suiTabContent="1">
-      <button>
-          <span class="fixedButton" (click)="collapse = !collapse">
-      <div class="fa-stack fa-lg">
-        <i class="fa fa-circle fa-stack-2x"></i>
-        <i class="fa fa-plus fa-stack-1x fa-inverse"></i>
-     </div>
-    </span>
-        <div class="ui segment">
-          <div [suiCollapse]="collapse">
-            <i class="fa fa-times" (click)="collapse = !collapse"></i>
-            <h4 id="enterDetails">הכנס פרטים:</h4>
-            <table>
-              <tbody>
-              <tr>
-                <th><span class="required">*</span>שם הספק</th>
-                <td>
-                  <mat-select style="order:1" [(ngModel)]="selectedSupplier">
-                    <mat-option *ngFor="let type of list " (click)="changeProductSelectors()" [value]="type">
-                      <p>{{type.itemName}} </p>
-                    </mat-option>
-                  </mat-select>
-                </td>
-              </tr>
-              <tr>
-                <th><span class="required">*</span>שם המוצר</th>
-                <td>
-                  <mat-select style="order:2" [(ngModel)]="selectedProduct">
-                    <mat-option (click)="updateProductKeyAndTypeOfFillUp(product.$key , product.TypeOfFillUp )"
-                                *ngFor="let product of productsSuppliers | async " [value]="product">
-                      <p>{{product.ProductName}} </p>
-                    </mat-option>
-                  </mat-select>
-                </td>
-              </tr>
-              <tr>
-                <th><span class="required">*</span>כמות</th>
-                <td>
-                  <input style="order:3" class="form-control" type="number" id="newAttributePrice"
-                         [(ngModel)]="newAttribute.amount" name="newAttributeAmount"/>
-                </td>
-              </tr>
-              <tr>
-                <th><span class="required">*</span>סיבה</th>
-                <td>
-                  <mat-select style="order:2" [(ngModel)]="selectedReason">
-                    <mat-option *ngFor="let reason of reasons  " [value]="reason.value">
-                      <p>{{reason.value}} </p>
-                    </mat-option>
-                  </mat-select>
-                </td>
-              </tr>
-              <tr>
-                <th><span class="required">*</span>יחידת מידה</th>
-                <td>
-                  <mat-select [hidden]="!open" style="order:2" [(ngModel)]="selectedType">
-                    <mat-option *ngFor="let type of types  " [value]="type.value">
-                      <p>{{type.value}} </p>
-                    </mat-option>
-                  </mat-select>
-                  <i class="fa fa-plus" (click)="cahngeInput()"></i>
-                  <input [hidden]="open"
-                         #InputselectedType
-                         (blur)="changeType(InputselectedType.value)"
-                         (mouseout)="cahngeInput()" [(ngModel)]="selectedType">
-                </td>
-              </tr>
-
-              <button class="btn" type="button" (click)="addFieldValue()">הוסף מוצר להחזרה</button>
-              </tbody>
-            </table>
-
-          </div>
-        </div>
-        <ul id="myUL">
-          <li *ngFor="let  field of fieldArray  ; let i = index">
-            <a>
-              <div suiPopup popupText="{{field.amount}}  {{field.TypeOfFillUp}} , {{field.reason}}" popupInverted
-                   [popupPlacement]="position">
-                <h4 id="showFileds">{{field.supplierName}} -> {{field.productName}}
-                  <span id="sent" *ngIf="field.status === true"> הודעה נשלחה לספק </span>
-                  <span id="notSentYet" *ngIf="field.status === false"> טרם נשלחה הודעה לספק</span></h4>
-              </div>
-            </a>
-          </li>
-        </ul>
+  <span id="newSupplierButton" class="button2"
+        (click)="openFormReturnPage()">
+    <button> הוסף מוצר להחזרה </button>
+  </span>
+  <div class="ui bottom attached segment" suiTabContent="2">
+    <button>
+      <label> תאריך התחלה</label>
+      <input type="date" #fromDatespesificSupplier placeholder="הכנס תאריך התחלה"
+             (change)="changeFromDatespesificSupplier(fromDatespesificSupplier.value)">
+      <label> תאריך סיום</label>
+      <input type="date" #toDatespesificSupplier placeholder="הכנס תאריך סיום"
+             (change)="changeToDatespesificSupplier(toDatespesificSupplier.value)">
+      <span style="float: right"> <span class="required">*</span>שם הספק</span>
+      <mat-select style="order:1" [(ngModel)]="spesificSupplier">
+        <mat-option *ngFor="let type of list " (click)="pageDimmed3 = !pageDimmed3;createSpesificSupplier()"
+                    [value]="type">
+          <p>{{type.itemName}} </p>
+        </mat-option>
+      </mat-select>
+      <ngx-charts-advanced-pie-chart
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="single"
+        (select)="onSelect($event)">
+      </ngx-charts-advanced-pie-chart>
+    </button>
+  </div>
+  <div class="ui bottom attached segment" suiTabContent="3">
+    <button class="ui purple button">Activate 1st Tab</button>
+  </div>
+  <div class="list" *ngFor="let supplier of fieldArray  ">
+    <div class="space">
+      <button class=" ui  labeled icon button button1 " suiPopup
+              popupText="{{supplier.amount}}  {{supplier.TypeOfFillUp}} , {{supplier.reason}}" popupInverted
+              [popupPlacement]="position">
+        <i class="cart icon warning"></i>
+        <span class="name">{{supplier.supplierName}}  -> {{supplier.productName}}</span>
       </button>
     </div>
-    <div class="ui bottom attached segment" suiTabContent="2">
-      <button>
-        <label> תאריך התחלה</label>
-        <input type="date" #fromDatespesificSupplier placeholder="הכנס תאריך התחלה"
-               (change)="changeFromDatespesificSupplier(fromDatespesificSupplier.value)">
-        <label> תאריך סיום</label>
-        <input type="date" #toDatespesificSupplier placeholder="הכנס תאריך סיום"
-               (change)="changeToDatespesificSupplier(toDatespesificSupplier.value)">
-        <span style="float: right"> <span class="required">*</span>שם הספק</span>
-        <mat-select style="order:1" [(ngModel)]="spesificSupplier">
-          <mat-option *ngFor="let type of list " (click)="pageDimmed3 = !pageDimmed3;createSpesificSupplier()"
-                      [value]="type">
-            <p>{{type.itemName}} </p>
-          </mat-option>
-        </mat-select>
-        <ngx-charts-advanced-pie-chart
-          [view]="view"
-          [scheme]="colorScheme"
-          [results]="single"
-          (select)="onSelect($event)">
-        </ngx-charts-advanced-pie-chart>
+  </div>
+
+  <div class="list" *ngFor="let supplier of showDone " suiPopup
+       popupText="{{supplier.amount}}  {{supplier.TypeOfFillUp}} , {{supplier.reason}}" popupInverted
+       [popupPlacement]="position">
+    <div class="space">
+      <button class=" ui  labeled icon button button1 ">
+        <i class="cart icon success"></i>
+        <span class="name">{{supplier.supplierName}} -> {{supplier.productName}}</span>
       </button>
     </div>
-    <div class="ui bottom attached segment" suiTabContent="3">
-      <button class="ui purple button">Activate 1st Tab</button>
+  </div>
+
+  <span class="fixedButton" (click)="openFormReturnPage()">
+    <div class="fa-stack fa-lg fa-2x">
+      <i class="fa fa-circle fa-stack-2x "></i>
+      <i class="fa fa-plus fa-stack-1x fa-inverse"></i>
     </div>
-  </sui-tabset>
-</div>
-<!--
+  </span>
+
+  <!--<ul id="myUL">-->
+  <!--<li *ngFor="let  field of fieldArray  ; let i = index">-->
+  <!--<a>-->
+  <!--<div suiPopup popupText="{{field.amount}}  {{field.TypeOfFillUp}} , {{field.reason}}" popupInverted-->
+  <!--[popupPlacement]="position">-->
+  <!--<h4 id="showFileds">{{field.supplierName}} -> {{field.productName}}-->
+  <!--<span id="sent" *ngIf="field.status === true"> הודעה נשלחה לספק </span>-->
+  <!--<span id="notSentYet" *ngIf="field.status === false"> טרם נשלחה הודעה לספק</span></h4>-->
+  <!--</div>-->
+  <!--</a>-->
+  <!--</li>-->
+  <!--</ul>-->
+
+  <!--<div class="ui segment">-->
+  <!--<div>-->
+  <!--<section>-->
+  <!--<span class="required">* שם הספק</span>-->
+  <!--<mat-select style="order:1" [(ngModel)]="selectedSupplier">-->
+  <!--<mat-option *ngFor="let type of list " (click)="changeProductSelectors()" [value]="type">-->
+  <!--<p>{{type.itemName}} </p>-->
+  <!--</mat-option>-->
+  <!--</mat-select>-->
+  <!--<span class="required">* שם המוצר</span>-->
+  <!--<mat-select style="order:2" [(ngModel)]="selectedProduct">-->
+  <!--<mat-option (click)="updateProductKeyAndTypeOfFillUp(product.$key , product.TypeOfFillUp )"-->
+  <!--*ngFor="let product of productsSuppliers | async " [value]="product">-->
+  <!--<p>{{product.ProductName}} </p>-->
+  <!--</mat-option>-->
+  <!--</mat-select>-->
+  <!--</section>-->
+  <!--<section>-->
+  <!--<span class="required">* כמות</span>-->
+  <!--<input style="order:3" class="form-control" type="number" id="newAttributePrice"-->
+  <!--[(ngModel)]="newAttribute.amount" name="newAttributeAmount"/>-->
+  <!--</section>-->
+  <!--<section>-->
+  <!--<span class="required">* סיבה</span>-->
+  <!--<mat-select style="order:2" [(ngModel)]="selectedReason">-->
+  <!--<mat-option *ngFor="let reason of reasons  " [value]="reason.value">-->
+  <!--<p>{{reason.value}} </p>-->
+  <!--</mat-option>-->
+  <!--</mat-select>-->
+  <!--<i class="fa fa-plus fa-2x" (click)="cahngeReasons()"></i>-->
+  <!--<input [hidden]="openreasons"-->
+  <!--#InputselectedReason-->
+  <!--(blur)="changeReason(InputselectedReason.value)"-->
+  <!--(mouseout)="cahngeInput()" [(ngModel)]="selectedType">-->
+  <!--</section>-->
+  <!--<section>-->
+  <!--<span class="required">* יחידת מידה</span>-->
+  <!--<mat-select [hidden]="!open" style="order:2" [(ngModel)]="selectedType">-->
+  <!--<mat-option *ngFor="let type of types  " [value]="type.value">-->
+  <!--<p>{{type.value}} </p>-->
+  <!--</mat-option>-->
+  <!--</mat-select>-->
+  <!--<i class="fa fa-plus fa-2x" (click)="cahngeInput()"></i>-->
+  <!--<input [hidden]="open"-->
+  <!--#InputselectedType-->
+  <!--(blur)="changeType(InputselectedType.value)"-->
+  <!--(mouseout)="cahngeInput()" [(ngModel)]="selectedType">-->
+  <!--</section>-->
+  <!--<button class="btn" type="button" (click)="addFieldValue()">הוסף מוצר להחזרה</button>-->
+
+  <!--</div>-->
+  <!--</div>-->
+  <!--
+      <tr>
+      <th>שם הספק</th>
+
+      <td>
+        <input style="order:0" [(ngModel)]="field.supplierName" class="form-control" type="text" name="{{field .supplierName}}" />
+      </td>
+    </tr>
     <tr>
-    <th>שם הספק</th>
+      <th>שם המוצר</th>
 
-    <td>
-      <input style="order:0" [(ngModel)]="field.supplierName" class="form-control" type="text" name="{{field .supplierName}}" />
-    </td>
-  </tr>
-  <tr>
-    <th>שם המוצר</th>
+      <td>
+        <input style="order:1" [(ngModel)]="field.productName" class="form-control" type="text" name="{{field.productName}}" />
+      </td>
+    </tr>
+    <tr>
+      <th>כמות</th>
 
-    <td>
-      <input style="order:1" [(ngModel)]="field.productName" class="form-control" type="text" name="{{field.productName}}" />
-    </td>
-  </tr>
-  <tr>
-    <th>כמות</th>
+      <td>
+        <input style="order:2" [(ngModel)]="field.amount"  class="form-control" type="text" name="{{field.amount}}"  />
+      </td>
+    </tr>
+    <tr>
+      <th>סיבת ההחזרה</th>
 
-    <td>
-      <input style="order:2" [(ngModel)]="field.amount"  class="form-control" type="text" name="{{field.amount}}"  />
+      <td>
+      <input style="order:3" [(ngModel)]="field.reason" class="form-control" type="text" name="{{field.reason}}" />
     </td>
-  </tr>
-  <tr>
-    <th>סיבת ההחזרה</th>
-
-    <td>
-    <input style="order:3" [(ngModel)]="field.reason" class="form-control" type="text" name="{{field.reason}}" />
-  </td>
-  </tr>
-    <td>
-      <button style="order:0" class="btn btn-default"  type="button" (click)="deleteFieldValue(i)">מחק </button>
-    </td>
--->
+    </tr>
+      <td>
+        <button style="order:0" class="btn btn-default"  type="button" (click)="deleteFieldValue(i)">מחק </button>
+      </td>
+  -->
+</div>

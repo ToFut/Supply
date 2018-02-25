@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFireDatabase, FirebaseObjectObservable} from 'angularfire2/database';
 import {isUndefined} from 'util';
 import {NavigationExtras, Router} from '@angular/router';
 
@@ -29,7 +29,11 @@ export class HomeAfterLoginComponent implements OnInit {
   settingsPermission: boolean;
   satisticsPermission: boolean;
   sharePermission: boolean;
-
+  versionUpdate: FirebaseObjectObservable<any[]>;
+  dayInMonth = this.viewDate.getDate();
+  month = this.viewDate.getMonth();
+  year = this.viewDate.getFullYear();
+  pageDimmed = false;
 
   constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase, private router: Router) {
     this.afAuth.authState.subscribe(user => {
@@ -47,24 +51,32 @@ export class HomeAfterLoginComponent implements OnInit {
             }
             this.subUser = true;
           }
-          this.af.object(`users/${this.domainUserId}/buyerPermissions`).subscribe(info => {
-            console.log(info);
-            this.orderPermission = info['order'];
-            this.returnPermission = info['return'];
-            this.recivePermission = info['recive'];
-            this.suppliersPermission = info['suppliers'];
-            this.settingsPermission = info['settings'];
-            this.satisticsPermission = info['satistics'];
-            this.sharePermission = info['share'];
+          if (!isUndefined(this.domainUserId)) {
+            this.af.object(`users/${this.domainUserId}/buyerPermissions`).subscribe(info => {
+              console.log(info);
+              this.orderPermission = info['order'];
+              this.returnPermission = info['return'];
+              this.recivePermission = info['recive'];
+              this.suppliersPermission = info['suppliers'];
+              this.settingsPermission = info['settings'];
+              this.satisticsPermission = info['satistics'];
+              this.sharePermission = info['share'];
 
-          });
+            });
+          }
 
         });
+        if (this.month === 12) {
+          this.month = 1;
+        } else {
+          this.month += 1;
+        }
 
-
-
+        // this.versionUpdate = this.af.object(`versions/${this.year}/${this.month}/${this.dayInMonth}`);
+        // if (!this.versionUpdate.isEmpty()) {
+        //   this.pageDimmed = true;
+        // }
       }
-
 
 
     });

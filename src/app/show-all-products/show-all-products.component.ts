@@ -12,7 +12,7 @@ import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {ProductsService} from '../products.service';
 import {Subject} from 'rxjs/Subject';
 import {DeleteProductComponent} from '../delete-product/delete-product.component';
-import {isUndefined} from "util";
+import {isUndefined} from 'util';
 
 @Component({
   selector: 'app-show-all-products',
@@ -37,6 +37,7 @@ export class ShowAllProductsComponent implements OnInit {
     'public',
     'private',
   ];
+  openSecondContactForm = true;
   days = [];
   existProduct = [];
   orderInThatdays = [];
@@ -105,16 +106,19 @@ export class ShowAllProductsComponent implements OnInit {
   UnitOfMeasure: string;
   TypeOfFillUp: string;
   secondTypeOfFillUp: string;
-  color = '#26D367';
+  color = 'primary';
   depositCchecked = false;
   disabled = false;
   orderType = [];
   orderBefore = 0;
-  Completeall = true;
+  Completeall: boolean;
   isLinear = false;
-  pricePerUnit = 1;
+  price = 1;
   UnitInPackaging = 1;
   secondUnitInPackaging = 1;
+  unitDesposit = 0;
+  secondeDesposit = 0;
+  fillDesposit = 0;
 
   constructor(public af: AngularFireDatabase, public afAuth: AngularFireAuth,
               public route: ActivatedRoute, private _formBuilder: FormBuilder, private router: Router,
@@ -127,6 +131,9 @@ export class ShowAllProductsComponent implements OnInit {
     this.saleProduct = 0;
     this.updateStatus = false;
     this.undifineCheck = false;
+    this.unitDesposit = 0;
+    this.secondeDesposit = 0;
+    this.fillDesposit = 0;
     route.queryParams.subscribe(params => {
       this.userId = params['userId'];
       this.SupplierKey = params['SupplierKey'];
@@ -144,6 +151,8 @@ export class ShowAllProductsComponent implements OnInit {
     this.depositCchecked = false;
     this.saleProduct = 0;
     this.UnitOfMeasure = '';
+    this.Completeall = true;
+
     this.item = this.af.object(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}`);
     this.af.list
     (`users/${this.userId}/suppliers/${this.SupplierKey}/orderInThisDays`).subscribe(val => {
@@ -161,31 +170,55 @@ export class ShowAllProductsComponent implements OnInit {
 
     this.item.subscribe(data => {
       if (this.selectProductKey !== undefined && !this.undifineCheck) {
-        console.log('inside');
         if ((data['TypeOfFillUp'])) {
           console.log('TypeOfFillUp');
-          this.TypeOfFillUp = data['TypeOfFillUp'];
+          if (this.unitOFMeasurementOption.indexOf(data['TypeOfFillUp']) === -1) {
+            this.changeTypeOfFillUp(data['TypeOfFillUp']);
+          } else {
+            this.TypeOfFillUp = data['TypeOfFillUp'];
+          }
         } else {
           this.TypeOfFillUp = '';
         }
         if ((data['secondTypeOfFillUp'])) {
           console.log('secondTypeOfFillUp');
-          this.secondTypeOfFillUp = data['secondTypeOfFillUp'];
+          if (this.unitOFMeasurementOption.indexOf(data['secondTypeOfFillUp']) === -1) {
+            this.changesecondTypeOfFillUp(data['secondTypeOfFillUp']);
+          } else {
+            this.secondTypeOfFillUp = data['secondTypeOfFillUp'];
+          }
         } else {
           this.secondTypeOfFillUp = '';
         }
 
-        if ((data['deposit'])) {
-          console.log('deposit');
+        if ((data['unitDesposit'])) {
+          console.log('unitDesposit');
 
-          this.depositCchecked = data['deposit'];
+          this.unitDesposit = data['unitDesposit'];
         } else {
-          this.depositCchecked = false;
+          this.unitDesposit = 0;
+        }
+        if ((data['secondeDesposit'])) {
+          console.log('secondeDesposit');
+
+          this.secondeDesposit = data['secondeDesposit'];
+        } else {
+          this.secondeDesposit = 0;
+        }
+        if ((data['fillDesposit'])) {
+          console.log('fillDesposit');
+
+          this.fillDesposit = data['fillDesposit'];
+        } else {
+          this.fillDesposit = 0;
         }
         if ((data['UnitOfMeasure'])) {
           console.log('UnitOfMeasure');
-
-          this.UnitOfMeasure = data['UnitOfMeasure'];
+          if (this.unitOFMeasurementOption.indexOf(data['UnitOfMeasure']) === -1) {
+            this.changeUnitOfMeasure(data['UnitOfMeasure']);
+          } else {
+            this.UnitOfMeasure = data['UnitOfMeasure'];
+          }
         } else {
           this.UnitOfMeasure = '';
         }
@@ -196,13 +229,13 @@ export class ShowAllProductsComponent implements OnInit {
         } else {
           this.saleProduct = 0;
         }
-        if ((data['pricePerUnit'])) {
+        if ((data['price'])) {
 
-          this.pricePerUnit = data['pricePerUnit'];
-          console.log(this.pricePerUnit);
+          this.price = data['price'];
+          console.log(this.price);
 
         } else {
-          this.pricePerUnit = 1;
+          this.price = 1;
         }
         if ((data['UnitInPackaging'])) {
 
@@ -220,11 +253,14 @@ export class ShowAllProductsComponent implements OnInit {
           this.secondUnitInPackaging = 1;
         }
         this.sumPrice = 0;
-        if (this.secondUnitInPackaging !== 0) {
-          this.sumPrice = this.pricePerUnit * this.UnitInPackaging * this.secondUnitInPackaging;
-        } else {
-          this.sumPrice = this.pricePerUnit * this.UnitInPackaging;
-        }
+        // if (this.secondUnitInPackaging !== 0) {
+        //   this.sumPrice = this.pricePerUnit * this.UnitInPackaging * this.secondUnitInPackaging;
+        // } else {
+        //   this.sumPrice = this.pricePerUnit * this.UnitInPackaging;
+        // }
+        this.sumPrice = this.price * this.UnitInPackaging;
+        this.sumPrice += this.fillDesposit + this.unitDesposit * this.UnitInPackaging;
+        this.sumPrice.toFixed(2);
         this.updateStatus = true;
         this.undifineCheck = true;
       }
@@ -286,11 +322,11 @@ export class ShowAllProductsComponent implements OnInit {
     this.openselectedUnitOfMeasure = !this.openselectedUnitOfMeasure;
   }
 
-  BuildProductForAllDB(discount, price, UnitInPackaging,
-                       sizeUnitPackaging, ProductName, depositPrice) {
-
-    this.Product.discount = discount;
-    this.Product.price = this.sumPrice;
+  BuildProductForAllDB(UnitInPackaging,
+                       sizeUnitPackaging, ProductName) {
+    this.calcPrice();
+    // this.Product.discount = discount;
+    this.Product.priceSum = this.sumPrice
     this.Product.UnitInPackaging = UnitInPackaging;
     this.Product.sizeUnitPackaging = sizeUnitPackaging;
     this.Product.ProductName = ProductName;
@@ -298,9 +334,12 @@ export class ShowAllProductsComponent implements OnInit {
     this.Product.MinInInventory = this.orderInThatdays;
     this.Product.secondTypeOfFillUp = this.secondTypeOfFillUp;
     this.Product.TypeOfFillUp = this.TypeOfFillUp;
+    this.Product.unitDesposit = this.unitDesposit;
+    this.Product.secondeDesposit = this.secondeDesposit;
+    this.Product.fillDesposit = this.fillDesposit;
     this.Product.UnitOfMeasure = this.UnitOfMeasure;
     this.Product.sale = this.saleProduct;
-    this.Product.depositPrice = depositPrice;
+    // this.Product.depositPrice = depositPrice;
     console.log('key is ' + this.selectProductKey + ' supplier key ' + this.SupplierKey + ' MinInInventory :');
     this.updateItem(this.Product);
     // this.back();
@@ -329,6 +368,7 @@ export class ShowAllProductsComponent implements OnInit {
   }
 
   updateItem(Product) {
+    this.Completeall = true;
     console.log(this.privateProduct);
     if (this.Product.ProductName !== '') {
       if (this.privateProduct) {
@@ -340,9 +380,6 @@ export class ShowAllProductsComponent implements OnInit {
     if (!this.updateStatus && !this.undifineCheck) {
       let up = true;
 
-      console.log(this.undifineCheck);
-      console.log(this.updateStatus);
-      console.log(this.selectProductKey);
       try {
         this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`).push(Product);
         this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${Product}`).subscribe(newProduct => {
@@ -354,7 +391,6 @@ export class ShowAllProductsComponent implements OnInit {
           alert('לא מילאת מצבה להשלמה');
           this.Completeall = false;
         }
-        return;
       } finally {
         this.associateProduct();
 
@@ -374,10 +410,8 @@ export class ShowAllProductsComponent implements OnInit {
           alert('לא מילאת מצבה להשלמה');
           this.Completeall = false;
         }
-        return;
       } finally {
         this.associateProduct();
-
       }
 
     }
@@ -397,21 +431,49 @@ export class ShowAllProductsComponent implements OnInit {
   onKeyUnitInPackaging(UnitInPackaging: number) {
     console.log(UnitInPackaging);
 
-    this.Product.UnitInPackaging = UnitInPackaging;
+    this.Product.UnitInPackaging = Number(UnitInPackaging);
     this.calcPrice();
   }
 
   onKeyDepositPrice(depositPrice: number) {
     console.log(depositPrice);
 
-    this.Product.depositPrice = depositPrice;
+    this.Product.depositPrice = Number(depositPrice);
 
   }
 
-  onKeyPrice(Price: number) {
+  onKeyDespoitUnit(UnitDespoit) {
+    this.unitDesposit = Number(UnitDespoit);
+    this.calcPrice();
+
+
+  }
+
+  onKeyDespoitsecondTypeOfFillUp(UnitDespoit) {
+    this.secondeDesposit = Number(UnitDespoit);
+
+  }
+
+  onKeyDespoitFillUp(UnitDespoit) {
+    this.fillDesposit = Number(UnitDespoit);
+    this.calcPrice();
+
+  }
+
+  onKeyPricePerUnit(Price: number) {
     console.log(Price);
 
-    this.Product.pricePerUnit = Price;
+    this.Product.price = Number(Price);
+    this.price = Price;
+    this.calcPrice();
+
+  }
+
+  onKeyPriceSum(Price: number) {
+    console.log(Price);
+
+    this.Product.priceSum = Number(Price);
+    this.sumPrice = Price;
     this.calcPrice();
 
   }
@@ -432,36 +494,31 @@ export class ShowAllProductsComponent implements OnInit {
     console.log(UnitOfMeasure);
 
     this.Product.UnitOfMeasure = UnitOfMeasure;
+    this.UnitOfMeasure = this.UnitOfMeasure;
 
   }
 
   onKeySecondSizeUnitPackaging(secondUnitInPackaging: number) {
     console.log(secondUnitInPackaging);
 
+    this.secondUnitInPackaging = secondUnitInPackaging;
     this.Product.secondUnitInPackaging = secondUnitInPackaging;
-    this.calcPrice();
 
   }
 
   calcPrice() {
     this.sumPrice = 0;
-    if (!isUndefined(this.Product.pricePerUnit) && !isUndefined(this.Product.UnitInPackaging) && !isUndefined(this.Product.secondUnitInPackaging)) {
-      this.sumPrice = this.Product.pricePerUnit * this.Product.UnitInPackaging * this.Product.secondUnitInPackaging;
-    } else if (isUndefined(this.Product.pricePerUnit) && isUndefined(this.Product.UnitInPackaging) && !isUndefined(this.Product.secondUnitInPackaging)) {
-      this.sumPrice = this.pricePerUnit * this.UnitInPackaging * this.Product.secondUnitInPackaging;
-    } else if (isUndefined(this.Product.pricePerUnit) && !isUndefined(this.Product.UnitInPackaging) && isUndefined(this.Product.secondUnitInPackaging)) {
-      this.sumPrice = this.pricePerUnit * this.Product.UnitInPackaging * this.secondUnitInPackaging;
-    } else if (!isUndefined(this.Product.pricePerUnit) && isUndefined(this.Product.UnitInPackaging) && isUndefined(this.Product.secondUnitInPackaging)) {
-      this.sumPrice = this.Product.pricePerUnit * this.UnitInPackaging * this.secondUnitInPackaging;
-    } else if (isUndefined(this.Product.pricePerUnit) && !isUndefined(this.Product.UnitInPackaging) && !isUndefined(this.Product.secondUnitInPackaging)) {
-      this.sumPrice = this.pricePerUnit * this.Product.UnitInPackaging * this.Product.secondUnitInPackaging;
-    } else if (!isUndefined(this.Product.pricePerUnit) && !isUndefined(this.Product.UnitInPackaging) && isUndefined(this.Product.secondUnitInPackaging)) {
-      this.sumPrice = this.Product.pricePerUnit * this.Product.UnitInPackaging * this.secondUnitInPackaging;
-    } else if (!isUndefined(this.Product.pricePerUnit) && isUndefined(this.Product.UnitInPackaging) && !isUndefined(this.Product.secondUnitInPackaging)) {
-      this.sumPrice = this.Product.pricePerUnit * this.UnitInPackaging * this.Product.secondUnitInPackaging;
+    if (!isUndefined(this.Product.price) && !isUndefined(this.Product.UnitInPackaging)) {
+      this.sumPrice = this.Product.price * this.Product.UnitInPackaging;
+    } else if (isUndefined(this.Product.price) && !isUndefined(this.Product.UnitInPackaging)) {
+      this.sumPrice = this.price * this.Product.UnitInPackaging;
+    } else if (!isUndefined(this.Product.price) && isUndefined(this.Product.UnitInPackaging)) {
+      this.sumPrice = this.Product.price * this.UnitInPackaging;
     } else {
-      this.sumPrice = this.pricePerUnit * this.UnitInPackaging * this.secondUnitInPackaging;
+      this.sumPrice = this.price * this.UnitInPackaging;
     }
+    this.sumPrice += Number((Number(this.fillDesposit) + Number(this.unitDesposit) * Number(this.UnitInPackaging)).toFixed(2));
+
   }
 
   dateChange(Inventory: number, day: number, key: string) {

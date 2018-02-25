@@ -1,3 +1,60 @@
+@media only screen and (max-width: 780px) {
+  .fixedButton {
+    top: 90%;
+    color: #26D367;
+
+
+    position: fixed;
+    left: 30px;
+    font-size: 1.9em;
+  }
+  .tableShow {
+    display: none;
+  }
+  #newSupplierButton{
+    display: none;
+  }
+  .namePhone{
+    color: #22262e;
+    padding: 0px 20px 0px 0px;
+  }
+}
+th{
+  font-size: medium;
+  text-align: right;
+}
+
+@media only screen and (min-width: 781px) {
+  .visible-xs {
+    display: inline-block !important;
+  }
+  .namePhone{
+    display: none;
+  }
+  .fixedButton{
+    display: none;
+  }
+
+
+  .block {
+    display: block !important;
+    width: 100%;
+    height: 1px !important;
+  }
+
+  .fixedButton {
+    top: 12%;
+    color: #26D367;
+    position: fixed;
+    right: 90px;
+    font-size: 1.3em;
+  }
+
+}
+#newSupplierButton {
+  top: 90%;
+
+}
 #imgSearch {
   margin-top: -5.5em;
   width: 2em;
@@ -23,13 +80,6 @@
   border: 1px solid #ddd;
   margin-bottom: 12px;
 }
-.fixedButton {
-  top: 90%;
-  color: #26D367;
-  position: absolute;
-  left: 20px;
-  font-size: 1.3em;
-}
 h3 {
   margin: .3em;
 }
@@ -42,7 +92,17 @@ ul li{
   box-shadow: 0px 0px 2px #888888;
 
 }
+table {
+  table-layout: fixed;
+  word-wrap: break-word;
+}
 
+table th, table td {
+  overflow: hidden;
+}
+td{
+  font-size: medium;
+}
 ul.c-controls {
   list-style: none;
   margin: 0px;
@@ -94,4 +154,20 @@ ul.c-controls li a:hover {
 }
 .mat-select{
   font-size: large;
+}
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #26D367;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: small;
+  padding: 7px;
+  width: 103px;
+  height: 35px;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-right: 38px;
 }

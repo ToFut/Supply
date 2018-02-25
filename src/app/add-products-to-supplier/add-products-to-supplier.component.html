@@ -1,21 +1,60 @@
 <div style="text-align:right">
-  <h2 style="text-align: center; color: #22262e;     padding: 0px 20px 0px 0px;"> המוצרים של {{(supplierName | async)?.name}} </h2>
+  <h2 style="text-align: center; color: #22262e;     padding: 0px 20px 0px 0px;"> המוצרים של {{(supplierName |
+    async)?.name}} </h2>
+  <span *ngIf="(productsInCurrectSupplier | async)?.length > 0" id="newSupplierButton" class="button"
+        (click)="addItem()">
+    <button> הוסף מוצר </button>
+  </span>
 
-  <input style="border-radius: 10px;text-align: center" type="text" id="myInput" (keyup)="search()" placeholder=" חפש לפי שם הספק" >
-  <img id="imgSearch"src="../../assets/search.png">
+  <input *ngIf="(productsInCurrectSupplier | async)?.length > 0" style="border-radius: 10px;text-align: center"
+         type="text" id="myInput" (keyup)="search()"
+         placeholder=" חפש לפי שם מוצר">
+  <img *ngIf="(productsInCurrectSupplier | async)?.length === 0" id="imgSearch" src="../../assets/search.png">
 
   <ul id="myUL">
-    <li *ngFor="let Product of productsInCurrectSupplier | async " >
-      <div id="list" suiPopup popupText="{{Product.pricePerUnit}}₪ ל{{Product.UnitOfMeasure}} , {{Product.secondUnitInPackaging}} {{Product.secondTypeOfFillUp}}
-         ,  {{Product.UnitInPackaging}} {{Product.TypeOfFillUp}} - סהכ: {{Product.price}}₪" popupInverted
-           [popupPlacement]="position"(click)="openDialogShowProducts(Product.$key)" style="background-color: #e9ffed;border-radius: 12px" >
-        <h3 style=" color: #22262e;     padding: 0px 20px 0px 0px;">{{Product.ProductName}}         </h3>
-<!-- <span style="font-size:x-small; text-align: center; float: left; color: #22262e;">{{Product.price}}₪ /{{Product.TypeOfFillUp}} </span> -->
-        </div>
+    <table class="tableShow">
+      <tr>
+        <th>שם מוצר</th>
+        <th>מחיר/יח'</th>
+        <th>כמות/מארז משני</th>
+        <th>כמות/מארז כולל</th>
+        <th>סהכ</th>
+
+      </tr>
+    </table>
+    <li *ngFor="let Product of productsInCurrectSupplier | async ">
+      <table class="tableShow">
+        <ng-template let-popup #popupTemplate>
+          <div *ngFor="let day of Product.MinInInventory" class="content">
+            <span> {{day}}</span>
+          </div>
+        </ng-template>
+
+        <tr (click)="openDialogShowProducts(Product.$key)" suiPopup [popupTemplate]="popupTemplate"
+            popupTrigger="outsideClick" style="background-color: #e9ffed;border-radius: 12px">
+          <td>{{Product.ProductName}}</td>
+          <td>{{Product.price}}₪ ל{{Product.UnitOfMeasure}}</td>
+          <td> {{Product.sizeUnitPackaging}} {{Product.UnitOfMeasure}}</td>
+          <td>{{Product.UnitInPackaging}} {{Product.UnitOfMeasure}}</td>
+          <td> {{Product.priceSum}}₪</td>
+        </tr>
+      </table>
+      <h3 style="background-color: #e9ffed;border-radius: 12px" (click)="openDialogShowProducts(Product.$key)"
+          class="namePhone">{{Product.ProductName}} </h3>
+      <!-- <span style="font-size:x-small; text-align: center; float: left; color: #22262e;">{{Product.price}}₪ /{{Product.TypeOfFillUp}} </span> -->
     </li>
+    <div *ngIf="(productsInCurrectSupplier | async)?.length === 0">
+      <h3 style=" color: #777;     padding: 0px 20px 0px 0px;">
+        אין מוצרים כרגע נא הוסף מוצרים
+        <button (click)="addItem()" class="button" style="vertical-align:middle" (click)="save()">הוסף מוצר ראשון
+        </button>
+      </h3>
+
+    </div>
+
   </ul>
-  <span class ="fixedButton" (click)="addItem()" >
-      <div class="fa-stack fa-lg" >
+  <span *ngIf="(productsInCurrectSupplier | async)?.length > 0" class="fixedButton" (click)="addItem()">
+      <div class="fa-stack fa-lg">
         <i class="fa fa-circle fa-stack-2x"></i>
         <i class="fa fa-plus fa-stack-1x fa-inverse"></i>
      </div>

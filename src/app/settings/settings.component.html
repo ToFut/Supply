@@ -8,7 +8,7 @@
   <label><h5>עדכן שם מסעדה:</h5></label>
   <input #updateName (blur)="updateProfile(updateName.value)" value="{{ResturantName}}" placeholder="עדכן שם מסעדה">
   <br> <br>
-  <label><h5>הגדר  אופן לקבלת התראות:</h5></label>
+  <label><h5>הגדר אופן לקבלת התראות:</h5></label>
   <label>
     <mat-select placeholder="צורת אריזה" [(ngModel)]="TypeOfFillUp" name="TypeOfFillUp">
       <mat-option *ngFor="let option of options" [value]="option.value">
@@ -66,7 +66,7 @@
           <wizard-step [title]="'צעד 3'" (onNext)="onStep3Next($event)">
             <h1>נהל הרשאות קניין</h1>
             <br>
-            <sui-checkbox class="toggle"  [(ngModel)]="orderPermission">הזמנת סחורה</sui-checkbox>
+            <sui-checkbox class="toggle" [(ngModel)]="orderPermission">הזמנת סחורה</sui-checkbox>
             <br>
             <sui-checkbox class="toggle" [(ngModel)]="returnPermission">החזרת סחורה</sui-checkbox>
             <br>
@@ -102,15 +102,13 @@
         <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-display-topright">&times;</span>
         <h1> הרשאות מנהל הרכש</h1>
         <br>
-        <sui-checkbox class="toggle"  [(ngModel)]="orderPermission">הזמנת סחורה</sui-checkbox>
+        <sui-checkbox class="toggle" [(ngModel)]="orderPermission">הזמנת סחורה</sui-checkbox>
         <br>
         <sui-checkbox class="toggle" [(ngModel)]="returnPermission">החזרת סחורה</sui-checkbox>
         <br>
         <sui-checkbox class="toggle" [(ngModel)]="recivePermission">קבלת סחורה</sui-checkbox>
         <br>
         <sui-checkbox class="toggle" [(ngModel)]="suppliersPermission">הספקים שלי</sui-checkbox>
-        <br>
-        <sui-checkbox class="toggle" [(ngModel)]="settingsPermission">הגדרות</sui-checkbox>
         <br>
         <sui-checkbox class="toggle" [(ngModel)]="satisticsPermission">סטיסטיקות</sui-checkbox>
         <br>

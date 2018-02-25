@@ -15,6 +15,7 @@
 
 
 }
+
 @media only screen and (max-width:500px) {
   /* For mobile phones: */
   form{
@@ -72,6 +73,10 @@ input, textarea, select, option{
   display: inline-block;
   position: relative;
   transition: 0.5s;
+}
+.comment {
+  font-size: x-small;
+  margin-right: 2em;
 }
 
 .button span:after {
@@ -281,7 +286,7 @@ input {
   position: relative;
   display: table;
   border-collapse: separate;
-  max-width: 63em;
+  max-width: 32em;
   border-radius: 10px;
   padding: 1em 2em 1em 2em;
 
@@ -293,9 +298,13 @@ md-slide-toggle{
 span , input{
   font-size: medium;
 }
-.mat-select{
+.mat-select {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: x-small;
+  font-size: medium;
+}
+#invatory{
+  width: 8em;
+  margin-left: 1em;
 }
