@@ -19,6 +19,19 @@
     color: #22262e;
     padding: 0px 20px 0px 0px;
   }
+
+  .size {
+    text-align: right;
+    font-size: small;
+    z-index: 100;
+    text-shadow: .04em .04em 0 #9cb8b3;
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+  }
+
 }
 
 th {
@@ -29,6 +42,13 @@ th {
 @media only screen and (min-width: 781px) {
   .visible-xs {
     display: inline-block !important;
+  }
+
+  .size {
+    text-align: right;
+    font-size: 2vw;
+    z-index: 100;
+    text-shadow: .04em .04em 0 #9cb8b3;
   }
 
   .namePhone {
@@ -138,10 +158,9 @@ span, span:after {
   letter-spacing: .1em;
   padding: .2em 0 .25em 0;
 }
-
-span {
+.span1 {
   text-align: right;
-  font-size: large;
+  font-size: x-large;
   z-index: 100;
   text-shadow: .04em .04em 0 #9cb8b3;
 }
@@ -571,6 +590,7 @@ button {
   width: 50%;
   height: 20%;
 }
+
 #loader {
   /* Uncomment this to make it run! */
   /*
@@ -581,10 +601,16 @@ button {
   top: calc(50% - 20px);
   left: calc(50% - 20px);
 }
+
 @keyframes loader {
-  0% { left: -100px }
-  100% { left: 110%; }
+  0% {
+    left: -100px
+  }
+  100% {
+    left: 110%;
+  }
 }
+
 #box {
   width: 50px;
   height: 50px;
@@ -595,16 +621,26 @@ button {
   left: 0;
   border-radius: 3px;
 }
+
 @keyframes animate {
-  17% { border-bottom-right-radius: 3px; }
-  25% { transform: translateY(9px) rotate(22.5deg); }
+  17% {
+    border-bottom-right-radius: 3px;
+  }
+  25% {
+    transform: translateY(9px) rotate(22.5deg);
+  }
   50% {
-    transform: translateY(18px) scale(1,.9) rotate(45deg) ;
+    transform: translateY(18px) scale(1, .9) rotate(45deg);
     border-bottom-right-radius: 40px;
   }
-  75% { transform: translateY(9px) rotate(67.5deg); }
-  100% { transform: translateY(0) rotate(90deg); }
+  75% {
+    transform: translateY(9px) rotate(67.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(90deg);
+  }
 }
+
 #shadow {
   width: 50px;
   height: 5px;
@@ -616,9 +652,10 @@ button {
   border-radius: 50%;
   animation: shadow .5s linear infinite;
 }
+
 @keyframes shadow {
   50% {
-    transform: scale(1.2,1);
+    transform: scale(1.2, 1);
   }
 }
 

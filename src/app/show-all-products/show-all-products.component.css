@@ -1,26 +1,31 @@
-@media only screen and (max-width:2000px) {
+@media only screen and (min-width: 500px ) and ( max-width: 2000px) {
   /* For tablets: */
-  form{
+  form {
     display: flex;
   }
+
   .container {
     border-radius: 5px;
     background-color: #f2f2f2;
     padding: 20px;
   }
+
   .option {
     padding: 1em 2em 1em 2em;
   }
 
-
+  .inputDespoit {
+    top: 2em;
+  }
 
 }
 
-@media only screen and (max-width:500px) {
+@media only screen and (max-width: 500px) {
   /* For mobile phones: */
-  form{
+  form {
     display: block;
   }
+
   .container {
     border-radius: 5px;
     background-color: #f2f2f2;
@@ -30,7 +35,7 @@
 
 }
 
-input, textarea, select, option{
+input, textarea, select, option {
   background: none !important;
   border-top: #EBEBEB 1px solid !important;
   border-bottom: #EBEBEB 3px solid !important;
@@ -41,6 +46,7 @@ input, textarea, select, option{
   border-radius: 10px;
   color: #050348 !important;
 }
+
 .container {
   border-radius: 5px;
   background-color: #f2f2f2;
@@ -52,6 +58,7 @@ input, textarea, select, option{
   font-family: "Comic Sans MS";
   font-size: large;
 }
+
 .button {
   display: inline-block;
   border-radius: 10px;
@@ -74,6 +81,7 @@ input, textarea, select, option{
   position: relative;
   transition: 0.5s;
 }
+
 .comment {
   font-size: x-small;
   margin-right: 2em;
@@ -96,6 +104,7 @@ input, textarea, select, option{
   opacity: 1;
   right: 0;
 }
+
 .btn-group .button {
   background-color: #4CAF50; /* Green */
   border: 1px solid green;
@@ -108,43 +117,52 @@ input, textarea, select, option{
   cursor: pointer;
   float: left;
 }
+
 .btn-group .button:not(:last-child) {
   border-right: none; /* Prevent double borders */
 }
+
 .btn-group .button:hover {
   background-color: #3e8e41;
 }
+
 #shadow {
   border: 1px solid;
   padding: 10px;
   box-shadow: 5px 10px 8px #888888;
 }
-.form-style-2 span.required{
-  color:red;
+
+.form-style-2 span.required {
+  color: red;
 }
 
-.ng-invalid:not(form)  {
+.ng-invalid:not(form) {
   border-left: 5px solid #a94442; /* red */
 }
-.form-style-2{
+
+.form-style-2 {
   max-width: 500px;
   padding: 20px 12px 10px 20px;
   font: 13px Arial, Helvetica, sans-serif;
 }
+
 #showFileds {
   font-size: 0.9em;
 }
+
 mat-select {
   border-bottom: 2px solid;
   width: 10em;
 }
+
 .btn-group button {
   padding: 3px 9px;
   font-size: 12px;
   line-height: 1.5;
-  border-radius: 3px;}
+  border-radius: 3px;
+}
 
-.form-style-2-heading{
+.form-style-2-heading {
   font-weight: bold;
   font-style: italic;
   border-bottom: 2px solid #ddd;
@@ -152,22 +170,26 @@ mat-select {
   font-size: 15px;
   padding-bottom: 3px;
 }
-.form-style-2 label{
+
+.form-style-2 label {
   display: block;
   margin: 0px 0px 15px 0px;
 }
-.form-style-2 label > span{
+
+.form-style-2 label > span {
   width: 100px;
   font-weight: bold;
   float: right;
   padding-top: 8px;
   padding-right: 5px;
 }
-.form-style-2 .tel-number-field{
+
+.form-style-2 .tel-number-field {
   width: 40px;
   text-align: center;
 }
-.form-style-2 input.input-field{
+
+.form-style-2 input.input-field {
   width: 75%;
 
 }
@@ -175,7 +197,7 @@ mat-select {
 .form-style-2 input.input-field,
 .form-style-2 .tel-number-field,
 .form-style-2 .textarea-field,
-.form-style-2 .select-field{
+.form-style-2 .select-field {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -190,19 +212,22 @@ mat-select {
 
   outline: none;
 }
+
 .form-style-2 .input-field:focus,
 .form-style-2 .tel-number-field:focus,
 .form-style-2 .textarea-field:focus,
-.form-style-2 .select-field:focus{
+.form-style-2 .select-field:focus {
   border: 1px solid #0C0;
 }
-.form-style-2 .textarea-field{
-  height:100px;
+
+.form-style-2 .textarea-field {
+  height: 100px;
   width: 55%;
   text-align: right;
 }
+
 .form-style-2 input[type=submit],
-.form-style-2 input[type=button]{
+.form-style-2 input[type=button] {
   border: none;
   padding: 8px 15px 8px 15px;
   background: #FF8500;
@@ -214,11 +239,13 @@ mat-select {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
 }
+
 .form-style-2 input[type=submit]:hover,
-.form-style-2 input[type=button]:hover{
+.form-style-2 input[type=button]:hover {
   background: #EA7B00;
   color: #fff;
 }
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -229,9 +256,69 @@ mat-select {
   max-width: 1080px;
   margin: 0 auto;
 }
+
 .row {
   margin: 10px;
 }
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
 .input-group-addon {
   padding: 6px 12px;
   font-size: 14px;
@@ -250,11 +337,9 @@ mat-select {
 input {
   position: relative;
   z-index: 2;
-  float: left;
   width: 100%;
   margin-bottom: 0;
   display: table-cell;
-  padding: 6px 12px;
   border: 1px solid #ccc;
   margin: 0;
 }
@@ -262,26 +347,33 @@ input {
 .suffix input {
   border-radius: 10px;
 }
+
 .suffix .input-group-addon {
   border-left: 0;
 }
+
 .prefix input {
 }
+
 .prefix .input-group-addon {
   border-right: 0;
 }
+
 .presuffix input {
   border-radius: 10px;
 }
+
 .input-group-addon.prefix {
   border-right: 0;
 }
+
 .input-group-addon.suffix {
   border-left: 0;
   max-width: 63em;
   border-radius: 10px;
 
 }
+
 .input-group {
   position: relative;
   display: table;
@@ -291,20 +383,26 @@ input {
   padding: 1em 2em 1em 2em;
 
 }
-md-slide-toggle{
-  background-color: #26D367 ;
+
+md-slide-toggle {
+  background-color: #26D367;
 }
 
-span , input{
+span, input {
   font-size: medium;
 }
+
 .mat-select {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: medium;
 }
-#invatory{
-  width: 8em;
+
+#invatory {
   margin-left: 1em;
+}
+
+.selectInForm {
+  width: 7em;
 }

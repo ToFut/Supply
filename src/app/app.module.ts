@@ -90,8 +90,11 @@ import {ReturnProductsDialogComponent} from './return-products/return-products-d
 import {FilterProductsPipe} from './return-products/filter-products.pipe';
 import {FilterSupplierPipe} from './return-products/filter-supplier.pipe';
 import {LoadersCssModule} from 'angular2-loaders-css';
-import { SortDaysPipe } from './show-all-products/sort-days.pipe';
+import { SortDaysPipe } from './show-all-products/pipes/sort-days.pipe';
 import { SortSupplierPipe } from './supplier/sort-supplier.pipe';
+import {CheckExistProductWithAnotherSuppliersService} from
+  './show-all-products/services/check-exist-product-with-another-suppliers.service';
+
 
 @NgModule({
   declarations: [
@@ -170,7 +173,7 @@ import { SortSupplierPipe } from './supplier/sort-supplier.pipe';
     MatSlideToggleModule,
     MatTooltipModule,
     SuiModule,
-    NgbModule,
+    NgbModule.forRoot(),
     ChartsModule,
     NgxChartsModule,
     FormWizardModule,
@@ -183,7 +186,7 @@ import { SortSupplierPipe } from './supplier/sort-supplier.pipe';
     ProductsService,
     SupplierService, AssociateProductToSupplierService, SupplierPrivateProductsService,
     MatchSupplierService, CalcSumService, CalcAmountService, GetReturnService,
-    SuppliersDeatilService, MatButtonModule, MatTooltipModule, MatCheckboxModule],
+    SuppliersDeatilService, MatButtonModule, MatTooltipModule, MatCheckboxModule , CheckExistProductWithAnotherSuppliersService],
   entryComponents: [DialogEditProductsComponent, ShowAllProductsComponent,
     ShowAllSupplierComponent, DeleteProductComponent,
     DeleteSupplierComponent, ShowProductComponent],

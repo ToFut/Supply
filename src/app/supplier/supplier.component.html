@@ -46,9 +46,12 @@
           <span *ngIf="item.type == 'מוצרי חלב'" class="fa fa-coffee " aria-hidden="true"></span>
           <span *ngIf="item.type == 'מוצרי בשר'" class="fa fa-cutlery " aria-hidden="true"></span>
           <span *ngIf="item.type == 'משקאות חריפים'" class="fa fa-beer " aria-hidden="true"></span>
+          <span *ngIf="item.type == 'ירקות'" class="fa fa-apple " aria-hidden="true"></span>
+          <span *ngIf="item.type == 'מוצרים יבשים'" class="fa fa-archive " aria-hidden="true"></span>
+          <span *ngIf="item.type == 'כלים '" class="fa fa-archive " aria-hidden="true"></span>
           <span *ngIf="item.type == 'שתייה'" class="large material-icons ">local_drink</span>
           <span *ngIf="item.type == 'משקאות'" class="large material-icons ">local_drink</span>
-          <span *ngIf="item.type == 'ירקות'" class="fa fa-apple " aria-hidden="true"></span>
+          <span *ngIf="item.type == 'ירקות' ; anotherIcon"  class="fa fa-apple " aria-hidden="true"></span>
         </div>
         <h4 id="name">{{item.name}} </h4>
       </a>

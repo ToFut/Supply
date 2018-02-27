@@ -61,7 +61,6 @@ export class HomeAfterLoginComponent implements OnInit {
               this.settingsPermission = info['settings'];
               this.satisticsPermission = info['satistics'];
               this.sharePermission = info['share'];
-
             });
           }
 
@@ -71,7 +70,7 @@ export class HomeAfterLoginComponent implements OnInit {
         } else {
           this.month += 1;
         }
-
+      //  this.showDialog();
         // this.versionUpdate = this.af.object(`versions/${this.year}/${this.month}/${this.dayInMonth}`);
         // if (!this.versionUpdate.isEmpty()) {
         //   this.pageDimmed = true;
@@ -104,6 +103,11 @@ export class HomeAfterLoginComponent implements OnInit {
     this.router.navigate(['supplier'], navigationExtras);
 
   }
+  // showDialog() {
+  //   if (this.dayInMonth === 26) {
+  //     this. = true;
+  //   }
+  // }
 
   returnSubUser() {
     const navigationExtras: NavigationExtras = {
@@ -170,15 +174,6 @@ export class HomeAfterLoginComponent implements OnInit {
         }
       }
     });*/
-    /*notificationEmail(message) {
-  window.location.href = 'mailto:' + this.afAuth.auth.currentUser.email + '?subject=הודעה על' + '&body=' + message;
-}
-notificationWhatsAPP(message) {
-  const demo =
-    'whatsapp://send?phone=972' + this.afAuth.auth.currentUser.phoneNumber + '&text=שלום ' + this.afAuth.auth.currentUser.displayName + '%0A' +
-    message + '%0A' + ' בתודה SupplyMe';
-
-}*/
 
   }
 

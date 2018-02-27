@@ -21,8 +21,7 @@
   <div class="list" *ngFor="let supplier of reciveNONEComplete ">
     <div class="space" (click)="todoListNavigation(supplier)">
       <button class=" ui  labeled icon button button1 ">
-        <i class="cart icon" [class.success]=" time <= 9"
-           [class.danger]="time > 9 && time <= 23 "></i>
+        <i class="cart icon danger" ></i>
         <span class="name">{{(supplier | async)?.name}}</span>
       </button>
       <!--<button id="{{supplier.$ref.$key}}" (click)="orderFromMe(supplier)" class="button"-->

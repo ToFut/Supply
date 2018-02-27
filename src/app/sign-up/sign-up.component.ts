@@ -20,6 +20,12 @@ export class SignUpComponent implements OnInit {
   secondPassword: string;
   phone: number;
   jobTitle: string;
+  startDate: string;
+  usingClass: string;
+  viewDate: Date = new Date();
+  dayInMonth = this.viewDate.getDate();
+  month = this.viewDate.getMonth();
+  year = this.viewDate.getFullYear();
 
   constructor(public afAuth: AngularFireAuth, private router: Router , public af: AngularFireDatabase) {
     this.afAuth.authState.subscribe(auth => {
@@ -31,6 +37,12 @@ export class SignUpComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.month === 12) {
+      this.month = 1;
+    } else {
+      this.month += 1;
+    }
+
   }
 
   emailSignUp() {
@@ -62,7 +74,7 @@ export class SignUpComponent implements OnInit {
     this.currentUserId = this.authState.uid;
     this.authState.updateProfile({
       displayName: this.businessName
-    })
+    });
 
     console.log(this.authState.displayName);
     const path = `users/${this.currentUserId}`; // Endpoint on firebase
@@ -72,7 +84,9 @@ export class SignUpComponent implements OnInit {
       name: this.name ,
       phone: this.phone,
       jobTitle: this.jobTitle,
-      uid: this.authState.uid
+      uid: this.authState.uid,
+      startDate: {year: this.year , month: this.month , day: this.dayInMonth},
+      usingClass: 'standard',
     };
     console.log(data);
     this.af.object(path).update(data)

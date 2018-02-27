@@ -2,6 +2,7 @@
 <div class="container" style="direction: rtl;">
   <br><br>
 
+
   <h2 style="text-align: right; font-weight: bold; color: #22262e;font-size: xx-large;  padding: 0px 20px 0px 0px;">
     הזמנת
     סחורה </h2>
@@ -11,6 +12,7 @@
     style="color: #26d367;  display:inline-block;margin-right:10px;   font-weight: bold;    padding: 0px 2px 0px 0px;">
     {{(supplierProperty |async)?.name }}</h1>
   <h3>מוצרים להזמנה</h3>
+
   <table class="w3-table-all">
     <thead>
     <tr
@@ -77,7 +79,6 @@
 <!--<a (click)="buildMessageEmail()" class="fa fa-envelope-o fa-4x" style="color: #3A4A7B"></a>-->
 <!--<a (click)="buildMessageEmail()" class="fa fa-comment fa-4x" style="color: #3498db"></a>-->
 <!--</div>-->
-</html>
 <!--
 
 1. load font awesome with your favorite method
@@ -97,8 +98,8 @@
     class="fa fa-envelope-o"></i></a>
 
   <!-- linkedin -->
-  <a class="sms" (click)="buildMessageEmail()"
-     target="blank"><i class="fa fa-comment"></i></a>
+  <!--<a class="sms" (click)="buildMessageEmail()"-->
+  <!--target="blank"><i class="fa fa-comment"></i></a>-->
 
   <a class="phone" (click)="showDialog()"
      target="blank"><i class="fa fa-phone"></i></a>
@@ -108,7 +109,6 @@
     <i class="fa fa-check fa-4x downCheck" suiPopup popupText="אשר הזמנה מהספק " (click)="popup.close()"></i>
   </p-dialog>
 
-
 </div>
 <sui-dimmer class="page" [(isDimmed)]="pageDimmed">
   <h2>
@@ -116,3 +116,4 @@
     <h2 style="font-size: 2em;">שים לב!</h2> כמות ההזמנה גדולה מהמצבה להשלמה
   </h2>
 </sui-dimmer>
+</html>

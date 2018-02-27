@@ -6,7 +6,7 @@
   <i style="color: #22262e" class="fa fa-arrow-left w3-xlarge" aria-hidden="true"></i>
   <br> <br>
   <div id="loader"
-       *ngIf="showDone?.length == 0 && fieldArray?.length == 0 ;  else start ; ">
+       *ngIf="showWarning?.length == 0 && fieldArray?.length == 0 ;  else start ; ">
     <div id="shadow"></div>
     <div id="box"></div>
   </div>
@@ -15,29 +15,29 @@
         (click)="openFormReturnPage()">
     <button> הוסף מוצר להחזרה </button>
   </span>
-  <div class="ui bottom attached segment" suiTabContent="2">
-    <button>
-      <label> תאריך התחלה</label>
-      <input type="date" #fromDatespesificSupplier placeholder="הכנס תאריך התחלה"
-             (change)="changeFromDatespesificSupplier(fromDatespesificSupplier.value)">
-      <label> תאריך סיום</label>
-      <input type="date" #toDatespesificSupplier placeholder="הכנס תאריך סיום"
-             (change)="changeToDatespesificSupplier(toDatespesificSupplier.value)">
-      <span style="float: right"> <span class="required">*</span>שם הספק</span>
-      <mat-select style="order:1" [(ngModel)]="spesificSupplier">
-        <mat-option *ngFor="let type of list " (click)="pageDimmed3 = !pageDimmed3;createSpesificSupplier()"
-                    [value]="type">
-          <p>{{type.itemName}} </p>
-        </mat-option>
-      </mat-select>
-      <ngx-charts-advanced-pie-chart
-        [view]="view"
-        [scheme]="colorScheme"
-        [results]="single"
-        (select)="onSelect($event)">
-      </ngx-charts-advanced-pie-chart>
-    </button>
-  </div>
+  <!--<div class="ui bottom attached segment" suiTabContent="2">-->
+  <!--<button>-->
+  <!--<label> תאריך התחלה</label>-->
+  <!--<input type="date" #fromDatespesificSupplier placeholder="הכנס תאריך התחלה"-->
+  <!--(change)="changeFromDatespesificSupplier(fromDatespesificSupplier.value)">-->
+  <!--<label> תאריך סיום</label>-->
+  <!--<input type="date" #toDatespesificSupplier placeholder="הכנס תאריך סיום"-->
+  <!--(change)="changeToDatespesificSupplier(toDatespesificSupplier.value)">-->
+  <!--<span style="float: right"> <span class="required">*</span>שם הספק</span>-->
+  <!--<mat-select style="order:1" [(ngModel)]="spesificSupplier">-->
+  <!--<mat-option *ngFor="let type of list " (click)="pageDimmed3 = !pageDimmed3;createSpesificSupplier()"-->
+  <!--[value]="type">-->
+  <!--<p>{{type.itemName}} </p>-->
+  <!--</mat-option>-->
+  <!--</mat-select>-->
+  <!--<ngx-charts-advanced-pie-chart-->
+  <!--[view]="view"-->
+  <!--[scheme]="colorScheme"-->
+  <!--[results]="single"-->
+  <!--(select)="onSelect($event)">-->
+  <!--</ngx-charts-advanced-pie-chart>-->
+  <!--</button>-->
+  <!--</div>-->
   <div class="ui bottom attached segment" suiTabContent="3">
     <button class="ui purple button">Activate 1st Tab</button>
   </div>
@@ -46,22 +46,23 @@
       <button class=" ui  labeled icon button button1 " suiPopup
               popupText="{{supplier.amount}}  {{supplier.TypeOfFillUp}} , {{supplier.reason}}" popupInverted
               [popupPlacement]="position">
-        <i class="cart icon warning"></i>
-        <span class="name">{{supplier.supplierName}}  -> {{supplier.productName}}</span>
+        <i class="cart icon danger"></i>
+        <span  class="name size">{{supplier.supplierName}}  -> {{supplier.productName}}</span>
       </button>
     </div>
   </div>
 
-  <div class="list" *ngFor="let supplier of showDone " suiPopup
+  <div class="list" *ngFor="let supplier of showWarning " suiPopup
        popupText="{{supplier.amount}}  {{supplier.TypeOfFillUp}} , {{supplier.reason}}" popupInverted
        [popupPlacement]="position">
     <div class="space">
       <button class=" ui  labeled icon button button1 ">
         <i class="cart icon success"></i>
-        <span class="name">{{supplier.supplierName}} -> {{supplier.productName}}</span>
+        <span class="name size">{{supplier.supplierName}} -> {{supplier.productName}}</span>
       </button>
     </div>
   </div>
+
 
   <span class="fixedButton" (click)="openFormReturnPage()">
     <div class="fa-stack fa-lg fa-2x">

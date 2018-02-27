@@ -4,8 +4,9 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {ActivatedRoute, Router, RouterLinkActive} from '@angular/router';
 import {escape} from 'querystring';
 import {element} from 'protractor';
-import {DayPilot} from "daypilot-pro-angular";
+import {DayPilot} from 'daypilot-pro-angular';
 import today = DayPilot.Date.today;
+import {isDefined} from '@ng-bootstrap/ng-bootstrap/util/util';
 
 @Component({
   selector: 'app-order-for-currect-supplier',
@@ -222,15 +223,15 @@ export class OrderForCurrectSupplierComponent implements OnInit {
         amount = element.val().amount;
         console.log(name);
         TypeOfFillUp = element.val().TypeOfFillUp;
+        console.log(check);
+        if (check && amount !== '0' && isDefined(amount) && isDefined(TypeOfFillUp) && isDefined(name)) {
+          this.stringToOrder.push(' ' + amount + ' ' + TypeOfFillUp + '  ' + name + ' %0A');
+        }
         this.stringToOrder.forEach(data => {
           if (data.includes(name)) {
             check = false;
           }
         });
-        console.log(check);
-        if (check && amount !== '0') {
-          this.stringToOrder.push(' ' + amount + ' ' + TypeOfFillUp + '  ' + name + ' %0A');
-        }
 
       }
       this.currentOrderInformation.subscribe(data => {
@@ -246,18 +247,25 @@ export class OrderForCurrectSupplierComponent implements OnInit {
           location.href = WhatsAppMesage;
           this.af.object(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`)
             .set(false);
-          this.af.list(`users/${this.userId}/returnList/status/${this.supplierKey}`).update(element.key, {status: false});
+          this.checkReturnProducts();
         }
       });
     });
   }
 
+  checkReturnProducts() {
+    this.returnProducts.subscribe(products => {
+      products.forEach(product => {
+        this.af.object(`users/${this.userId}/returnList/${this.supplierKey}/${product.$key}`).update({status: true});
+      });
+    });
+  }
   async buildMessageEmail() {
     let name = '';
     let TypeOfFillUp = '';
     let amount = '';
     let count = 0;
-    let WhatsAppMesage = '';
+    const WhatsAppMesage = '';
     let check = true;
     await this.returnProduct();
     this.acceptLink = 'https://app.supplyme.net/#/acceptOrder?userId=' + this.userId +
@@ -295,7 +303,7 @@ export class OrderForCurrectSupplierComponent implements OnInit {
             '%0A' + 'אנא אשר קבלת הזמנה בלחיצת על הקישור הבא ' + '%0A' + this.acceptLink;
           this.af.object(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`)
             .set(false);
-          this.af.list(`users/${this.userId}/returnList/status/${this.supplierKey}`).update(element.key, {status: false});
+          this.af.list(`users/${this.userId}/returnList/status/${this.supplierKey}`).update(element.key, {status: true});
 
         }
       });
@@ -312,8 +320,8 @@ export class OrderForCurrectSupplierComponent implements OnInit {
 
   returnProduct() {
     let check = false;
+    let checkHeader = true;
     this.returnProducts.subscribe(data => {
-      this.sentenceToReturn.push('\n  אלו המוצרים שצריכים להחזיר\n');
       data.forEach(element => {
         check = true;
         this.af.list
@@ -327,7 +335,10 @@ export class OrderForCurrectSupplierComponent implements OnInit {
             check = false;
           }
         });
-
+        if (checkHeader && check) {
+          checkHeader = false;
+          this.sentenceToReturn.push('\n  אלו המוצרים שצריכים להחזיר\n');
+        }
         if (check) {
           this.sentenceToReturn.push('\n' + ' ' +
             element['amount'] + ' ' + element['TypeOfFillUp'] + ' ' + element['productName'] +
@@ -376,7 +387,7 @@ export class OrderForCurrectSupplierComponent implements OnInit {
   }
 
   comppare(minIn, updateVal) {
-    if (minIn <= updateVal) {
+    if (Number(minIn) <= Number(updateVal)) {
       this.pageDimmed = true;
     } else {
       this.pageDimmed = false;

@@ -14,7 +14,8 @@
             <h5><span class="required">*</span> שם המוצר</h5>
             <input mdInput class="input-field" value="{{(item | async)?.ProductName}}" type="text" #ProductName
                    id="ProductName" name="ProductName" placeholder="שם המוצר"
-                   (blur)="onKeyName(ProductName.value)" (keyup)="search($event);onKeyName(ProductName.value)" required>
+                   (blur)="onKeyName(ProductName.value)"
+                   (keyup)="checkWithAnotherSuppliers(ProductName.value);onKeyName(ProductName.value)" required>
           </div>
         </label>
         <mat-option *ngFor="let product of products" [value]="product.ProductName">
@@ -44,9 +45,16 @@
           </div>
         </label>
         <label>
-          <h5>פקדון ל{{UnitOfMeasure}}</h5>
-
-          <div class="input-group presuffix">
+        <h5>הוסף פיקדון ל{{UnitOfMeasure}} </h5>
+        <div class="input-group presuffix selectInForm">
+          <mat-slide-toggle
+            [color]="color"
+            (change)="changeDespoitUnit()">
+          </mat-slide-toggle>
+        </div>
+        </label>
+        <label [hidden]="openUnitDespoit">
+          <div class="input-group presuffix inputDespoit">
             <input mdInput type="number" pInputText value="{{(item | async)?.unitDesposit}}" placeholder="מחיר"
                    #UnitDespoit
                    (keyup)="onKeyDespoitUnit(UnitDespoit.value)" required>
@@ -141,9 +149,17 @@
           </div>
         </label>
         <label>
-          <h5>פקדון ל{{TypeOfFillUp}}</h5>
+        <h5>הוסף פיקדון ל{{TypeOfFillUp}} </h5>
+        <div class="input-group presuffix selectInForm" >
+          <mat-slide-toggle
+            [color]="color"
+            (change)="changeDespoitTypeOfFillUp()">
+          </mat-slide-toggle>
+        </div>
+        </label>
+        <label>
 
-          <div class="input-group presuffix">
+          <div class="input-group presuffix inputDespoit" [hidden]="openTypeOfFillUpDespoit">
             <input mdInput type="number" pInputText value="{{(item | async)?.fillDesposot}}" placeholder="מחיר"
                    #TypeOfFillUpDespoit
                    (keyup)="onKeyDespoitFillUp(TypeOfFillUpDespoit.value)" required>
@@ -210,10 +226,12 @@
           <label>
             <span style="color: red;font-size: x-small"> נא מלא את כל השדות </span>
             <div style="display: flex;" *ngFor="let day of dateCurrectSupplirer | sortDays; let i = index">
-              <h5 style="font-size: x-small;text-align: right;"> הזמנה ב <strong style="font-size: medium">{{day.itemName}}</strong>
-                קבלה ב<strong style="font-size: medium"> {{day.itemNameOrder}}</strong></h5>
-              <div class="input-group presuffix">
-                <input style="border-radius: 10px" placeholder=" השלם ל" id="invatory" type="number" #input
+              <h5 style="font-size: x-small;text-align: right;width: 9em"> הזמנה ביום <strong style="font-size: medium">{{day.itemName}}</strong>
+                <br>
+                קבלה ביום <strong style="font-size: medium"> {{day.itemNameOrder}}</strong></h5>
+              <div class="input-group presuffix" style="max-width: 27em">
+                <input style="border-radius: 10px; " placeholder=" השלם ל" id="invatory" type="number"
+                       #input
                        value="{{days[day.id]}}" (keyup)="modifyDays(day.id , day.orderIn, input.value)"
                        name="MinInInventory" required>
                 <span class="input-group-addon suffix"> {{TypeOfFillUp}}  </span>

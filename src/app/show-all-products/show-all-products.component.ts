@@ -13,6 +13,7 @@ import {ProductsService} from '../products.service';
 import {Subject} from 'rxjs/Subject';
 import {DeleteProductComponent} from '../delete-product/delete-product.component';
 import {isUndefined} from 'util';
+import {CheckExistProductWithAnotherSuppliersService} from './services/check-exist-product-with-another-suppliers.service';
 
 @Component({
   selector: 'app-show-all-products',
@@ -119,10 +120,12 @@ export class ShowAllProductsComponent implements OnInit {
   unitDesposit = 0;
   secondeDesposit = 0;
   fillDesposit = 0;
+  openTypeOfFillUpDespoit = true;
+  openUnitDespoit = true;
 
-  constructor(public af: AngularFireDatabase, public afAuth: AngularFireAuth,
-              public route: ActivatedRoute, private _formBuilder: FormBuilder, private router: Router,
-              private ProductsService: ProductsService) {
+  constructor(public afAuth: AngularFireAuth, public checkWith: CheckExistProductWithAnotherSuppliersService,
+              public route: ActivatedRoute, private _formBuilder: FormBuilder, public  router: Router,
+              private ProductsService: ProductsService, public af: AngularFireDatabase) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userId = user.uid;
@@ -160,12 +163,6 @@ export class ShowAllProductsComponent implements OnInit {
       val.forEach(ele => {
         console.log(ele);
       });
-      /*
-            this.orderDays = val['orderInThisDays'];
-            val['orderInThisDays'].forEach( ids => {
-              console.log(ids);
-            });
-      */
     });
 
     this.item.subscribe(data => {
@@ -272,14 +269,6 @@ export class ShowAllProductsComponent implements OnInit {
         (`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory`).subscribe(ids => {
           this.days[day['id']] = ids[day['id']];
           this.orderInThatdays[day['id']] = ids[day['id']];
-          /*
-                  this.af.object
-                  (`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory/${day['id']}`).
-                  remove();
-                  this.af.list
-                  (`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory`).
-                  set(`${day['id']}` , this.days[day['orderIn']]);
-                  */
         });
       });
 
@@ -294,7 +283,12 @@ export class ShowAllProductsComponent implements OnInit {
 
 
   }
-
+  changeDespoitTypeOfFillUp() {
+    this.openTypeOfFillUpDespoit = !this.openTypeOfFillUpDespoit;
+  }
+  changeDespoitUnit() {
+    this.openUnitDespoit = !this.openUnitDespoit;
+  }
   changeUnitOfMeasure(value) {
     this.unitOFMeasurementOption.push({value: value, viewValue: value});
     this.UnitOfMeasure = value;
@@ -326,7 +320,7 @@ export class ShowAllProductsComponent implements OnInit {
                        sizeUnitPackaging, ProductName) {
     this.calcPrice();
     // this.Product.discount = discount;
-    this.Product.priceSum = this.sumPrice
+    this.Product.priceSum = this.sumPrice;
     this.Product.UnitInPackaging = UnitInPackaging;
     this.Product.sizeUnitPackaging = sizeUnitPackaging;
     this.Product.ProductName = ProductName;
@@ -378,7 +372,7 @@ export class ShowAllProductsComponent implements OnInit {
       }
     }
     if (!this.updateStatus && !this.undifineCheck) {
-      let up = true;
+      const up = true;
 
       try {
         this.af.list(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts`).push(Product);
@@ -499,7 +493,6 @@ export class ShowAllProductsComponent implements OnInit {
   }
 
   onKeySecondSizeUnitPackaging(secondUnitInPackaging: number) {
-    console.log(secondUnitInPackaging);
 
     this.secondUnitInPackaging = secondUnitInPackaging;
     this.Product.secondUnitInPackaging = secondUnitInPackaging;
@@ -525,6 +518,10 @@ export class ShowAllProductsComponent implements OnInit {
     this.dateProduct = this.af.list(`users/${this.userId}/suppliers/
     ${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/MinInInventory`);
     this.dateProduct.push({day: day, inventory: Inventory});
+  }
+
+  checkWithAnotherSuppliers(name) {
+  //  this.checkWith.getSupplier(name);
   }
 
   search($event) {

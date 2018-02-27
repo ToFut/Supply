@@ -114,6 +114,7 @@ export class OrderComponent implements OnInit {
     }
     return false;
   }
+
   checkForSupplier() {
 
     this.matchSupplier.pushSupplier('order', this.userId).then((data) => {

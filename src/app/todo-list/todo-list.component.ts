@@ -39,6 +39,8 @@ export class TodoListComponent implements OnInit {
   domainUserId: string;
   acceptedForKey = [];
   accepted: number;
+  fullDate: string;
+
   selectedTypeFillRecive: string;
   types = [
     {value: 'ליטר'},
@@ -102,6 +104,8 @@ export class TodoListComponent implements OnInit {
       });
     });
     this.currentSupplierProducts = this.af.list(`/users/${this.userId}/suppliers/${this.supplierKey}/SupplierProducts/`);
+    this.fullDate = this.dayInMonth + '.' + this.month + '.' + this.year;
+
   }
 
   updateRecive() {

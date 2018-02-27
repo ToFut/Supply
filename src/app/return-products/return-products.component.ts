@@ -7,6 +7,7 @@ import {isUndefined} from 'util';
 import {GetReturnService} from '../getReturn.service';
 import {MatDialog} from '@angular/material';
 import {ReturnProductsDialogComponent} from './return-products-dialog/return-products-dialog.component';
+import {isDefined} from "@ng-bootstrap/ng-bootstrap/util/util";
 
 @Component({
   selector: 'app-return-products',
@@ -78,6 +79,7 @@ export class ReturnProductsComponent implements OnInit {
   selectedReason = '';
   spesificSupplier: string;
   single: any[];
+  showWarning = [];
   view: any[] = [700, 400];
   showDone = [];
   colorScheme = {
@@ -133,52 +135,57 @@ export class ReturnProductsComponent implements OnInit {
       console.log(data);
       data.forEach(snapshot => {
         console.log(snapshot.$key);
-
-        this.af.list(`users/${this.userId}/returnList/${snapshot.$key}`).subscribe(after => {
-          console.log(after);
-          after.forEach(element => {
-            console.log(element);
-            const size = after.length;
-            if (this.checkSize <= size && this.updateLater) {
-              if (this.sizePast >= 0) {
-                console.log(this.fieldArray.length);
-                console.log(size);
-                this.demoList = [];
-                console.log('im push');
-                if (this.fieldArray.indexOf(element) === -1 && !this.dialogResault) {
-                  this.fieldArray.push({
-                    productName: element.productName, amount: element.amount,
-                    reason: element.reason, status: element.status, supplierName: element.supplierName,
-                    TypeOfFillUp: element.TypeOfFillUp
-                  });
+        if (snapshot.$key !== 'status') {
+          this.af.list(`users/${this.userId}/returnList/${snapshot.$key}`).subscribe(after => {
+            console.log(after);
+            after.forEach(element => {
+              console.log(element);
+              const size = after.length;
+              if (this.checkSize <= size && this.updateLater) {
+                if (this.sizePast >= 0) {
+                  console.log(this.fieldArray.length);
+                  console.log(size);
+                  this.demoList = [];
+                  console.log('im push');
+                  if (this.fieldArray.indexOf(element) === -1 && !this.dialogResault) {
+                    this.fieldArray.push({
+                      productName: element.productName, amount: element.amount,
+                      reason: element.reason, status: element.status, supplierName: element.supplierName,
+                      TypeOfFillUp: element.TypeOfFillUp
+                    });
+                  }
                 }
               }
-            }
+            });
+            this.checkDone();
+
+
+            this.checkSize++;
           });
-          this.checkDone();
-
-          console.log(this.checkSize);
-
-          this.checkSize++;
-        });
-
+        }
       });
     });
   }
 
   checkDone() {
     this.fieldArray.forEach(item => {
-      if (this.showDone.indexOf(item) === -1) {
-        const indexAccept = this.fieldArray.indexOf(item);
-        this.fieldArray.splice(indexAccept, 1);
-        this.showDone.push(item);
-
-        console.log(item['status']);
-      }
+        if (this.showWarning.indexOf(item) === -1 && item.status) {
+          this.showWarning.push(item);
+        }
+    });
+    this.showWarning.forEach(done => {
+      this.removeFromFiled(done);
     });
 
   }
 
+  removeFromFiled(done) {
+    if (this.fieldArray.indexOf(done) !== -1) {
+      const indexAccept = this.fieldArray.indexOf(done);
+      this.fieldArray.splice(indexAccept, 1);
+    }
+
+  }
   showDialog() {
     this.display = true;
   }

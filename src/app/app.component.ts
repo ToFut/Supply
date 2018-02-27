@@ -177,7 +177,6 @@ export class AppComponent implements OnInit {
   deleteEverything() {
     this.items.remove();
   }
-
   openNav() {
     document.getElementById('mySidenav').style.width = '500px';
     document.getElementById('main').style.marginLeft = '500px';
@@ -197,7 +196,7 @@ export class AppComponent implements OnInit {
       this.checkIfInHomePage = false;
     }
     if (location.url === '/homeAfterLogin' || location.url === '/loginPage' || location.url === '/signUp' || location.url === '/home'
-      || location.url === '/acceptOrder' || location.url === '/subUserSignUp') {
+      || location.url.indexOf('/acceptOrder') !== -1 || location.url === '/subUserSignUp') {
       this.showHeader = false;
     } else {
       this.showHeader = true;
