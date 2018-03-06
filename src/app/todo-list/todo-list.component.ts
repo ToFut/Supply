@@ -70,11 +70,8 @@ export class TodoListComponent implements OnInit {
     this.supplierProfile = this.af.list(`/users/${this.userId}/suppliers/${this.supplierKey}`);
     this.currentSupplierProducts.subscribe(list => this.count = list.length);
     this.returnHistory = this.af.list(`users/${this.userId}/returnHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`);
+    this.checkDate();
 
-    setTimeout(() => {
-      this.checkDate();
-
-    }, 1000);
 
 
     console.log(this.returnHistory);
@@ -121,8 +118,7 @@ export class TodoListComponent implements OnInit {
         console.log(value);
         value.forEach(ele => {
           console.log(ele);
-          this.af.object(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}/${ele.$key}/accepted`).
-          set(ele.amount);
+          this.af.object(`users/${this.userId}/reciveHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}/${ele.$key}/accepted`).set(ele.amount);
         });
         this.af.list(`users/${this.userId}/returnList/${this.supplierKey}`).remove();
       });
@@ -141,8 +137,6 @@ export class TodoListComponent implements OnInit {
     }
   }
 
-  updateIfFinishe() {
-  }
 
   checkAll(sourceCheckbox) {
     for (let i = 0; i < this.count; i++) {
@@ -164,7 +158,6 @@ export class TodoListComponent implements OnInit {
     let check = true;
     this.radioButton.map(element => {
       check = check && element;
-      console.log(element);
     });
     console.log(check);
     this.selectedAll = check;
@@ -185,7 +178,6 @@ export class TodoListComponent implements OnInit {
     let subDate;
     let sameDay = this.dayInMonth;
     let sameMonth = this.month;
-    console.log('checkDate');
     this.supplier.$ref.orderByKey().equalTo('OrderDays').on('child_added', element => {
       console.log(element.val());
       orderingBefore = element.val();
@@ -207,9 +199,9 @@ export class TodoListComponent implements OnInit {
         console.log(unit);
         this.howManyReceive[unit.$key] = unit['accepted'];
       });
-      for (let i = 0; i < this.count; i++) {
-        this.radioButton[i] = false;
-      }
+      // for (let i = 0; i < this.count; i++) {
+      //   this.radioButton[i] = false;
+      // }
     });
   }
 
@@ -228,10 +220,7 @@ export class TodoListComponent implements OnInit {
   }
 
   checkDone(index, amount, accept) {
-    if (accept >= amount) {
-      this.radioButton[index] = true;
-    }
-    console.log(this.radioButton);
+    this.radioButton[index] = ( accept >= amount ? true : false);
   }
 
 }

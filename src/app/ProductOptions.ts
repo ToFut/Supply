@@ -19,5 +19,6 @@ export class ProductOptions {
   unitDesposit: number;
   secondeDesposit: number;
   fillDesposit: number;
+  constOrdering: any;
   imgSrc: string;
 }

@@ -1,27 +1,26 @@
-$timing-function: cubic-bezier(0.190, 1.000, 0.220, 1.000);
-$nav-width-desktop: 40em;
-$nav-width-mobile: 25em;
-$nav-item-nb: 6;
+$timing-function   : cubic-bezier(0.190, 1.000, 0.220, 1.000);
+$nav-width-desktop : 40em;
+$nav-width-mobile  : 25em;
+$nav-item-nb       : 6;
 input {
   position: fixed;
   opacity: 0;
 }
-
 .wrapper {
   min-height: 100%;
   position: relative;
-  padding-bottom: 90px; /* footer's height */
+  padding-bottom:90px; /* footer's height */
 }
 
 #back {
   position: relative;
 }
-
-#supplyME {
+#supplyME{
   text-align: center;
   font-size: x-large;
+  margin: 0em;
+  padding-bottom: 11.4px;
 }
-
 label {
 
   position: absolute;
@@ -38,7 +37,7 @@ label {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(darken(#3498db, 30%), .6);
+    background-color: rgba(darken(#3498db,30%),.6);
     content: '';
     opacity: 0;
     pointer-events: none;
@@ -46,7 +45,7 @@ label {
   }
   .burger {
 
-    color: #4CAF50;
+    color:#4CAF50;
     position: fixed;
     top: 1em;
     left: 1em;
@@ -99,7 +98,7 @@ nav {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: flex-start;
-  transform: translate3d(0, 0, 0); /* material acceleration */
+  transform: translate3d(0,0,0); /* material acceleration */
   transform: translateX(-100%);
   will-change: transform;
   transition: transform .5s $timing-function;
@@ -132,9 +131,7 @@ nav {
     transition-timing-function: $timing-function;
     transform: translateX(0);
     @for $i from 1 through $nav-item-nb {
-      &:nth-child(#{$i}) {
-        transition-delay: 0s, #{50 + (50 * $i)}ms;
-      }
+      &:nth-child(#{$i}) { transition-delay: 0s, #{50 + (50 * $i)}ms; }
     }
     &:hover, &:focus {
       color: black;
@@ -146,7 +143,7 @@ nav {
 main {
   overflow: hidden;
   .content {
-    transform: translate3d(0, 0, 0); /* material acceleration */
+    transform: translate3d(0,0,0); /* material acceleration */
     will-change: transform, filter;
     transition: all .5s $timing-function;
   }
@@ -192,7 +189,6 @@ main {
     filter: blur(2px); /* quite laggy :S */
   }
 }
-
 a:active {
   & + label {
     &::before {
@@ -235,51 +231,16 @@ a:active {
 }
 
 /* helper */
-.visuallyhidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-  font-family: "Brush Script MT"
-}
+.visuallyhidden { border:0; clip:rect(0 0 0 0);	height:1px; margin:-1px; overflow:hidden; padding:0; position:absolute; width:1px; font-family: "Brush Script MT"  }
 
 /* misc */
 
-body {
-  overflow-x: hidden;
-  background: #444;
-  color: #0E1013;
-  font: 1em/1.4 "lato";
-}
-
+body { overflow-x: hidden; background: #444; color: #0E1013; font: 1em/1.4 "lato"; }
 main {
-  color: #2c3e50;
-  padding: 5% 0;
-}
-
-article {
-  width: 80%;
-  margin: 0 auto;
-  font-size: 1.3em;
-  @media(min-width: 60em) {
-    width: 50%;
-  }
-}
-
-h1 {
-  font: 2.5em/1.4 "Cooper Black";
-  font-size: medium;
-}
-
-h3 {
-  font: 2.5em/1.4 "Brush Script MT";
-  font-size: small;
-  text-align: center
-}
+  color: #2c3e50; padding: 5% 0; }
+article { width: 80%; margin: 0 auto; font-size: 1.3em; @media(min-width: 60em) { width: 50%; } }
+h1 { font: 2.5em/1.4 "Cooper Black"; font-size: medium;}
+h3 { font: 2.5em/1.4 "Brush Script MT"; font-size: small; text-align: center}
 
 body {
   height: 1500px;
@@ -327,20 +288,18 @@ body {
   text-shadow: 3px 4px rgba(black, .1);
   transition: .3s;
 }
-
 .button1 {
-  position: absolute;
+  position:absolute;
   transition: .5s ease;
   left: 82%;
   font-size: x-large;
   height: inherit;
 }
-
 .button2 {
   position: absolute;
   -webkit-transition: .5s ease;
   transition: .5s ease;
-  margin-top: 1em;
+  margin-top: 0.3em;
   float: right;
   font-size: x-large;
   height: inherit;

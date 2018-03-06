@@ -114,14 +114,17 @@ export class ShowAllProductsComponent implements OnInit {
   orderBefore = 0;
   Completeall: boolean;
   isLinear = false;
-  price = 1;
+  price = 0;
   UnitInPackaging = 1;
   secondUnitInPackaging = 1;
   unitDesposit = 0;
   secondeDesposit = 0;
+  secondDespoitOpen = true;
+  secondPrice = 0;
   fillDesposit = 0;
   openTypeOfFillUpDespoit = true;
   openUnitDespoit = true;
+  constOrdering = [];
 
   constructor(public afAuth: AngularFireAuth, public checkWith: CheckExistProductWithAnotherSuppliersService,
               public route: ActivatedRoute, private _formBuilder: FormBuilder, public  router: Router,
@@ -155,7 +158,11 @@ export class ShowAllProductsComponent implements OnInit {
     this.saleProduct = 0;
     this.UnitOfMeasure = '';
     this.Completeall = true;
-
+    this.af.list(`users/${this.userId}/Types`).subscribe(types => {
+      types.forEach(type => {
+        this.options.push({value: type.$value, viewValue: type.$value});
+      });
+    });
     this.item = this.af.object(`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}`);
     this.af.list
     (`users/${this.userId}/suppliers/${this.SupplierKey}/orderInThisDays`).subscribe(val => {
@@ -169,14 +176,15 @@ export class ShowAllProductsComponent implements OnInit {
       if (this.selectProductKey !== undefined && !this.undifineCheck) {
         if ((data['TypeOfFillUp'])) {
           console.log('TypeOfFillUp');
-          if (this.unitOFMeasurementOption.indexOf(data['TypeOfFillUp']) === -1) {
-            this.changeTypeOfFillUp(data['TypeOfFillUp']);
-          } else {
-            this.TypeOfFillUp = data['TypeOfFillUp'];
-          }
         } else {
           this.TypeOfFillUp = '';
         }
+        if (this.unitOFMeasurementOption.indexOf(data['TypeOfFillUp']) === -1) {
+          this.changeTypeOfFillUp(data['TypeOfFillUp']);
+        } else {
+          this.TypeOfFillUp = data['TypeOfFillUp'];
+        }
+
         if ((data['secondTypeOfFillUp'])) {
           console.log('secondTypeOfFillUp');
           if (this.unitOFMeasurementOption.indexOf(data['secondTypeOfFillUp']) === -1) {
@@ -226,6 +234,7 @@ export class ShowAllProductsComponent implements OnInit {
         } else {
           this.saleProduct = 0;
         }
+
         if ((data['price'])) {
 
           this.price = data['price'];
@@ -257,8 +266,9 @@ export class ShowAllProductsComponent implements OnInit {
         // }
         this.sumPrice = this.price * this.UnitInPackaging;
         this.sumPrice += this.fillDesposit + this.unitDesposit * this.UnitInPackaging;
-        this.sumPrice.toFixed(2);
+        this.sumPrice = Number(this.sumPrice.toFixed(2));
         this.updateStatus = true;
+        this.calcSecondPrice();
         this.undifineCheck = true;
       }
     });
@@ -270,6 +280,13 @@ export class ShowAllProductsComponent implements OnInit {
           this.days[day['id']] = ids[day['id']];
           this.orderInThatdays[day['id']] = ids[day['id']];
         });
+      });
+      this.af.list
+      (`users/${this.userId}/suppliers/${this.SupplierKey}/SupplierProducts/${this.selectProductKey}/constOrdering`).subscribe(orders => {
+        orders.forEach(order => {
+          this.constOrdering[order.$key] = order.$value;
+        });
+
       });
 
       this.dateCurrectSupplirer = val;
@@ -283,12 +300,19 @@ export class ShowAllProductsComponent implements OnInit {
 
 
   }
+
+  addConstatntOrdering(id) {
+    console.log(id);
+  }
+
   changeDespoitTypeOfFillUp() {
     this.openTypeOfFillUpDespoit = !this.openTypeOfFillUpDespoit;
   }
+
   changeDespoitUnit() {
     this.openUnitDespoit = !this.openUnitDespoit;
   }
+
   changeUnitOfMeasure(value) {
     this.unitOFMeasurementOption.push({value: value, viewValue: value});
     this.UnitOfMeasure = value;
@@ -302,6 +326,21 @@ export class ShowAllProductsComponent implements OnInit {
   changeTypeOfFillUp(value) {
     this.options.push({value: value, viewValue: value});
     this.TypeOfFillUp = value;
+  }
+
+  checkTypeFillUp(value) {
+    let inside = false;
+    this.af.list(`users/${this.userId}/Types`).subscribe(types => {
+      types.forEach(type => {
+        if (type.$value === value && type.$value !== '') {
+          inside = true;
+        }
+      });
+    });
+    if (!inside) {
+      this.af.list(`users/${this.userId}/Types`).push(value);
+    }
+
   }
 
   funcopenselectedTypeOfFillUp() {
@@ -320,7 +359,8 @@ export class ShowAllProductsComponent implements OnInit {
                        sizeUnitPackaging, ProductName) {
     this.calcPrice();
     // this.Product.discount = discount;
-    this.Product.priceSum = this.sumPrice;
+    this.Product.constOrdering = this.constOrdering;
+    this.Product.priceSum = Number(this.sumPrice.toFixed(2).toString());
     this.Product.UnitInPackaging = UnitInPackaging;
     this.Product.sizeUnitPackaging = sizeUnitPackaging;
     this.Product.ProductName = ProductName;
@@ -496,6 +536,7 @@ export class ShowAllProductsComponent implements OnInit {
 
     this.secondUnitInPackaging = secondUnitInPackaging;
     this.Product.secondUnitInPackaging = secondUnitInPackaging;
+    this.calcSecondPrice();
 
   }
 
@@ -521,7 +562,7 @@ export class ShowAllProductsComponent implements OnInit {
   }
 
   checkWithAnotherSuppliers(name) {
-  //  this.checkWith.getSupplier(name);
+    //  this.checkWith.getSupplier(name);
   }
 
   search($event) {
@@ -561,4 +602,7 @@ export class ShowAllProductsComponent implements OnInit {
     this.products = null;
   }
 
+  calcSecondPrice() {
+    this.secondPrice = this.secondUnitInPackaging * this.price;
+  }
 }

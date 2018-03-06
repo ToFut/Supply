@@ -4,17 +4,18 @@ input {
   border-radius: 10px;
 
 }
-tr{
-  font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa
-}
+
+
 .SupplyFinish {
-  background-color:#2ecc71;
+  background-color: #2ecc71;
 }
+
 .SupplyNotFinish {
-  background-color:rgba(185,12,31,0);
+  background-color: rgba(185, 12, 31, 0);
 }
+
 .button {
-  border-radius:50%;
+  border-radius: 50%;
 
   display: inline-block;
 
@@ -58,13 +59,16 @@ tr{
 tr {
   overflow: scroll;
 }
-#footer{
+
+#footer {
   padding-top: 2em;
 }
-.page{
+
+.page {
   background-color: yellow;
 }
-h2 , i{
+
+h2, i {
   font-size: xx-large;
   display: block;
 }

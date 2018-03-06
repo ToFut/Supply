@@ -94,6 +94,10 @@ import { SortDaysPipe } from './show-all-products/pipes/sort-days.pipe';
 import { SortSupplierPipe } from './supplier/sort-supplier.pipe';
 import {CheckExistProductWithAnotherSuppliersService} from
   './show-all-products/services/check-exist-product-with-another-suppliers.service';
+import { NewUnusualOrderComponent } from './order/new-unusual-order/new-unusual-order.component';
+import { UnusualOrderForCuurectSupplierComponent }
+from './order-for-currect-supplier/components/unusual-order-for-cuurect-supplier/unusual-order-for-cuurect-supplier.component';
+import {SortProductsPipe} from './order-for-currect-supplier/pipe/sort-products.pipe';
 
 
 @NgModule({
@@ -138,6 +142,10 @@ import {CheckExistProductWithAnotherSuppliersService} from
     FilterSupplierPipe,
     SortDaysPipe,
     SortSupplierPipe,
+    NewUnusualOrderComponent,
+    SortProductsPipe,
+    UnusualOrderForCuurectSupplierComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -179,7 +187,7 @@ import {CheckExistProductWithAnotherSuppliersService} from
     FormWizardModule,
     MatDialogModule,
     DialogModule,
-    LoadersCssModule
+    LoadersCssModule,
   ],
   exports: [OrderComponent],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},

@@ -1,61 +1,63 @@
 <div dir="rtl" class="container">
   <div class="form-style-2-heading">
     <h2 style="text-align: center" [hidden]="!(!this.updateStatus && !this.undifineCheck)"> הגדרת מוצר </h2>
-    <h2 style="text-align: center" [hidden]="!this.updateStatus && !this.undifineCheck"> עדכון מוצר - {{(item |
+    <h2 style="text-align: center" [hidden]="!this.updateStatus && !this.undifineCheck"> {{(item |
       async)?.ProductName}} </h2>
   </div>
 
   <div>
     <div>
+      <label>
+        <div class="input-group name">
+
+          <span><span class="required">*</span> שם המוצר</span>
+          <input (click)="$event.target.select()" mdInput class="input-field" value="{{(item | async)?.ProductName}}"
+                 type="text" #ProductName
+                 id="ProductName" name="ProductName" placeholder="שם המוצר"
+                 (blur)="onKeyName(ProductName.value)"
+                 (keyup)="checkWithAnotherSuppliers(ProductName.value);onKeyName(ProductName.value)" required>
+        </div>
+      </label>
+
       <form>
-        <label>
-          <div class="input-group">
+        <div class="option ">
 
-            <h5><span class="required">*</span> שם המוצר</h5>
-            <input mdInput class="input-field" value="{{(item | async)?.ProductName}}" type="text" #ProductName
-                   id="ProductName" name="ProductName" placeholder="שם המוצר"
-                   (blur)="onKeyName(ProductName.value)"
-                   (keyup)="checkWithAnotherSuppliers(ProductName.value);onKeyName(ProductName.value)" required>
+          <span> יח' מידה&nbsp;</span>
+          <div class="selectedForm">
+            <mat-select placeholder="יח' מידה" [(ngModel)]="UnitOfMeasure" name="UnitOfMeasure">
+              <mat-option *ngFor="let unit of unitOFMeasurementOption" [value]="unit.value">
+                {{ unit.viewValue }}
+              </mat-option>
+            </mat-select>
+            <i class="fa fa-plus-circle fa-2x plusPos" (click)="funcopenselectedUnitOfMeasure()"></i>
+            <input (click)="$event.target.select()" #InputUnitOfMeasure [hidden]="openselectedUnitOfMeasure"
+                   (blur)="changeUnitOfMeasure(InputUnitOfMeasure.value);checkTypeFillUp(InputUnitOfMeasure.value)" (blur)="funcopenselectedUnitOfMeasure()">
           </div>
-        </label>
-        <mat-option *ngFor="let product of products" [value]="product.ProductName">
-          <p (click)="changename(product.ProductName)">{{ product.ProductName }}</p> |
-        </mat-option>
-
-        <div class="option">
-
-          <h5 class=" select"> יח' מידה&nbsp;</h5>
-          <mat-select placeholder="יח' מידה" [(ngModel)]="UnitOfMeasure" name="UnitOfMeasure">
-            <mat-option *ngFor="let unit of unitOFMeasurementOption" [value]="unit.value">
-              {{ unit.viewValue }}
-            </mat-option>
-          </mat-select>
-          <i class="fa fa-plus fa-2x" (click)="funcopenselectedUnitOfMeasure()"></i>
-          <input #InputUnitOfMeasure [hidden]="openselectedUnitOfMeasure"
-                 (blur)="changeUnitOfMeasure(InputUnitOfMeasure.value)" (mouseout)="funcopenselectedUnitOfMeasure()">
-
         </div>
         <label>
-          <h5> מחיר ל{{UnitOfMeasure}}</h5>
+          <span> מחיר ל{{UnitOfMeasure}}</span>
 
           <div class="input-group presuffix">
-            <input mdInput type="number" pInputText value="{{(item | async)?.price}}" placeholder="מחיר" #pricePerUnit
+            <input (click)="$event.target.select()" mdInput type="number" pInputText value="{{(item | async)?.price}}"
+                   placeholder="מחיר" #pricePerUnit
                    (keyup)="onKeyPricePerUnit(pricePerUnit.value)" required name="ProductName">
             <span class="input-group-addon suffix">₪/{{UnitOfMeasure}}</span>
           </div>
         </label>
-        <label>
-        <h5>הוסף פיקדון ל{{UnitOfMeasure}} </h5>
-        <div class="input-group presuffix selectInForm">
-          <mat-slide-toggle
-            [color]="color"
-            (change)="changeDespoitUnit()">
-          </mat-slide-toggle>
-        </div>
+        <label class="despoitLabel">
+          <div class="input-group presuffix selectInForm">
+            <mat-slide-toggle class="toggle"
+                              [color]="color"
+                              (change)="changeDespoitUnit()">
+            </mat-slide-toggle>
+          </div>
+          <span>חיוב בפיקדון ל{{UnitOfMeasure}} </span>
+
         </label>
         <label [hidden]="openUnitDespoit">
           <div class="input-group presuffix inputDespoit">
-            <input mdInput type="number" pInputText value="{{(item | async)?.unitDesposit}}" placeholder="מחיר"
+            <input (click)="$event.target.select()" mdInput type="number" pInputText
+                   value="{{(item | async)?.unitDesposit}}" placeholder="מחיר"
                    #UnitDespoit
                    (keyup)="onKeyDespoitUnit(UnitDespoit.value)" required>
             <span class="input-group-addon suffix">₪</span>
@@ -65,102 +67,125 @@
 
       </form>
       <br>
-      <i style="margin-right: 2em" class="fa fa-plus-circle fa-2x "
-         (click)="openSecondContactForm = !openSecondContactForm"><span class="comment"> הוסף מארז משני  </span></i>
+      <mat-slide-toggle class="toggle"
+                        [color]="color"
+                        (change)="openSecondContactForm= !openSecondContactForm">
+      </mat-slide-toggle>
+      <span class="comment"> הוסף מארז משני  </span>
       <br>
       <br>
 
-      <form>
-        <div [hidden]="openSecondContactForm">
+      <form [hidden]="openSecondContactForm">
 
-          <div class="option">
-            <h5 class=" select"> מארז משני &nbsp;</h5>
+        <div class="option ">
+          <span> מארז משני &nbsp;</span>
+          <div class="selectedForm">
             <mat-select placeholder="יח' מידה" [(ngModel)]="secondTypeOfFillUp" name="UnitOfMeasure">
               <mat-option *ngFor="let unit of secondFillUp" [value]="unit.value">
                 {{ unit.viewValue }}
               </mat-option>
             </mat-select>
-            <i class="fa fa-plus fa-2x" (click)="funcopenselectedsecondTypeOfFillUp()"></i>
-            <input #InputsecondTypeOfFillUp [hidden]="openselectedsecondTypeOfFillUp"
+            <i class="fa fa-plus-circle fa-2x plusPos" (click)="funcopenselectedsecondTypeOfFillUp()"></i>
+            <input (click)="$event.target.select()" #InputsecondTypeOfFillUp [hidden]="openselectedsecondTypeOfFillUp"
                    (blur)="changesecondTypeOfFillUp(InputsecondTypeOfFillUp.value)"
                    (mouseout)="funcopenselectedsecondTypeOfFillUp()">
           </div>
-
-          <label>
-            <h5> כמות ב{{secondTypeOfFillUp}} &nbsp; </h5>
-            <div class="input-group suffix">
-              <input mdInput type="number" value="{{(item | async)?.sizeUnitPackaging}}" #sizeUnitPackaging
-                     (keyup)="onKeySecondSizeUnitPackaging(sizeUnitPackaging.value)" name="ProductName">
-              <span class="input-group-addon ">{{UnitOfMeasure}}</span>
-            </div>
-          </label>
-          <label>
-            <h5> מחיר ל{{secondTypeOfFillUp}}</h5>
-
-            <div class="input-group presuffix">
-              <input mdInput type="number" pInputText value="{{sizeUnitPackaging *  (item | async)?.price}}"
-                     placeholder="מחיר"
-              >
-              <span class="input-group-addon suffix">₪</span>
-            </div>
-          </label>
-          <label>
-            <h5>פקדון ל{{secondTypeOfFillUp}}</h5>
-
-            <div class="input-group presuffix">
-              <input mdInput type="number" pInputText value="{{(item | async)?.secondeDesposit}}" placeholder="מחיר"
-                     #secondDespoit
-                     (keyup)="onKeyDespoitsecondTypeOfFillUp(secondDespoit.value)" required>
-              <span class="input-group-addon suffix">₪</span>
-
-            </div>
-          </label>
-        </div>
-      </form>
-      <form>
-        <div class="option">
-          <h5 class=" select"> צורת אריזה&nbsp; </h5>
-          <mat-select placeholder="צורת אריזה" [(ngModel)]="TypeOfFillUp" name="TypeOfFillUp">
-            <mat-option *ngFor="let option of options" [value]="option.value">
-              {{ option.viewValue }}
-            </mat-option>
-          </mat-select>
-          <i class="fa fa-plus fa-2x" (click)="funcopenselectedTypeOfFillUp()"></i>
-          <input #InputTypeOfFillUp [hidden]="openselectedTypeOfFillUp"
-                 (blur)="changeTypeOfFillUp(InputTypeOfFillUp.value)" (mouseout)="funcopenselectedTypeOfFillUp()">
         </div>
         <label>
-          <h5> כמות ב {{TypeOfFillUp}}&nbsp; </h5>
-
+          <span> כמות ב{{secondTypeOfFillUp}} &nbsp; </span>
           <div class="input-group suffix">
-            <input mdInput type="number" value="{{(item | async)?.UnitInPackaging}}" #UnitInPackaging required
-                   (keyup)="onKeyUnitInPackaging(UnitInPackaging.value)" name="UnitInPackaging">
-            <span class="input-group-addon">{{UnitOfMeasure}}</span>
+            <input (click)="$event.target.select()" mdInput type="number" value="{{(item | async)?.sizeUnitPackaging}}"
+                   #sizeUnitPackaging
+                   (keyup)="onKeySecondSizeUnitPackaging(sizeUnitPackaging.value)" name="ProductName">
+            <span class="input-group-addon suffix">{{UnitOfMeasure}}</span>
           </div>
         </label>
         <label>
-          <h5> מחיר ל{{TypeOfFillUp}}</h5>
+          <span> מחיר ל{{secondTypeOfFillUp}}</span>
 
           <div class="input-group presuffix">
-            <input mdInput type="number" pInputText value="{{sumPrice}}" placeholder="מחיר" #price
+            <input (click)="$event.target.select()" mdInput type="number" value="{{secondPrice}}"
+                   placeholder="מחיר"
+            >
+            <span class="input-group-addon suffix">₪</span>
+          </div>
+        </label>
+        <label class="despoitLabel">
+          <div class="input-group presuffix selectInForm">
+            <mat-slide-toggle class="toggle"
+                              [color]="color"
+                              (change)="secondDespoitOpen = !secondDespoitOpen">
+            </mat-slide-toggle>
+          </div>
+          <span>חיוב פיקדון ל{{TypeOfFillUp}} </span>
+
+        </label>
+
+        <label>
+
+          <div class="input-group presuffix" [hidden]="secondDespoitOpen">
+            <input (click)="$event.target.select()" mdInput type="number" pInputText
+                   value="{{(item | async)?.secondeDesposit}}" placeholder="מחיר"
+                   #secondDespoit
+                   (keyup)="onKeyDespoitsecondTypeOfFillUp(secondDespoit.value)" required>
+            <span class="input-group-addon suffix">₪</span>
+
+          </div>
+          <!--<span>פקדון ל{{secondTypeOfFillUp}}</span>-->
+
+        </label>
+      </form>
+      <form>
+        <div class="option ">
+          <span> צורת אריזה&nbsp; </span>
+          <div class="selectedForm">
+            <mat-select placeholder="צורת אריזה" [(ngModel)]="TypeOfFillUp" name="TypeOfFillUp">
+              <mat-option *ngFor="let option of options" [value]="option.value">
+                {{ option.viewValue }}
+              </mat-option>
+            </mat-select>
+            <i class="fa fa-plus-circle fa-2x plusPos" (click)="funcopenselectedTypeOfFillUp()"></i>
+            <input (click)="$event.target.select()" #InputTypeOfFillUp [hidden]="openselectedTypeOfFillUp"
+                   (blur)="changeTypeOfFillUp(InputTypeOfFillUp.value);checkTypeFillUp(InputTypeOfFillUp.value)"
+                   (mouseout)="funcopenselectedTypeOfFillUp()">
+          </div>
+        </div>
+        <label>
+          <span> כמות ב {{TypeOfFillUp}}&nbsp; </span>
+
+          <div class="input-group suffix">
+            <input (click)="$event.target.select()" mdInput type="number" value="{{(item | async)?.UnitInPackaging}}"
+                   #UnitInPackaging required
+                   (keyup)="onKeyUnitInPackaging(UnitInPackaging.value)" name="UnitInPackaging">
+            <span class="input-group-addon suffix">{{UnitOfMeasure}}</span>
+          </div>
+        </label>
+        <label>
+          <span> מחיר ל{{TypeOfFillUp}}</span>
+
+          <div class="input-group presuffix">
+            <input (click)="$event.target.select()" mdInput type="number" pInputText value="{{sumPrice}}"
+                   placeholder="מחיר" #price
                    (keyup)="onKeyPriceSum(price.value)" required disabled>
             <span class="input-group-addon suffix">₪</span>
 
           </div>
         </label>
-        <label>
-        <h5>הוסף פיקדון ל{{TypeOfFillUp}} </h5>
-        <div class="input-group presuffix selectInForm" >
-          <mat-slide-toggle
-            [color]="color"
-            (change)="changeDespoitTypeOfFillUp()">
-          </mat-slide-toggle>
-        </div>
+        <label class="despoitLabel">
+          <div class="input-group presuffix selectInForm">
+            <mat-slide-toggle class="toggle"
+                              [color]="color"
+                              (change)="changeDespoitTypeOfFillUp()">
+            </mat-slide-toggle>
+          </div>
+          <span>חיוב פיקדון ל{{TypeOfFillUp}} </span>
+
         </label>
         <label>
 
           <div class="input-group presuffix inputDespoit" [hidden]="openTypeOfFillUpDespoit">
-            <input mdInput type="number" pInputText value="{{(item | async)?.fillDesposot}}" placeholder="מחיר"
+            <input (click)="$event.target.select()" mdInput type="number" pInputText
+                   value="{{(item | async)?.fillDesposot}}" placeholder="מחיר"
                    #TypeOfFillUpDespoit
                    (keyup)="onKeyDespoitFillUp(TypeOfFillUpDespoit.value)" required>
             <span class="input-group-addon suffix">₪</span>
@@ -172,7 +197,7 @@
       <!--<form>-->
 
       <!--<label>-->
-      <!--<h5> הנחה </h5>-->
+      <!--<span> הנחה </span>-->
 
       <!--<div class="input-group presuffix">-->
       <!--<input mdInput type="number" pInputText value="{{(item | async)?.discount}}" placeholder="הנחה" #discount-->
@@ -181,7 +206,7 @@
       <!--</div>-->
       <!--</label>-->
       <!--<div class="option">-->
-      <!--<h5 class=" select"> מבצע&nbsp; </h5>-->
+      <!--<span class=" select"> מבצע&nbsp; </span>-->
       <!--<mat-select placeholder="מבצע" [(ngModel)]="saleProduct" name="saleProduct">-->
       <!--<mat-option *ngFor="let option of sales" [value]="option.value">-->
       <!--{{ option.viewValue }}-->
@@ -205,7 +230,7 @@
       <!--</section>-->
 
       <!--<label [hidden]="!depositCchecked">-->
-      <!--<h5> פיקדון </h5>-->
+      <!--<span> פיקדון </span>-->
 
       <!--<div class="input-group presuffix">-->
       <!--<input mdInput type="number" pInputText value="{{(item | async)?.depositPrice}}" placeholder="עלות הפיקדון"-->
@@ -220,27 +245,31 @@
           [(ngModel)]="showhidepregnant"> קבע מצבה להשלמה ביום ההזמנה <span
           class="required">*</span></mat-slide-toggle>
       </label>
-      <form>
+      <div *ngIf="showhidepregnant">
+        <label>
+          <span style="color: red;font-size: x-small"> נא מלא את כל השדות </span>
+          <div style="display: flex;" *ngFor="let day of dateCurrectSupplirer | sortDays; let i = index">
+              <span style="font-size: x-small;text-align: right;width: 10em"> הזמנה ביום <strong
+                style="font-size: medium">{{day.itemName}}</strong>
+                ליום <strong style="font-size: medium"> {{day.itemNameOrder}}</strong></span>
+            <div class="input-group presuffix" style="max-width: 17em;">
+              <input (click)="$event.target.select()" style="border-radius: 10px; " placeholder=" השלם ל" id="invatory"
+                     type="number"
+                     #input
+                     value="{{days[day.id]}}" (keyup)="modifyDays(day.id , day.orderIn, input.value)"
+                     name="MinInInventory" required>
 
-        <div *ngIf="showhidepregnant">
-          <label>
-            <span style="color: red;font-size: x-small"> נא מלא את כל השדות </span>
-            <div style="display: flex;" *ngFor="let day of dateCurrectSupplirer | sortDays; let i = index">
-              <h5 style="font-size: x-small;text-align: right;width: 9em"> הזמנה ביום <strong style="font-size: medium">{{day.itemName}}</strong>
-                <br>
-                קבלה ביום <strong style="font-size: medium"> {{day.itemNameOrder}}</strong></h5>
-              <div class="input-group presuffix" style="max-width: 27em">
-                <input style="border-radius: 10px; " placeholder=" השלם ל" id="invatory" type="number"
-                       #input
-                       value="{{days[day.id]}}" (keyup)="modifyDays(day.id , day.orderIn, input.value)"
-                       name="MinInInventory" required>
-                <span class="input-group-addon suffix"> {{TypeOfFillUp}}  </span>
-              </div>
+              <span class="input-group-addon suffix"> {{TypeOfFillUp}}  </span>
+              <mat-slide-toggle matTooltip="הזמנה קבועה"
+                                [color]="color" style="padding-right: 3px;"
+                                (change)="addConstatntOrdering(day.id)"
+                                [(ngModel)]="constOrdering[day.id]"></mat-slide-toggle>
+
             </div>
-          </label>
+          </div>
+        </label>
 
-        </div>
-      </form>
+      </div>
     </div>
     <a class="btn btn-success" [hidden]="!(!this.updateStatus && !this.undifineCheck)"
        (click)="BuildProductForAllDB(  UnitInPackaging.value , sizeUnitPackaging.value , ProductName.value  )">
@@ -248,7 +277,7 @@
     <a class="btn btn-success" [hidden]="!this.updateStatus && !this.undifineCheck"
        (click)="BuildProductForAllDB( UnitInPackaging.value , sizeUnitPackaging.value , ProductName.value  )">
       <i class="fa fa-check-square"></i> עדכן </a>
-    <a class="btn btn-danger " (click)="deleteItem()" style="align-items:flex-start;float: left; "
+    <a class="btn btn-danger " (click)="deleteItem()"
        [hidden]="!this.updateStatus && !this.undifineCheck">
       <i class="fa fa-trash-o fa-lg"></i> מחק </a>
   </div>

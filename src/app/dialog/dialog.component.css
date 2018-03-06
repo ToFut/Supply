@@ -2,17 +2,16 @@
   /* For tablets: */
   form {
     display: flex;
-    padding: 1em 2em 1em 2em;
   }
 
   .container {
     border-radius: 5px;
     background-color: #f2f2f2;
-    padding: 20px;
+    padding-top: 0;
   }
 
   label {
-    padding: 1em;
+    padding: 0.5em;
   }
 
 }
@@ -27,7 +26,8 @@
     border-radius: 5px;
     background-color: #f2f2f2;
     max-width: 650px;
-    padding: 20px;
+    padding-top: 0;
+
   }
 
 }
@@ -64,6 +64,8 @@ input, textarea, select, option {
   transition: all 0.5s;
   cursor: pointer;
   margin: 5px;
+padding-top: 0;
+  padding-bottom: 0;
 }
 
 .button span {
@@ -102,6 +104,7 @@ input, textarea, select, option {
   font-size: 16px;
   cursor: pointer;
   float: left;
+  padding: 1px;
 }
 
 .btn-group .button:not(:last-child) {
@@ -137,17 +140,33 @@ input, textarea, select, option {
 }
 
 mat-select {
-  border-bottom: 2px solid;
-  width: 10em;
+  font-size: small;
+  background: none !important;
+  width: 100%;
+  margin: 8px 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: #050348 !important;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 1rem;
+  border: 1px solid #cacaca;
+  -moz-appearance: none;
+  appearance: none;}
+.btn-group {
+  padding: 1px;
 }
-
 .btn-group button {
   padding: 3px 9px;
   font-size: 12px;
   line-height: 1.5;
   border-radius: 3px;
 }
-
+.second{
+  width: 33%;
+}
 .form-style-2-heading {
   font-weight: bold;
   font-style: italic;
@@ -233,14 +252,9 @@ mat-select {
 
 span, input {
   font-size: large;
+  height: 1.5em;
 }
 
-.mat-select {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: large;
-}
 
 .col-sm-6 {
   width: 86%;
@@ -249,8 +263,41 @@ span, input {
 .ui.toggle.checkbox input:checked ~ .box:before, .ui.toggle.checkbox input:checked ~ label:before {
   background-color: #66d021 !important;
 }
+.mat-select {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: medium;
+}
 
 .comment {
-  font-size: xx-small;
-  margin-right: 2em;
+  font-size: x-small;
+  margin-right: 0.5em;
 }
+.selectUpdate {
+  padding: 1em;
+  font-size: medium;
+}
+.selectedForm {
+  display: inline-flex;
+  width: 100%;
+}
+.plusPos{
+  margin-top: 0.6em;
+}
+mat-select {
+  font-size: small;
+  background: none !important;
+  width: 100%;
+  margin: 8px 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: #050348 !important;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 1rem;
+  border: 1px solid #cacaca;
+  -moz-appearance: none;
+  appearance: none;}

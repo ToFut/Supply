@@ -1,7 +1,7 @@
 import {Component, NgModule, OnInit} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {element} from 'protractor';
 import {isUndefined} from 'util';
 import {GetReturnService} from '../getReturn.service';
@@ -149,14 +149,20 @@ export class ReturnProductsComponent implements OnInit {
                   console.log('im push');
                   if (this.fieldArray.indexOf(element) === -1 && !this.dialogResault) {
                     this.fieldArray.push({
-                      productName: element.productName, amount: element.amount,
-                      reason: element.reason, status: element.status, supplierName: element.supplierName,
-                      TypeOfFillUp: element.TypeOfFillUp
+                      productName: element.productName,
+                      amount: element.amount,
+                      reason: element.reason,
+                      status: element.status,
+                      supplierName: element.supplierName,
+                      TypeOfFillUp: element.TypeOfFillUp,
+                      supplierKey: element.supplierKey,
+                      productKey: element.productKey
                     });
                   }
                 }
               }
             });
+
             this.checkDone();
 
 
@@ -169,9 +175,9 @@ export class ReturnProductsComponent implements OnInit {
 
   checkDone() {
     this.fieldArray.forEach(item => {
-        if (this.showWarning.indexOf(item) === -1 && item.status) {
-          this.showWarning.push(item);
-        }
+      if (this.showWarning.indexOf(item) === -1 && item.status) {
+        this.showWarning.push(item);
+      }
     });
     this.showWarning.forEach(done => {
       this.removeFromFiled(done);
@@ -186,6 +192,7 @@ export class ReturnProductsComponent implements OnInit {
     }
 
   }
+
   showDialog() {
     this.display = true;
   }
@@ -311,6 +318,25 @@ export class ReturnProductsComponent implements OnInit {
     const key = this.selectedSupplier['key'];
     this.productsSuppliers = this.af.list(`users/${this.userId}/suppliers/${key}/SupplierProducts`);
     this.returnsDays = this.af.list(`users/${this.userId}/suppliers/${key}/date`);
+  }
+
+  returnDeatil(supplier) {
+    console.log(supplier);
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'productName': supplier.productName,
+        'amount': supplier.amount,
+        'reason': supplier.reason,
+        'status': supplier.status,
+        'supplierName': supplier.supplierName,
+        'TypeOfFillUp': supplier.TypeOfFillUp,
+        'supplierKey': supplier.supplierKey,
+        'productKey': supplier.productKey,
+        'domainUserId': this.domainUserId,
+      }
+    };
+    this.router.navigate(['formReturnProduct'], navigationExtras);
+
   }
 
   updateProductKeyAndTypeOfFillUp(key, TypeOfFillUp) {

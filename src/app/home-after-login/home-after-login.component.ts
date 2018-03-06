@@ -47,7 +47,7 @@ export class HomeAfterLoginComponent implements OnInit {
             this.domainUserId = data['subUser'];
             if (data['first']) {
               this.ifSubUser();
-              this.af.list(`/users/${this.userId}`).update('first', false);
+              this.af.object(`/users/${this.userId}/first`).set(false);
             }
             this.subUser = true;
           }
@@ -70,7 +70,7 @@ export class HomeAfterLoginComponent implements OnInit {
         } else {
           this.month += 1;
         }
-      //  this.showDialog();
+        //  this.showDialog();
         // this.versionUpdate = this.af.object(`versions/${this.year}/${this.month}/${this.dayInMonth}`);
         // if (!this.versionUpdate.isEmpty()) {
         //   this.pageDimmed = true;
@@ -89,7 +89,7 @@ export class HomeAfterLoginComponent implements OnInit {
 
       }
     };
-    this.router.navigate(['subUserReciveList'], navigationExtras);
+    this.router.navigate(['reciveOrder'], navigationExtras);
 
   }
 
@@ -103,6 +103,7 @@ export class HomeAfterLoginComponent implements OnInit {
     this.router.navigate(['supplier'], navigationExtras);
 
   }
+
   // showDialog() {
   //   if (this.dayInMonth === 26) {
   //     this. = true;
@@ -127,7 +128,7 @@ export class HomeAfterLoginComponent implements OnInit {
 
       }
     };
-    this.router.navigate(['subUserOrderList'], navigationExtras);
+    this.router.navigate(['order'], navigationExtras);
 
   }
 
@@ -178,7 +179,7 @@ export class HomeAfterLoginComponent implements OnInit {
   }
 
   ifSubUser() {
-    this.af.list(`/users/${this.domainUserId}/buyersId`).update(`${this.userId}`, true).then(success => {
+    this.af.object(`/users/${this.domainUserId}/buyersId/${this.userId}`).set(true).then(success => {
       alert('קושרת לבעל המסעדה' + this.domainUserId);
     }).catch(function (error) {
       // Handle Errors here.

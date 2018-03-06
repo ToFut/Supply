@@ -27,6 +27,8 @@ import {SubUserTodoListComponent} from './sub-user-todo-list/sub-user-todo-list.
 import {ContactComponent} from './contact/contact.component';
 import {ConfirmModalComponent} from './confirm-modal/confirm-modal.component';
 import {ReturnProductsDialogComponent} from './return-products/return-products-dialog/return-products-dialog.component';
+import {NewUnusualOrderComponent} from './order/new-unusual-order/new-unusual-order.component';
+import {UnusualOrderForCuurectSupplierComponent} from './order-for-currect-supplier/components/unusual-order-for-cuurect-supplier/unusual-order-for-cuurect-supplier.component';
 
 const routes: Routes = [
   {path: 'supplier', component: SupplierComponent, pathMatch: 'full'},
@@ -53,6 +55,10 @@ const routes: Routes = [
   {path: 'contcat', component: ContactComponent, pathMatch: 'full'},
   {path: 'confireModal', component: ConfirmModalComponent, pathMatch: 'full'},
   {path: 'formReturnProduct', component: ReturnProductsDialogComponent, pathMatch: 'full'},
+  {path: 'unusualOrder', component: NewUnusualOrderComponent, pathMatch: 'full'},
+  {path: 'unusualOrderSpecificSupplier', component: UnusualOrderForCuurectSupplierComponent, pathMatch: 'full'},
+
+
 
 
 ];

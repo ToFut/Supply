@@ -10,20 +10,12 @@
   </header>
       <form class="form-style-7">
         <ul>
-          <li>
-            <label>אימייל</label>
-            <input type="email" #email (keyup)="onKeyEmail(email.value)" placeholder="אימייל" class="form__input" />
-            <span>הכנס אימייל</span>
-          </li>
-          <li>
-            <label>סיסמא</label>
-            <input type="password" #password (keyup)="onKeyPassword(password.value)" placeholder="סיסמא" class="form__input" />
-            <span>הכנס סיסמא</span>
-          </li>
-          <li>
-            <button class=" w3-btn  w3-border w3-border-black w3-round-large"  (click)="emailSignUp()" type="button">הרשם</button>
-          </li>
+            <input mdInput type="email" #email (keyup)="onKeyEmail(email.value)" placeholder="אימייל" class="form__input" />
+            <input mdInput type="password" #password (keyup)="onKeyPassword(password.value)" placeholder="סיסמא" class="form__input" />
+          <div class="form-group">
 
+          <button  class=" w3-btn  w3-border w3-border-black w3-round-large" (click)="emailSignUp()" style="background: none;" >הרשם</button>
+          </div>
         </ul>
       </form>
 </div>

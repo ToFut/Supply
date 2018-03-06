@@ -1,6 +1,6 @@
 <div class="container" style="direction: rtl; text-align: center;">
-  <br><span style="  color: #050348; font-size: xx-large" data-shadow-text="Text-Shadow">הזמנות</span>
-  <i class="fa fa-shopping-cart fa-3x " style="color: #22262e;:"></i><br>
+  <br><span style="  color: #050348; font-size: xx-large" data-shadow-text="Text-Shadow">  הזמנות</span>
+  <br>
 
 
   <div [ngSwitch]=day>
@@ -12,6 +12,10 @@
     <h1 *ngSwitchCase=5> שישי </h1>
     <h1 *ngSwitchCase=6> שבת </h1>
   </div>
+  <span id="newSupplierButton" class="button2">
+    <button routerLink="/unusualOrder" routerLinkActive="active"> הוסף הזמנה חריגה </button>
+  </span>
+
   <!--<div class="tab-content">-->
   <div #loading id="loader"
        *ngIf="showWarning?.length == 0 && showNONAccepted?.length == 0 && showAccepted?.length == 0;  else start ; ">
@@ -38,7 +42,26 @@
       <div class="space" (click)="orderFromMe(supplier)">
         <button class=" ui  labeled icon button button1 ">
           <i class="cart icon warning"></i>
+
           <span class="name">{{(supplier | async)?.name}}</span>
+        </button>
+      </div>
+    </div>
+    <div class="list" *ngFor="let supplier of showWarningUnusual ">
+      <div class="space" (click)="orderUnusualOrders(supplier)">
+        <button class=" ui  labeled icon button button1 ">
+          <i class="cart icon warning"></i>
+
+          <span class="name">{{supplier.supplierName}}</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="list" *ngFor="let supplier of unusualOrderSnap ">
+      <div class="space" (click)="orderUnusualOrders(supplier)">
+        <button class=" ui  labeled icon button button1 ">
+          <i class="cart icon deafult"></i>
+          <span class="name">{{supplier.supplierName}}</span>
         </button>
       </div>
     </div>
@@ -51,6 +74,21 @@
         </button>
       </div>
     </div>
+    <div class="list" *ngFor="let supplier of showAcceptedUnusual ">
+      <div class="space" (click)="orderUnusualOrders(supplier)">
+        <button class=" ui  labeled icon button button1 ">
+          <i class="cart icon success"></i>
+          <span class="name">{{supplier.supplierName}}</span>
+        </button>
+      </div>
+    </div>
+
+    <span class="fixedButton" routerLink="/unusualOrder" routerLinkActive="active">
+    <div class="fa-stack fa-lg fa-2x">
+      <i class="fa fa-circle fa-stack-2x "></i>
+      <i class="fa fa-plus fa-stack-1x fa-inverse"></i>
+    </div>
+  </span>
 
   </div>
 </div>

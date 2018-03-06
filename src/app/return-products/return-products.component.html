@@ -3,7 +3,7 @@
   <br><span class="span1" data-shadow-text="Text-Shadow">החזרת סחורה  </span> <i style="color: #22262e"
                                                                                  class="fa fa-shopping-basket w3-xlarge"
                                                                                  aria-hidden="true"></i>
-  <i style="color: #22262e" class="fa fa-arrow-left w3-xlarge" aria-hidden="true"></i>
+
   <br> <br>
   <div id="loader"
        *ngIf="showWarning?.length == 0 && fieldArray?.length == 0 ;  else start ; ">
@@ -45,7 +45,7 @@
     <div class="space">
       <button class=" ui  labeled icon button button1 " suiPopup
               popupText="{{supplier.amount}}  {{supplier.TypeOfFillUp}} , {{supplier.reason}}" popupInverted
-              [popupPlacement]="position">
+              [popupPlacement]="position" (click)="returnDeatil(supplier)">
         <i class="cart icon danger"></i>
         <span  class="name size">{{supplier.supplierName}}  -> {{supplier.productName}}</span>
       </button>
@@ -56,8 +56,8 @@
        popupText="{{supplier.amount}}  {{supplier.TypeOfFillUp}} , {{supplier.reason}}" popupInverted
        [popupPlacement]="position">
     <div class="space">
-      <button class=" ui  labeled icon button button1 ">
-        <i class="cart icon success"></i>
+      <button class=" ui  labeled icon button button1 " (click)="returnDeatil(supplier)">
+        <i class="cart icon warning"></i>
         <span class="name size">{{supplier.supplierName}} -> {{supplier.productName}}</span>
       </button>
     </div>

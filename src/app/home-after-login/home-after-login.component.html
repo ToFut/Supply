@@ -53,7 +53,7 @@
         <!--user--> <a [hidden]="subUser  " routerLink="/reciveOrder" routerLinkActive="active">
       <span class="button button4">
 
-              <i class="fa fa-shopping-cart w3-xxxlarge"></i>
+              <i class="fa fa-shopping-cart logos"></i>
 
       <h4 style="font-size: medium">קבלת סחורה</h4>
       </span>
@@ -62,7 +62,7 @@
         <!--SubUser--> <a [hidden]="!recivePermission " (click)="reciveSubUser()" routerLinkActive="active">
          <span class="button button4">
 
-              <i class="fa fa-shopping-cart w3-xxxlarge"></i>
+              <i class="fa fa-shopping-cart logos"></i>
 
       <h4 style="font-size: medium">קבלת סחורה</h4>
       </span>
@@ -70,14 +70,14 @@
         <!--user--> <a [hidden]="subUser" routerLink="/order" routerLinkActive="active">
 
       <span class="button button4">
-                <i class="fa fa-shopping-bag w3-xxxlarge"></i>
+                <i class="fa fa-shopping-bag logos"></i>
         <h4 class="nav-text" style="font-size: medium">הזמנת סחורה</h4>
       </span>
       </a>
         <!--SubUser--> <a [hidden]=" !orderPermission" (click)="orderSubUser()" routerLinkActive="active">
 
       <span class="button button4">
-                <i class="fa fa-shopping-bag w3-xxxlarge"></i>
+                <i class="fa fa-shopping-bag logos"></i>
         <h4 class="nav-text" style="font-size: medium">הזמנת סחורה</h4>
       </span>
       </a>
@@ -86,23 +86,23 @@
 
       <div class="w3-quarter w3-half">
         <!--user--> <a [hidden]="subUser" routerLink="/supplier" routerLinkActive="active">
-  <span class="button button4 ">
-      <i class="fa fa-users w3-xxxlarge"></i>
+  <span class="button button4 logos">
+      <i class="fa fa-users logos"></i>
 
       <h4 class="nav-text" style="font-size: medium"> הספקים שלי</h4>
       </span>
       </a>
         <!--SubUser--> <a [hidden]="!suppliersPermission" (click)="supplierSubUser()" routerLinkActive="active">
   <span class="button button4 ">
-      <i class="fa fa-users w3-xxxlarge"></i>
+      <i class="fa fa-users logos"></i>
 
       <h4 class="nav-text" style="font-size: medium"> הספקים שלי</h4>
       </span>
       </a>
         <!--SubUser--><a [hidden]="!returnPermission" (click)="returnSubUser()" routerLinkActive="active">
     <span class="button button4">
-      <i class="fa fa-shopping-basket w3-xxlarge" aria-hidden="true"></i>
-      <i class="fa fa-arrow-left w3-xxlarge" aria-hidden="true"></i>
+      <i class="fa fa-shopping-basket logos" aria-hidden="true"></i>
+      <i class="fa fa-arrow-left logos" aria-hidden="true"></i>
 
        <h4 class="nav-text" style="font-size: medium;">  החזרת סחורה  </h4>
     </span>
@@ -110,8 +110,8 @@
 
         <!--user--> <a [hidden]="subUser" routerLink="/returnProdcts" routerLinkActive="active">
     <span class="button button4">
-      <i class="fa fa-shopping-basket w3-xxlarge" aria-hidden="true"></i>
-      <i class="fa fa-arrow-left w3-xxlarge" aria-hidden="true"></i>
+      <i class="fa fa-shopping-basket logos" aria-hidden="true"></i>
+      <i class="fa fa-arrow-left " style="font-size: 5vh" aria-hidden="true"></i>
 
        <h4 class="nav-text" style="font-size: medium;">  החזרת סחורה  </h4>
     </span>

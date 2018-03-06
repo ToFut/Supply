@@ -1065,9 +1065,12 @@ h1 {
 }
 
 .deafult {
+  border-style: solid;
+  color: #3e94ec;
+  border-width: medium;
   border-radius: 12px;
   width: 50%;
-  background-color: #3e94ec;
+  height: 20%;
 }
 
 .warning {
@@ -1083,7 +1086,8 @@ h1 {
   margin-top: 2em;
   width: 100%;
 }
-  h1 {
+
+h1 {
   font: 600 1.5em/1 'David', sans-serif;
   color: #050348;
   text-align: center;
@@ -1092,6 +1096,7 @@ h1 {
   top: 25%;
   width: 100%;
 }
+
 #loader {
   /* Uncomment this to make it run! */
   /*
@@ -1102,10 +1107,16 @@ h1 {
   top: calc(50% - 20px);
   left: calc(50% - 20px);
 }
+
 @keyframes loader {
-  0% { left: -100px }
-  100% { left: 110%; }
+  0% {
+    left: -100px
+  }
+  100% {
+    left: 110%;
+  }
 }
+
 #box {
   width: 50px;
   height: 50px;
@@ -1116,16 +1127,26 @@ h1 {
   left: 0;
   border-radius: 3px;
 }
+
 @keyframes animate {
-  17% { border-bottom-right-radius: 3px; }
-  25% { transform: translateY(9px) rotate(22.5deg); }
+  17% {
+    border-bottom-right-radius: 3px;
+  }
+  25% {
+    transform: translateY(9px) rotate(22.5deg);
+  }
   50% {
-    transform: translateY(18px) scale(1,.9) rotate(45deg) ;
+    transform: translateY(18px) scale(1, .9) rotate(45deg);
     border-bottom-right-radius: 40px;
   }
-  75% { transform: translateY(9px) rotate(67.5deg); }
-  100% { transform: translateY(0) rotate(90deg); }
+  75% {
+    transform: translateY(9px) rotate(67.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(90deg);
+  }
 }
+
 #shadow {
   width: 50px;
   height: 5px;
@@ -1137,10 +1158,95 @@ h1 {
   border-radius: 50%;
   animation: shadow .5s linear infinite;
 }
+
 @keyframes shadow {
   50% {
-    transform: scale(1.2,1);
+    transform: scale(1.2, 1);
   }
 }
 
+@media only screen and (max-width: 780px) {
+  .fixedButton {
+    top: 90%;
+    color: #26D367;
+    position: fixed;
+    left: 30px;
+    font-size: 1.3em;
+  }
 
+  .tableShow {
+    display: none;
+  }
+
+  #newSupplierButton {
+    display: none;
+  }
+
+  .namePhone {
+    color: #22262e;
+    padding: 0px 20px 0px 0px;
+  }
+
+  .size {
+    text-align: right;
+    font-size: small;
+    z-index: 100;
+    text-shadow: .04em .04em 0 #9cb8b3;
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+  }
+
+}
+
+th {
+  font-size: medium;
+  text-align: right;
+}
+
+@media only screen and (min-width: 781px) {
+  .visible-xs {
+    display: inline-block !important;
+  }
+
+  .size {
+    text-align: right;
+    font-size: 2vw;
+    z-index: 100;
+    text-shadow: .04em .04em 0 #9cb8b3;
+  }
+
+  .namePhone {
+    display: none;
+  }
+
+  .fixedButton {
+    display: none;
+  }
+
+  #newSupplierButton {
+    top: 90%;
+
+  }
+
+  .button2 {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #26D367;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: small;
+    padding: 7px;
+    width: 9em;
+    height: 35px;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin-left: 60vw;
+    margin-bottom: 2vh;
+  }
+
+}

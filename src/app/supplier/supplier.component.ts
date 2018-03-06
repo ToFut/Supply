@@ -1,7 +1,7 @@
 ///<reference path="../../../node_modules/angularfire2/database/firebase_list_observable.d.ts"/>
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable } from 'rxjs/Observable';
+import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
+import {AngularFireAuth} from 'angularfire2/auth';
+import {Observable} from 'rxjs/Observable';
 import * as firebase from 'firebase/app';
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {DialogComponent} from '../dialog/dialog.component';
@@ -24,7 +24,7 @@ export class SupplierComponent implements OnInit {
   user: Observable<firebase.User>;
   userId: string;
   domainUserId: string;
-   public items: FirebaseListObservable<any[]>;
+  public items: FirebaseListObservable<any[]>;
   public itemToDel: FirebaseListObservable<any[]>;
   datePathFirebase: FirebaseListObservable<any[]>;
   lastKeypress = 0;
@@ -34,11 +34,8 @@ export class SupplierComponent implements OnInit {
   oneTime = 0;
 
 
-
-
-
-  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase ,
-              private SupplierService: SupplierService , route: ActivatedRoute , private router: Router ) {
+  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase,
+              private SupplierService: SupplierService, route: ActivatedRoute, private router: Router) {
     route.queryParams.subscribe(params => {
       this.domainUserId = params['domainUserId'];
     });
@@ -56,22 +53,24 @@ export class SupplierComponent implements OnInit {
 
 
   }
+
   ngOnInit(): void {
 
   }
 
-  showListOfAllDB (): FirebaseListObservable<any[]> {
+  showListOfAllDB(): FirebaseListObservable<any[]> {
     return this.items;
 
   }
-    /*search($event) {
-    if ($event.timeStamp - this.lastKeypress > 200) {
-      const q = $event.target.value;
-      this.startWith.next(q);
-      this.endWith.next(q + '\uf8ff');
-    }
-    this.lastKeypress = $event.timeStamp;
-  }*/
+
+  /*search($event) {
+  if ($event.timeStamp - this.lastKeypress > 200) {
+    const q = $event.target.value;
+    this.startWith.next(q);
+    this.endWith.next(q + '\uf8ff');
+  }
+  this.lastKeypress = $event.timeStamp;
+}*/
 
 
   addItem() {
@@ -80,6 +79,7 @@ export class SupplierComponent implements OnInit {
     const newProductKey = newRefToNewProduct.key;
     this.editSupplierPage(newProductKey);
   }
+
   editSupplierPage(key) {
     const navigationExtras: NavigationExtras = {
       queryParams: {
@@ -89,6 +89,7 @@ export class SupplierComponent implements OnInit {
     this.router.navigate(['dialogSupplier'], navigationExtras);
 
   }
+
   sortList() {
     let list, i, switching, b, shouldSwitch;
     list = document.getElementById('myUL');
@@ -98,7 +99,7 @@ export class SupplierComponent implements OnInit {
     /*Make a loop that will continue until
     no switching has been done:*/
     if (this.oneTime === 0) {
-      while (switching ) {
+      while (switching) {
         this.oneTime = 1;
         switching = false;
         b = list.getElementsByTagName('li');
@@ -126,6 +127,7 @@ export class SupplierComponent implements OnInit {
       }
     }
   }
+
   associateProduct(key) {
     const navigationExtras: NavigationExtras = {
       queryParams: {
@@ -136,9 +138,10 @@ export class SupplierComponent implements OnInit {
     };
     this.router.navigate(['dialogSupplier'], navigationExtras);
   }
+
   deleteItem(key) {
     this.itemToDel = this.af.list(`users/${this.userId}/suppliers/${key}`);
-    for (let i = 0 ; i < 7 ; i++ ) {
+    for (let i = 0; i < 7; i++) {
       this.af.list(`users/${this.userId}/orderDateSuppliers/${i}/${key}`).remove();
       this.af.list(`users/${this.userId}/reciveDateSuppliers/${i}/${key}`).remove();
     }
@@ -146,6 +149,7 @@ export class SupplierComponent implements OnInit {
     this.itemToDel.remove();
 
   }
+
   search() {
     let input, filter, table, li, td, i;
     input = document.getElementById('myInput');

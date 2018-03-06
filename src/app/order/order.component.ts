@@ -3,7 +3,8 @@ import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} f
 import {AngularFireAuth} from 'angularfire2/auth';
 import {MatchSupplierService} from '../match-supplier.service';
 import {AsyncPipe} from '@angular/common';
-import {NavigationExtras, Router} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+import {isUndefined} from 'util';
 
 
 @Component({
@@ -33,6 +34,10 @@ export class OrderComponent implements OnInit {
   showAccepted = [];
   showNONAccepted = [];
   showWarning = [];
+  showAcceptedUnusual = [];
+  showNONAcceptedUnusual = [];
+  showWarningUnusual = [];
+
   showWarningKeys = [];
   showInsideWarningKeys = [];
   show = true;
@@ -43,11 +48,16 @@ export class OrderComponent implements OnInit {
   noneAnyOrders: boolean;
   warning: Array<boolean>;
   orderLimitTime: string;
-
+  unusualOrders: FirebaseListObservable<any[]>;
+  unusualOrderSnap = [];
+  unusualOrderKeys = [];
+  domainUserId: string;
 
   constructor(public matchSupplier: MatchSupplierService, public afAuth: AngularFireAuth, public af: AngularFireDatabase,
-              private router: Router) {
-
+              private router: Router , route: ActivatedRoute) {
+    route.queryParams.subscribe(params => {
+      this.domainUserId = params['domainUserId'];
+    });
     console.log('constructor');
     this.warning = [];
     this.orderLimitTime = this.viewDate.toTimeString();
@@ -55,7 +65,12 @@ export class OrderComponent implements OnInit {
       if (user) {
         this.userId = user.uid;
       }
+      if (!isUndefined(this.domainUserId)) {
+        this.userId = this.domainUserId;
+      }
       this.orderAccept = this.af.list(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}`);
+      this.unusualOrders = this.af.list(`users/${this.userId}/unusaulOrders/${this.year}/${this.month}/${this.dayInMonth}`)
+
       this.orderAccept.subscribe(data => {
         console.log(data);
         data.forEach(snapshot => {
@@ -105,6 +120,12 @@ export class OrderComponent implements OnInit {
 
   }
 
+  checkSupplierUnusual(key) {
+    this.af.object(`users/${this.userId}/suppliers/${key}`).subscribe(supplier => {
+      console.log(supplier.name);
+    });
+  }
+
   getWarning(key) {
     if (this.KEYSNONacceptedOrders.indexOf(key) > -1 && this.showWarningKeys.indexOf(key) === -1) {
       const indexAccept = this.KEYSNONacceptedOrders.indexOf(key);
@@ -144,7 +165,37 @@ export class OrderComponent implements OnInit {
           this.showWarning.push(snapshot);
         }
       });
+      this.unusualOrders.subscribe(data => {
+        console.log(data);
+        data.forEach(unusual => {
+          if (this.acceptedChecker.indexOf(unusual.$key) === -1 &&
+            this.KEYSacceptedOrders.indexOf(unusual.$key) !== -1 && unusual.$key !== 'itemName') {
+            this.showAcceptedUnusual.push(unusual);
+            this.acceptedChecker.push(unusual.$key);
+
+          } else if (this.NONeacceptedChecker.indexOf(unusual.$key) === -1 && this.KEYSNONacceptedOrders.indexOf(unusual.$key) !== -1 && unusual.$key !== 'itemName') {
+            this.NONeacceptedChecker.push(unusual.$key);
+            this.showNONAcceptedUnusual.push(unusual);
+          } else if (this.showWarningKeys.indexOf(unusual.$key) !== -1 &&
+            this.showInsideWarningKeys.indexOf(unusual.$key) === -1 && unusual.$key !== 'itemName') {
+            const indexAccept = this.showWarningKeys.indexOf(unusual.$key);
+            this.showInsideWarningKeys.push(unusual.$key);
+            this.showWarningUnusual.push(unusual);
+          } else if (this.acceptedChecker.indexOf(unusual.$key) === -1 && this.NONeacceptedChecker.indexOf(unusual.$key) === -1 && this.KEYSNONacceptedOrders.indexOf(unusual.$key) === -1 &&
+            this.KEYSacceptedOrders.indexOf(unusual.$key) === -1 && this.showWarningKeys.indexOf(unusual.$key) === -1 && this.unusualOrderKeys.indexOf(unusual.$key) === -1 && unusual.$key !== 'itemName') {
+            const indexAccept = this.KEYSacceptedOrders.indexOf(unusual.$key);
+            this.KEYSacceptedOrders.splice(indexAccept, 1);
+            this.unusualOrderKeys.push(unusual.$key);
+            this.unusualOrderSnap.push(unusual);
+            this.KEYSNONacceptedOrders.push(unusual.$key);
+          }
+
+
+        });
+      });
+
     });
+
     if (this.showNONAccepted.length === 0) {
       this.noneSupplierOrder = true;
     } else {
@@ -160,6 +211,7 @@ export class OrderComponent implements OnInit {
     } else {
       this.noneAnyOrders = false;
     }
+
 
   }
 
@@ -186,6 +238,21 @@ export class OrderComponent implements OnInit {
     const navigationExtras: NavigationExtras = {
       queryParams: {
         'supplierKey': supplier.$ref.key,
+        'userId': this.userId,
+        'domainUserId': this.domainUserId,
+
+      }
+    };
+    console.log(supplier);
+    this.router.navigate(['orderCurrect'], navigationExtras);
+
+  }
+
+  orderUnusualOrders(supplier) {
+
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'supplierKey': supplier.$key,
         'userId': this.userId,
       }
     };

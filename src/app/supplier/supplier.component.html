@@ -1,7 +1,6 @@
 <div class="container" style="direction: rtl; text-align: center;">
 
-  <br><span style="  color: #050348;" data-shadow-text="Text-Shadow">הספקים שלי </span> <i class="fa fa-users w3-xlarge"
-                                                                                           style="color: #22262e;"></i><br>
+  <br><span style="  color: #050348;" data-shadow-text="Text-Shadow">הספקים שלי </span> <br>
 </div>
 <div #loading id="loader"
      *ngIf="(items | async)?.length == 0;  else start ; ">
@@ -21,8 +20,8 @@
          placeholder=" חפש לפי שם הספק">
   <img id="imgSearch" src="../../assets/search.png">
   <ul id="myUL">
-    <li *ngFor="let item of items | async | sortSupplier">
-      <div style="float: left" class="ui dropdown" suiDropdown>
+    <li *ngFor="let item of items | async ">
+      <div style="float: left;top: 0.9em;" class="ui dropdown" suiDropdown>
         <div><i class="fa fa-ellipsis-v fa-2x ellipsis"></i>
         </div>
         <div class="menu" suiDropdownMenu>
@@ -39,20 +38,19 @@
           </ng-template>
         </div>
       </div>
-
       <a (click)="associateProduct(item.$key)">
-        <div id="icon">
-          <span *ngIf="item.type == 'מאפים'" class="fa fa-cutlery " aria-hidden="true"></span>
-          <span *ngIf="item.type == 'מוצרי חלב'" class="fa fa-coffee " aria-hidden="true"></span>
-          <span *ngIf="item.type == 'מוצרי בשר'" class="fa fa-cutlery " aria-hidden="true"></span>
-          <span *ngIf="item.type == 'משקאות חריפים'" class="fa fa-beer " aria-hidden="true"></span>
-          <span *ngIf="item.type == 'ירקות'" class="fa fa-apple " aria-hidden="true"></span>
-          <span *ngIf="item.type == 'מוצרים יבשים'" class="fa fa-archive " aria-hidden="true"></span>
-          <span *ngIf="item.type == 'כלים '" class="fa fa-archive " aria-hidden="true"></span>
-          <span *ngIf="item.type == 'שתייה'" class="large material-icons ">local_drink</span>
-          <span *ngIf="item.type == 'משקאות'" class="large material-icons ">local_drink</span>
-          <span *ngIf="item.type == 'ירקות' ; anotherIcon"  class="fa fa-apple " aria-hidden="true"></span>
-        </div>
+        <!--<div id="icon">-->
+        <!--<span *ngIf="item.type == 'מאפים'" class="fa fa-cutlery " aria-hidden="true"></span>-->
+        <!--<span *ngIf="item.type == 'מוצרי חלב'" class="fa fa-coffee " aria-hidden="true"></span>-->
+        <!--<span *ngIf="item.type == 'מוצרי בשר'" class="fa fa-cutlery " aria-hidden="true"></span>-->
+        <!--<span *ngIf="item.type == 'משקאות חריפים'" class="fa fa-beer " aria-hidden="true"></span>-->
+        <!--<span *ngIf="item.type == 'ירקות'" class="fa fa-apple " aria-hidden="true"></span>-->
+        <!--<span *ngIf="item.type == 'מוצרים יבשים'" class="fa fa-archive " aria-hidden="true"></span>-->
+        <!--<span *ngIf="item.type == 'כלים '" class="fa fa-archive " aria-hidden="true"></span>-->
+        <!--<span *ngIf="item.type == 'שתייה'" class="large material-icons ">local_drink</span>-->
+        <!--<span *ngIf="item.type == 'משקאות'" class="large material-icons ">local_drink</span>-->
+        <!--<span *ngIf="item.type == 'ירקות' ; anotherIcon"  class="fa fa-apple " aria-hidden="true"></span>-->
+        <!--</div>-->
         <h4 id="name">{{item.name}} </h4>
       </a>
     </li>

@@ -26,16 +26,6 @@ i {
   margin-top: 0.1em;
 }
 
-.button4 {
-  background-color: #fefefe;
-  color: black;
-  border: 2px solid #e7e7e7;
-  color: #26D367;
-  width: 45%;
-  font-weight: bold;
-  height: 45%;
-
-}
 
 .header {
   display: inline-block;
@@ -46,6 +36,7 @@ i {
 .logo {
   width: 100%;
   background-color: #26D367;
+  height: 24vh;
 }
 
 .header h1 {
@@ -54,27 +45,31 @@ i {
 }
 
 @media (min-width: 320px) {
-  /* smartphones, iPhone, portrait 480x320 phones */
+  .button4 {
+    background-color: #fefefe;
+    color: black;
+    border: 2px solid #e7e7e7;
+    color: #26D367;
+    width: 44vw;
+    font-weight: bold;
+    height: 28vh;
+
+  }
 }
 
-@media (min-width: 481px) {
-  /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
-}
 
-@media (min-width: 641px) {
-  /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
-}
+@media (min-width: 641px ) {
+  .button4 {
+    background-color: #fefefe;
+    color: black;
+    border: 2px solid #e7e7e7;
+    color: #26D367;
+    width: 22vw;
+    font-weight: bold;
+    height: 28vh;
 
-@media (min-width: 961px) {
-  /* tablet, landscape iPad, lo-res laptops ands desktops */
-}
+  }
 
-@media (min-width: 1025px  ) {
-  /* big landscape tablets, laptops, and desktops */
-}
-
-@media (min-width: 1281px) {
-  /* hi-res laptops and desktops */
 }
 
 .round-button {
@@ -133,9 +128,14 @@ i {
   right: 20px;
 
 }
-
+.logos {
+  font-size: 8vh;
+}
+img {
+  height: 24vh;
+}
 .submenu > img {
-  height: 24px;
+  height: 24vh;
   color: #26D367;
 
 }

@@ -195,7 +195,7 @@ export class AppComponent implements OnInit {
     } else {
       this.checkIfInHomePage = false;
     }
-    if (location.url === '/homeAfterLogin' || location.url === '/loginPage' || location.url === '/signUp' || location.url === '/home'
+    if (location.url.indexOf('/subUserSignUp') !== -1 || location.url === '/homeAfterLogin' || location.url === '/loginPage' || location.url === '/signUp' || location.url === '/home'
       || location.url.indexOf('/acceptOrder') !== -1 || location.url === '/subUserSignUp') {
       this.showHeader = false;
     } else {

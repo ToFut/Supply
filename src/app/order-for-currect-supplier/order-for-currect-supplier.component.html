@@ -1,35 +1,36 @@
 <html lang="he" style="direction: rtl ">
 <div class="container" style="direction: rtl;">
-  <br><br>
 
-
-  <h2 style="text-align: right; font-weight: bold; color: #22262e;font-size: xx-large;  padding: 0px 20px 0px 0px;">
-    הזמנת
-    סחורה </h2>
-
-  <h3 style="     float:left; display:inline-block; padding: 0px 0px 0px 20px; color: #26D367;"> {{fullDate}} </h3>
-  <h1
-    style="color: #26d367;  display:inline-block;margin-right:10px;   font-weight: bold;    padding: 0px 2px 0px 0px;">
-    {{(supplierProperty |async)?.name }}</h1>
-  <h3>מוצרים להזמנה</h3>
+  <div style="  text-align: center;">
+    <h2 id="header">
+      הזמנת
+      סחורה </h2>
+  </div>
+  <div id="subTitles">
+    <label id="date"> {{fullDate}} </label>
+    <label id="name">{{(supplierProperty |async)?.name }}</label>
+  </div>
+  <span id="newSupplierButton" class="button2">
+    <button (click)="addUnusualProduct()" routerLinkActive="active"> הוסף הזמנה חריגה </button>
+  </span>
 
   <table class="w3-table-all">
     <thead>
-    <tr
-      style="      font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa">
-      <th style="float: right">שם המוצר</th>
-      <th> כמות להשלמה</th>
-      <th></th>
+    <tr>
+      <th class="right">שם המוצר</th>
+      <th class="center"> כמות להשלמה</th>
+      <th class="left">השלם ל-</th>
     </tr>
     </thead>
-    <tbody [hidden]="Product.MinInInventory.toString() === ''" *ngFor="let Product of (Products )">
+    <tbody [hidden]="Product.MinInInventory === ''" *ngFor="let Product of (Products ) | sortProducts">
     <tr id=table[{{Product.$key}}]>
-      <td
-        style="color: #5e5e5e;font-weight: bold; font-size:large; float: right;  font-family: Comic Sans MS, cursive, sans-serif;">
+      <td>
         {{Product.ProductName }}
       </td>
-      <td style="color: #26D367;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;">
-        {{Product.MinInInventory[day]}} {{Product.TypeOfFillUp}} /
+      <td>
+        <div *ngIf="Product.MinInInventory[day]"> {{Product.MinInInventory[day]}} {{Product.TypeOfFillUp}} /</div>
+        <div *ngIf="!Product.MinInInventory[day]">הזמנה חריגה</div>
+
       </td>
       <td>
         <input placeholder="כמות להשלמה"
@@ -39,36 +40,50 @@
                                                      Product.ProductName , Product.TypeOfFillUp ,Product.price , Product.UnitInPackaging);comppare(Product.MinInInventory[day] , box.value)"
                (blur)="update(box.value , Product.$key , Product.MinInInventory ,
                                                      Product.ProductName , Product.TypeOfFillUp ,Product.price , Product.UnitInPackaging ); comppare(Product.MinInInventory[day] , box.value)
-                      " value="{{orderForTodayFromSpesificProduct[Product.$key]}}" maxlength="2" size="2">
+                      " value="{{orderForTodayFromSpesificProduct[Product.$key]}}">
       </td>
     </tr>
     </tbody>
   </table>
-  <h3>מוצרים להחזרה</h3>
+  <h3 [hidden]="!ifTodayIsReturnDay">מוצרים להחזרה</h3>
   <table class="w3-table-all" [hidden]="!ifTodayIsReturnDay">
     <thead>
-    <tr
-      style="      font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa">
-      <th style="text-align: right;">שם המוצר</th>
-      <th style="text-align: right;">סיבת ההחזרה</th>
-      <th style="text-align: right;"> כמות להחזרה</th>
-      <th></th>
+    <tr>
+      <th class="right">שם המוצר</th>
+      <th class="center">סיבה</th>
+      <th class="center"> כמות</th>
+      <th class="left"> יחידת מידה</th>
+
     </tr>
     </thead>
     <tbody *ngFor="let product of (returnProducts | async)">
     <tr id={{product.$key}}>
-      <td
-        style="color: #5e5e5e;text-align: right;font-weight: bold; font-size:large; float: right;  font-family: Comic Sans MS, cursive, sans-serif;">
+      <td>
+
         {{product.productName }}
       </td>
-      <td
-        style="color: #26D367;text-align: right;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;">
+      <td>
         {{product.reason}}
       </td>
-      <td
-        style="color: #5e5e5e;text-align: right;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;">
-        {{product.amount}} {{product.TypeOfFillUp}}
+      <td>
+        <input placeholder="כמות להשלמה"
+               style="border-radius: 10px;width: 100px;color: #16b720;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;"
+               (blur)="changeAmount(amount.value , product.$key)"
+               #amount type="number" value="{{product.amount}}">
       </td>
+      <td>
+        <input placeholder="כמות להשלמה"
+               style="border-radius: 10px;width: 100px;color: #16b720;font-weight: bold; font-size:large; font-family: Comic Sans MS, cursive, sans-serif;"
+               (blur)="changeType(type.value , product.$key)"
+               #type type="text" value="{{product.TypeOfFillUp}}">
+      </td>
+      <!--<td>-->
+      <!--<div class="field">-->
+      <!--<sui-radio-button class="slider" name="styled" value="a" [(ngModel)]="returnProductKeys[product.$key]">-->
+      <!--</sui-radio-button>-->
+      <!--</div>-->
+
+      <!--</td>-->
     </tr>
 
     </tbody>
@@ -85,28 +100,30 @@
 2. replace items in {{ }}s with details specific to your content
 
 -->
-<div>
-  <span id="sendWith"> שלח כ-</span>
-</div>
-<div id="share">
-  <!-- twitter -->
-  <a class="whatsapp" (click)="buildMessageWhatsApp()"><i
-    class="fa fa-whatsapp"></i></a>
 
-  <!-- google plus -->
-  <a class="email" (click)="buildMessageEmail()"><i
-    class="fa fa-envelope-o"></i></a>
+<div class="fixedGroupButtons">
+  <div>
+    <span id="sendWith"> שלח כ-</span>
+  </div>
+  <div id="share">
+    <!-- twitter -->
+    <a class="whatsapp" (click)="buildMessageWhatsApp()"><i
+      class="fa fa-whatsapp"></i></a>
 
-  <!-- linkedin -->
-  <!--<a class="sms" (click)="buildMessageEmail()"-->
-  <!--target="blank"><i class="fa fa-comment"></i></a>-->
+    <!-- google plus -->
+    <a class="email" (click)="buildMessageEmail()"><i
+      class="fa fa-envelope-o"></i></a>
 
-  <a class="phone" (click)="showDialog()"
-     target="blank"><i class="fa fa-phone"></i></a>
+    <a class="sms" (click)="buildMessageSMS()"
+       target="blank"><i class="fa fa-comment"></i></a>
+
+    <a class="phone" (click)="showDialog()"
+       target="blank"><i class="fa fa-phone"></i></a>
+  </div>
 
   <p-dialog [(visible)]="display">
     <i class="fa  fa-volume-control-phone fa-4x downPhone " suiPopup popupText="חייג לספק " (click)="phoneCall()"> </i>
-    <i class="fa fa-check fa-4x downCheck" suiPopup popupText="אשר הזמנה מהספק " (click)="popup.close()"></i>
+    <i class="fa fa-check fa-4x downCheck" suiPopup popupText="אשר הזמנה מהספק " (click)="acceptOrderPhoneCall()"></i>
   </p-dialog>
 
 </div>

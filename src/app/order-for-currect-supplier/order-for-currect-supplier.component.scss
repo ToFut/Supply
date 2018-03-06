@@ -4,6 +4,37 @@ body {
   background: #A7FFEB;
 }
 
+#header {
+  font-weight: bold;
+  font-size: x-large;
+}
+
+#subTitles {
+  display: inline-block;
+  width: 100%;
+}
+
+#name {
+  color: #26d367;
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: large;
+
+}
+
+
+table thead {
+  background:  #26D367;
+  color: #26D367;
+}
+
+#date {
+  float: left;
+  color: #26D367;
+  padding-right: 60%;
+  font-size: small;
+}
+
 h1 {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
@@ -141,12 +172,68 @@ body {
   text-transform: uppercase;
   color: #333;
 }
+.w3-table-all tr:nth-child(odd) {
+  background-color: inherit;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Comic Sans MS, cursive, sans-serif;
+}
+
+table, th, tr, td {
+  border-collapse: collapse;
+  border-radius: 0;
+  border-style: hidden; /* hide standard table (collapsed) border */
+  text-align: right;
+
+}
+
+.left {
+  border-radius: 10px 0px 0px 0px;
+  border-bottom: 0;
+}
+
+.center {
+  border-radius: 0px;
+  border-bottom: 0;
+
+}
+
+.right {
+  border-radius: 0px 10px 0px 0px;
+  border-bottom: 0;
+
+}
+
+td {
+  color: #26D367;
+  font-weight: bold;
+  font-size: small;
+  font-family: Comic Sans MS, cursive, sans-serif;
+  text-align: right;
+
+}
+
+tr {
+  font-weight: bold;
+  font-size: medium;
+  font-family: Comic Sans MS, cursive, sans-serif;
+  background-color: #26D367;
+  color: #fafafa;
+  text-align: right;
+}
 
 h3 {
   font-family: David;
   font-size: medium;
+  text-align: center;
+  font-weight: bold;
 }
-
+.fixedGroupButtons{
+  position: fixed;
+  bottom: 1%;
+  width: 100%;}
 /* container */
 
 #share {
@@ -155,7 +242,9 @@ h3 {
 }
 
 /* buttons */
-
+table[_ngcontent-c1] thead[_ngcontent-c1] {
+  background: #26D367;
+}
 #share a {
   width: 50px;
   height: 50px;
@@ -220,4 +309,27 @@ h3 {
   border-radius: 5px;
   margin-left: 2em;
 
+}
+
+#newSupplierButton {
+  top: 90%;
+
+}
+
+.button2 {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #26D367;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: small;
+  padding: 7px;
+  width: 9em;
+  height: 35px;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-left: 60vw;
+  margin-bottom: 2vh;
 }

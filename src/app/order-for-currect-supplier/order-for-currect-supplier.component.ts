@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {ActivatedRoute, Router, RouterLinkActive} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router, RouterLinkActive} from '@angular/router';
 import {escape} from 'querystring';
 import {element} from 'protractor';
 import {DayPilot} from 'daypilot-pro-angular';
@@ -46,12 +46,16 @@ export class OrderForCurrectSupplierComponent implements OnInit {
   acceptLink: string;
   orderForTodayFromSpesificProduct = [];
   display = false;
+  domainUserId: string;
+  returnProductKeys = [true];
 
   // ToDo day - (supplierProperty |async)?.OrderDays check and put with absulote
-  constructor(public af: AngularFireDatabase, public afAuth: AngularFireAuth, public route: Router, public link: ActivatedRoute) {
-    link.queryParams.subscribe(params => {
+  constructor(public af: AngularFireDatabase, public afAuth: AngularFireAuth, public router: Router, route: ActivatedRoute) {
+    route.queryParams.subscribe(params => {
       this.supplierKey = params['supplierKey'];
       this.userId = params['userId'];
+      this.domainUserId = params['domainUserId'];
+
     });
     console.log(this.userId);
     this.dayToString();
@@ -146,21 +150,42 @@ export class OrderForCurrectSupplierComponent implements OnInit {
     this.returnProducts = this.af.list(`users/${this.userId}/returnList/${this.supplierKey}`);
     console.log(this.returnProducts);
     // this.returnDay();
+
     this.af.list(`users/${this.userId}/suppliers/${this.supplierKey}/SupplierProducts/`).subscribe(data => {
       console.log(data);
       data.forEach(snapshot => {
         if (snapshot['MinInInventory'] !== undefined) {
-          console.log(snapshot);
-          console.log(snapshot['MinInInventory'][this.day]);
 
           if (snapshot['MinInInventory'][this.day] !== undefined) {
             this.Products.push(snapshot);
             console.log(this.Products);
           }
         }
+        if (snapshot['constOrdering']) {
+          if (snapshot['constOrdering'][this.day]) {
+            this.orderForTodayFromSpesificProduct[snapshot.$key] = Number(snapshot['MinInInventory'][this.day]);
+          }
+
+        }
 
       });
     });
+    this.af.list(`users/${this.userId}/unusaulOrders/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`).subscribe(data => {
+      console.log(data);
+      data.forEach(snapshot => {
+        if (snapshot['MinInInventory'] === undefined) {
+
+          this.af.object(`users/${this.userId}/suppliers/${this.supplierKey}/SupplierProducts/${snapshot.$key}`).subscribe(product => {
+            if (product.$key !== 'supplierName') {
+
+              this.Products.push(product);
+            }
+          });
+          console.log(this.Products);
+        }
+      });
+    });
+
     this.supplierProperty = this.af.object(`users/${this.userId}/suppliers/${this.supplierKey}`);
     this.currentOrderInformation = this.af.list(
       `users/${this.userId}/orderHistory/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`);
@@ -184,6 +209,17 @@ export class OrderForCurrectSupplierComponent implements OnInit {
     });
   }
 
+  addUnusualProduct() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'supplierKey': this.supplierKey,
+        'domainUserId': this.domainUserId,
+
+      }
+    };
+    this.router.navigate(['unusualOrderSpecificSupplier'], navigationExtras);
+  }
+
   /* returnDay() { TODO dependes the day return
     this.af.list(`users/${this.userId}/returnHistory/${this.supplierKey}`).subscribe( data => {
      this.dayToNumber(data[3].$value);
@@ -198,7 +234,14 @@ export class OrderForCurrectSupplierComponent implements OnInit {
   mail() {
   }
 
+  acceptOrderPhoneCall() {
+    this.af.object(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`)
+      .set(true);
+  }
+
   phoneCall() {
+    this.af.object(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`)
+      .set(false);
     location.href = 'tel:+972' + this.phoneSupplier;
   }
 
@@ -237,10 +280,11 @@ export class OrderForCurrectSupplierComponent implements OnInit {
       this.currentOrderInformation.subscribe(data => {
         if (count === data.length) {
           console.log('first');
-          const demo = 'whatsapp://send?phone=972' + this.phoneSupplier + '&text=שלום ' + this.nameSupplier +
+          // phone=972' + this.phoneSupplier
+          const demo = 'whatsapp://send?' + '&text=שלום ' + this.nameSupplier +
             ' להלן הזמנה עבור ' + this.userName + '%0A'
             + ' ' + this.stringToOrder + ' אנא אשר קבלת הזמנה בלחיצת על הקישור הבא ' + '%0A';
-          WhatsAppMesage = ' https://api.whatsapp.com/send?phone=972' + this.phoneSupplier + '&text=שלום ' + this.nameSupplier +
+          WhatsAppMesage = ' https://api.whatsapp.com/send?' + '&text=שלום ' + this.nameSupplier +
             ' להלן הזמנה עבור ' + this.userName + '%0A'
             + ' ' + this.stringToOrder + '%0A' + this.sentenceToReturn +
             '%0A' + 'אנא אשר קבלת הזמנה בלחיצת על הקישור הבא ' + '%0A' + this.acceptLink;
@@ -256,10 +300,12 @@ export class OrderForCurrectSupplierComponent implements OnInit {
   checkReturnProducts() {
     this.returnProducts.subscribe(products => {
       products.forEach(product => {
-        this.af.object(`users/${this.userId}/returnList/${this.supplierKey}/${product.$key}`).update({status: true});
+        this.af.object(`users/${this.userId}/returnList/${this.supplierKey}/${product.$key}/status`).update({status: true});
       });
     });
+
   }
+
   async buildMessageEmail() {
     let name = '';
     let TypeOfFillUp = '';
@@ -310,8 +356,55 @@ export class OrderForCurrectSupplierComponent implements OnInit {
     });
   }
 
-  redurectOrder() {
+  async buildMessageSMS() {
+    let name = '';
+    let TypeOfFillUp = '';
+    let amount = '';
+    let count = 0;
+    let SMS = '';
+    let check = true;
+    await this.returnProduct();
+    this.acceptLink = 'https://app.supplyme.net/#/acceptOrder?userId=' + this.userId +
+      '&supplierKey=' + this.supplierKey + '&dayInMonth=' + this.dayInMonth + '&month=' + this.month + '&year=' + this.year;
+    this.acceptLink = encodeURIComponent(this.acceptLink);
 
+    console.log(this.sentenceToReturn);
+    this.currentOrderInformation.$ref.on('child_added', element => {
+      count++;
+      check = true;
+      if (element !== undefined) {
+        name = element.val().name;
+        amount = element.val().amount;
+        console.log(name);
+        TypeOfFillUp = element.val().TypeOfFillUp;
+        console.log(check);
+        if (check && amount !== '0' && isDefined(amount) && isDefined(TypeOfFillUp) && isDefined(name)) {
+          this.stringToOrder.push(' ' + amount + ' ' + TypeOfFillUp + '  ' + name + ' %0A');
+        }
+        this.stringToOrder.forEach(data => {
+          if (data.includes(name)) {
+            check = false;
+          }
+        });
+
+      }
+      this.currentOrderInformation.subscribe(data => {
+        if (count === data.length) {
+          console.log('first');
+          const demo = 'sms://+972' + this.phoneSupplier + '?body=שלום ' + this.nameSupplier +
+            ' להלן הזמנה עבור ' + this.userName + '%0A'
+            + ' ' + this.stringToOrder + ' אנא אשר קבלת הזמנה בלחיצת על הקישור הבא ' + '%0A';
+          SMS = ' sms://+972' + this.phoneSupplier + '?body=שלום ' + this.nameSupplier +
+            ' להלן הזמנה עבור ' + this.userName + '%0A'
+            + ' ' + this.stringToOrder + '%0A' + this.sentenceToReturn +
+            '%0A' + 'אנא אשר קבלת הזמנה בלחיצת על הקישור הבא ' + '%0A' + this.acceptLink;
+          location.href = SMS;
+          this.af.object(`acceptOrders/${this.userId}/${this.year}/${this.month}/${this.dayInMonth}/${this.supplierKey}`)
+            .set(false);
+          this.checkReturnProducts();
+        }
+      });
+    });
   }
 
   showDialog() {
@@ -393,4 +486,17 @@ export class OrderForCurrectSupplierComponent implements OnInit {
       this.pageDimmed = false;
     }
   }
+
+  changeAmount(changeTo, key) {
+    this.af.object(`users/${this.userId}/returnList/${this.supplierKey}/${key}`)
+      .update({amount: changeTo});
+
+  }
+
+  changeType(changeTo, key) {
+    this.af.object(`users/${this.userId}/returnList/${this.supplierKey}/${key}`)
+      .update({TypeOfFillUp: changeTo});
+
+  }
+
 }

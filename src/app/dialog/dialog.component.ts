@@ -25,10 +25,11 @@ export class DialogComponent implements OnInit {
   items: FirebaseListObservable<any[]>;
   item: FirebaseObjectObservable<any[]>;
   dateReciveSupplier: FirebaseListObservable<any[]>;
+  color = 'primary';
   dateOrderSupplier: FirebaseListObservable<any[]>;
   userId: string;
   public Supplier = new SupplierPersonal();
-  Options = [1, 2, 3];
+  Options = [0, 1, 2, 3];
   selectedWay: number;
   dateSelected = [];
   frequencySelected = [];
@@ -77,7 +78,7 @@ export class DialogComponent implements OnInit {
       this.update = params['update'];
 
     });
-    this.Options = [1, 2, 3];
+    this.Options = [0 , 1, 2, 3];
     this.typeOption = [
       {viewValue: 'בחר קטגוריה'},
       {viewValue: 'משקאות'},

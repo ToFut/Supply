@@ -1,47 +1,43 @@
 <html lang="he" style="direction: rtl;  font-family: 'Comic Sans MS'">
 <div class="container">
-  <br><br>
 
-  <h2 style="text-align: right; font-weight: bold; color: #22262e;font-size: xx-large;  padding: 0px 20px 0px 0px;">
-    קבלת
-    סחורה </h2>
-
-  <h3 style="     float:left; display:inline-block; padding: 0px 0px 0px 20px; color: #26D367;"> {{fullDate}} </h3>
-  <h1
-    style="color: #26d367;  display:inline-block;margin-right:10px;   font-weight: bold;    padding: 0px 2px 0px 0px;">
-    {{(supplier |async)?.name }}</h1>
-
-  <br><br>
-  <span  *ngIf="(returnHistory | async)?.length > 0 ">מוצרים לקבלה</span>
-  <div class="checkWithName">
-    <input type="checkbox" id="checkAll" [(ngModel)]="selectedAll" (change)="checkAll();"/>
-    <label for="checkAll" class="check-box"> </label><span class="checkWithName  ">בחר הכל</span>
+  <div style="  text-align: center;" >
+    <h2 id="header">
+קבלת
+      סחורה </h2>
   </div>
-  <table id="customers">
-    <tr
-      style="      font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa">
-      <th style="text-align: right">שם המוצר</th>
-      <th style="text-align: right"> נתקבל</th>
-      <th style="text-align: right"> סוג הכמות לקבלה</th>
-
+  <div id="subTitles">
+    <label id="date"> {{fullDate}} </label>
+    <label id="name">{{(supplier |async)?.name }}</label>
+  </div>
+  <div id="checkWithName">
+    <input type="checkbox" id="checkAll" [(ngModel)]="selectedAll" (change)="checkAll();"/>
+    <label for="checkAll" class="check-box"> </label><span>בחר הכל</span>
+  </div>
+  <table class="w3-table-all">
+    <thead>
+    <tr>
+      <th class="right" >שם המוצר</th>
+      <th class="center">נתקבל</th>
+      <th class="left" > סוג הכמות לקבלה</th>
     </tr>
+    </thead>
 
-    <tr *ngFor="let prudoct of reciveInfo | async ;let i = index">
+    <tbody *ngFor="let prudoct of reciveInfo | async ;let i = index">
+    <tr>
       <td>
-        <input style="border-radius: 10px" type="checkbox" name='{{radioButton[i]}}' id="{{prudoct.name}}"
-               [(ngModel)]="radioButton[i]"
-        >
-        <label for="{{prudoct.name}}" class="check-box"> </label>
+        <input type="checkbox"  id="{{prudoct.name}}"
+               [(ngModel)]="radioButton[i]" (change)="checkIfAllSelected(prudoct.amount , radioButton[i], prudoct.$key);">
+        <label for="{{prudoct.name}}"  class="check-box"> </label>
         <span>{{prudoct.name}}</span>
       </td>
       <td>{{prudoct.amount}} <span id="howMuchReceive" [hidden]="radioButton[i]">/  <input type="number"
                                                                                            [(ngModel)]="howManyReceive[prudoct.$key]"
                                                                                            id="{{prudoct.$key}}"
                                                                                            (change)="checkDone(i , prudoct.amount , howManyReceive[prudoct.$key]);"
-                                                                                           (keyup)="setPartialRecive(prudoct.$key);checkDone(i , prudoct.amount , howManyReceive[prudoct.$key]);checkIfAllSelected(prudoct.amount , radioButton[i], prudoct.$key);"
+                                                                                           (blur)="setPartialRecive(prudoct.$key);checkDone(i , prudoct.amount , howManyReceive[prudoct.$key]);checkIfAllSelected(prudoct.amount , radioButton[i], prudoct.$key);"
                                                                                            value="{{howManyReceive[prudoct.$key]}}"
-                                                                                           min="0"
-                                                                                           width="100px"></span></td>
+                                                                                           ></span></td>
       <td>
         <mat-select style="order:2" [(ngModel)]="prudoct.TypeOfFillUp"
                     (change)="updateTypeOfFill(prudoct.TypeOfFillUp , prudoct.$key)">
@@ -51,18 +47,19 @@
         </mat-select>
       </td>
     </tr>
-    <tr>
-    </tr>
+
+    </tbody>
   </table>
   <div *ngIf="(returnHistory | async)?.length > 0 " id="return">
     <span>מוצרים להחזרה</span>
     <br>
-    <table id="returnProduct">
+    <table class="w3-table-all">
+      <thead>
       <tr
         style="      font-weight: bold; font-size:large;  font-family: Comic Sans MS, cursive, sans-serif; background-color: #26D367; color: #fafafa">
-        <th style="text-align: right">שם המוצר</th>
-        <th style="text-align: right"> כמות להחזרה</th>
-        <th style="text-align: right"> סוג הכמות לקבלה</th>
+        <th class="right">שם המוצר</th>
+        <th class="center"> כמות להחזרה</th>
+        <th class="left" > סוג הכמות לקבלה</th>
 
       </tr>
 
@@ -73,8 +70,7 @@
         <td>{{product.amount}}</td>
         <td> {{product.amount}} {{product.TypeOfFillUp}}</td>
       </tr>
-      <tr>
-      </tr>
+      </thead>
     </table>
   </div>
 

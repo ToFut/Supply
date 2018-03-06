@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -20,9 +20,9 @@ export class SignUpPageSubUserComponent implements OnInit {
   currentUserId: string;
   restName: string;
 
-  constructor( public af: AngularFireDatabase, public afAuth: AngularFireAuth,
-               public route: ActivatedRoute , private _formBuilder: FormBuilder , private router: Router ,
-               private ProductsService: ProductsService) {
+  constructor(public af: AngularFireDatabase, public afAuth: AngularFireAuth,
+              public route: ActivatedRoute, private _formBuilder: FormBuilder, private router: Router,
+              private ProductsService: ProductsService) {
     route.queryParams.subscribe(params => {
       this.domainUserId = params['domainUserId'];
       this.name = params['name'];
@@ -33,6 +33,7 @@ export class SignUpPageSubUserComponent implements OnInit {
 
   ngOnInit() {
   }
+
   emailSignUp() {
     console.log(this.email);
     console.log(this.password);
@@ -70,16 +71,16 @@ export class SignUpPageSubUserComponent implements OnInit {
     const path = `users/${this.currentUserId}`; // Endpoint on firebase
     const data = {
       email: this.authState.email,
-      name: this.name ,
+      name: this.name,
       subUser: this.domainUserId,
       jobTitle: 'קניין',
       first: true,
       uid: this.authState.uid
     };
     console.log(data);
-    this.af.object(path).update(data)
+    this.af.object(path).set(data)
       .catch(error => console.log(error));
-
+    this.af.object(`users/${this.domainUserId}/buyersId/${this.currentUserId}`).set(true);
   }
 
   onKeyPassword(password: string) {
@@ -91,7 +92,6 @@ export class SignUpPageSubUserComponent implements OnInit {
     this.email = email;
     console.log(this.email);
   }
-
 
 
 }

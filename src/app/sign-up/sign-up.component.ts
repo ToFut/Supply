@@ -89,7 +89,7 @@ export class SignUpComponent implements OnInit {
       usingClass: 'standard',
     };
     console.log(data);
-    this.af.object(path).update(data)
+    this.af.object(path).set(data)
        .catch(error => console.log(error));
 
   }

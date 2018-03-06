@@ -108,10 +108,9 @@ export class AddProductsToSupplierComponent implements OnInit {
     this.router.navigate(['showCurrentSupplierProducts'], navigationExtras);
   }
 
-  addThisProductToCurrectSupplier(selectProductKey, ProductName) {
-    this.openDialogShowProducts(selectProductKey);
-
-  }
+  // addThisProductToCurrectSupplier(selectProductKey, ProductName) {
+  //   this.openDialogShowProducts(selectProductKey);
+  // }
 
   search() {
     let input, filter, table, li, td, i;

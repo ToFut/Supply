@@ -70,12 +70,25 @@ export class SettingsComponent implements OnInit {
         });
         this.af.object(`users/${this.userId}/buyerPermissions`).subscribe(info => {
           console.log(info);
-          this.orderPermission = info['order'];
-          this.returnPermission = info['return'];
-          this.recivePermission = info['recive'];
-          this.suppliersPermission = info['suppliers'];
-          this.satisticsPermission = info['satistics'];
-          this.sharePermission = info['share'];
+          if(info['order']) {
+             this.orderPermission = info['order'];
+          }
+          if(info['return']) {
+            this.returnPermission = info['return'];
+          }
+          if(info['recive']) {
+            this.recivePermission = info['recive'];
+          }
+          if(info['suppliers']) {
+            this.suppliersPermission = info['suppliers'];
+          }
+          if(info['satistics']) {
+            this.satisticsPermission = info['satistics'];
+          }
+          if(info['share']) {
+            this.sharePermission = info['share'];
+          }
+
 
         });
 
@@ -129,13 +142,12 @@ export class SettingsComponent implements OnInit {
 
   onKeyName(name) {
     this.name = name;
-    this.link =
-      'https://app.supplyme.net/#/subUserSignUp?domainUserId=' + this.userId + '&name=' + this.name + '&phoneNumber=' + this.phoneNumber;
-    this.link = encodeURIComponent(this.link);
-    console.log(this.link);
   }
 
   buildLink() {
+    this.link =
+      'https://app.supplyme.net/#/subUserSignUp?domainUserId=' + this.userId + '&name=' + this.name + '&phoneNumber=' + this.phoneNumber;
+    this.link = encodeURIComponent(this.link);
     console.log(this.link);
     this.buildPermissions();
     this.sendSignUpWithWhatsApp();
